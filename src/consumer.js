@@ -1,5 +1,5 @@
 import EventEmitter from 'events'
-import trace_pb from '../protobuf/trace/trace_pb'
+import  { unmarshallTrace } from '../protos/trace/trace'
 import kafka from 'kafka-node'
 
 class Consumer {
@@ -9,14 +9,9 @@ class Consumer {
         this.emitter = new EventEmitter()
     }
 
-    unmarshal = data => {
-        const trace = trace_pb.Trace.deserializeBinary(data)
-        return trace.toObject()
-    }
-
     consume = () => {
         this.consumer.on('message', msg => {
-            this.emitter.emit('message', this.unmarshal(msg.value));
+            this.emitter.emit('message', unmarshallTrace(msg.value));
         });
         
         this.consumer.on('error', error => {
