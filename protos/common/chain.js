@@ -12,7 +12,7 @@ export const marshallChain = (trace, msg) => {
                 chain.setId(Utils.toHex(value))
                 break;
             case 'isEIP155':
-                chain.setIseip155(msg)
+                chain.setIseip155(value)
                 break;
         }
     })
