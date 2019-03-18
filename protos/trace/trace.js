@@ -10,7 +10,7 @@ export const marshallTrace = msg => {
     Object.entries(msg).forEach(([key, value]) => {
         switch(key) {
             case 'chainId':
-                marshallChain(trace, {id: value})
+                marshallChain(trace, value)
                 break;
             case 'to':
             case 'value':
@@ -38,19 +38,27 @@ export const marshallMetadata = (trace, msg) => {
     if (metadata == null) {
         metadata = new trace_pb.Metadata()
     }
-    Object.entries(msg).forEach(([key, value]) => {
-        switch(key) {
-            case 'id':
-                metadata.setId(value)
-                break;
-            case 'extra':
-                const extra = metadata.getExtraMap()
-                Object.entries(msg).forEach(([key, value]) => {
-                    extra.set(key, value)
-                })
-                break;
-        }
-    })
+    switch (typeof msg) {
+        case 'string':
+            metadata.setId(msg)
+            break;
+        case 'object':
+            Object.entries(msg).forEach(([key, value]) => {
+                switch(key) {
+                    case 'id':
+                        metadata.setId(value)
+                        break;
+                    case 'extra':
+                        const extra = metadata.getExtraMap()
+                        Object.entries(msg).forEach(([key, value]) => {
+                            extra.set(key, value)
+                        })
+                        break;
+                }
+            })
+            break;
+    }
+
     trace.setMetadata(metadata)
 }
 

@@ -6,15 +6,22 @@ export const marshallChain = (trace, msg) => {
     if (chain == null) {
         chain = new chain_pb.Chain()
     }
-    Object.entries(msg).forEach(([key, value]) => {
-        switch(key) {
-            case 'id':
-                chain.setId(Utils.toHex(value))
-                break;
-            case 'isEIP155':
-                chain.setIseip155(value)
-                break;
-        }
-    })
+    switch (typeof msg) {
+        case 'string':
+            chain.setId(Utils.toHex(msg))
+            break;
+        case 'object':
+            Object.entries(msg).forEach(([key, value]) => {
+                switch(key) {
+                    case 'id':
+                        chain.setId(Utils.toHex(value))
+                        break;
+                    case 'isEIP155':
+                        chain.setIseip155(value)
+                        break;
+                }
+            })
+            break;
+    }
     trace.setChain(chain)
 }
