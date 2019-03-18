@@ -58,7 +58,7 @@ try {
 
 ```js
 try {
-    const consumer = await CoreStack.consumer('topic-tx-nonce')
+    const consumer = await CoreStack.consumer('topic-tx-decoded')
     console.log('... consumer ready')
 
     const consume = consumer.consume()
