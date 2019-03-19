@@ -1,0 +1,11 @@
+stages:
+  - test
+
+test-lint:
+  stage: test
+  image: node:10
+  before_script:
+    - yarn
+  script:
+    - yarn lint
+    - yarn test
