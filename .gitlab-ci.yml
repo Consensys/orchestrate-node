@@ -8,4 +8,4 @@ test-lint:
     - yarn
   script:
     - yarn lint
-    - yarn test
+    - yarn test:cover

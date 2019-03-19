@@ -39,11 +39,7 @@ test('init CoreStackConsummer', async () => {
     expect(typeof CSConsumer.emitter).toBe('object')
     expect(CSConsumer.topic).toEqual(topic)   
 
-    try {
-        CSConsumer.consume()
-    }  catch(e) {
-        console.error(e)
-    }
+    CSConsumer.consume()
 });
 
 test('init CoreStackConsummerGroup', async () => {
