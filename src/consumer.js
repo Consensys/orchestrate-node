@@ -51,8 +51,8 @@ export class CoreStackConsummerGroup extends Consumer {
                 kafkaHost: hostname,
                 encoding: 'buffer',
                 ...options
-            }
-            , topic
+            },
+            topic
         )
         super(consumer)
     }

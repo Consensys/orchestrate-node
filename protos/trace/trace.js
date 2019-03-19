@@ -6,7 +6,6 @@ import { marshallCall } from '../common/call'
 
 export const marshallTrace = msg => {
     const trace = new trace_pb.Trace()
-
     Object.entries(msg).forEach(([key, value]) => {
         switch(key) {
             case 'chainId':
@@ -27,6 +26,9 @@ export const marshallTrace = msg => {
             case 'call':
                 marshallCall(trace, value)
                 break;
+            case 'metadata':
+                marshallMetadata(trace, value)
+                break;
         }
     })
     
@@ -43,6 +45,7 @@ export const marshallMetadata = (trace, msg) => {
             metadata.setId(msg)
             break;
         case 'object':
+            console.log(msg)
             Object.entries(msg).forEach(([key, value]) => {
                 switch(key) {
                     case 'id':
@@ -50,7 +53,7 @@ export const marshallMetadata = (trace, msg) => {
                         break;
                     case 'extra':
                         const extra = metadata.getExtraMap()
-                        Object.entries(msg).forEach(([key, value]) => {
+                        Object.entries(value).forEach(([key, value]) => {
                             extra.set(key, value)
                         })
                         break;

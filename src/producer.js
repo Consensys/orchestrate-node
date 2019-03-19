@@ -17,6 +17,8 @@ export class CoreStackProducer {
     }
 
     send = (msg, kafkaOptions) => new Promise((resolve, reject) => {
+
+        // Init an id
         let id
         if(msg['metadata']) {
             id = msg['metadata'].id

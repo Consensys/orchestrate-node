@@ -1,10 +1,17 @@
 import tx_pb from './transaction_pb'
 
 export const marshallTransaction = (trace, msg) => {
+    console.log('trace.toObject()', trace.toObject())
+    console.log('trace.getTx()', trace.getTx())
+
     let tx = trace.getTx()
     if (tx == null) {
         tx = new tx_pb.Transaction()
+        console.log('eeeeeeeeeeeeeeeeeeeeeee', msg)
+
     }
+    console.log('tx', tx.toObject())
+
     Object.entries(msg).forEach(([key, value]) => {
         switch(key) {
             case 'to':
@@ -33,16 +40,17 @@ export const marshallTransaction = (trace, msg) => {
     trace.setTx(tx)
 }
 
-const marshallTo = (transaction, msg) => {
+const marshallTo = async (transaction, msg) => {
     let txData = transaction.getTxData()
     if (txData == null) {
         txData = new tx_pb.TxData()
+        console.log('fffffffffffffffff', txData.toObject())
     }
     txData.setTo(msg)
     transaction.setTxData(txData)
 }
 
-const marshallValue = (transaction, msg) => {
+const marshallValue = async (transaction, msg) => {
     let txData = transaction.getTxData()
     if (txData == null) {
         txData = new tx_pb.TxData()
