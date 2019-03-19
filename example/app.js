@@ -1,4 +1,4 @@
-import CoreStackSDK from '../src'
+import CoreStackSDK from '../lib'
 
 const CoreStack = new CoreStackSDK('localhost:9092')
 const prod = async () => {

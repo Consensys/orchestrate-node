@@ -105,7 +105,7 @@ proto.trace.Metadata.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {string} */ (reader.readString());
       msg.setId(value);
       break;
-    case 2:setId
+    case 2:
       var value = msg.getExtraMap();
       reader.readMessage(value, function(message, reader) {
         jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readString);
