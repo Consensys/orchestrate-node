@@ -1,6 +1,6 @@
 import kafka from 'kafka-node'
 import uuidv4 from 'uuid/v4'
-import { marshallTrace, marshallMetadata } from '../protos/trace/trace';
+import { marshallTrace, marshallMetadata } from './protos/trace/trace';
 
 export class CoreStackProducer {
     constructor(client, topic, options) {

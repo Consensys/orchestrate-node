@@ -1,6 +1,6 @@
 import { CoreStackConsummer, CoreStackConsummerGroup } from '../consumer'
 import kafka from 'kafka-node'
-import { marshallTrace } from '../../protos/trace/trace'
+import { marshallTrace } from '../protos/trace/trace'
 
 const testMsg = {
     chainId: '3',

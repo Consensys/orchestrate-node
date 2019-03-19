@@ -18,7 +18,7 @@ export const marshallReceiver = (trace, msg) => {
     trace.setReceiver(receiver)
 }
 
-export const marshallAccount = (account, msg) => {
+const marshallAccount = (account, msg) => {
     switch (typeof msg) {
         case 'string':
             account.setAddr(msg)

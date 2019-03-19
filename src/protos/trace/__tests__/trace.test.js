@@ -80,7 +80,6 @@ describe("# marshallMetadata ", () => {
         }
         marshallMetadata(trace, testMsg)
         const metadata = trace.getMetadata().toObject()
-        console.log(metadata)
         expect(metadata.id).toEqual(testMsg.id)
         expect(metadata.extraMap).toEqual([
             ['extra1', 'testExtra1'],

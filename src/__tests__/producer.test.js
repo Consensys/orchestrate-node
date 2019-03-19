@@ -1,5 +1,5 @@
 import { CoreStackProducer } from '../producer'
-import { unmarshallTrace } from '../../protos/trace/trace'
+import { unmarshallTrace } from '../protos/trace/trace'
 import kafka from 'kafka-node'
 
 const mockProducer = jest.fn(() => ({

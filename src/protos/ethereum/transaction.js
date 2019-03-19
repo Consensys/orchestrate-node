@@ -1,17 +1,10 @@
 import tx_pb from './transaction_pb'
 
 export const marshallTransaction = (trace, msg) => {
-    console.log('trace.toObject()', trace.toObject())
-    console.log('trace.getTx()', trace.getTx())
-
     let tx = trace.getTx()
     if (tx == null) {
         tx = new tx_pb.Transaction()
-        console.log('eeeeeeeeeeeeeeeeeeeeeee', msg)
-
     }
-    console.log('tx', tx.toObject())
-
     Object.entries(msg).forEach(([key, value]) => {
         switch(key) {
             case 'to':
@@ -40,23 +33,22 @@ export const marshallTransaction = (trace, msg) => {
     trace.setTx(tx)
 }
 
-const marshallTo = async (transaction, msg) => {
+const marshallTo = (transaction, msg) => {
     let txData = transaction.getTxData()
     if (txData == null) {
         txData = new tx_pb.TxData()
-        console.log('fffffffffffffffff', txData.toObject())
     }
     txData.setTo(msg)
     transaction.setTxData(txData)
 }
 
-const marshallValue = async (transaction, msg) => {
+const marshallValue = (transaction, msg) => {
     let txData = transaction.getTxData()
     if (txData == null) {
         txData = new tx_pb.TxData()
     }
     txData.setValue(msg)
-    transaction.setTxdata(txData)
+    transaction.setTxData(txData)
 }
 
 const marshallGas = (transaction, msg) => {
@@ -65,7 +57,7 @@ const marshallGas = (transaction, msg) => {
         txData = new tx_pb.TxData()
     }
     txData.setGas(msg)
-    transaction.setTxdata(txData)
+    transaction.setTxData(txData)
 }
 
 const marshallGasPrice = (transaction, msg) => {
@@ -74,7 +66,7 @@ const marshallGasPrice = (transaction, msg) => {
         txData = new tx_pb.TxData()
     }
     txData.setGasPrice(msg)
-    transaction.setTxdata(txData)
+    transaction.setTxData(txData)
 }
 
 const marshallData = (transaction, msg) => {
@@ -83,7 +75,7 @@ const marshallData = (transaction, msg) => {
         txData = new tx_pb.TxData()
     }
     txData.setData(msg)
-    transaction.setTxdata(txData)
+    transaction.setTxData(txData)
 }
 
 const marshallRaw = (transaction, msg) => {

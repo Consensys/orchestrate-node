@@ -1,5 +1,5 @@
 import chain_pb from './chain_pb'
-import * as Utils from 'web3-utils';
+import * as Utils from 'web3-utils'
 
 export const marshallChain = (trace, msg) => {
     let chain = trace.getChain()

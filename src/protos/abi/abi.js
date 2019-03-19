@@ -1,9 +1,5 @@
 import abi_pb from './abi_pb'
 
-const abiToProto = abi => {
-    return Buffer.from(JSON.stringify(abi))
-}
-
 export const marshallContract = (call, msg) => {
     let contract = call.getContract()
     if (contract == null) {
@@ -23,7 +19,8 @@ export const marshallContract = (call, msg) => {
                         contract.setTag(value)
                         break;
                     case 'abi':
-                        contract.setAbi(abiToProto(value))
+                        const abi = Buffer.from(JSON.stringify(value))
+                        contract.setAbi(abi)
                         break;
                     case 'bytecode':
                         contract.setBytecode(value)
@@ -51,7 +48,8 @@ export const marshallMethod = (call, msg) => {
                         method.setName(value)
                         break;
                     case 'abi':
-                        method.setAbi(abiToProto(value))
+                        const abi = Buffer.from(JSON.stringify(value))
+                        method.setAbi(abi)
                         break;
                 }
             })
