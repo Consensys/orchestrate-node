@@ -39,9 +39,8 @@ export class CoreStackProducer {
             if (err) {
                 reject(err)
             } else {
-                resolve({offset: data[this.topic], id})
+                resolve({offset: data[this.topic]['0'], id})
             }     
         })
     })
-    
 }

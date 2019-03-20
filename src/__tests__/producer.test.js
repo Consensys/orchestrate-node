@@ -7,7 +7,7 @@ const mockProducer = jest.fn(() => ({
         if(payload[0].key != '3-testFrom') {
             cb('error')
         } else {
-            cb('', {[payload[0].topic]: 100})
+            cb('', {[payload[0].topic]: {'0': 100}})
         }
     })
 }))                        
