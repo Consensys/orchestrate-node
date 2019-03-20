@@ -25,6 +25,8 @@ export const marshallContract = (call, msg) => {
                     case 'bytecode':
                         contract.setBytecode(value)
                         break;
+                    default:
+                        throw new Error('Contract message not valid')
                 }
             })
             break;

@@ -24,6 +24,18 @@ describe("# marshallContract ", () => {
         expect(contract.bytecode).toEqual('')
     })
 
+    test("Error", () => {
+        const testMsg = {
+            error: 'test'
+        }
+        try {
+            marshallContract(call, testMsg)
+        } catch(e) {
+            expect(e.message).toEqual('Contract message not valid')
+
+        }
+    })
+
     test("set object", () => {
         const testMsg = {
             name: 'testName',
