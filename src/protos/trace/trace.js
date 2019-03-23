@@ -27,6 +27,9 @@ export const marshallTrace = msg => {
             case 'call':
                 marshallCall(trace, value)
                 break;
+            case 'metadata':
+                marshallMetadata(trace, value)
+                break;
         }
     })
     
@@ -50,8 +53,8 @@ export const marshallMetadata = (trace, msg) => {
                         break;
                     case 'extra':
                         const extra = metadata.getExtraMap()
-                        Object.entries(msg).forEach(([key, value]) => {
-                            extra.set(key, value)
+                        Object.entries(value).forEach(([keyMap, valueMap]) => {
+                            extra.set(keyMap, valueMap)
                         })
                         break;
                 }

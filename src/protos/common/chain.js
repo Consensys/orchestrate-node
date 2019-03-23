@@ -1,5 +1,5 @@
 import chain_pb from './chain_pb'
-import * as Utils from 'web3-utils';
+import * as Utils from 'web3-utils'
 
 export const marshallChain = (trace, msg) => {
     let chain = trace.getChain()
@@ -16,7 +16,7 @@ export const marshallChain = (trace, msg) => {
                     case 'id':
                         chain.setId(Utils.toHex(value))
                         break;
-                    case 'isEIP155':
+                    case 'iseip155':
                         chain.setIseip155(value)
                         break;
                 }

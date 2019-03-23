@@ -1,6 +1,6 @@
 import kafka from 'kafka-node'
 import uuidv4 from 'uuid/v4'
-import { marshallTrace, marshallMetadata } from '../protos/trace/trace';
+import { marshallTrace, marshallMetadata } from './protos/trace/trace';
 
 export class CoreStackProducer {
     constructor(client, topic, options) {
@@ -17,6 +17,8 @@ export class CoreStackProducer {
     }
 
     send = (msg, kafkaOptions) => new Promise((resolve, reject) => {
+
+        // Init an id
         let id
         if(msg['metadata']) {
             id = msg['metadata'].id
@@ -37,9 +39,8 @@ export class CoreStackProducer {
             if (err) {
                 reject(err)
             } else {
-                resolve({offset: data[this.topic], id})
+                resolve({offset: data[this.topic]['0'], id})
             }     
         })
     })
-    
 }

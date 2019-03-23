@@ -48,7 +48,7 @@ const marshallValue = (transaction, msg) => {
         txData = new tx_pb.TxData()
     }
     txData.setValue(msg)
-    transaction.setTxdata(txData)
+    transaction.setTxData(txData)
 }
 
 const marshallGas = (transaction, msg) => {
@@ -57,7 +57,7 @@ const marshallGas = (transaction, msg) => {
         txData = new tx_pb.TxData()
     }
     txData.setGas(msg)
-    transaction.setTxdata(txData)
+    transaction.setTxData(txData)
 }
 
 const marshallGasPrice = (transaction, msg) => {
@@ -66,7 +66,7 @@ const marshallGasPrice = (transaction, msg) => {
         txData = new tx_pb.TxData()
     }
     txData.setGasPrice(msg)
-    transaction.setTxdata(txData)
+    transaction.setTxData(txData)
 }
 
 const marshallData = (transaction, msg) => {
@@ -75,7 +75,7 @@ const marshallData = (transaction, msg) => {
         txData = new tx_pb.TxData()
     }
     txData.setData(msg)
-    transaction.setTxdata(txData)
+    transaction.setTxData(txData)
 }
 
 const marshallRaw = (transaction, msg) => {

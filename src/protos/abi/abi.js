@@ -19,11 +19,14 @@ export const marshallContract = (call, msg) => {
                         contract.setTag(value)
                         break;
                     case 'abi':
-                        contract.setAbi(value)
+                        const abi = Buffer.from(JSON.stringify(value))
+                        contract.setAbi(abi)
                         break;
                     case 'bytecode':
                         contract.setBytecode(value)
                         break;
+                    default:
+                        throw new Error('Contract message not valid')
                 }
             })
             break;
@@ -47,7 +50,8 @@ export const marshallMethod = (call, msg) => {
                         method.setName(value)
                         break;
                     case 'abi':
-                        method.setAbi(value)
+                        const abi = Buffer.from(JSON.stringify(value))
+                        method.setAbi(abi)
                         break;
                 }
             })

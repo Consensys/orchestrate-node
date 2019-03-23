@@ -1,2 +1,2 @@
 test
-protos/*/*_pb.js
+src/protos/*/*_pb.js

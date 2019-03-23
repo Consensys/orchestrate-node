@@ -1,5 +1,5 @@
 import EventEmitter from 'events'
-import  { unmarshallTrace } from '../protos/trace/trace'
+import  { unmarshallTrace } from './protos/trace/trace'
 import kafka from 'kafka-node'
 
 class Consumer {
@@ -51,8 +51,8 @@ export class CoreStackConsummerGroup extends Consumer {
                 kafkaHost: hostname,
                 encoding: 'buffer',
                 ...options
-            }
-            , topic
+            },
+            topic
         )
         super(consumer)
     }
