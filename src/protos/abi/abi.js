@@ -1,7 +1,7 @@
 import abi_pb from './abi_pb'
 
-export const marshallContract = (call, msg) => {
-    let contract = call.getContract()
+export const marshallContract = (proto, msg) => {
+    let contract = proto.getContract()
     if (contract == null) {
         contract = new abi_pb.Contract()
     }
@@ -31,11 +31,11 @@ export const marshallContract = (call, msg) => {
             })
             break;
     }
-    call.setContract(contract)
+    proto.setContract(contract)
 }
 
-export const marshallMethod = (call, msg) => {
-    let method = call.getMethod()
+export const marshallMethod = (proto, msg) => {
+    let method = proto.getMethod()
     if (method == null) {
         method = new abi_pb.Method()
     }
@@ -57,5 +57,5 @@ export const marshallMethod = (call, msg) => {
             })
             break;
     }
-    call.setMethod(method)
+    proto.setMethod(method)
 }

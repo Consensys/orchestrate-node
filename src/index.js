@@ -1,8 +1,8 @@
 import kafka from 'kafka-node'
-import { CoreStackConsummer, CoreStackConsummerGroup } from './consumer'
+import { CoreStackConsumer, CoreStackConsumerGroup } from './consumer'
 import { CoreStackProducer } from './producer'
 
-class CoreStack {
+export default class CoreStack {
     constructor(hostname, options) {
         this.hostname = hostname
         this.client = new kafka.KafkaClient({kafkaHost: hostname, ...options})
@@ -33,9 +33,9 @@ class CoreStack {
         })
     })
 
-    consumer = async (topic, options) => new Promise(async (resolve, reject) => {
+    consumer = (topic, options) => new Promise(async (resolve, reject) => {
         const latestOffset = await this.getLatestOffset(topic)
-        const CSConsumer = new CoreStackConsummer(this.client, topic, latestOffset, options)
+        const CSConsumer = new CoreStackConsumer(this.client, topic, latestOffset, options)
         if (CSConsumer.consumer.ready) {
             resolve(CSConsumer)
         } else {
@@ -49,7 +49,7 @@ class CoreStack {
     })
 
     consumerGroup = (topic, options) => new Promise(async (resolve, reject) => {
-        const CSConsumerGroup =  new CoreStackConsummerGroup(this.hostname, topic, options)
+        const CSConsumerGroup =  new CoreStackConsumerGroup(this.hostname, topic, options)
         if (CSConsumerGroup.consumer.ready) {
             resolve(CSConsumerGroup)
         } else {
@@ -63,5 +63,3 @@ class CoreStack {
         }
     })
 }
-
-export default CoreStack

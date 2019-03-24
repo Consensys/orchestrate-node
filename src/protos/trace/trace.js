@@ -6,33 +6,43 @@ import { marshallCall } from '../common/call'
 
 export const marshallTrace = msg => {
     const trace = new trace_pb.Trace()
-
-    Object.entries(msg).forEach(([key, value]) => {
-        switch(key) {
-            case 'chainId':
-                marshallChain(trace, value)
-                break;
-            case 'to':
-            case 'value':
-            case 'gas':
-            case 'gasPrice':
-            case 'data':
-            case 'raw':
-            case 'hash':
-                marshallTransaction(trace, {[key]: value})
-                break;
-            case 'from':
-                marshallSender(trace, value)
-                break;
-            case 'call':
-                marshallCall(trace, value)
-                break;
-            case 'metadata':
-                marshallMetadata(trace, value)
-                break;
-        }
-    })
-    
+    switch (typeof msg) {
+        case 'object':
+            Object.entries(msg).forEach(([key, value]) => {
+                switch(key) {
+                    case 'chainId':
+                        marshallChain(trace, value)
+                        break;
+                    case 'to':
+                    case 'value':
+                    case 'gas':
+                    case 'gasPrice':
+                    case 'data':
+                    case 'raw':
+                    case 'hash':
+                        marshallTransaction(trace, {[key]: value})
+                        break;
+                    case 'from':
+                        marshallSender(trace, value)
+                        break;
+                    case 'call':
+                        marshallCall(trace, value)
+                        break;
+                    case 'privateFrom':
+                    case 'privateFor':
+                        marshallCall(trace, {quorum: {[key]: value}})
+                        break;
+                    case 'metadata':
+                        marshallMetadata(trace, value)
+                        break;
+                    default:
+                        throw new Error('Trace message do not expect a "' + key + '" field')
+                }
+            })
+            break;
+        default:
+            throw new Error('Trace message not in a valid format')
+    }
     return trace
 }
 
@@ -57,11 +67,16 @@ export const marshallMetadata = (trace, msg) => {
                             extra.set(keyMap, valueMap)
                         })
                         break;
+                    default:
+                        throw new Error('Metadata message do not expect a "' + key + '" field')
+            
                 }
             })
             break;
-    }
+        default:
+            throw new Error('Metadata message not valid')
 
+    }
     trace.setMetadata(metadata)
 }
 

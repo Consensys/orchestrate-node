@@ -10,8 +10,32 @@ describe("# marshallChain ", () => {
         trace = new trace_pb.Trace()
     })
 
-    test("set default", () => {
+    test("set invalid format", () => {
+        const testMsg = true
+
+        expect(() => {
+            marshallChain(trace, testMsg)
+        }).toThrow();
+    })
+
+    test("set invalid object format", () => {
+        const testMsg = {error: 'testError'}
+
+        expect(() => {
+            marshallChain(trace, testMsg)
+        }).toThrow();
+    })
+
+    test("set default string", () => {
         const testMsg = '9'
+        marshallChain(trace, testMsg)
+        const chain = trace.getChain().toObject()
+        expect(chain.id).toEqual(Utils.toHex(testMsg))
+        expect(chain.iseip155).toBeFalsy()
+    })
+
+    test("set default number", () => {
+        const testMsg = 9
         marshallChain(trace, testMsg)
         const chain = trace.getChain().toObject()
         expect(chain.id).toEqual(Utils.toHex(testMsg))

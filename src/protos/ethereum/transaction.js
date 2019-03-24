@@ -5,31 +5,39 @@ export const marshallTransaction = (trace, msg) => {
     if (tx == null) {
         tx = new tx_pb.Transaction()
     }
-    Object.entries(msg).forEach(([key, value]) => {
-        switch(key) {
-            case 'to':
-                marshallTo(tx, value)
-                break;
-            case 'value':
-                marshallValue(tx, value)
-                break;
-            case 'gas':
-                marshallGas(tx, value)
-                break;
-            case 'gasPrice':
-                marshallGasPrice(tx, value)
-                break;
-            case 'data':
-                marshallData(tx, value)
-                break;
-            case 'raw':
-                marshallRaw(tx, value)
-                break;
-            case 'hash':
-                marshallHash(tx, value)
-                break;
-        }
-    })
+    switch (typeof msg) {
+        case 'object':
+            Object.entries(msg).forEach(([key, value]) => {
+                switch(key) {
+                    case 'to':
+                        marshallTo(tx, value)
+                        break;
+                    case 'value':
+                        marshallValue(tx, value)
+                        break;
+                    case 'gas':
+                        marshallGas(tx, value)
+                        break;
+                    case 'gasPrice':
+                        marshallGasPrice(tx, value)
+                        break;
+                    case 'data':
+                        marshallData(tx, value)
+                        break;
+                    case 'raw':
+                        marshallRaw(tx, value)
+                        break;
+                    case 'hash':
+                        marshallHash(tx, value)
+                        break;
+                    default:
+                        throw new Error('Tx message do not expect a "' + key + '" field')
+                }
+            })
+            break;
+        default:
+            throw new Error('Tx message not in a valid format')
+    }
     trace.setTx(tx)
 }
 

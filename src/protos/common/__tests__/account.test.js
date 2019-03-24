@@ -9,6 +9,22 @@ describe("# marshallSender ", () => {
         trace = new trace_pb.Trace()
     })
 
+    test("set invalid format", () => {
+        const testMsg = true
+
+        expect(() => {
+            marshallSender(trace, testMsg)
+        }).toThrow();
+    })
+
+    test("set invalid object format", () => {
+        const testMsg = {error: 'testError'}
+
+        expect(() => {
+            marshallSender(trace, testMsg)
+        }).toThrow();
+    })
+
     test("set default", () => {
         const testMsg = 'testName'
         marshallSender(trace, testMsg)
@@ -52,6 +68,22 @@ describe("# marshallReceiver ", () => {
 
     beforeEach(() => {
         trace = new trace_pb.Trace()
+    })
+
+    test("set invalid format", () => {
+        const testMsg = true
+
+        expect(() => {
+            marshallReceiver(trace, testMsg)
+        }).toThrow();
+    })
+
+    test("set invalid object format", () => {
+        const testMsg = {error: 'testError'}
+
+        expect(() => {
+            marshallReceiver(trace, testMsg)
+        }).toThrow();
     })
 
     test("set default", () => {

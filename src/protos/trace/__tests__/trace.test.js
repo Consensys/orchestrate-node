@@ -5,6 +5,23 @@ let trace
 
 describe("# marshallTrace ", () => {
 
+
+    test("set invalid format", () => {
+        const testMsg = true
+
+        expect(() => {
+            marshallTrace(testMsg)
+        }).toThrow();
+    })
+
+    test("set invalid object format", () => {
+        const testMsg = {error: 'testError'}
+
+        expect(() => {
+            marshallTrace(testMsg)
+        }).toThrow();
+    })
+
     test("set object", () => {
         const testMsg = {
             chainId: '3',
@@ -16,6 +33,8 @@ describe("# marshallTrace ", () => {
             raw: 'testRaw',
             hash: 'testHash',
             from: 'testFrom',
+            privateFrom: 'testPrivateFrom',
+            privateFor: ['testPrivateFor'],
             call: {
                 contract: 'testContract',
                 method: 'testMethod',
@@ -32,7 +51,13 @@ describe("# marshallTrace ", () => {
             call: { 
                 contract: { name: 'testContract', tag: '', abi: '', bytecode: '' },
                 method: { name: 'testMethod', abi: '' },
-                argsList: [ 'arg1', 'arg2' ] 
+                argsList: [ 'arg1', 'arg2' ],
+                quorum: {
+                    privateFrom: 'testPrivateFrom',
+                    privateForList: ['testPrivateFor'],
+                    version: '',
+                    privateTxType: ''    
+                }
             },
             tx: { 
                 txData: {
@@ -60,6 +85,23 @@ describe("# marshallMetadata ", () => {
 
     beforeEach(() => {
         trace = new trace_pb.Trace()
+    })
+
+
+    test("set invalid format", () => {
+        const testMsg = true
+
+        expect(() => {
+            marshallMetadata(trace, testMsg)
+        }).toThrow();
+    })
+
+    test("set invalid object format", () => {
+        const testMsg = {error: 'testError'}
+
+        expect(() => {
+            marshallMetadata(trace, testMsg)
+        }).toThrow();
     })
 
     test("set default", () => {
