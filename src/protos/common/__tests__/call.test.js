@@ -10,17 +10,36 @@ describe("# marshallCall ", () => {
         trace = new trace_pb.Trace()
     })
 
+    test("set invalid format", () => {
+        const testMsg = 'testName'
+        expect(() => {
+            marshallCall(trace, testMsg)
+        }).toThrow();
+    })
+
+    test("set invalid object format", () => {
+        const testMsg = {error: 'testError'}
+
+        expect(() => {
+            marshallCall(trace, testMsg)
+        }).toThrow();
+    })
+
     test("set object", () => {
         const testMsg = {
             contract: 'testContract',
             method: 'testMethode',
             args: ['testArgs'],
+            quorum: {
+                privateFor: ['testPrivateFor'],
+            }
         }
         marshallCall(trace, testMsg)
-        const getCall = trace.getCall().toObject()
-        expect(getCall.contract.name).toEqual(testMsg.contract)
-        expect(getCall.method.name).toEqual(testMsg.method)
-        expect(getCall.argsList).toEqual(testMsg.args)
+        const call = trace.getCall().toObject()
+        expect(call.contract.name).toEqual(testMsg.contract)
+        expect(call.method.name).toEqual(testMsg.method)
+        expect(call.argsList).toEqual(testMsg.args)
+        expect(call.quorum.privateForList).toEqual(testMsg.quorum.privateFor)
     })
 
     test("marshall multiple times", () => {

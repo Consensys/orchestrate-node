@@ -26,7 +26,7 @@ class Consumer {
     }
 }
 
-export class CoreStackConsummer extends Consumer {
+export class CoreStackConsumer extends Consumer {
     constructor(client, topic, latestOffset, options) {
         const consumer = new kafka.Consumer(
             client,
@@ -44,7 +44,7 @@ export class CoreStackConsummer extends Consumer {
     }
 }
 
-export class CoreStackConsummerGroup extends Consumer {
+export class CoreStackConsumerGroup extends Consumer {
     constructor(hostname, topic, options) {
         const consumer = new kafka.ConsumerGroup(
             {

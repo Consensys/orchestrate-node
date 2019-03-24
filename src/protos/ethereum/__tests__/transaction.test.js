@@ -8,6 +8,22 @@ describe("# marshallTransaction ", () => {
         trace = new trace_pb.Trace()
     })
 
+    test("set invalid format", () => {
+        const testMsg = true
+
+        expect(() => {
+            marshallTransaction(trace, testMsg)
+        }).toThrow();
+    })
+
+    test("set invalid object format", () => {
+        const testMsg = {error: 'testError'}
+
+        expect(() => {
+            marshallTransaction(trace, testMsg)
+        }).toThrow();
+    })
+
     test("set object", () => {
         const testMsg = {
             to: 'testTo',

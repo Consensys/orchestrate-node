@@ -10,6 +10,7 @@ var goog = jspb;
 var global = Function('return this')();
 
 var protos_abi_abi_pb = require('../../protos/abi/abi_pb.js');
+var protos_quorum_quorum_pb = require('../../protos/quorum/quorum_pb.js');
 goog.exportSymbol('proto.common.Call', null, global);
 
 /**
@@ -66,7 +67,8 @@ proto.common.Call.toObject = function(includeInstance, msg) {
   var f, obj = {
     contract: (f = msg.getContract()) && protos_abi_abi_pb.Contract.toObject(includeInstance, f),
     method: (f = msg.getMethod()) && protos_abi_abi_pb.Method.toObject(includeInstance, f),
-    argsList: jspb.Message.getField(msg, 3)
+    argsList: jspb.Message.getField(msg, 3),
+    quorum: (f = msg.getQuorum()) && protos_quorum_quorum_pb.Quorum.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -117,6 +119,11 @@ proto.common.Call.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {string} */ (reader.readString());
       msg.addArgs(value);
       break;
+    case 4:
+      var value = new protos_quorum_quorum_pb.Quorum;
+      reader.readMessage(value,protos_quorum_quorum_pb.Quorum.deserializeBinaryFromReader);
+      msg.setQuorum(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -166,6 +173,14 @@ proto.common.Call.serializeBinaryToWriter = function(message, writer) {
     writer.writeRepeatedString(
       3,
       f
+    );
+  }
+  f = message.getQuorum();
+  if (f != null) {
+    writer.writeMessage(
+      4,
+      f,
+      protos_quorum_quorum_pb.Quorum.serializeBinaryToWriter
     );
   }
 };
@@ -259,6 +274,36 @@ proto.common.Call.prototype.addArgs = function(value, opt_index) {
 
 proto.common.Call.prototype.clearArgsList = function() {
   this.setArgsList([]);
+};
+
+
+/**
+ * optional quorum.Quorum quorum = 4;
+ * @return {?proto.quorum.Quorum}
+ */
+proto.common.Call.prototype.getQuorum = function() {
+  return /** @type{?proto.quorum.Quorum} */ (
+    jspb.Message.getWrapperField(this, protos_quorum_quorum_pb.Quorum, 4));
+};
+
+
+/** @param {?proto.quorum.Quorum|undefined} value */
+proto.common.Call.prototype.setQuorum = function(value) {
+  jspb.Message.setWrapperField(this, 4, value);
+};
+
+
+proto.common.Call.prototype.clearQuorum = function() {
+  this.setQuorum(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.common.Call.prototype.hasQuorum = function() {
+  return jspb.Message.getField(this, 4) != null;
 };
 
 

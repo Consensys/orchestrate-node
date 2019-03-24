@@ -40,7 +40,6 @@ describe("# CoreStackProducer ", () => {
                 contract: 'testContract',
                 method: 'testMethod',
                 args: ['arg1', 'arg2'],
-
             },
             metadata: {
                 id: 'testMetadata'
@@ -111,8 +110,31 @@ describe("# CoreStackProducer ", () => {
                 contract: 'testContract',
                 method: 'testMethod',
                 args: ['arg1', 'arg2'],
-
             },
+        }
+        const kafkaReturn = await CSProducer.send(testMsg)
+        expect(kafkaReturn.offset).toEqual(100)
+    })
+
+    test('send without metadata id', async () => {
+        const testMsg = {
+            chainId: '3',
+            to: 'testTo',
+            value: 'testValue',
+            gas: '100000',
+            gasPrice: 'testGasPrice',
+            from: 'testFrom',
+            call: {
+                contract: 'testContract',
+                method: 'testMethod',
+                args: ['arg1', 'arg2'],
+            },
+            metadata: { 
+                extra: {
+                    extra1: 'testExtra1',
+                    extra2: 'testExtra2'
+                }
+            }
         }
         const kafkaReturn = await CSProducer.send(testMsg)
         expect(kafkaReturn.offset).toEqual(100)

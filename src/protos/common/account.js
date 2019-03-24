@@ -32,9 +32,13 @@ const marshallAccount = (account, msg) => {
                     case 'addr':
                         account.setAddr(value)
                         break;
+                    default:
+                        throw new Error('Account message do not expect a "' + key + '" field')
                 }
             })
             break;
+        default:
+            throw new Error('Account message not in a valid format')
     }
 
 

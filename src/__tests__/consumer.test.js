@@ -1,6 +1,7 @@
-import { CoreStackConsummer, CoreStackConsummerGroup } from '../consumer'
+import { CoreStackConsumer, CoreStackConsumerGroup } from '../consumer'
 import kafka from 'kafka-node'
 import { marshallTrace } from '../protos/trace/trace'
+jest.mock('events')
 
 const testMsg = {
     chainId: '3',
@@ -20,21 +21,23 @@ const testMsg = {
 }
 const bin = Buffer.from(marshallTrace(testMsg).serializeBinary())
 
-
 const mockConsumer = jest.fn(() => ({
     on: jest.fn((msg, cb) => {
-        if (msg == 'message') {
+        if(msg == 'message') {
             cb({value: bin}) 
+        } else if(msg == 'error') {
+            cb({msg: 'error'}) 
+        } else if(msg == 'offsetOutOfRange') {
+            cb({msg: 'offsetOutOfRange'}) 
         }
-        
     }),
 }))     
 
 kafka.Consumer = mockConsumer;
 
-test('init CoreStackConsummer', async () => {
+test('init CoreStackConsumer', async () => {
     const topic = 'topic'
-    const CSConsumer = new CoreStackConsummer('', topic, 0)
+    const CSConsumer = new CoreStackConsumer('', topic, 0)
     expect(typeof CSConsumer.consumer).toBe('object')
     expect(typeof CSConsumer.emitter).toBe('object')
     expect(CSConsumer.topic).toEqual(topic)   
@@ -42,9 +45,9 @@ test('init CoreStackConsummer', async () => {
     CSConsumer.consume()
 });
 
-test('init CoreStackConsummerGroup', async () => {
+test('init CoreStackConsmmerGroup', async () => {
     const topic = 'topic'
-    const CSConsumerGroup = new CoreStackConsummerGroup('hostname', topic, 0)
+    const CSConsumerGroup = new CoreStackConsumerGroup('hostname', topic, 0)
     expect(typeof CSConsumerGroup.consume).toBe('function')
     expect(typeof CSConsumerGroup.consumer).toBe('object')
 

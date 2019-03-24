@@ -1,6 +1,6 @@
 import kafka from 'kafka-node'
 import uuidv4 from 'uuid/v4'
-import { marshallTrace, marshallMetadata } from './protos/trace/trace';
+import { marshallTrace } from './protos/trace/trace';
 
 export class CoreStackProducer {
     constructor(client, topic, options) {
@@ -8,32 +8,28 @@ export class CoreStackProducer {
         this.topic = topic
     }
 
-    marshall = (msg, id) => {
+    marshall = msg => {
         const trace = marshallTrace(msg);
-
-        marshallMetadata(trace, id)
-
         return Buffer.from(trace.serializeBinary())
     }
 
     send = (msg, kafkaOptions) => new Promise((resolve, reject) => {
 
         // Init an id
-        let id
-        if(msg['metadata']) {
-            id = msg['metadata'].id
-        } else {
-            id = uuidv4()
+        if(!msg['metadata']) {
+            msg['metadata'] = {id: uuidv4()}
+        } else if(!msg['metadata']['id']) {
+            msg['metadata']['id'] = uuidv4()
         }
-        
+        const id = msg['metadata']['id']
         const payloads = [
             { 
                 topic: this.topic, 
                 key: msg['chainId'] + '-' + msg['from'], 
                 ...kafkaOptions,
-                messages: this.marshall(msg, id) 
+                messages: this.marshall(msg) 
             },
-        ];
+        ]
 
         this.producer.send(payloads, (err, data) => {
             if (err) {

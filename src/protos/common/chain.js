@@ -8,6 +8,7 @@ export const marshallChain = (trace, msg) => {
     }
     switch (typeof msg) {
         case 'string':
+        case 'number':
             chain.setId(Utils.toHex(msg))
             break;
         case 'object':
@@ -19,9 +20,13 @@ export const marshallChain = (trace, msg) => {
                     case 'iseip155':
                         chain.setIseip155(value)
                         break;
+                    default:
+                        throw new Error('Chain message do not expect a "' + key + '" field')
                 }
             })
             break;
+        default:
+            throw new Error('Chain message not in a valid format')
     }
     trace.setChain(chain)
 }
