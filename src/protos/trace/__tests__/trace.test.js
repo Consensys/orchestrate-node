@@ -22,6 +22,16 @@ describe("# marshallTrace ", () => {
         }).toThrow();
     })
 
+    test("set invalid object format of other marshaller methods", () => {
+        const testMsg = {chainId: {error: false}}
+        try {
+            marshallTrace(testMsg)         
+        } catch(e) {
+            expect(e.message).toBe('Chain message do not expect a "error" field')
+        }
+
+    })
+
     test("set object", () => {
         const testMsg = {
             chainId: '3',
