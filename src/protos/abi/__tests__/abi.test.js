@@ -75,14 +75,15 @@ describe("# marshallContract ", () => {
                 stateMutability: 'nonpayabsle',
                 type: 'function'
             }],
-            bytecode: '0x608060405234801561001057600080fd5b5061160a806100206000396000f3006080604052600436106100955763ffffffff60e060020a60003504166316d390bf811461009a5780633c8ac88e146100c357806353faa9a91461015157806373b40a5c14610178578063781f5a83146101e7578063898d5a5b1461020e578063995fac1'
+            bytecode: '0x608060405234801561001057600080fd5b5061160a806100206000396000f3006080604052600436106100955763ffffffff60e060020a60003504166316d390bf811461009a5780633c8ac88e146100c357806353faa9a91461015157806373b40a5c14610178578063781f5a83146101e7578063898d5a5b1461020e578063995fac'
         }
         marshallContract(call, testMsg)
         const contract = call.getContract().toObject()
         expect(testMsg.name).toEqual(contract.name)
         expect(testMsg.tag).toEqual(contract.tag)
         expect(testMsg.abi).toEqual(protoToObject(contract.abi))
-        expect(testMsg.bytecode).toEqual(contract.bytecode)
+        const buf = new Buffer(contract.bytecode, 'base64') 
+        expect(testMsg.bytecode).toEqual('0x' + buf.toString('hex'))
     })
 
     test("marshall multiple times", () => {
@@ -127,7 +128,7 @@ describe("# marshallMethod ", () => {
     test("set object", () => {
         const testMsg = {
             name: 'testName',
-            abi: [{
+            abi: {
                 constant: false,
                 inputs: [
                     {name: 'partition', type: 'bytes32'},
@@ -138,7 +139,7 @@ describe("# marshallMethod ", () => {
                 payable: false,
                 stateMutability: 'nonpayable',
                 type: 'function'
-            }],
+            },
         }
         marshallMethod(call, testMsg)
         const method = call.getMethod().toObject()

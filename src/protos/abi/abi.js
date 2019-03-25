@@ -23,7 +23,7 @@ export const marshallContract = (proto, msg) => {
                         contract.setAbi(abi)
                         break;
                     case 'bytecode':
-                        contract.setBytecode(value)
+                        contract.setBytecode(Buffer.from(value.substr(2), 'hex'))
                         break;
                     default:
                         throw new Error('Contract message not valid')
