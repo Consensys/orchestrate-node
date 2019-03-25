@@ -1,5 +1,12 @@
 # CHANGELOG
 
+### Version 0.1.6
+
+*Released on March 25th 2019*
+
+- [FEAT]: Unmarshall DecodedData into an Object instead of an Array
+- [DOCS]: Update README
+
 ### Version 0.1.5
 
 *Released on March 24th 2019*
