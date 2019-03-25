@@ -82,5 +82,23 @@ export const marshallMetadata = (trace, msg) => {
 
 export const unmarshallTrace = msg => {
     const trace = trace_pb.Trace.deserializeBinary(msg)
-    return trace.toObject()
+    const objTrace = trace.toObject()
+    return mapToObject(objTrace)
+}
+
+const mapToObject = objTrace => {
+    if (objTrace['receipt']) {
+        const logs = objTrace.receipt.logsList
+        const newLogs = logs.map(log => ({...log, decodedDataMap: arrayToObject(log.decodedDataMap)}))
+        objTrace.receipt['logsList'] = newLogs
+    }
+    return objTrace
+}
+
+const arrayToObject = array => {
+    let obj = {}
+    array.forEach(([key, value]) => {
+        obj[key] = value
+    })
+    return obj
 }
