@@ -1,5 +1,11 @@
 # CHANGELOG
 
+### Version 0.1.7
+
+*Released on March 26th 2019*
+
+- [FIX]: Marshall Metadata string without error
+
 ### Version 0.1.6
 
 *Released on March 25th 2019*
