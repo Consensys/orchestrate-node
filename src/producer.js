@@ -16,11 +16,20 @@ export class CoreStackProducer {
     send = (msg, kafkaOptions) => new Promise((resolve, reject) => {
 
         // Init an id
-        if(!msg['metadata']) {
-            msg['metadata'] = {id: uuidv4()}
-        } else if(!msg['metadata']['id']) {
-            msg['metadata']['id'] = uuidv4()
+        switch(typeof msg['metadata']) {
+            case 'undefined':
+                msg['metadata'] = {id: uuidv4()}
+                break;
+            case 'string':
+                msg['metadata'] = {id: msg['metadata']}
+                break;
+            case 'object':
+                if(!msg['metadata']['id']) {
+                    msg['metadata']['id'] = uuidv4()
+                }
+                break;
         }
+        
         const id = msg['metadata']['id']
         const payloads = [
             { 
