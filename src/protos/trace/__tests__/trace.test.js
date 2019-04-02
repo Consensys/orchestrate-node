@@ -188,7 +188,12 @@ describe("# unmarshallTrace ", () => {
                 args: ['arg1', 'arg2'],
 
             },
-            metadata: 'testMetadata'
+            metadata: {
+                id: 'testMetadata',
+                extra: {
+                    test: 'testExtra'
+                },
+            }
         }
         trace = marshallTrace(testMsg)
         const testReceipt = {
@@ -348,7 +353,9 @@ describe("# unmarshallTrace ", () => {
     
             },
             errorsList: [],
-            metadata: { id: 'testMetadata', extraMap: [] }
+            metadata: { id: 'testMetadata', extraMap: {
+                test: 'testExtra'
+            } }
         }
         expect(unmarshallT).toEqual(expected)
 

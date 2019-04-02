@@ -70,7 +70,7 @@ describe("# CoreStackProducer ", () => {
             },
             receipt: undefined,
             errorsList: [],
-            metadata: { id: 'testMetadata', extraMap: [] }
+            metadata: { id: 'testMetadata', extraMap: {} }
         }
         expect(unmarshallT).toEqual(expected)
     })

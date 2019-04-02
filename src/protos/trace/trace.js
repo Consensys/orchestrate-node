@@ -92,6 +92,11 @@ const mapToObject = objTrace => {
         const newLogs = logs.map(log => ({...log, decodedDataMap: arrayToObject(log.decodedDataMap)}))
         objTrace.receipt['logsList'] = newLogs
     }
+    if (objTrace['metadata']) {
+        if (objTrace['metadata'].extraMap) {
+            objTrace.metadata['extraMap'] =  arrayToObject(objTrace['metadata'].extraMap)
+        }
+    }
     return objTrace
 }
 
