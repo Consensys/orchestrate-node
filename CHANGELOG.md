@@ -1,5 +1,11 @@
 # CHANGELOG
 
+### Version 0.1.8
+
+*Released on April 2nd 2019*
+
+- [FEAT]: Unmarshall extra metada into Object instead of Array
+
 ### Version 0.1.7
 
 *Released on March 26th 2019*
