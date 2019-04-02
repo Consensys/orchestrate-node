@@ -1,6 +1,6 @@
 {
   "name": "core-stack-sdk",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Core Stack SDK",
   "main": "./lib/index.js",
   "scripts": {
