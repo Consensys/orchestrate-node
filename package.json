@@ -61,7 +61,7 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
-      "!<rootDir>/src/protos/*/*_pb.js"
+      "!<rootDir>/src/types/*/*_pb.js"
     ]
   }
 }

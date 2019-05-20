@@ -1,6 +1,7 @@
 import CoreStackSDK from '../lib'
 
 const CoreStack = new CoreStackSDK('localhost:9092')
+
 const prod = async () => {
     try {
         console.log('Init producer...')
@@ -9,14 +10,13 @@ const prod = async () => {
 
         try {
             const tx = await producer.send({
-                chainId: '3', //required
-                to: '0x8f371DAA8A5325f53b754A7017Ac3803382bc847', // required
+                chainId: '888', //required
                 call: {
-                    contract: 'ERC1400',
-                    method: 'setDocument',
-                    args: ["0xabcd", "0xabcd", "0xabcd"],
+                    contract: 'ERC20',
+                    method: 'constructor()',
                 }, // required
-                from: '0xd71400daD07d70C976D6AAFC241aF1EA183a7236'
+                gas: 2000000,
+                from: '0x7e654d251da770a068413677967f6d3ea2fea9e4'
             })
             console.log('Message sent: ', tx)
         } catch(e) {
@@ -53,30 +53,3 @@ const consume = async () => {
     }
 }
 consume()
-
-// const consumerGroup = async () => {
-//     try {
-//         console.log('Init consumer group...')
-//         const consumerGroup = await CoreStack.consumerGroup('topic-tx-nonce')
-//         console.log('... consumer group ready')
-
-//         const consume = consumerGroup.consume()
-
-//         consume.on('message', message => {
-//             console.log(message);
-//         });
-        
-//         consume.on('error', error => {
-//             console.log(error);
-//         });
-        
-//         consume.on('offsetOutOfRange', error => {
-//             console.log(error);
-//         });
-//     } catch(e) {
-//         console.error(e)
-//     }
-
-
-// }
-// consumerGroup()
