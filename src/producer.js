@@ -1,18 +1,52 @@
 import kafka from 'kafka-node'
 import uuidv4 from 'uuid/v4'
-import { marshallTrace } from './protos/trace/trace';
+import { marshallEnvelope } from './types/envelope/envelope';
 
+/**
+ * [producer description]
+ * @type {kafka}
+ */
 export class CoreStackProducer {
+    /**
+     * [constructor description]
+     * @param {[type]} client  [description]
+     * @param {[type]} topic   [description]
+     * @param {[type]} options [description]
+     */
     constructor(client, topic, options) {
         this.producer = new kafka.Producer(client, options)
         this.topic = topic
     }
 
+    /**
+     * Handles the readiness of the instance
+     * @return {Promise} Resolves if the CoreStackProducer is already ready or
+     * successfully connected, throws the received error otherwise
+     */
+    connect = () => new Promise((resolve, reject) => {
+      if (this.producer.ready) {
+        resolve(this)
+      }
+      this.producer.on('ready', () => resolve(this))
+      this.producer.on('error', err => reject(err))
+    })
+
+    /**
+     * [marshall description]
+     * @param  {[type]} msg [description]
+     * @return {[type]}     [description]
+     */
     marshall = msg => {
-        const trace = marshallTrace(msg);
-        return Buffer.from(trace.serializeBinary())
+        const envelope = marshallEnvelope(msg);
+        return Buffer.from(envelope.serializeBinary())
     }
 
+    /**
+     * [send description]
+     * @param  {[type]} msg          [description]
+     * @param  {[type]} kafkaOptions [description]
+     * @return {[type]}              [description]
+     */
     send = (msg, kafkaOptions) => new Promise((resolve, reject) => {
 
         // Init an id
@@ -29,14 +63,14 @@ export class CoreStackProducer {
                 }
                 break;
         }
-        
+
         const id = msg['metadata']['id']
         const payloads = [
-            { 
-                topic: this.topic, 
-                key: msg['chainId'] + '-' + msg['from'], 
+            {
+                topic: this.topic,
+                key: msg['chainId'] + '-' + msg['from'],
                 ...kafkaOptions,
-                messages: this.marshall(msg) 
+                messages: this.marshall(msg)
             },
         ]
 
@@ -45,7 +79,7 @@ export class CoreStackProducer {
                 reject(err)
             } else {
                 resolve({offset: data[this.topic]['0'], id})
-            }     
+            }
         })
     })
 }

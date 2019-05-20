@@ -1,31 +1,70 @@
 import { CoreStackProducer } from '../producer'
-import { unmarshallTrace } from '../protos/trace/trace'
+import { unmarshallEnvelope } from '../types/envelope/envelope'
 import kafka from 'kafka-node'
 
-const mockProducer = jest.fn(() => ({
+const mockProducer = ready => jest.fn(() => ({
+    ready,
     send: jest.fn((payload, cb) => {
         if(payload[0].key != '3-testFrom') {
             cb('error')
         } else {
             cb('', {[payload[0].topic]: {'0': 100}})
         }
-    })
-}))                        
-
-kafka.Producer = mockProducer;
+    }),
+    on: (msg, cb) => {
+        if(msg == 'ready') {
+            cb()
+        } else if (msg == 'error') {
+            cb('error')
+        }
+    }
+}))
 
 let topic, CSProducer
 describe("# CoreStackProducer ", () => {
     beforeEach(() => {
+        kafka.Producer = mockProducer(true);
         topic = 'testTopic'
         CSProducer = new CoreStackProducer('', topic, 0)
     })
 
     test('Init CoreStackProducer', async () => {
+        expect(typeof CSProducer.connect).toBe('function')
         expect(typeof CSProducer.marshall).toBe('function')
         expect(typeof CSProducer.send).toBe('function')
         expect(typeof CSProducer.producer).toBe('object')
-        expect(CSProducer.topic).toEqual(topic)   
+        expect(CSProducer.topic).toEqual(topic)
+    })
+
+    describe("# connect", () => {
+
+      describe("connect an already ready producer", () => {
+
+        test("Resolves the CSProducer", async () => {
+          const resolvedProducer = await CSProducer.connect();
+          expect(resolvedProducer).toEqual(CSProducer)
+        })
+      })
+
+      describe("connect an unready producer", () => {
+
+        beforeEach(() => {
+          kafka.Producer = mockProducer(false);
+          CSProducer = new CoreStackProducer('', topic, 0)
+        })
+
+        describe("when there is no error", () => {
+
+          test("Resolves the CSProducer", async () => {
+            const resolvedProducer = await CSProducer.connect();
+            expect(resolvedProducer).toEqual(CSProducer)
+          })
+        })
+
+        describe("when there is an error", () => {
+
+        })
+      })
     })
 
     test('marshall', async () => {
@@ -46,27 +85,27 @@ describe("# CoreStackProducer ", () => {
             }
         }
         const bin = CSProducer.marshall(testMsg)
-        const unmarshallT = unmarshallTrace(bin)
-        const expected = { 
-            chain: { id: '0x3', iseip155: false },
+        const unmarshallT = unmarshallEnvelope(bin)
+        const expected = {
+            chain: { id: '3', iseip155: false },
             sender: { id: '', addr: 'testFrom' },
             receiver: undefined,
-            call: { 
-                contract: { name: 'testContract', tag: '', abi: '', bytecode: '' },
-                method: { name: 'testMethod', abi: '' },
-                argsList: [ 'arg1', 'arg2' ] 
+            call: {
+                contract: { name: 'testContract', tag: '', abi: '', bytecode: '', deployedbytecode: '', registry: '' },
+                method: { signature: 'testMethod', abi: '' },
+                argsList: [ 'arg1', 'arg2' ]
             },
-            tx: { 
+            tx: {
                 txData: {
                     nonce: 0,
                     to: 'testTo',
                     value: 'testValue',
                     gas: 100000,
                     gasPrice: 'testGasPrice',
-                    data: '' 
+                    data: ''
                 },
                 raw: '',
-                hash: '' 
+                hash: ''
             },
             receipt: undefined,
             errorsList: [],
@@ -129,7 +168,7 @@ describe("# CoreStackProducer ", () => {
                 method: 'testMethod',
                 args: ['arg1', 'arg2'],
             },
-            metadata: { 
+            metadata: {
                 extra: {
                     extra1: 'testExtra1',
                     extra2: 'testExtra2'
@@ -179,7 +218,7 @@ describe("# CoreStackProducer ", () => {
             await CSProducer.send(testMsg)
         } catch(e) {
             expect(e).toEqual('error')
-    
+
         }
     })
 })

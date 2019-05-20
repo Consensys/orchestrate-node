@@ -1,6 +1,6 @@
 import { CoreStackConsumer, CoreStackConsumerGroup } from '../consumer'
 import kafka from 'kafka-node'
-import { marshallTrace } from '../protos/trace/trace'
+import { marshallEnvelope } from '../types/envelope/envelope'
 jest.mock('events')
 
 const testMsg = {
@@ -19,36 +19,119 @@ const testMsg = {
         id: 'testMetadata'
     }
 }
-const bin = Buffer.from(marshallTrace(testMsg).serializeBinary())
+const bin = Buffer.from(marshallEnvelope(testMsg).serializeBinary())
 
-const mockConsumer = jest.fn(() => ({
-    on: jest.fn((msg, cb) => {
-        if(msg == 'message') {
-            cb({value: bin}) 
+const mockConsumer = ready => jest.fn(() => ({
+    ready,
+    on: (msg, cb) => {
+        if (msg == 'connect') {
+          cb()
+        } else if(msg == 'message') {
+            cb({value: bin})
         } else if(msg == 'error') {
-            cb({msg: 'error'}) 
+            cb({msg: 'error'})
         } else if(msg == 'offsetOutOfRange') {
-            cb({msg: 'offsetOutOfRange'}) 
+            cb({msg: 'offsetOutOfRange'})
         }
-    }),
-}))     
+    }
+}))
 
-kafka.Consumer = mockConsumer;
+const topic = 'topic'
 
-test('init CoreStackConsumer', async () => {
-    const topic = 'topic'
-    const CSConsumer = new CoreStackConsumer('', topic, 0)
-    expect(typeof CSConsumer.consumer).toBe('object')
-    expect(typeof CSConsumer.emitter).toBe('object')
-    expect(CSConsumer.topic).toEqual(topic)   
+let CSConsumer
+describe("# CoreStackConsumer", () => {
 
-    CSConsumer.consume()
-});
+  beforeEach(() => {
+    kafka.Consumer = mockConsumer(true);
+    CSConsumer = new CoreStackConsumer('', topic, 0)
+  })
 
-test('init CoreStackConsmmerGroup', async () => {
-    const topic = 'topic'
-    const CSConsumerGroup = new CoreStackConsumerGroup('hostname', topic, 0)
-    expect(typeof CSConsumerGroup.consume).toBe('function')
-    expect(typeof CSConsumerGroup.consumer).toBe('object')
+  test('init CoreStackConsumer', async () => {
+      expect(typeof CSConsumer.connect).toBe('function')
+      expect(typeof CSConsumer.consume).toBe('function')
+      expect(typeof CSConsumer.consumer).toBe('object')
+      expect(typeof CSConsumer.emitter).toBe('object')
+      expect(CSConsumer.topic).toEqual(topic)
 
-});
+      CSConsumer.consume()
+  });
+
+  describe("# connect", () => {
+
+    describe("connect an already ready consumer", () => {
+
+      test("Resolves the Consumer", async () => {
+        const resolvedProducer = await CSConsumer.connect();
+        expect(resolvedProducer).toEqual(CSConsumer)
+      })
+    })
+
+    describe("connect an unready consumer", () => {
+
+      beforeEach(() => {
+        kafka.Consumer = mockConsumer(false);
+        CSConsumer = new CoreStackConsumer(mockConsumer(false));
+      })
+
+      describe("when there is no error", () => {
+
+        // test("Resolves the Consumer", async () => {
+        //   const resolvedProducer = await CSConsumer.connect();
+        //   expect(resolvedProducer).toEqual(CSConsumer)
+        // })
+      })
+
+      describe("when there is an error", () => {
+
+      })
+    })
+  })
+})
+
+let CSConsumerGroup
+describe("# CoreStackConsumerGroup", () => {
+
+  beforeEach(() => {
+    kafka.ConsumerGroup = mockConsumer(true);
+    CSConsumerGroup = new CoreStackConsumerGroup('hostname', topic, 0)
+  })
+
+  test('init CoreStackConsumer', async () => {
+      expect(typeof CSConsumerGroup.connect).toBe('function')
+      expect(typeof CSConsumerGroup.consume).toBe('function')
+      expect(typeof CSConsumerGroup.consumer).toBe('object')
+      expect(typeof CSConsumerGroup.emitter).toBe('object')
+
+  });
+
+  describe("# connect", () => {
+
+    describe("connect an already ready consumer", () => {
+
+      test("Resolves the Consumer", async () => {
+        const resolvedProducer = await CSConsumerGroup.connect();
+        expect(resolvedProducer).toEqual(CSConsumerGroup)
+      })
+    })
+
+    describe("connect an unready consumer", () => {
+
+      beforeEach(() => {
+        kafka.ConsumerGroup = mockConsumer(true);
+        CSConsumerGroup = new CoreStackConsumerGroup('hostname', topic, 0)
+      })
+
+      describe("when there is no error", () => {
+
+        test("Resolves the Consumer", async () => {
+          const resolvedProducer = await CSConsumerGroup.connect();
+          expect(resolvedProducer).toEqual(CSConsumerGroup)
+        })
+      })
+
+      describe("when there is an error", () => {
+
+      })
+    })
+  })
+})

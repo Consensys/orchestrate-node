@@ -26,34 +26,44 @@ describe("# CoreStack ", () => {
     describe("# producer ", () => {
         test('Init CoreStackProducer with Producer already ready', async () => {
             CoreStackProducer.mockImplementation(() => ({
-                producer: {
-                    ready: true
-                }
+                connect: () => ({
+                  producer: {
+                      ready: true
+                  }
+                }),
+                // producer: {
+                //     ready: true
+                // }
             }))
             const topic = 'testTopic'
             const producer = await CoreStack.producer(topic)
             expect(producer.producer.ready).toBeTruthy();
         })
-    
+
         test('Init CoreStackProducer with Producer not yet ready', async () => {
             CoreStackProducer.mockImplementation(() => ({
-                producer: {
-                    ready: false,
-                    on: (msg, cb) => {
-                        if(msg == 'ready') {
-                            cb()
-                        } else if (msg == 'error') {
-                            cb('error')
-                        }
-                    }
-                }
+              connect: () => ({
+                  producer: {
+                      ready: false
+                  }
+                }),
+                // producer: {
+                //     ready: false,
+                //     on: (msg, cb) => {
+                //         if(msg == 'ready') {
+                //             cb()
+                //         } else if (msg == 'error') {
+                //             cb('error')
+                //         }
+                //     }
+                // }
             }))
             const topic = 'testTopic'
             const producer = await CoreStack.producer(topic)
             expect(producer.producer.ready).toBeFalsy();
         })
     })
-    
+
     describe("# getLatestOffset ", () => {
         test('getLatestOffset', async () => {
             const testOffset = 100
@@ -83,27 +93,34 @@ describe("# CoreStack ", () => {
     describe("# consumer ", () => {
         test('Init CoreStackConsumer with Consumer already ready', async () => {
             CoreStackConsumer.mockImplementation(() => ({
-                consumer: {
-                    ready: true
-                }
+                connect: () => ({
+                  consumer: {
+                      ready: true
+                  }
+                })
             }))
             const topic = 'testTopic'
             const consumer = await CoreStack.consumer(topic)
             expect(consumer.consumer.ready).toBeTruthy();
         })
-    
+
         test('Init CoreStackProducer with Consumer not yet ready', async () => {
             CoreStackConsumer.mockImplementation(() => ({
-                consumer: {
-                    ready: false,
-                    on: (msg, cb) => {
-                        if(msg == 'ready') {
-                            cb()
-                        } else if (msg == 'error') {
-                            cb('error')
-                        }
-                    }
-                }
+                connect: () => ({
+                  consumer: {
+                      ready: false
+                  }
+                }),
+                // consumer: {
+                //     ready: false,
+                //     on: (msg, cb) => {
+                //         if(msg == 'ready') {
+                //             cb()
+                //         } else if (msg == 'error') {
+                //             cb('error')
+                //         }
+                //     }
+                // }
             }))
             const topic = 'testTopic'
             const consumer = await CoreStack.consumer(topic)
@@ -114,27 +131,37 @@ describe("# CoreStack ", () => {
     describe("# consumerGroup ", () => {
         test('Init CoreStackConsumerGroup with ConsumerGroup already ready', async () => {
             CoreStackConsumerGroup.mockImplementation(() => ({
-                consumer: {
-                    ready: true
-                }
+                connect: () => ({
+                  consumer: {
+                      ready: true
+                  }
+                }),
+                // consumer: {
+                //     ready: true
+                // }
             }))
             const topic = 'testTopic'
             const consumerGroup = await CoreStack.consumerGroup(topic)
             expect(consumerGroup.consumer.ready).toBeTruthy();
         })
-    
+
         test('Init CoreStackProducer with ConsumerGroup not yet ready', async () => {
             CoreStackConsumerGroup.mockImplementation(() => ({
-                consumer: {
-                    ready: false,
-                    on: (msg, cb) => {
-                        if(msg == 'connect') {
-                            cb()
-                        } else if (msg == 'error') {
-                            cb('error')
-                        }
-                    }
-                }
+                connect: () => ({
+                  consumer: {
+                      ready: false
+                  }
+                }),
+                // consumer: {
+                //     ready: false,
+                //     on: (msg, cb) => {
+                //         if(msg == 'connect') {
+                //             cb()
+                //         } else if (msg == 'error') {
+                //             cb('error')
+                //         }
+                //     }
+                // }
             }))
             const topic = 'testTopic'
             const consumerGroup = await CoreStack.consumerGroup(topic)
@@ -142,4 +169,3 @@ describe("# CoreStack ", () => {
         })
     })
 })
-

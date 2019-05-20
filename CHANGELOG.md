@@ -1,5 +1,11 @@
 # CHANGELOG
 
+### Version 0.2.0
+
+*Released on May 20th 2019*
+
+- [FEAT]: Update protobuf types (v0.5.2 of pkg)
+
 ### Version 0.1.8
 
 *Released on April 2nd 2019*

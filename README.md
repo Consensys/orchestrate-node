@@ -43,7 +43,7 @@ try {
         to: '0x8f371DAA8A5325f53b754A7017Ac3803382bc847', // required
         call: {
             contract: 'ERC1400',
-            method: 'setDocument',
+            method: 'setDocument(bytes32,string,bytes32)',
             args: ["0xabcd", "0xabcd", "0xabcd"],
         }, // required
         from: '0xd71400daD07d70C976D6AAFC241aF1EA183a7236' // required
@@ -67,7 +67,7 @@ try {
     consume.on('message', message => {
         console.log('Message consumed: ', message)
 //         Message consumed:  { 
-//     chain: { id: '0x3', iseip155: false }, 
+//     chain: { id: '3', iseip155: false }, 
 //     ...
 //     receipt: { 
 //         txHash: '0xbf0b3048242aff8287d1dd9de0d2d100cee25d4ea45b8afa28bdfc1e2a775afd',
@@ -165,9 +165,9 @@ const tx = await producer.send(object)
             }]'
             * `bytecode`: string(hex) - contract bytecode - ex: '0x608060405234801561001057600080fd5b5061160a806100206000396000f3006080604052600436106100955763ffffffff60e060020a60003504166316d390bf811461009a5780633c8ac88e146100c357806353faa9a91461015157806373b40a5c14610178578063781f5a83146101e7578063898d5a5b1461020e578063995fac'
     * `method`: string or object:
-        * `string`: Name of the method referenced in the ABI registry - ex: 'transfer'
+        * `string`: Name of the method referenced in the ABI registry - ex: 'transfer(address,uint256)' or 'constructor()'
         * `object`:
-            * `name`: string - Name of the method referenced in the ABI registry - ex: 'transfer'
+            * `signature`: string - Signature of the method referenced in the ABI registry - ex: 'transfer(address,uint256)' or 'constructor()'
             * `abi`: object/json - Method ABI in json format to call - ex: '{
                 constant: false,
                 inputs: [
