@@ -19,7 +19,7 @@ describe("# CoreStack ", () => {
     describe("# constructor ", () => {
         test('Init CoreStack', async () => {
             CoreStack = new CoreStackSDK(host)
-            expect(CoreStack.hostname).toEqual(host)
+            expect(CoreStack.endpoint).toEqual(host)
         })
     })
 

@@ -1,6 +1,5 @@
-import kafka from 'kafka-node'
-import { CoreStackConsumer, CoreStackConsumerGroup } from './consumer'
-import { CoreStackProducer } from './producer'
+import CoreStackBroker from './broker'
+import { CoreStackWeb3 } from './web3'
 
 /**
  * [hostname description]
@@ -9,60 +8,31 @@ import { CoreStackProducer } from './producer'
 export default class CoreStack {
     /**
      * [constructor description]
-     * @param {[type]} hostname [description]
-     * @param {[type]} options  [description]
      */
-    constructor(hostname, options) {
-        this.hostname = hostname
-        this.client = new kafka.KafkaClient({kafkaHost: hostname, ...options})
+    constructor() {
+        this.brokerClient = {}
+        this.web3Client = {}
     }
 
     /**
-     * [producer description]
-     * @param  {[type]} topic   [description]
-     * @param  {[type]} options [description]
-     * @return {[type]}         [description]
+     * [broker description]
+     * @param  {[type]} endpoint [description]
+     * @param  {[type]} options  [description]
+     * @return {[type]}          [description]
      */
-    producer = (topic, options) => {
-      const CSProducer = new CoreStackProducer(this.client, topic, options)
-      return CSProducer.connect();
+    broker = (endpoint, options) => {
+        this.brokerClient = new CoreStackBroker(endpoint, options, this.web3Client)
+        return this.brokerClient
     }
 
     /**
-     * [getLatestOffset description]
-     * @param {[type]} topic [description]
+     * [web3 description]
+     * @param  {[type]} endpoint [description]
+     * @param  {[type]} options  [description]
+     * @return {[type]}          [description]
      */
-    getLatestOffset = topic => new Promise((resolve, reject) => {
-        const offset = new kafka.Offset(this.client)
-        offset.fetchLatestOffsets([topic], (err, offsets) => {
-            if(err) {
-                reject(err)
-            } else {
-                resolve(offsets[topic][0])
-            }
-        })
-    })
-
-    /**
-     * [consumer description]
-     * @param  {[type]} topic   [description]
-     * @param  {[type]} options [description]
-     * @return {[type]}         [description]
-     */
-    consumer = async (topic, options) => {
-      const latestOffset = await this.getLatestOffset(topic)
-      const CSConsumer = new CoreStackConsumer(this.client, topic, latestOffset, options)
-      return CSConsumer.connect();
-    }
-
-    /**
-     * [consumerGroup description]
-     * @param  {[type]} topic   [description]
-     * @param  {[type]} options [description]
-     * @return {[type]}         [description]
-     */
-    consumerGroup = (topic, options) => {
-      const CSConsumerGroup =  new CoreStackConsumerGroup(this.hostname, topic, options);
-      return CSConsumerGroup.connect();
+    web3 = (endpoint, options) => {
+        this.web3Client = new CoreStackWeb3(endpoint, options, this.brokerClient);
+        return this.web3Client
     }
 }

@@ -56,12 +56,13 @@
     "google-protobuf": "~3.7.0",
     "kafka-node": "~4.0.2",
     "uuid": "~3.3.2",
+    "web3": "^1.0.0-beta.55",
     "web3-utils": "~1.0.0-beta.48"
   },
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
-      "!<rootDir>/src/types/*/*_pb.js"
+      "!<rootDir>/src/broker/types/*/*_pb.js"
     ]
   }
 }

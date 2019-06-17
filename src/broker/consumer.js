@@ -89,14 +89,14 @@ export class CoreStackConsumer extends Consumer {
 export class CoreStackConsumerGroup extends Consumer {
     /**
      * [constructor description]
-     * @param {[type]} hostname [description]
+     * @param {[type]} endpoint [description]
      * @param {[type]} topic    [description]
      * @param {[type]} options  [description]
      */
-    constructor(hostname, topic, options) {
+    constructor(endpoint, topic, options) {
         const consumer = new kafka.ConsumerGroup(
             {
-                kafkaHost: hostname,
+                kafkaHost: endpoint,
                 encoding: 'buffer',
                 ...options
             },
