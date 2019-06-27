@@ -1,21 +1,22 @@
 import kafka from 'kafka-node'
 import uuidv4 from 'uuid/v4'
-import { marshallEnvelope } from './types/envelope/envelope';
+import { marshallEnvelope } from './types/envelope/envelope'
+
+export const DefaultTopicInCoreStack = 'topic-tx-crafter'
+export const DefaultTopicOutCoreStack = 'topic-tx-decoded'
 
 /**
- * [producer description]
- * @type {kafka}
+ * [Producer is a generic class for a kafka.Producer including connect and produce]
+ * @type {class}
  */
-export class CoreStackProducer {
+export class Producer {
     /**
-     * [constructor description]
-     * @param {[type]} client  [description]
-     * @param {[type]} topic   [description]
-     * @param {[type]} options [description]
+     * [constructor initialize a kafka.Producer]
+     * @param {kafka.KafkaClient} client  [kafka.KafkaClient instance]
+     * @param {Object} options [Options of kafka-node Producer, see https://github.com/SOHU-Co/kafka-node#producerkafkaclient-options-custompartitioner]
      */
-    constructor(client, topic, options) {
+    constructor(client, options) {
         this.producer = new kafka.Producer(client, options)
-        this.topic = topic
     }
 
     /**
@@ -32,54 +33,86 @@ export class CoreStackProducer {
     })
 
     /**
-     * [marshall description]
-     * @param  {[type]} msg [description]
-     * @return {[type]}     [description]
+     * [produce description]
+     * @param  {Object} msg [Kafka message to send (non opinionated)]
+     * @return  {Promise}  [return Promise]
      */
-    marshall = msg => {
-        const envelope = marshallEnvelope(msg);
-        return Buffer.from(envelope.serializeBinary())
+    produce = msg => new Promise((resolve, reject) => {
+      this.producer.send(msg, (err, data) => {
+          if (err) {
+              reject(err)
+          } else {
+              resolve(data)
+          }
+      })
+  })
+
+}
+
+/**
+ * [CoreStackProducer is a Producer wrapper to be used for sending CoreStack envelopes types]
+ */
+export class CoreStackProducer extends Producer {
+  /**
+   * [constructor description]
+   * @param {kafka.KafkaClient} client  [kafka.KafkaClient instance]
+   * @param {string} topic  [Topic name to send envelopes]
+   * @param {Object} options [Options of kafka-node Producer, see https://github.com/SOHU-Co/kafka-node#producerkafkaclient-options-custompartitioner]
+   */
+  constructor(client, topic, options) {
+    super(client, topic, options)
+    this.topic = topic
+  }
+
+  /**
+   * [marshall encode raw message to an Envelope]
+   * @param  {Object} msg  [raw message to produce an envelope]
+   * @return {Buffer}  [return Envelope in proto format]
+   */
+  marshall = msg => {
+    const envelope = marshallEnvelope(msg);
+    return Buffer.from(envelope.serializeBinary())
+}
+
+  /**
+   * [send message to Kafka in a particular topic]
+   * @param  {Object} msg  [raw message to produce an envelope]
+   * @param  {string} topic  [Name of the topic to send the envelope]
+   * @param  {Object} kafkaOptions  [Options to the payload sent, see https://github.com/SOHU-Co/kafka-node#sendpayloads-cb]
+   * @return {Object}  [return metadata id and offset]
+   */
+  send = async (msg, topic = this.topic, kafkaOptions) => {
+      // Init an id
+      switch(typeof msg['metadata']) {
+        case 'undefined':
+            msg['metadata'] = {id: uuidv4()}
+            break;
+        case 'string':
+            msg['metadata'] = {id: msg['metadata']}
+            break;
+        case 'object':
+            if(!msg['metadata']['id']) {
+                msg['metadata']['id'] = uuidv4()
+            }
+            break;
     }
 
-    /**
-     * [send description]
-     * @param  {[type]} msg          [description]
-     * @param  {[type]} kafkaOptions [description]
-     * @return {[type]}              [description]
-     */
-    send = (msg, kafkaOptions) => new Promise((resolve, reject) => {
+    const id = msg['metadata']['id']
+    const payloads = [
+        {
+            topic,
+            key: msg['chainId'] + '-' + msg['from'],
+            ...kafkaOptions,
+            messages: this.marshall(msg)
+        },
+    ]
 
-        // Init an id
-        switch(typeof msg['metadata']) {
-            case 'undefined':
-                msg['metadata'] = {id: uuidv4()}
-                break;
-            case 'string':
-                msg['metadata'] = {id: msg['metadata']}
-                break;
-            case 'object':
-                if(!msg['metadata']['id']) {
-                    msg['metadata']['id'] = uuidv4()
-                }
-                break;
-        }
+    try {
+      const result = await this.produce(payloads)
+      return {offset: result[topic]['0'], id}
+    } catch(e) {
+      throw new Error('Producer: could not send message')
+    }
+  }
 
-        const id = msg['metadata']['id']
-        const payloads = [
-            {
-                topic: this.topic,
-                key: msg['chainId'] + '-' + msg['from'],
-                ...kafkaOptions,
-                messages: this.marshall(msg)
-            },
-        ]
-
-        this.producer.send(payloads, (err, data) => {
-            if (err) {
-                reject(err)
-            } else {
-                resolve({offset: data[this.topic]['0'], id})
-            }
-        })
-    })
 }

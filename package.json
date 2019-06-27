@@ -53,11 +53,11 @@
   },
   "dependencies": {
     "@babel/runtime": "~7.3.4",
-    "google-protobuf": "~3.7.0",
-    "kafka-node": "~4.0.2",
+    "google-protobuf": "~3.8.0",
+    "kafka-node": "~4.1.3",
     "uuid": "~3.3.2",
-    "web3": "^1.0.0-beta.55",
-    "web3-utils": "~1.0.0-beta.48"
+    "web3": "~1.0.0-beta.55",
+    "web3-utils": "~1.0.0-beta.55"
   },
   "jest": {
     "collectCoverageFrom": [

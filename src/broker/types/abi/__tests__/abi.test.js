@@ -4,7 +4,7 @@ import call_pb from '../../common/call_pb'
 let call
 
 const protoToObject = proto => {
-    const buf = new Buffer(proto, 'base64')
+    const buf = Buffer.from(proto, 'base64')
     return JSON.parse(buf.toString('ascii'))
 }
 
@@ -82,7 +82,7 @@ describe("# marshallContract ", () => {
         expect(testMsg.name).toEqual(contract.name)
         expect(testMsg.tag).toEqual(contract.tag)
         expect(testMsg.abi).toEqual(protoToObject(contract.abi))
-        const buf = new Buffer(contract.bytecode, 'base64') 
+        const buf = Buffer.from(contract.bytecode, 'base64') 
         expect(testMsg.bytecode).toEqual('0x' + buf.toString('hex'))
     })
 
@@ -92,7 +92,7 @@ describe("# marshallContract ", () => {
         }
         marshallContract(call, testMsg)
         let contract = call.getContract().toObject()
-        const buf = new Buffer(contract.bytecode, 'base64') 
+        const buf = Buffer.from(contract.bytecode, 'base64') 
         expect('0x' + buf.toString('hex')).toEqual(testMsg.bytecode)
         expect(contract.tag).toEqual('')
         expect(contract.abi).toEqual('')

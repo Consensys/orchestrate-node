@@ -36,14 +36,16 @@ const mockConsumer = ready => jest.fn(() => ({
     }
 }))
 
-const topic = 'topic'
+const topics = ['topic']
+const mockUnmarshaller = msg => msg
+const client = new kafka.KafkaClient({kafkaHost: 'testHost:9092'})
 
 let CSConsumer
 describe("# CoreStackConsumer", () => {
 
   beforeEach(() => {
     kafka.Consumer = mockConsumer(true);
-    CSConsumer = new CoreStackConsumer('', topic, 0)
+    CSConsumer = new CoreStackConsumer('', topics, mockUnmarshaller)
   })
 
   test('init CoreStackConsumer', async () => {
@@ -51,7 +53,7 @@ describe("# CoreStackConsumer", () => {
       expect(typeof CSConsumer.consume).toBe('function')
       expect(typeof CSConsumer.consumer).toBe('object')
       expect(typeof CSConsumer.emitter).toBe('object')
-      expect(CSConsumer.topic).toEqual(topic)
+      expect(CSConsumer.topics).toEqual(topics)
 
       CSConsumer.consume()
   });
@@ -93,7 +95,8 @@ describe("# CoreStackConsumerGroup", () => {
 
   beforeEach(() => {
     kafka.ConsumerGroup = mockConsumer(true);
-    CSConsumerGroup = new CoreStackConsumerGroup('hostname', topic, 0)
+    CSConsumerGroup = new CoreStackConsumerGroup(client, topics, mockUnmarshaller)
+
   })
 
   test('init CoreStackConsumer', async () => {
@@ -118,7 +121,7 @@ describe("# CoreStackConsumerGroup", () => {
 
       beforeEach(() => {
         kafka.ConsumerGroup = mockConsumer(true);
-        CSConsumerGroup = new CoreStackConsumerGroup('hostname', topic, 0)
+        CSConsumerGroup = new CoreStackConsumerGroup(client, topics, mockUnmarshaller)
       })
 
       describe("when there is no error", () => {

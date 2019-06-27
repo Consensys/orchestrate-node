@@ -1,70 +1,108 @@
 import kafka from 'kafka-node'
 import { CoreStackConsumer, CoreStackConsumerGroup } from './consumer'
 import { CoreStackProducer } from './producer'
+import { WalletGenerator } from './wallet'
+import { unmarshallEnvelope } from './types/envelope/envelope';
+import { 
+  DefaultCSInTopic,
+  DefaultCSOutTopic,
+  DefaultTopicWalletGenerator,
+  DefaultTopicWalletGenerated
+} from './default'
 
 /**
- * [hostname description]
- * @type {[type]}
+ * [CoreStackBroker class gathering producer, consumer for interacting with kafka]
+ * @type {class}
  */
 export default class CoreStackBroker {
     /**
      * [constructor description]
-     * @param {[type]} endpoint [description]
-     * @param {[type]} options  [description]
+     * @param {string} endpoint [Kafka endpoint]
+     * @param {Object} options  [Options to instanciate kafka-node. see https://github.com/SOHU-Co/kafka-node#options]
      */
-    constructor(endpoint, options, web3Client) {
+    constructor(endpoint, options) {
       this.endpoint = endpoint
       this.options = options
-      this.web3Client = web3Client
       this.client = new kafka.KafkaClient({kafkaHost: endpoint, ...options})
     }
 
     /**
      * [producer description]
-     * @param  {[type]} topic   [description]
-     * @param  {[type]} options [description]
+     * @param  {string} topic   [Topic name to send envelopes]
+     * @param  {Object} options [Options of kafka-node Producer, see https://github.com/SOHU-Co/kafka-node#producerkafkaclient-options-custompartitioner]
      * @return {[type]}         [description]
      */
-    producer = (topic, options) => {
+    producer = async (topic = DefaultCSInTopic, options) => {
       const CSProducer = new CoreStackProducer(this.client, topic, options)
-      return CSProducer.connect();
+      try {
+        return await CSProducer.connect()
+      } catch (e) {
+        throw new Error('Producer not able to connect:', e)
+      }
     }
 
     /**
-     * [getLatestOffset description]
-     * @param {[type]} topic [description]
+     * [getLatestOffset get latest offset of topic(s)]
+     * @param {Array} topics [Name of topics]
+     * @return {Promise}     [return list of topics and their latest offset]
      */
-    getLatestOffset = topic => new Promise((resolve, reject) => {
+    getLatestOffset = topics => new Promise((resolve, reject) => {
         const offset = new kafka.Offset(this.client)
-        offset.fetchLatestOffsets([topic], (err, offsets) => {
+        offset.fetchLatestOffsets(topics, (err, offsets) => {
             if(err) {
                 reject(err)
             } else {
-                resolve(offsets[topic][0])
+              // Get latest offset in the partition 0 by default
+              let offsetsbyTopics = {}
+              Object.keys(offsets).forEach(topic => {
+                Object.assign(offsetsbyTopics, {[topic]: offsets[topic][0]});
+              })
+              resolve(offsetsbyTopics)
             }
         })
     })
 
     /**
      * [consumer description]
-     * @param  {[type]} topic   [description]
-     * @param  {[type]} options [description]
-     * @return {[type]}         [description]
+     * @param  {Array} topics     [List of topics to consume - default = DefaultCSOutTopic]
+     * @param  {Object} options    [Options of a kafka.Consumer, see https://github.com/SOHU-Co/kafka-node#consumerclient-payloads-options]
+     * @return {CoreStackConsumer} [return a new CoreStackConsumer instance]
      */
-    consumer = async (topic, options) => {
-      const latestOffset = await this.getLatestOffset(topic)
-      const CSConsumer = new CoreStackConsumer(this.client, topic, latestOffset, options)
-      return CSConsumer.connect();
+    consumer = async (topics = [DefaultCSOutTopic], options) => {
+      const latestOffsetByTopics = await this.getLatestOffset(topics)
+      const CSConsumer = new CoreStackConsumer(this.client, latestOffsetByTopics, unmarshallEnvelope, options)
+      try {
+        return await CSConsumer.connect()
+      } catch (e) {
+        throw new Error('Consumer not able to connect:', e)
+      }
     }
-
+    
     /**
      * [consumerGroup description]
-     * @param  {[type]} topic   [description]
-     * @param  {[type]} options [description]
-     * @return {[type]}         [description]
+     * @param  {Array} topics     [List of topics to consume - default = DefaultCSOutTopic]
+     * @param  {Object} options  [Options of a kafka.ConsumerGroup, see https://github.com/SOHU-Co/kafka-node#consumergroupoptions-topics]
+     * @return {CoreStackConsumerGroup} [return a new CoreStackConsumerGroup instance]
      */
-    consumerGroup = (topic, options) => {
-      const CSConsumerGroup =  new CoreStackConsumerGroup(this.hostname, topic, options);
-      return CSConsumerGroup.connect();
+    consumerGroup = async (topics = [DefaultCSOutTopic], options) => {
+      const CSConsumerGroup = new CoreStackConsumerGroup(this.client, topics, unmarshallEnvelope, options);
+      try {
+        return await CSConsumerGroup.connect()
+      } catch (e) {
+        throw new Error('ConsumerGroup not able to connect:', e)
+      }
     }
+    
+    /**
+     * [generateWallet description]
+     * @param  {string} topicIn  [Name of the topic to send a wallet generation message]
+     * @param  {Array} topicOut  [Name of the topic to consume a wallet generated]
+     * @return {WalletGenerator} [return a new WalletGenerator instance]
+     */
+    wallet = async (topicIn = DefaultTopicWalletGenerator, topicOut = [DefaultTopicWalletGenerated]) => { 
+      let producer, consumer
+      [producer, consumer] = await Promise.all([this.producer(topicIn), this.consumer(topicOut)])
+      return new WalletGenerator(producer, consumer)
+    }
+
 }

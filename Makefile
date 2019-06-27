@@ -4,7 +4,7 @@
 PROTO_REPO=pkg
 PROTO_DIR=types
 GITLAB_PATH=ConsenSys/client/fr/core-stack
-PROTO_TAG=v0.5.2
+PROTO_TAG=v0.5.6
 
 protobuf: ## Generate protobuf stubs
 	@sh scripts/generate-proto.sh

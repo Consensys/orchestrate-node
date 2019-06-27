@@ -1,29 +1,49 @@
 import EventEmitter from 'events'
-import  { unmarshallEnvelope } from './types/envelope/envelope'
 import kafka from 'kafka-node'
 
 /**
- * [Consumer description]
+ * [Consumer is a generic class for a kafka.Consumer and kafka.ConsumerGroup]
  */
 class Consumer {
 
     /**
-     * [constructor description]
-     * @param {[type]} consumer [description]
+     * [constructor initialize an event emitter]
+     * @param {kafka.Consumer|kafka.ConsumerGroup} consumer [consumer]
+     * @param {function} unmarshaller [unmarshaller function to process raw message consumed]
      */
-    constructor(consumer) {
+    constructor(consumer, unmarshaller) {
         this.consumer = consumer
+        this.unmarshaller = unmarshaller
         this.emitter = new EventEmitter()
     }
 
     /**
-     * [consume description]
-     * @return {[type]} [description]
+     * Handles the readiness of the instance
+     * @return {Promise} Resolves if the Consumer is already ready or
+     * successfully connected, throws the received error otherwise
+     */
+    connect = () => new Promise((resolve, reject) => {
+      if (this.consumer.ready) {
+        resolve(this)
+      }
+      this.consumer.on('connect', () => resolve(this))
+      this.consumer.on('error', err => reject(err))
+    })
+
+    /**
+     * [consume consume a message with an unmarshaller]
+     * @return {EventEmitter} [description]
      */
     consume = () => {
         this.consumer.on(
           'message',
-          msg => this.emitter.emit('message', unmarshallEnvelope(msg.value))
+          msg => {
+            this.emitter.emit('message', {
+              ...msg,
+              value: this.unmarshaller(msg.value),
+            }
+          )
+          }
         );
 
         this.consumer.on(
@@ -42,44 +62,31 @@ class Consumer {
 
 /**
  * [consumer description]
- * @type {kafka}
+ * @type {class}
  */
 export class CoreStackConsumer extends Consumer {
-    /**
-     * [constructor description]
-     * @param {[type]} client       [description]
-     * @param {[type]} topic        [description]
-     * @param {[type]} latestOffset [description]
-     * @param {[type]} options      [description]
-     */
-    constructor(client, topic, latestOffset, options) {
-        const consumer = new kafka.Consumer(
-            client,
-            [
-                { topic: topic, offset: latestOffset },
-            ],
-            {
-                encoding: 'buffer',
-                fromOffset: true,
-                ...options
-            }
-        )
-        super(consumer)
-        this.topic = topic
-    }
 
     /**
-     * Handles the readiness of the instance
-     * @return {Promise} Resolves if the Consumer is already ready or
-     * successfully connected, throws the received error otherwise
+     * [constructor description]
+     * @param {kafka.KafkaClient} client       [kafka.KafkaClient instance]
+     * @param {Array}             topics       [List of topics to consume]
+     * @param {function}          unmarshaller [unmarshaller function to process raw message consumed]
+     * @param {Object}            options      [Options of a kafka.Consumer, see https://github.com/SOHU-Co/kafka-node#consumerclient-payloads-options]
      */
-    connect = () => new Promise((resolve, reject) => {
-      if (this.consumer.ready) {
-        resolve(this)
-      }
-      this.consumer.on('ready', () => resolve(this))
-      this.consumer.on('error', err => reject(err))
-    })
+    constructor(client, topics, unmarshaller, options) {
+      const fetchRequests = Object.keys(topics).map(topic => ({topic, offset: topics[topic]}))
+      const consumer = new kafka.Consumer(
+        client,
+        fetchRequests,
+        {
+          encoding: 'buffer',
+          fromOffset: true,
+          ...options
+        }
+      )
+      super(consumer, unmarshaller)
+      this.topics = topics
+    }
 }
 
 /**
@@ -87,34 +94,25 @@ export class CoreStackConsumer extends Consumer {
  * @type {kafka}
  */
 export class CoreStackConsumerGroup extends Consumer {
+    
+
     /**
      * [constructor description]
-     * @param {[type]} endpoint [description]
-     * @param {[type]} topic    [description]
-     * @param {[type]} options  [description]
+     * @param {kafka.KafkaClient} client       [kafka.KafkaClient instance]
+     * @param {Array}             topics       [List of topics to consume]
+     * @param {function}          unmarshaller [unmarshaller function to process raw message consumed]
+     * @param {Object}            options      [Options of a kafka.Consumer, see https://github.com/SOHU-Co/kafka-node#consumerclient-payloads-options]
      */
-    constructor(endpoint, topic, options) {
-        const consumer = new kafka.ConsumerGroup(
+    constructor(client, topics, unmarshaller, options) {
+      const consumer = new kafka.ConsumerGroup(
             {
-                kafkaHost: endpoint,
+                kafkaHost: client.options.kafkaHost,
                 encoding: 'buffer',
                 ...options
             },
-            topic
+            topics
         )
-        super(consumer)
+      super(consumer, unmarshaller)
+      this.topics = topics
     }
-
-    /**
-     * Handles the readiness of the instance
-     * @return {Promise} Resolves if the Consumer is already ready or
-     * successfully connected, throws the received error otherwise
-     */
-    connect = () => new Promise((resolve, reject) => {
-      if (this.consumer.ready) {
-        resolve(this)
-      }
-      this.consumer.on('connect', () => resolve(this))
-      this.consumer.on('error', err => reject(err))
-    })
 }

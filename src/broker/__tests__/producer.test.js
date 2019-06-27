@@ -25,7 +25,7 @@ describe("# CoreStackProducer ", () => {
     beforeEach(() => {
         kafka.Producer = mockProducer(true);
         topic = 'testTopic'
-        CSProducer = new CoreStackProducer('', topic, 0)
+        CSProducer = new CoreStackProducer('', topic)
     })
 
     test('Init CoreStackProducer', async () => {
@@ -50,7 +50,7 @@ describe("# CoreStackProducer ", () => {
 
         beforeEach(() => {
           kafka.Producer = mockProducer(false);
-          CSProducer = new CoreStackProducer('', topic, 0)
+          CSProducer = new CoreStackProducer('', topic)
         })
 
         describe("when there is no error", () => {
@@ -217,7 +217,7 @@ describe("# CoreStackProducer ", () => {
         try {
             await CSProducer.send(testMsg)
         } catch(e) {
-            expect(e).toEqual('error')
+            expect(e.message).toEqual('Producer: could not send message')
 
         }
     })

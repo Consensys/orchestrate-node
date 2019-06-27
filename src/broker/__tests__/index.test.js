@@ -1,4 +1,4 @@
-import CoreStackSDK from '../index'
+import CoreStackBroker from '../index'
 import { CoreStackProducer } from '../producer'
 import { CoreStackConsumer, CoreStackConsumerGroup } from '../consumer'
 import kafka from 'kafka-node'
@@ -12,13 +12,13 @@ describe("# CoreStack ", () => {
     let CoreStack
     const host = 'testHost'
     beforeEach(() => {
-        CoreStack = new CoreStackSDK(host)
+        CoreStack = new CoreStackBroker(host)
 
     })
 
     describe("# constructor ", () => {
         test('Init CoreStack', async () => {
-            CoreStack = new CoreStackSDK(host)
+            CoreStack = new CoreStackBroker(host)
             expect(CoreStack.endpoint).toEqual(host)
         })
     })
@@ -80,7 +80,7 @@ describe("# CoreStack ", () => {
                 }
             }))
             const getLatestOffset = await CoreStack.getLatestOffset(topic)
-            expect(getLatestOffset).toEqual(testOffset)
+            expect(getLatestOffset).toEqual({[topic]: testOffset})
 
             try {
                 await CoreStack.getLatestOffset(topicError)
