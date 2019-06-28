@@ -1,5 +1,13 @@
 # CHANGELOG
 
+### Version 0.2.1
+
+*Released on June 28th 2019*
+
+- [FEAT]: Update `pkg` to v0.5.7
+- [FEAT]: Create wallet asynchronously
+- [FEAT]: Add web3 wrapper
+  
 ### Version 0.2.0
 
 *Released on May 20th 2019*
