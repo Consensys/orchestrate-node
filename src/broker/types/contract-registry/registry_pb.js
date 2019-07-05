@@ -13,8 +13,8 @@ var global = Function('return this')();
 
 var types_abi_abi_pb = require('../../types/abi/abi_pb.js');
 goog.object.extend(proto, types_abi_abi_pb);
-var types_common_account_pb = require('../../types/common/account_pb.js');
-goog.object.extend(proto, types_common_account_pb);
+var types_common_account_instance_pb = require('../../types/common/account_instance_pb.js');
+goog.object.extend(proto, types_common_account_instance_pb);
 goog.exportSymbol('proto.contractregistry.AddressUpdateRequest', null, global);
 goog.exportSymbol('proto.contractregistry.AddressUpdateResponse', null, global);
 goog.exportSymbol('proto.contractregistry.GetContractABIResponse', null, global);
@@ -1160,7 +1160,7 @@ proto.contractregistry.GetMethodsBySelectorRequest.prototype.toObject = function
 proto.contractregistry.GetMethodsBySelectorRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     selector: msg.getSelector_asB64(),
-    accountinstance: (f = msg.getAccountinstance()) && types_common_account_pb.AccountInstance.toObject(includeInstance, f)
+    accountinstance: (f = msg.getAccountinstance()) && types_common_account_instance_pb.AccountInstance.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -1202,8 +1202,8 @@ proto.contractregistry.GetMethodsBySelectorRequest.deserializeBinaryFromReader =
       msg.setSelector(value);
       break;
     case 2:
-      var value = new types_common_account_pb.AccountInstance;
-      reader.readMessage(value,types_common_account_pb.AccountInstance.deserializeBinaryFromReader);
+      var value = new types_common_account_instance_pb.AccountInstance;
+      reader.readMessage(value,types_common_account_instance_pb.AccountInstance.deserializeBinaryFromReader);
       msg.setAccountinstance(value);
       break;
     default:
@@ -1247,7 +1247,7 @@ proto.contractregistry.GetMethodsBySelectorRequest.serializeBinaryToWriter = fun
     writer.writeMessage(
       2,
       f,
-      types_common_account_pb.AccountInstance.serializeBinaryToWriter
+      types_common_account_instance_pb.AccountInstance.serializeBinaryToWriter
     );
   }
 };
@@ -1298,7 +1298,7 @@ proto.contractregistry.GetMethodsBySelectorRequest.prototype.setSelector = funct
  */
 proto.contractregistry.GetMethodsBySelectorRequest.prototype.getAccountinstance = function() {
   return /** @type{?proto.common.AccountInstance} */ (
-    jspb.Message.getWrapperField(this, types_common_account_pb.AccountInstance, 2));
+    jspb.Message.getWrapperField(this, types_common_account_instance_pb.AccountInstance, 2));
 };
 
 
@@ -1584,7 +1584,7 @@ proto.contractregistry.GetEventsBySigHashRequest.prototype.toObject = function(o
 proto.contractregistry.GetEventsBySigHashRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     sighash: msg.getSighash_asB64(),
-    accountinstance: (f = msg.getAccountinstance()) && types_common_account_pb.AccountInstance.toObject(includeInstance, f),
+    accountinstance: (f = msg.getAccountinstance()) && types_common_account_instance_pb.AccountInstance.toObject(includeInstance, f),
     indexedinputcount: jspb.Message.getFieldWithDefault(msg, 3, 0)
   };
 
@@ -1627,8 +1627,8 @@ proto.contractregistry.GetEventsBySigHashRequest.deserializeBinaryFromReader = f
       msg.setSighash(value);
       break;
     case 2:
-      var value = new types_common_account_pb.AccountInstance;
-      reader.readMessage(value,types_common_account_pb.AccountInstance.deserializeBinaryFromReader);
+      var value = new types_common_account_instance_pb.AccountInstance;
+      reader.readMessage(value,types_common_account_instance_pb.AccountInstance.deserializeBinaryFromReader);
       msg.setAccountinstance(value);
       break;
     case 3:
@@ -1676,7 +1676,7 @@ proto.contractregistry.GetEventsBySigHashRequest.serializeBinaryToWriter = funct
     writer.writeMessage(
       2,
       f,
-      types_common_account_pb.AccountInstance.serializeBinaryToWriter
+      types_common_account_instance_pb.AccountInstance.serializeBinaryToWriter
     );
   }
   f = message.getIndexedinputcount();
@@ -1734,7 +1734,7 @@ proto.contractregistry.GetEventsBySigHashRequest.prototype.setSighash = function
  */
 proto.contractregistry.GetEventsBySigHashRequest.prototype.getAccountinstance = function() {
   return /** @type{?proto.common.AccountInstance} */ (
-    jspb.Message.getWrapperField(this, types_common_account_pb.AccountInstance, 2));
+    jspb.Message.getWrapperField(this, types_common_account_instance_pb.AccountInstance, 2));
 };
 
 
@@ -2034,7 +2034,7 @@ proto.contractregistry.AddressUpdateRequest.prototype.toObject = function(opt_in
  */
 proto.contractregistry.AddressUpdateRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    accountinstance: (f = msg.getAccountinstance()) && types_common_account_pb.AccountInstance.toObject(includeInstance, f)
+    accountinstance: (f = msg.getAccountinstance()) && types_common_account_instance_pb.AccountInstance.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -2072,8 +2072,8 @@ proto.contractregistry.AddressUpdateRequest.deserializeBinaryFromReader = functi
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new types_common_account_pb.AccountInstance;
-      reader.readMessage(value,types_common_account_pb.AccountInstance.deserializeBinaryFromReader);
+      var value = new types_common_account_instance_pb.AccountInstance;
+      reader.readMessage(value,types_common_account_instance_pb.AccountInstance.deserializeBinaryFromReader);
       msg.setAccountinstance(value);
       break;
     default:
@@ -2110,7 +2110,7 @@ proto.contractregistry.AddressUpdateRequest.serializeBinaryToWriter = function(m
     writer.writeMessage(
       1,
       f,
-      types_common_account_pb.AccountInstance.serializeBinaryToWriter
+      types_common_account_instance_pb.AccountInstance.serializeBinaryToWriter
     );
   }
 };
@@ -2122,7 +2122,7 @@ proto.contractregistry.AddressUpdateRequest.serializeBinaryToWriter = function(m
  */
 proto.contractregistry.AddressUpdateRequest.prototype.getAccountinstance = function() {
   return /** @type{?proto.common.AccountInstance} */ (
-    jspb.Message.getWrapperField(this, types_common_account_pb.AccountInstance, 1));
+    jspb.Message.getWrapperField(this, types_common_account_instance_pb.AccountInstance, 1));
 };
 
 
