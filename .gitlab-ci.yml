@@ -6,7 +6,7 @@ test-lint:
   image: node:10
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
   before_script:
-    - yarn
+    - npm install
   script:
-    - yarn lint
-    - yarn test:cover
+    - npm run lint
+    - npm run test:cover

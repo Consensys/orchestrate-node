@@ -9,11 +9,14 @@ const produce = async broker => {
 
         try {
             const tx = await producer.send({
-                chainId: '888', //required
+                chainId: 888,
+                to: '0xe5ce65038f9d1c841a33cc816ee674f8a0e31e74',
                 call: {
                     contract: 'SimpleToken',
-                    method: 'constructor()',
-                }, // required
+                    method: 'constructor()'
+                    // method: 'transfer(address,uint256)',
+                    // args: ["dbb881a51cd4023e4400cef3ef73046743f08da3", "100000"]
+                },
                 gas: 2000000,
                 from: '0x7e654d251da770a068413677967f6d3ea2fea9e4'
             })

@@ -11,6 +11,8 @@ var jspb = require('google-protobuf');
 var goog = jspb;
 var global = Function('return this')();
 
+var types_ethereum_base_pb = require('../../types/ethereum/base_pb.js');
+goog.object.extend(proto, types_ethereum_base_pb);
 goog.exportSymbol('proto.ethereum.Log', null, global);
 goog.exportSymbol('proto.ethereum.Receipt', null, global);
 /**
@@ -94,15 +96,16 @@ proto.ethereum.Log.prototype.toObject = function(opt_includeInstance) {
  */
 proto.ethereum.Log.toObject = function(includeInstance, msg) {
   var f, obj = {
-    address: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    topicsList: (f = jspb.Message.getRepeatedField(msg, 2)) == null ? undefined : f,
+    address: (f = msg.getAddress()) && types_ethereum_base_pb.Account.toObject(includeInstance, f),
+    topicsList: jspb.Message.toObjectList(msg.getTopicsList(),
+    types_ethereum_base_pb.Hash.toObject, includeInstance),
     data: msg.getData_asB64(),
     event: jspb.Message.getFieldWithDefault(msg, 4, ""),
     decodedDataMap: (f = msg.getDecodedDataMap()) ? f.toObject(includeInstance, undefined) : [],
     blockNumber: jspb.Message.getFieldWithDefault(msg, 6, 0),
-    txHash: jspb.Message.getFieldWithDefault(msg, 7, ""),
+    txHash: (f = msg.getTxHash()) && types_ethereum_base_pb.Hash.toObject(includeInstance, f),
     txIndex: jspb.Message.getFieldWithDefault(msg, 8, 0),
-    blockHash: jspb.Message.getFieldWithDefault(msg, 9, ""),
+    blockHash: (f = msg.getBlockHash()) && types_ethereum_base_pb.Hash.toObject(includeInstance, f),
     index: jspb.Message.getFieldWithDefault(msg, 10, 0),
     removed: jspb.Message.getBooleanFieldWithDefault(msg, 11, false)
   };
@@ -142,11 +145,13 @@ proto.ethereum.Log.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {string} */ (reader.readString());
+      var value = new types_ethereum_base_pb.Account;
+      reader.readMessage(value,types_ethereum_base_pb.Account.deserializeBinaryFromReader);
       msg.setAddress(value);
       break;
     case 2:
-      var value = /** @type {string} */ (reader.readString());
+      var value = new types_ethereum_base_pb.Hash;
+      reader.readMessage(value,types_ethereum_base_pb.Hash.deserializeBinaryFromReader);
       msg.addTopics(value);
       break;
     case 3:
@@ -168,7 +173,8 @@ proto.ethereum.Log.deserializeBinaryFromReader = function(msg, reader) {
       msg.setBlockNumber(value);
       break;
     case 7:
-      var value = /** @type {string} */ (reader.readString());
+      var value = new types_ethereum_base_pb.Hash;
+      reader.readMessage(value,types_ethereum_base_pb.Hash.deserializeBinaryFromReader);
       msg.setTxHash(value);
       break;
     case 8:
@@ -176,7 +182,8 @@ proto.ethereum.Log.deserializeBinaryFromReader = function(msg, reader) {
       msg.setTxIndex(value);
       break;
     case 9:
-      var value = /** @type {string} */ (reader.readString());
+      var value = new types_ethereum_base_pb.Hash;
+      reader.readMessage(value,types_ethereum_base_pb.Hash.deserializeBinaryFromReader);
       msg.setBlockHash(value);
       break;
     case 10:
@@ -217,17 +224,19 @@ proto.ethereum.Log.prototype.serializeBinary = function() {
 proto.ethereum.Log.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAddress();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f != null) {
+    writer.writeMessage(
       1,
-      f
+      f,
+      types_ethereum_base_pb.Account.serializeBinaryToWriter
     );
   }
   f = message.getTopicsList();
   if (f.length > 0) {
-    writer.writeRepeatedString(
+    writer.writeRepeatedMessage(
       2,
-      f
+      f,
+      types_ethereum_base_pb.Hash.serializeBinaryToWriter
     );
   }
   f = message.getData_asU8();
@@ -256,10 +265,11 @@ proto.ethereum.Log.serializeBinaryToWriter = function(message, writer) {
     );
   }
   f = message.getTxHash();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f != null) {
+    writer.writeMessage(
       7,
-      f
+      f,
+      types_ethereum_base_pb.Hash.serializeBinaryToWriter
     );
   }
   f = message.getTxIndex();
@@ -270,10 +280,11 @@ proto.ethereum.Log.serializeBinaryToWriter = function(message, writer) {
     );
   }
   f = message.getBlockHash();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f != null) {
+    writer.writeMessage(
       9,
-      f
+      f,
+      types_ethereum_base_pb.Hash.serializeBinaryToWriter
     );
   }
   f = message.getIndex();
@@ -294,41 +305,61 @@ proto.ethereum.Log.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional string address = 1;
- * @return {string}
+ * optional Account address = 1;
+ * @return {?proto.ethereum.Account}
  */
 proto.ethereum.Log.prototype.getAddress = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+  return /** @type{?proto.ethereum.Account} */ (
+    jspb.Message.getWrapperField(this, types_ethereum_base_pb.Account, 1));
 };
 
 
-/** @param {string} value */
+/** @param {?proto.ethereum.Account|undefined} value */
 proto.ethereum.Log.prototype.setAddress = function(value) {
-  jspb.Message.setProto3StringField(this, 1, value);
+  jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
- * repeated string topics = 2;
- * @return {!Array<string>}
+ * Clears the message field making it undefined.
+ */
+proto.ethereum.Log.prototype.clearAddress = function() {
+  this.setAddress(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.ethereum.Log.prototype.hasAddress = function() {
+  return jspb.Message.getField(this, 1) != null;
+};
+
+
+/**
+ * repeated Hash topics = 2;
+ * @return {!Array<!proto.ethereum.Hash>}
  */
 proto.ethereum.Log.prototype.getTopicsList = function() {
-  return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 2));
+  return /** @type{!Array<!proto.ethereum.Hash>} */ (
+    jspb.Message.getRepeatedWrapperField(this, types_ethereum_base_pb.Hash, 2));
 };
 
 
-/** @param {!Array<string>} value */
+/** @param {!Array<!proto.ethereum.Hash>} value */
 proto.ethereum.Log.prototype.setTopicsList = function(value) {
-  jspb.Message.setField(this, 2, value || []);
+  jspb.Message.setRepeatedWrapperField(this, 2, value);
 };
 
 
 /**
- * @param {string} value
+ * @param {!proto.ethereum.Hash=} opt_value
  * @param {number=} opt_index
+ * @return {!proto.ethereum.Hash}
  */
-proto.ethereum.Log.prototype.addTopics = function(value, opt_index) {
-  jspb.Message.addToRepeatedField(this, 2, value, opt_index);
+proto.ethereum.Log.prototype.addTopics = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 2, opt_value, proto.ethereum.Hash, opt_index);
 };
 
 
@@ -431,17 +462,35 @@ proto.ethereum.Log.prototype.setBlockNumber = function(value) {
 
 
 /**
- * optional string tx_hash = 7;
- * @return {string}
+ * optional Hash tx_hash = 7;
+ * @return {?proto.ethereum.Hash}
  */
 proto.ethereum.Log.prototype.getTxHash = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
+  return /** @type{?proto.ethereum.Hash} */ (
+    jspb.Message.getWrapperField(this, types_ethereum_base_pb.Hash, 7));
 };
 
 
-/** @param {string} value */
+/** @param {?proto.ethereum.Hash|undefined} value */
 proto.ethereum.Log.prototype.setTxHash = function(value) {
-  jspb.Message.setProto3StringField(this, 7, value);
+  jspb.Message.setWrapperField(this, 7, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ */
+proto.ethereum.Log.prototype.clearTxHash = function() {
+  this.setTxHash(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.ethereum.Log.prototype.hasTxHash = function() {
+  return jspb.Message.getField(this, 7) != null;
 };
 
 
@@ -461,17 +510,35 @@ proto.ethereum.Log.prototype.setTxIndex = function(value) {
 
 
 /**
- * optional string block_hash = 9;
- * @return {string}
+ * optional Hash block_hash = 9;
+ * @return {?proto.ethereum.Hash}
  */
 proto.ethereum.Log.prototype.getBlockHash = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
+  return /** @type{?proto.ethereum.Hash} */ (
+    jspb.Message.getWrapperField(this, types_ethereum_base_pb.Hash, 9));
 };
 
 
-/** @param {string} value */
+/** @param {?proto.ethereum.Hash|undefined} value */
 proto.ethereum.Log.prototype.setBlockHash = function(value) {
-  jspb.Message.setProto3StringField(this, 9, value);
+  jspb.Message.setWrapperField(this, 9, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ */
+proto.ethereum.Log.prototype.clearBlockHash = function() {
+  this.setBlockHash(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.ethereum.Log.prototype.hasBlockHash = function() {
+  return jspb.Message.getField(this, 9) != null;
 };
 
 
@@ -544,11 +611,11 @@ proto.ethereum.Receipt.prototype.toObject = function(opt_includeInstance) {
  */
 proto.ethereum.Receipt.toObject = function(includeInstance, msg) {
   var f, obj = {
-    txHash: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    blockHash: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    txHash: (f = msg.getTxHash()) && types_ethereum_base_pb.Hash.toObject(includeInstance, f),
+    blockHash: (f = msg.getBlockHash()) && types_ethereum_base_pb.Hash.toObject(includeInstance, f),
     blockNumber: jspb.Message.getFieldWithDefault(msg, 3, 0),
     txIndex: jspb.Message.getFieldWithDefault(msg, 4, 0),
-    contractAddress: jspb.Message.getFieldWithDefault(msg, 6, ""),
+    contractAddress: (f = msg.getContractAddress()) && types_ethereum_base_pb.Account.toObject(includeInstance, f),
     postState: msg.getPostState_asB64(),
     status: jspb.Message.getFieldWithDefault(msg, 8, 0),
     bloom: msg.getBloom_asB64(),
@@ -593,11 +660,13 @@ proto.ethereum.Receipt.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {string} */ (reader.readString());
+      var value = new types_ethereum_base_pb.Hash;
+      reader.readMessage(value,types_ethereum_base_pb.Hash.deserializeBinaryFromReader);
       msg.setTxHash(value);
       break;
     case 2:
-      var value = /** @type {string} */ (reader.readString());
+      var value = new types_ethereum_base_pb.Hash;
+      reader.readMessage(value,types_ethereum_base_pb.Hash.deserializeBinaryFromReader);
       msg.setBlockHash(value);
       break;
     case 3:
@@ -609,7 +678,8 @@ proto.ethereum.Receipt.deserializeBinaryFromReader = function(msg, reader) {
       msg.setTxIndex(value);
       break;
     case 6:
-      var value = /** @type {string} */ (reader.readString());
+      var value = new types_ethereum_base_pb.Account;
+      reader.readMessage(value,types_ethereum_base_pb.Account.deserializeBinaryFromReader);
       msg.setContractAddress(value);
       break;
     case 7:
@@ -667,17 +737,19 @@ proto.ethereum.Receipt.prototype.serializeBinary = function() {
 proto.ethereum.Receipt.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getTxHash();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f != null) {
+    writer.writeMessage(
       1,
-      f
+      f,
+      types_ethereum_base_pb.Hash.serializeBinaryToWriter
     );
   }
   f = message.getBlockHash();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f != null) {
+    writer.writeMessage(
       2,
-      f
+      f,
+      types_ethereum_base_pb.Hash.serializeBinaryToWriter
     );
   }
   f = message.getBlockNumber();
@@ -695,10 +767,11 @@ proto.ethereum.Receipt.serializeBinaryToWriter = function(message, writer) {
     );
   }
   f = message.getContractAddress();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f != null) {
+    writer.writeMessage(
       6,
-      f
+      f,
+      types_ethereum_base_pb.Account.serializeBinaryToWriter
     );
   }
   f = message.getPostState_asU8();
@@ -748,32 +821,68 @@ proto.ethereum.Receipt.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional string tx_hash = 1;
- * @return {string}
+ * optional Hash tx_hash = 1;
+ * @return {?proto.ethereum.Hash}
  */
 proto.ethereum.Receipt.prototype.getTxHash = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+  return /** @type{?proto.ethereum.Hash} */ (
+    jspb.Message.getWrapperField(this, types_ethereum_base_pb.Hash, 1));
 };
 
 
-/** @param {string} value */
+/** @param {?proto.ethereum.Hash|undefined} value */
 proto.ethereum.Receipt.prototype.setTxHash = function(value) {
-  jspb.Message.setProto3StringField(this, 1, value);
+  jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
- * optional string block_hash = 2;
- * @return {string}
+ * Clears the message field making it undefined.
  */
-proto.ethereum.Receipt.prototype.getBlockHash = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+proto.ethereum.Receipt.prototype.clearTxHash = function() {
+  this.setTxHash(undefined);
 };
 
 
-/** @param {string} value */
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.ethereum.Receipt.prototype.hasTxHash = function() {
+  return jspb.Message.getField(this, 1) != null;
+};
+
+
+/**
+ * optional Hash block_hash = 2;
+ * @return {?proto.ethereum.Hash}
+ */
+proto.ethereum.Receipt.prototype.getBlockHash = function() {
+  return /** @type{?proto.ethereum.Hash} */ (
+    jspb.Message.getWrapperField(this, types_ethereum_base_pb.Hash, 2));
+};
+
+
+/** @param {?proto.ethereum.Hash|undefined} value */
 proto.ethereum.Receipt.prototype.setBlockHash = function(value) {
-  jspb.Message.setProto3StringField(this, 2, value);
+  jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ */
+proto.ethereum.Receipt.prototype.clearBlockHash = function() {
+  this.setBlockHash(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.ethereum.Receipt.prototype.hasBlockHash = function() {
+  return jspb.Message.getField(this, 2) != null;
 };
 
 
@@ -808,17 +917,35 @@ proto.ethereum.Receipt.prototype.setTxIndex = function(value) {
 
 
 /**
- * optional string contract_address = 6;
- * @return {string}
+ * optional Account contract_address = 6;
+ * @return {?proto.ethereum.Account}
  */
 proto.ethereum.Receipt.prototype.getContractAddress = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+  return /** @type{?proto.ethereum.Account} */ (
+    jspb.Message.getWrapperField(this, types_ethereum_base_pb.Account, 6));
 };
 
 
-/** @param {string} value */
+/** @param {?proto.ethereum.Account|undefined} value */
 proto.ethereum.Receipt.prototype.setContractAddress = function(value) {
-  jspb.Message.setProto3StringField(this, 6, value);
+  jspb.Message.setWrapperField(this, 6, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ */
+proto.ethereum.Receipt.prototype.clearContractAddress = function() {
+  this.setContractAddress(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.ethereum.Receipt.prototype.hasContractAddress = function() {
+  return jspb.Message.getField(this, 6) != null;
 };
 
 

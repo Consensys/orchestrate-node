@@ -60,7 +60,7 @@ try {
     // Create a producer that will send a transaction to CoreStack (by default, the message is sent to the topic "topic-tx-crafter", see broker.producer doc to pass options) 
     const producer = await broker.producer()
     const tx = await producer.send({
-        chainId: '888', //required
+        chainId: '888',
         call: {
             contract: 'SimpleToken',
             method: 'constructor()',
@@ -244,23 +244,19 @@ const tx = await producer.send(object)
 ```
 
 ##### Producer payload
-* `chainId` : string/number or object:
-    * `string/number`: the chain id to send the transaction - ex: '3'
-    * `object`:
-        * `id`: string/number - the chain id to send the transaction - ex: '3'
-        * `iseip155`: bool - Indicate if chain implements EIP155 - ex: true
-* `to` : string - address to send the transaction - ex: '0x8f371DAA8A5325f53b754A7017Ac3803382bc847'
-* `value` : string/number - value to transfer - ex: 10000
-* `from` : string or object:
-    * `string`: the public address that will sign the transaction - ex: '0xd71400daD07d70C976D6AAFC241aF1EA183a7236'
-    * `object`:
-        * `id`: string - identifier in the account registry of CoreStack - ex: 'myCompany'
-        * `addr`: string - the public address that will sign the transaction - ex: '0xd71400daD07d70C976D6AAFC241aF1EA183a7236'
+* `chainId` : string|hex|number - the chain id to send the transaction - ex: '3'
+* `to` : hex - address to send the transaction - ex: '0x8f371DAA8A5325f53b754A7017Ac3803382bc847'
+* `protocol` : object:
+  * `name`: string - name of the protocol (e.g. `pantheon`, `quorum`, etc.)
+  * `tag`: string - version tag of the protocol
+  * `extra`: object - extra information (optional)
+* `value` : string|hex|number - value to transfer - ex: 10000
+* `from` : hex - the public address that will sign the transaction - ex: '0xd71400daD07d70C976D6AAFC241aF1EA183a7236'
 * `call` : object:
     * `contract`: string or object:
-        * `string`: Name of the contract stored in the ABI registry - ex: 'ERC20'
+        * `string`: Name of the contract stored in the Contract registry - ex: 'SimpleToken'
         * `object`:
-            * `name`: string - Name of the contract stored in the ABI registry - ex: 'ERC20'
+            * `name`: string - Name of the contract stored in the ABI registry - ex: 'SimpleToken'
             * `tag`: string - tag version to query in the ABI registry - ex: 'v0.2.0'
             * `abi`: object/json - Abi in json format to call - ex: '[{
                 constant: false,
@@ -276,9 +272,9 @@ const tx = await producer.send(object)
             }]'
             * `bytecode`: string(hex) - contract bytecode - ex: '0x608060405234801561001057600080fd5b5061160a806100206000396000f3006080604052600436106100955763ffffffff60e060020a60003504166316d390bf811461009a5780633c8ac88e146100c357806353faa9a91461015157806373b40a5c14610178578063781f5a83146101e7578063898d5a5b1461020e578063995fac'
     * `method`: string or object:
-        * `string`: Name of the method referenced in the ABI registry - ex: 'transfer(address,uint256)' or 'constructor()'
+        * `string`: Signature of the method referenced in the ABI registry - ex: 'transfer(address,uint256)' or 'constructor()'
         * `object`:
-            * `signature`: string - Signature of the method referenced in the ABI registry - ex: 'transfer(address,uint256)' or 'constructor()'
+            * `signature`: string - Signature of the method referenced in the ABI registry - ex: 'transfer(address,uint256)' or 'constructor()'. Please note that the number of arguments should match with 'call.args'
             * `abi`: object/json - Method ABI in json format to call - ex: '{
                 constant: false,
                 inputs: [
@@ -291,7 +287,14 @@ const tx = await producer.send(object)
                 stateMutability: 'nonpayable',
                 type: 'function'
             }'
-    * `args`: array[string] - list of arguments to call the method - ex: '['arg1', 'arg2', 'arg3']'
+    * `args`: array[string|hex|number|bool|array] - list of arguments to call the method - ex: '['arg1', 'arg2', 'arg3']'
+      * Possible args:
+        * bool: true|false
+        * uint/int: string number|hex|number
+        * address: hex
+        * bytes: hex
+        * string: string
+        * array: array[bool|uint/int|address|bytes]
 * `privateFrom` : string - when sending a private transaction, the sending party's base64-encoded public key to use. If not present and passing private_for, use the default key as configured in Quorum TransactionManager - ex: 'ROAZBWtSacxXQrOe3FGAqJDyJjFePR5ce4TSIzmJ0Bc='
 * `privateFor` : array[string] - when sending a private transaction, an array of the recipients' base64-encoded public keys - ex: '['ROAZBWtSacxXQrOe3FGAqJDyJjFePR5ce4TSIzmJ0Bc']='
 * `metadata` : string or object:
@@ -335,9 +338,9 @@ The message consume CoreStack `Trace` corresponding to one transaction with the 
 * `topic`: Topic name of the message
 * `value`: Envelope containing the data related to the transaction and its receipt:
   * `chain`: object
-  * `sender`: object
-  * `receiver`: object
-  * `call`: object
+  * `protocol`: object
+  * `from`: string
+  * `args`: object
   * `tx`: object
   * `receipt`: object:
       * `txHash`

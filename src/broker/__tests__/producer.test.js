@@ -5,7 +5,7 @@ import kafka from 'kafka-node'
 const mockProducer = ready => jest.fn(() => ({
     ready,
     send: jest.fn((payload, cb) => {
-        if(payload[0].key != '3-testFrom') {
+        if(payload[0].key != '3-0xaf84242d70ae9d268e2be3616ed497ba28a7b62c') {
             cb('error')
         } else {
             cb('', {[payload[0].topic]: {'0': 100}})
@@ -48,11 +48,6 @@ describe("# CoreStackProducer ", () => {
 
       describe("connect an unready producer", () => {
 
-        beforeEach(() => {
-          kafka.Producer = mockProducer(false);
-          CSProducer = new CoreStackProducer('', topic)
-        })
-
         describe("when there is no error", () => {
 
           test("Resolves the CSProducer", async () => {
@@ -61,23 +56,21 @@ describe("# CoreStackProducer ", () => {
           })
         })
 
-        describe("when there is an error", () => {
-
-        })
       })
     })
 
     test('marshall', async () => {
         const testMsg = {
             chainId: '3',
-            to: 'testTo',
-            value: 'testValue',
-            gas: '100000',
-            gasPrice: 'testGasPrice',
-            from: 'testFrom',
+            to: '0xc1912fee45d61c87cc5ea59dae31190fffff232d',
+            value: '20000000000',
+            gas: '1000000000',
+            gasPrice: '200000',
+            hash: '0x000000000000000000000000b5747835141b46f7c472393b31f8f5a57f74a44f',
+            from: '0xaf84242d70ae9d268e2be3616ed497ba28a7b62c',
             call: {
                 contract: 'testContract',
-                method: 'testMethod',
+                method: 'testMethod(string,string)',
                 args: ['arg1', 'arg2'],
             },
             metadata: {
@@ -85,30 +78,34 @@ describe("# CoreStackProducer ", () => {
             }
         }
         const bin = CSProducer.marshall(testMsg)
-        const unmarshallT = unmarshallEnvelope(bin)
+        const unmarshallT = 
+        unmarshallEnvelope(bin)
         const expected = {
-            chain: { id: '3', iseip155: false },
-            sender: { id: '', addr: 'testFrom' },
-            receiver: undefined,
-            call: {
-                contract: { name: 'testContract', tag: '', abi: '', bytecode: '', deployedbytecode: '', registry: '' },
-                method: { signature: 'testMethod', abi: '' },
-                argsList: [ 'arg1', 'arg2' ]
-            },
+            chain: { id: '3' },
+            protocol: undefined,
+            from: '0xaf84242d70ae9d268e2be3616ed497ba28a7b62c',
             tx: {
                 txData: {
                     nonce: 0,
-                    to: 'testTo',
-                    value: 'testValue',
-                    gas: 100000,
-                    gasPrice: 'testGasPrice',
-                    data: ''
+                    to: '0xc1912fee45d61c87cc5ea59dae31190fffff232d',
+                    value: '20000000000',
+                    gas: 1000000000,
+                    gasPrice: '200000',
+                    data: undefined
                 },
-                raw: '',
-                hash: ''
+                raw: undefined,
+                hash: '0x000000000000000000000000b5747835141b46f7c472393b31f8f5a57f74a44f'
             },
             receipt: undefined,
             errorsList: [],
+            args: {
+                call: {
+                    contract: { id: { name: 'testContract', registry: '', tag: ''}, abi: '', bytecode: '', deployedbytecode: '', eventsList: [], methodsList: [] },
+                    method: { signature: 'testMethod(string,string)', abi: '' },
+                    argsList: ['arg1', 'arg2']
+                },
+                pb_private: undefined
+            },
             metadata: { id: 'testMetadata', extraMap: {} }
         }
         expect(unmarshallT).toEqual(expected)
@@ -117,14 +114,14 @@ describe("# CoreStackProducer ", () => {
     test('send without error', async () => {
         const testMsg = {
             chainId: '3',
-            to: 'testTo',
-            value: 'testValue',
+            to: '0xc1912fee45d61c87cc5ea59dae31190fffff232d',
+            value: '100000000',
             gas: '100000',
-            gasPrice: 'testGasPrice',
-            from: 'testFrom',
+            gasPrice: '200000',
+            from: '0xaf84242d70ae9d268e2be3616ed497ba28a7b62c',
             call: {
                 contract: 'testContract',
-                method: 'testMethod',
+                method: 'testMethod(string,string)',
                 args: ['arg1', 'arg2'],
 
             },
@@ -140,14 +137,14 @@ describe("# CoreStackProducer ", () => {
     test('send without metadata', async () => {
         const testMsg = {
             chainId: '3',
-            to: 'testTo',
-            value: 'testValue',
+            to: '0xc1912fee45d61c87cc5ea59dae31190fffff232d',
+            value: '100000000',
             gas: '100000',
-            gasPrice: 'testGasPrice',
-            from: 'testFrom',
+            gasPrice: '200000',
+            from: '0xaf84242d70ae9d268e2be3616ed497ba28a7b62c',
             call: {
                 contract: 'testContract',
-                method: 'testMethod',
+                method: 'testMethod(string,string)',
                 args: ['arg1', 'arg2'],
             },
         }
@@ -158,14 +155,14 @@ describe("# CoreStackProducer ", () => {
     test('send without metadata id', async () => {
         const testMsg = {
             chainId: '3',
-            to: 'testTo',
-            value: 'testValue',
+            to: '0xc1912fee45d61c87cc5ea59dae31190fffff232d',
+            value: '100000000',
             gas: '100000',
-            gasPrice: 'testGasPrice',
-            from: 'testFrom',
+            gasPrice: '200000',
+            from: '0xaf84242d70ae9d268e2be3616ed497ba28a7b62c',
             call: {
                 contract: 'testContract',
-                method: 'testMethod',
+                method: 'testMethod(string,string)',
                 args: ['arg1', 'arg2'],
             },
             metadata: {
@@ -182,14 +179,14 @@ describe("# CoreStackProducer ", () => {
     test('send without metadata object', async () => {
         const testMsg = {
             chainId: '3',
-            to: 'testTo',
-            value: 'testValue',
+            to: '0xc1912fee45d61c87cc5ea59dae31190fffff232d',
+            value: '100000000',
             gas: '100000',
-            gasPrice: 'testGasPrice',
-            from: 'testFrom',
+            gasPrice: '200000',
+            from: '0xaf84242d70ae9d268e2be3616ed497ba28a7b62c',
             call: {
                 contract: 'testContract',
-                method: 'testMethod',
+                method: 'testMethod(string,string)',
                 args: ['arg1', 'arg2'],
             },
             metadata: 'testMetadata'
@@ -201,14 +198,14 @@ describe("# CoreStackProducer ", () => {
     test('send with error', async () => {
         const testMsg = {
             chainId: '3',
-            to: 'testTo',
-            value: 'testValue',
+            to: '0xc1912fee45d61c87cc5ea59dae31190fffff232d',
+            value: '100000000',
             gas: '100000',
-            gasPrice: 'testGasPrice',
+            gasPrice: '200000',
             from: 'testFromError',
             call: {
                 contract: 'testContract',
-                method: 'testMethod',
+                method: 'testMethod(string,string)',
                 args: ['arg1', 'arg2'],
 
             },
@@ -217,7 +214,7 @@ describe("# CoreStackProducer ", () => {
         try {
             await CSProducer.send(testMsg)
         } catch(e) {
-            expect(e.message).toEqual('Producer: could not send message')
+            expect(e.message).toEqual('marshallAccount: testFromError is not a valid address')
 
         }
     })

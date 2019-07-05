@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+  protoc:
+    build:
+      context: .
+      args:
+        PROTOC_TAG: '3.8.0'
+    command: sh scripts/generate-proto.sh
+    volumes:
+      - ../:/src
+

@@ -1,11 +1,10 @@
 syntax = "proto3";
 
 import "types/abi/abi.proto";
-import "types/quorum/quorum.proto";
 
-option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/pkg.git/types/common";
+option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/pkg.git/types/args";
 
-package common;
+package args;
 
 // Call contains information for a contract call
 message Call {
@@ -13,11 +12,8 @@ message Call {
     abi.Contract contract = 1;
 
     // Method to call
-    abi.Method method = 2; 
+    abi.Method method = 2;
 
     // Arguments to feed on transaction call
     repeated string args = 3;
-
-    // If Quorum private for transaction
-    quorum.Quorum quorum = 4;
 }

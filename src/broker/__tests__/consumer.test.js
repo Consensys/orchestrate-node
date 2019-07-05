@@ -5,14 +5,14 @@ jest.mock('events')
 
 const testMsg = {
     chainId: '3',
-    to: 'testTo',
-    value: 'testValue',
-    gas: '100000',
-    gasPrice: 'testGasPrice',
-    from: 'testFrom',
+    to: '0xc1912fee45d61c87cc5ea59dae31190fffff232d',
+    value: '1000000',
+    gas: 100000,
+    gasPrice: '1000000',
+    from: '0xaf84242d70ae9d268e2be3616ed497ba28a7b62c',
     call: {
         contract: 'testContract',
-        method: 'testMethod',
+        method: 'testMethod(string,string)',
         args: ['arg1', 'arg2'],
     },
     metadata: {

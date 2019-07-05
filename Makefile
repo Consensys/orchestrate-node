@@ -4,10 +4,10 @@
 PROTO_REPO=pkg
 PROTO_DIR=types
 GITLAB_PATH=ConsenSys/client/fr/core-stack
-PROTO_TAG=v0.5.6
+PROTO_TAG=v0.6.1
 
 protobuf: ## Generate protobuf stubs
-	@sh scripts/generate-proto.sh
+	@docker-compose -f scripts/docker-compose.yml up
 
 import-proto:
 	rm -rf $(PROTO_REPO) $(PROTO_DIR);
