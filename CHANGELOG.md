@@ -1,5 +1,12 @@
 # CHANGELOG
 
+### Version 0.3.0
+
+*Released on July 5th 2019*
+
+- [FEAT]: Update `pkg` to v0.6.1
+- [FEAT]: Check signature, input arguments, arguments
+  
 ### Version 0.2.1
 
 *Released on June 28th 2019*
