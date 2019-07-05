@@ -14,21 +14,27 @@ export const marshallContract = (proto, msg) => {
     }
     switch (typeof msg) {
         case 'string':
-            contract.setName(msg)
+            marshallContractId(contract, msg)
             break;
         case 'object':
             Object.entries(msg).forEach(([key, value]) => {
                 switch(key) {
+                    case 'registry':
                     case 'name':
                     case 'tag':
-                        contract[`set${capitalize(key)}`](value)
+                        marshallContractId(contract, {[key]: value})
                         break;
                     case 'abi':
                         const abi = Buffer.from(JSON.stringify(value))
                         contract.setAbi(abi)
                         break;
                     case 'bytecode':
-                        contract.setBytecode(Buffer.from(value.substr(2), 'hex'))
+                    case 'deployedBytecode':
+                        contract[`set${capitalize(key)}`](Buffer.from(value.substr(2), 'hex'))
+                        break;
+                    case 'methods':
+                    case 'events':
+                        contract[`set${capitalize(key)}List`](value)
                         break;
                     default:
                         throw new Error('Contract message not valid')
@@ -37,6 +43,32 @@ export const marshallContract = (proto, msg) => {
             break;
     }
     proto.setContract(contract)
+}
+
+export const marshallContractId = (proto, msg) => {
+    let contractId = proto.getId()
+    if (!contractId) {
+        contractId = new abi_pb.ContractId()
+    }
+    switch (typeof msg) {
+        case 'string':
+            contractId.setName(msg)
+            break;
+        case 'object':
+            Object.entries(msg).forEach(([key, value]) => {
+                switch(key) {
+                    case 'registry':
+                    case 'name':
+                    case 'tag':
+                        contractId[`set${capitalize(key)}`](value)
+                        break;
+                    default:
+                        throw new Error('ContractId message not valid')
+                }
+            })
+            break;
+    }
+    proto.setId(contractId)
 }
 
 /**

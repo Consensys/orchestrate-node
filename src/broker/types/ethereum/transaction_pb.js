@@ -11,6 +11,8 @@ var jspb = require('google-protobuf');
 var goog = jspb;
 var global = Function('return this')();
 
+var types_ethereum_base_pb = require('../../types/ethereum/base_pb.js');
+goog.object.extend(proto, types_ethereum_base_pb);
 goog.exportSymbol('proto.ethereum.Transaction', null, global);
 goog.exportSymbol('proto.ethereum.TxData', null, global);
 /**
@@ -88,11 +90,11 @@ proto.ethereum.TxData.prototype.toObject = function(opt_includeInstance) {
 proto.ethereum.TxData.toObject = function(includeInstance, msg) {
   var f, obj = {
     nonce: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    to: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    value: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    to: (f = msg.getTo()) && types_ethereum_base_pb.Account.toObject(includeInstance, f),
+    value: (f = msg.getValue()) && types_ethereum_base_pb.Quantity.toObject(includeInstance, f),
     gas: jspb.Message.getFieldWithDefault(msg, 4, 0),
-    gasPrice: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    data: jspb.Message.getFieldWithDefault(msg, 6, "")
+    gasPrice: (f = msg.getGasPrice()) && types_ethereum_base_pb.Quantity.toObject(includeInstance, f),
+    data: (f = msg.getData()) && types_ethereum_base_pb.Data.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -134,11 +136,13 @@ proto.ethereum.TxData.deserializeBinaryFromReader = function(msg, reader) {
       msg.setNonce(value);
       break;
     case 2:
-      var value = /** @type {string} */ (reader.readString());
+      var value = new types_ethereum_base_pb.Account;
+      reader.readMessage(value,types_ethereum_base_pb.Account.deserializeBinaryFromReader);
       msg.setTo(value);
       break;
     case 3:
-      var value = /** @type {string} */ (reader.readString());
+      var value = new types_ethereum_base_pb.Quantity;
+      reader.readMessage(value,types_ethereum_base_pb.Quantity.deserializeBinaryFromReader);
       msg.setValue(value);
       break;
     case 4:
@@ -146,11 +150,13 @@ proto.ethereum.TxData.deserializeBinaryFromReader = function(msg, reader) {
       msg.setGas(value);
       break;
     case 5:
-      var value = /** @type {string} */ (reader.readString());
+      var value = new types_ethereum_base_pb.Quantity;
+      reader.readMessage(value,types_ethereum_base_pb.Quantity.deserializeBinaryFromReader);
       msg.setGasPrice(value);
       break;
     case 6:
-      var value = /** @type {string} */ (reader.readString());
+      var value = new types_ethereum_base_pb.Data;
+      reader.readMessage(value,types_ethereum_base_pb.Data.deserializeBinaryFromReader);
       msg.setData(value);
       break;
     default:
@@ -190,17 +196,19 @@ proto.ethereum.TxData.serializeBinaryToWriter = function(message, writer) {
     );
   }
   f = message.getTo();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f != null) {
+    writer.writeMessage(
       2,
-      f
+      f,
+      types_ethereum_base_pb.Account.serializeBinaryToWriter
     );
   }
   f = message.getValue();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f != null) {
+    writer.writeMessage(
       3,
-      f
+      f,
+      types_ethereum_base_pb.Quantity.serializeBinaryToWriter
     );
   }
   f = message.getGas();
@@ -211,17 +219,19 @@ proto.ethereum.TxData.serializeBinaryToWriter = function(message, writer) {
     );
   }
   f = message.getGasPrice();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f != null) {
+    writer.writeMessage(
       5,
-      f
+      f,
+      types_ethereum_base_pb.Quantity.serializeBinaryToWriter
     );
   }
   f = message.getData();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f != null) {
+    writer.writeMessage(
       6,
-      f
+      f,
+      types_ethereum_base_pb.Data.serializeBinaryToWriter
     );
   }
 };
@@ -243,32 +253,68 @@ proto.ethereum.TxData.prototype.setNonce = function(value) {
 
 
 /**
- * optional string to = 2;
- * @return {string}
+ * optional Account to = 2;
+ * @return {?proto.ethereum.Account}
  */
 proto.ethereum.TxData.prototype.getTo = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+  return /** @type{?proto.ethereum.Account} */ (
+    jspb.Message.getWrapperField(this, types_ethereum_base_pb.Account, 2));
 };
 
 
-/** @param {string} value */
+/** @param {?proto.ethereum.Account|undefined} value */
 proto.ethereum.TxData.prototype.setTo = function(value) {
-  jspb.Message.setProto3StringField(this, 2, value);
+  jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
- * optional string value = 3;
- * @return {string}
+ * Clears the message field making it undefined.
  */
-proto.ethereum.TxData.prototype.getValue = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+proto.ethereum.TxData.prototype.clearTo = function() {
+  this.setTo(undefined);
 };
 
 
-/** @param {string} value */
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.ethereum.TxData.prototype.hasTo = function() {
+  return jspb.Message.getField(this, 2) != null;
+};
+
+
+/**
+ * optional Quantity value = 3;
+ * @return {?proto.ethereum.Quantity}
+ */
+proto.ethereum.TxData.prototype.getValue = function() {
+  return /** @type{?proto.ethereum.Quantity} */ (
+    jspb.Message.getWrapperField(this, types_ethereum_base_pb.Quantity, 3));
+};
+
+
+/** @param {?proto.ethereum.Quantity|undefined} value */
 proto.ethereum.TxData.prototype.setValue = function(value) {
-  jspb.Message.setProto3StringField(this, 3, value);
+  jspb.Message.setWrapperField(this, 3, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ */
+proto.ethereum.TxData.prototype.clearValue = function() {
+  this.setValue(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.ethereum.TxData.prototype.hasValue = function() {
+  return jspb.Message.getField(this, 3) != null;
 };
 
 
@@ -288,32 +334,68 @@ proto.ethereum.TxData.prototype.setGas = function(value) {
 
 
 /**
- * optional string gas_price = 5;
- * @return {string}
+ * optional Quantity gas_price = 5;
+ * @return {?proto.ethereum.Quantity}
  */
 proto.ethereum.TxData.prototype.getGasPrice = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
+  return /** @type{?proto.ethereum.Quantity} */ (
+    jspb.Message.getWrapperField(this, types_ethereum_base_pb.Quantity, 5));
 };
 
 
-/** @param {string} value */
+/** @param {?proto.ethereum.Quantity|undefined} value */
 proto.ethereum.TxData.prototype.setGasPrice = function(value) {
-  jspb.Message.setProto3StringField(this, 5, value);
+  jspb.Message.setWrapperField(this, 5, value);
 };
 
 
 /**
- * optional string data = 6;
- * @return {string}
+ * Clears the message field making it undefined.
  */
-proto.ethereum.TxData.prototype.getData = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+proto.ethereum.TxData.prototype.clearGasPrice = function() {
+  this.setGasPrice(undefined);
 };
 
 
-/** @param {string} value */
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.ethereum.TxData.prototype.hasGasPrice = function() {
+  return jspb.Message.getField(this, 5) != null;
+};
+
+
+/**
+ * optional Data data = 6;
+ * @return {?proto.ethereum.Data}
+ */
+proto.ethereum.TxData.prototype.getData = function() {
+  return /** @type{?proto.ethereum.Data} */ (
+    jspb.Message.getWrapperField(this, types_ethereum_base_pb.Data, 6));
+};
+
+
+/** @param {?proto.ethereum.Data|undefined} value */
 proto.ethereum.TxData.prototype.setData = function(value) {
-  jspb.Message.setProto3StringField(this, 6, value);
+  jspb.Message.setWrapperField(this, 6, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ */
+proto.ethereum.TxData.prototype.clearData = function() {
+  this.setData(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.ethereum.TxData.prototype.hasData = function() {
+  return jspb.Message.getField(this, 6) != null;
 };
 
 
@@ -350,8 +432,8 @@ proto.ethereum.Transaction.prototype.toObject = function(opt_includeInstance) {
 proto.ethereum.Transaction.toObject = function(includeInstance, msg) {
   var f, obj = {
     txData: (f = msg.getTxData()) && proto.ethereum.TxData.toObject(includeInstance, f),
-    raw: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    hash: jspb.Message.getFieldWithDefault(msg, 3, "")
+    raw: (f = msg.getRaw()) && types_ethereum_base_pb.Data.toObject(includeInstance, f),
+    hash: (f = msg.getHash()) && types_ethereum_base_pb.Hash.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -394,11 +476,13 @@ proto.ethereum.Transaction.deserializeBinaryFromReader = function(msg, reader) {
       msg.setTxData(value);
       break;
     case 2:
-      var value = /** @type {string} */ (reader.readString());
+      var value = new types_ethereum_base_pb.Data;
+      reader.readMessage(value,types_ethereum_base_pb.Data.deserializeBinaryFromReader);
       msg.setRaw(value);
       break;
     case 3:
-      var value = /** @type {string} */ (reader.readString());
+      var value = new types_ethereum_base_pb.Hash;
+      reader.readMessage(value,types_ethereum_base_pb.Hash.deserializeBinaryFromReader);
       msg.setHash(value);
       break;
     default:
@@ -439,17 +523,19 @@ proto.ethereum.Transaction.serializeBinaryToWriter = function(message, writer) {
     );
   }
   f = message.getRaw();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f != null) {
+    writer.writeMessage(
       2,
-      f
+      f,
+      types_ethereum_base_pb.Data.serializeBinaryToWriter
     );
   }
   f = message.getHash();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f != null) {
+    writer.writeMessage(
       3,
-      f
+      f,
+      types_ethereum_base_pb.Hash.serializeBinaryToWriter
     );
   }
 };
@@ -489,32 +575,68 @@ proto.ethereum.Transaction.prototype.hasTxData = function() {
 
 
 /**
- * optional string raw = 2;
- * @return {string}
+ * optional Data raw = 2;
+ * @return {?proto.ethereum.Data}
  */
 proto.ethereum.Transaction.prototype.getRaw = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+  return /** @type{?proto.ethereum.Data} */ (
+    jspb.Message.getWrapperField(this, types_ethereum_base_pb.Data, 2));
 };
 
 
-/** @param {string} value */
+/** @param {?proto.ethereum.Data|undefined} value */
 proto.ethereum.Transaction.prototype.setRaw = function(value) {
-  jspb.Message.setProto3StringField(this, 2, value);
+  jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
- * optional string hash = 3;
- * @return {string}
+ * Clears the message field making it undefined.
  */
-proto.ethereum.Transaction.prototype.getHash = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+proto.ethereum.Transaction.prototype.clearRaw = function() {
+  this.setRaw(undefined);
 };
 
 
-/** @param {string} value */
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.ethereum.Transaction.prototype.hasRaw = function() {
+  return jspb.Message.getField(this, 2) != null;
+};
+
+
+/**
+ * optional Hash hash = 3;
+ * @return {?proto.ethereum.Hash}
+ */
+proto.ethereum.Transaction.prototype.getHash = function() {
+  return /** @type{?proto.ethereum.Hash} */ (
+    jspb.Message.getWrapperField(this, types_ethereum_base_pb.Hash, 3));
+};
+
+
+/** @param {?proto.ethereum.Hash|undefined} value */
 proto.ethereum.Transaction.prototype.setHash = function(value) {
-  jspb.Message.setProto3StringField(this, 3, value);
+  jspb.Message.setWrapperField(this, 3, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ */
+proto.ethereum.Transaction.prototype.clearHash = function() {
+  this.setHash(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.ethereum.Transaction.prototype.hasHash = function() {
+  return jspb.Message.getField(this, 3) != null;
 };
 
 

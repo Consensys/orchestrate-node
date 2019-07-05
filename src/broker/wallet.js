@@ -68,7 +68,7 @@ export class WalletGenerator {
         return
       }
 
-      this.pendingWallets[id].resolve(envelope['sender']['addr'])
+      this.pendingWallets[id].resolve(envelope['from'])
       // We delete the callback in order to avoid memory leaks
       delete this.pendingWallets[id]
 

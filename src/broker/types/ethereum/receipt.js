@@ -1,5 +1,6 @@
 import receipt_pb from './receipt_pb'
-import { capitalize } from '../../utils/formatters';
+import { marshallHash, marshallAccount } from './base'
+import { capitalize, unmarshallRawObj, b64ToHex, rawToHex } from '../../utils/formatters';
 
 /**
  * [marshallReceipt description]
@@ -18,9 +19,13 @@ export const marshallReceipt = (envelope, msg) => {
                 switch(key) {
                     case 'txHash':
                     case 'blockHash':
+                        receipt[`set${capitalize(key)}`](marshallHash(value))
+                        break;
+                    case 'contractAddress':
+                        receipt[`set${capitalize(key)}`](marshallAccount(value))
+                        break;
                     case 'blockNumber':
                     case 'txIndex':
-                    case 'contractAddress':
                     case 'status':
                     case 'gasUsed':
                     case 'cumulativeGasUsed':
@@ -55,24 +60,28 @@ export const marshallReceipt = (envelope, msg) => {
  * @return {[type]}         [description]
  */
 export const marshallLogs = (receipt, msg) => {
-    if(Array.isArray(msg)) {
+    if(typeof msg === 'object') {
         msg.forEach(log => {
             if(typeof log === 'object') {
                 const logpb = new receipt_pb.Log()
                 Object.entries(log).forEach(([key, value]) => {
                     switch(key) {
                         case 'address':
+                            logpb[`set${capitalize(key)}`](marshallAccount(value))
+                            break;
+                        case 'txHash':
+                        case 'blockHash':
+                            logpb[`set${capitalize(key)}`](marshallHash(value))
+                            break;
                         case 'event':
                         case 'blockNumber':
-                        case 'txHash':
                         case 'txIndex':
-                        case 'blockHash':
                         case 'index':
                         case 'removed':
                             logpb[`set${capitalize(key)}`](value)
                             break;
                         case 'topics':
-                            logpb.setTopicsList(value)
+                            marshallTopics(logpb, value)
                             break;
                         case 'data':
                             logpb.setData(Buffer.from(value.substr(2), "hex"))
@@ -96,4 +105,40 @@ export const marshallLogs = (receipt, msg) => {
         throw new Error('Logs message not valid')
     }
 
+}
+
+export const marshallTopics = (logpb, msg) => {
+    if(Array.isArray(msg)) {
+        msg.forEach(topic => {
+            logpb.addTopics(marshallHash(topic))
+        })
+    }
+}
+
+
+export const unmarshallRawReceipt = receipt => {
+    const format = ['txHash', 'blockHash', 'contractAddress']
+    unmarshallRawObj(receipt, format)
+
+    if (receipt['logsList']) {
+        receipt['logsList'] = receipt['logsList'].map(log => unmarshallRawLog(log)) 
+    }
+    if (receipt['bloom']) {
+        receipt['bloom'] = b64ToHex(receipt['bloom'])
+    }
+    return receipt
+}
+
+export const unmarshallRawLog = log => {
+    const format = ['address', 'blockHash', 'txHash']
+    unmarshallRawObj(log, format)
+
+    if (log['data']) {
+        log['data'] = b64ToHex(log['data'])
+    }
+
+    if (log['topicsList']) {
+        log['topicsList'] = log['topicsList'].map(topic => rawToHex(topic)) 
+    }
+    return log
 }

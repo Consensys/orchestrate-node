@@ -1,9 +1,12 @@
 import envelope_pb from './envelope_pb'
-import { marshallChain } from '../common/chain'
-import { marshallTransaction } from '../ethereum/transaction'
-import { marshallSender } from '../common/account'
-import { marshallCall } from '../common/call'
-import { mapToObject } from '../../utils/formatters'
+import { marshallChain, unmarshallChain } from '../chain/chain'
+import { marshallProtocol } from '../chain/protocol'
+import { marshallTransaction, unmarshallRawTx } from '../ethereum/transaction'
+import { marshallAccount } from '../ethereum/base'
+import { marshallCall } from '../args/call'
+import { marshallPrivate } from '../args/private'
+import { mapToObject, rawToHex } from '../../utils/formatters'
+import { unmarshallRawReceipt } from '../ethereum/receipt'
 
 /**
  * [marshallEnvelope description]
@@ -17,7 +20,10 @@ export const marshallEnvelope = msg => {
             Object.entries(msg).forEach(([key, value]) => {
                 switch(key) {
                     case 'chainId':
-                        marshallChain(envelope, value)
+                        envelope.setChain(marshallChain(value))
+                        break;
+                    case 'protocol':
+                        marshallProtocol(envelope, value)
                         break;
                     case 'to':
                     case 'value':
@@ -29,14 +35,15 @@ export const marshallEnvelope = msg => {
                         marshallTransaction(envelope, {[key]: value})
                         break;
                     case 'from':
-                        marshallSender(envelope, value)
+                        envelope.setFrom(marshallAccount(value))
                         break;
                     case 'call':
-                        marshallCall(envelope, value)
+                        marshallArgs(envelope, {call: value})
                         break;
                     case 'privateFrom':
                     case 'privateFor':
-                        marshallCall(envelope, {quorum: {[key]: value}})
+                    case 'privateTxTtype':
+                        marshallArgs(envelope, {private: {[key]: value}})
                         break;
                     case 'metadata':
                         marshallMetadata(envelope, value)
@@ -50,6 +57,32 @@ export const marshallEnvelope = msg => {
             throw new Error('Envelope message not in a valid format')
     }
     return envelope
+}
+
+export const marshallArgs = (envelope, msg) => {
+    let args = envelope.getArgs()
+    if (!args) {
+        args = new envelope_pb.Args()
+    }
+    switch (typeof msg) {
+    case 'object':
+        Object.entries(msg).forEach(([key, value]) => {
+        switch(key) {
+            case 'call':
+                marshallCall(args, value)
+                break;
+            case 'private':
+                marshallPrivate(args, value)
+                break;
+            default:
+                throw new Error('Args message not in a valid format')
+            }
+        })
+        break;
+    default:
+        throw new Error('Args message not in a valid format')
+    }
+    envelope.setArgs(args)
 }
 
 /**
@@ -100,5 +133,11 @@ export const marshallMetadata = (envelope, msg) => {
 export const unmarshallEnvelope = msg => {
     const envelope = envelope_pb.Envelope.deserializeBinary(msg)
     const objEnvelope = envelope.toObject()
+
+    if(objEnvelope['from']) { objEnvelope['from'] = rawToHex(objEnvelope['from']) }
+    if(objEnvelope['chain']) { objEnvelope['chain'] = unmarshallChain(objEnvelope['chain']) }
+    if(objEnvelope['receipt']) { objEnvelope['receipt'] = unmarshallRawReceipt(objEnvelope['receipt']) }
+    if(objEnvelope['tx']) { objEnvelope['tx'] = unmarshallRawTx(objEnvelope['tx']) }
+
     return mapToObject(objEnvelope)
 }

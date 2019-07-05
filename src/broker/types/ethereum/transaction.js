@@ -1,5 +1,6 @@
 import tx_pb from './transaction_pb'
-import { capitalize } from '../../utils/formatters'
+import { capitalize, unmarshallRawObj } from '../../utils/formatters'
+import { marshallData, marshallHash, marshallAccount, marshallQuantity, unmarshallQuantity } from './base'
 
 /**
  * [marshallTransaction description]
@@ -24,10 +25,10 @@ export const marshallTransaction = (envelope, msg) => {
                         marshallTransactionField(key)(tx, value)
                         break;
                     case 'raw':
-                        marshallRaw(tx, value)
+                        tx.setRaw(marshallData(value))
                         break;
                     case 'hash':
-                        marshallHash(tx, value)
+                        tx.setHash(marshallHash(value))
                         break;
                     default:
                         throw new Error(`Tx message do not expect a "${key}" field`)
@@ -45,14 +46,42 @@ const marshallTransactionField = key => (transaction, msg) => {
   if (!txData) {
       txData = new tx_pb.TxData()
   }
-  txData[`set${capitalize(key)}`](msg)
+  switch(key) {
+    case 'gas':
+    case 'nonce':
+        txData[`set${capitalize(key)}`](msg)
+        break;
+    case 'to':
+        txData[`set${capitalize(key)}`](marshallAccount(msg))
+        break;
+    case 'value':
+    case 'gasPrice':
+        txData[`set${capitalize(key)}`](marshallQuantity(msg))
+        break;
+    case 'data':
+        txData[`set${capitalize(key)}`](marshallData(msg))
+        break;
+    default:
+        throw new Error(`Tx message do not expect a "${key}" field`)
+    }
   transaction.setTxData(txData)
 }
 
-const marshallRaw = (transaction, msg) => {
-    transaction.setRaw(msg)
+export const unmarshallRawTx = tx => {
+    const formatList = ['hash', 'raw']
+    unmarshallRawObj(tx, formatList)
+    if (typeof tx['txData'] === 'object') {
+        tx['txData'] = unmarshallRawTxData(tx['txData'])
+    }
+    return tx
 }
 
-const marshallHash = (transaction, msg) => {
-    transaction.setHash(msg)
+
+export const unmarshallRawTxData = txData => {
+    const formatList = ['data', 'to']
+    unmarshallRawObj(txData, formatList)
+    txData.value = unmarshallQuantity(txData.value)
+    txData.gasPrice = unmarshallQuantity(txData.gasPrice)
+
+    return txData
 }

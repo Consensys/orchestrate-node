@@ -1,5 +1,5 @@
 import { marshallContract, marshallMethod } from '../abi'
-import call_pb from '../../common/call_pb'
+import call_pb from '../../args/call_pb'
 
 let call
 
@@ -18,8 +18,8 @@ describe("# marshallContract ", () => {
         const testMsg = 'testName'
         marshallContract(call, testMsg)
         const contract = call.getContract().toObject()
-        expect(contract.name).toEqual(testMsg)
-        expect(contract.tag).toEqual('')
+        expect(contract.id.name).toEqual(testMsg)
+        expect(contract.id.tag).toEqual('')
         expect(contract.abi).toEqual('')
         expect(contract.bytecode).toEqual('')
     })
@@ -79,8 +79,8 @@ describe("# marshallContract ", () => {
         }
         marshallContract(call, testMsg)
         const contract = call.getContract().toObject()
-        expect(testMsg.name).toEqual(contract.name)
-        expect(testMsg.tag).toEqual(contract.tag)
+        expect(testMsg.name).toEqual(contract.id.name)
+        expect(testMsg.tag).toEqual(contract.id.tag)
         expect(testMsg.abi).toEqual(protoToObject(contract.abi))
         const buf = Buffer.from(contract.bytecode, 'base64') 
         expect(testMsg.bytecode).toEqual('0x' + buf.toString('hex'))
@@ -94,9 +94,8 @@ describe("# marshallContract ", () => {
         let contract = call.getContract().toObject()
         const buf = Buffer.from(contract.bytecode, 'base64') 
         expect('0x' + buf.toString('hex')).toEqual(testMsg.bytecode)
-        expect(contract.tag).toEqual('')
+        expect(contract.id).toBeUndefined()
         expect(contract.abi).toEqual('')
-        expect(contract.registry).toEqual('')
 
         const testMsg2 = {
             tag: 'testTag',
@@ -104,9 +103,9 @@ describe("# marshallContract ", () => {
         marshallContract(call, testMsg2)
         contract = call.getContract().toObject()
         expect('0x' + buf.toString('hex')).toEqual(testMsg.bytecode)
-        expect(contract.tag).toEqual(testMsg2.tag)
+        expect(contract.id.tag).toEqual(testMsg2.tag)
         expect(contract.abi).toEqual('')
-        expect(contract.registry).toEqual('')
+        expect(contract.id.registry).toEqual('')
     })
 })
 

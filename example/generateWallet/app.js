@@ -11,7 +11,7 @@ import CoreStackSDK from '../../src'
 
         // Init class to generate wallets in CoreStack
         const wallet = await broker.wallet()
-
+        
         // Generate wallets and get addresses
         const wallets = await Promise.all([
             wallet.generate(),

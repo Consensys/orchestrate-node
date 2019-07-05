@@ -95,7 +95,6 @@ export class CoreStackConsumer extends Consumer {
  */
 export class CoreStackConsumerGroup extends Consumer {
     
-
     /**
      * [constructor description]
      * @param {kafka.KafkaClient} client       [kafka.KafkaClient instance]
