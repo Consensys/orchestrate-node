@@ -1,5 +1,12 @@
 # CHANGELOG
 
+### Version 0.3.1
+
+*Released on July 11th 2019*
+
+- [FEAT]: Add typescript definitions
+- [FIX]: Clean code and naming
+  
 ### Version 0.3.0
 
 *Released on July 5th 2019*
