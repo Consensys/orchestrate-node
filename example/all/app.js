@@ -1,4 +1,4 @@
-import CoreStackSDK from '../../src'
+import CoreStackSDK from '../../lib'
 
 // Test for generating many wallets
 (async () => {
@@ -12,7 +12,7 @@ import CoreStackSDK from '../../src'
         // Init class to generate wallets, produce, consume in CoreStack
         const producer = await broker.producer()
         const consumer = await broker.consumer()
-        const wallet = await broker.wallet()
+        const walletGenerator = await broker.walletGenerator()
 
         const consume = consumer.consume()
 
@@ -35,13 +35,13 @@ import CoreStackSDK from '../../src'
 
         // Generate wallets and get addresses
         const wallets = await Promise.all([
-            wallet.generate(),
-            wallet.generate(),
-            wallet.generate(),
-            wallet.generate(),
-            wallet.generate(),
-            wallet.generate(),
-            wallet.generate()
+            walletGenerator.generate(),
+            walletGenerator.generate(),
+            walletGenerator.generate(),
+            walletGenerator.generate(),
+            walletGenerator.generate(),
+            walletGenerator.generate(),
+            walletGenerator.generate()
         ])
         console.log(wallets)
     } catch (e) {

@@ -181,17 +181,17 @@ try {
         const broker = CoreStack.broker('localhost:9092')
 
         // Init class to generate wallets in CoreStack
-        const wallet = await broker.wallet()
+        const walletGenerator = await broker.walletGenerator()
 
         // Generate multiple wallets asynchronously and get addresses
         const wallets = await Promise.all([
-            wallet.generate(),
-            wallet.generate(),
-            wallet.generate(),
-            wallet.generate(),
-            wallet.generate(),
-            wallet.generate(),
-            wallet.generate()
+            walletGenerator.generate(),
+            walletGenerator.generate(),
+            walletGenerator.generate(),
+            walletGenerator.generate(),
+            walletGenerator.generate(),
+            walletGenerator.generate(),
+            walletGenerator.generate()
         ])
         console.log('Wallets generated: ' wallets)
         // Wallets generated: [

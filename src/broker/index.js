@@ -99,7 +99,7 @@ export default class CoreStackBroker {
      * @param  {Array} topicOut  [Name of the topic to consume a wallet generated]
      * @return {WalletGenerator} [return a new WalletGenerator instance]
      */
-    wallet = async (topicIn = DefaultTopicWalletGenerator, topicOut = [DefaultTopicWalletGenerated]) => { 
+    walletGenerator = async (topicIn = DefaultTopicWalletGenerator, topicOut = [DefaultTopicWalletGenerated]) => { 
       let producer, consumer
       [producer, consumer] = await Promise.all([this.producer(topicIn), this.consumer(topicOut)])
       return new WalletGenerator(producer, consumer)

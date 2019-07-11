@@ -47,7 +47,7 @@ export class WalletGenerator {
      * @return  {[type]}  [return description]
      */
     listening = () => {
-      this.consumer.consume().on('message', message => this.walletHandler(message))
+      this.consumer.consume().on('message', message => this.generatedWalletHandler(message))
       return
     } 
 
@@ -56,7 +56,7 @@ export class WalletGenerator {
      * @param  {Object} msg   [Kafka node raw message]
      * @return {[type]}       [description]
      */
-    walletHandler = msg => {
+    generatedWalletHandler = msg => {
       const envelope = msg['value']
       
       // if no metadata id exist 

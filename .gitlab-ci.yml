@@ -1,5 +1,6 @@
 stages:
   - test
+  - publish
 
 test-lint:
   stage: test
@@ -10,3 +11,14 @@ test-lint:
   script:
     - npm run lint
     - npm run test:cover
+  except:
+    - tags
+
+npm-publish:
+  stage: publish
+  image: node:10
+  script:
+    - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
+    - npm publish
+  only:
+    - tags

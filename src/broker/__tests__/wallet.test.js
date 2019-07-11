@@ -79,7 +79,7 @@ describe("# CoreStackConsumer", () => {
         CSWallet.listening()
     });
     
-    test('walletHandler', async () => {
+    test('generatedWalletHandler', async () => {
 
         const metadata = 'testMetadata'
         const newWallet = 'testSender'
@@ -98,7 +98,7 @@ describe("# CoreStackConsumer", () => {
                 }
             }
         }
-        CSWallet.walletHandler(kafkaMsg)
+        CSWallet.generatedWalletHandler(kafkaMsg)
     });
 
 })

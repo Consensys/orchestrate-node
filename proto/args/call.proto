@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 import "types/abi/abi.proto";
+import "types/ethereum/base.proto";
 
 option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/pkg.git/types/args";
 

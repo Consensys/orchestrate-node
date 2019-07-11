@@ -42,7 +42,7 @@ export const marshallEnvelope = msg => {
                         break;
                     case 'privateFrom':
                     case 'privateFor':
-                    case 'privateTxTtype':
+                    case 'privateTxType':
                         marshallArgs(envelope, {private: {[key]: value}})
                         break;
                     case 'metadata':
