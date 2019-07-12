@@ -11,13 +11,13 @@ test-lint:
   script:
     - npm run lint
     - npm run test:cover
-  except:
-    - tags
 
 npm-publish:
   stage: publish
   image: node:10
   script:
+    - npm run clean
+    - npm run build
     - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
     - npm publish
   only:

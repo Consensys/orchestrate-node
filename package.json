@@ -1,7 +1,7 @@
 {
-  "name": "core-stack-sdk",
+  "name": "corestack-sdk",
   "version": "0.3.1",
-  "description": "Core Stack SDK",
+  "description": "CoreStack SDK",
   "main": "./lib/index.js",
   "types": "./types/index.d.ts",
   "scripts": {
@@ -13,7 +13,6 @@
     "test:cover": "cross-env NODE_ENV=test jest --coverage",
     "coveralls": "npm run test:cover && cat ./coverage/lcov.info | coveralls",
     "build": "cross-env BABEL_ENV=production babel src --out-dir lib",
-    "prepublish": "npm run clean && npm run lint && npm run test && npm run build",
     "webpack": "webpack --mode production"
   },
   "keywords": [
