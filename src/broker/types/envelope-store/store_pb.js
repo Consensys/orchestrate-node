@@ -13,8 +13,8 @@ var global = Function('return this')();
 
 var types_envelope_envelope_pb = require('../../types/envelope/envelope_pb.js');
 goog.object.extend(proto, types_envelope_envelope_pb);
-var types_common_error_pb = require('../../types/common/error_pb.js');
-goog.object.extend(proto, types_common_error_pb);
+var types_error_error_pb = require('../../types/error/error_pb.js');
+goog.object.extend(proto, types_error_error_pb);
 var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js');
 goog.object.extend(proto, google_protobuf_timestamp_pb);
 goog.exportSymbol('proto.envelopestore.IDRequest', null, global);
@@ -353,7 +353,7 @@ proto.envelopestore.StoreResponse.toObject = function(includeInstance, msg) {
     status: jspb.Message.getFieldWithDefault(msg, 1, ""),
     lastUpdated: (f = msg.getLastUpdated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     envelope: (f = msg.getEnvelope()) && types_envelope_envelope_pb.Envelope.toObject(includeInstance, f),
-    err: (f = msg.getErr()) && types_common_error_pb.Error.toObject(includeInstance, f)
+    err: (f = msg.getErr()) && types_error_error_pb.Error.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -405,8 +405,8 @@ proto.envelopestore.StoreResponse.deserializeBinaryFromReader = function(msg, re
       msg.setEnvelope(value);
       break;
     case 4:
-      var value = new types_common_error_pb.Error;
-      reader.readMessage(value,types_common_error_pb.Error.deserializeBinaryFromReader);
+      var value = new types_error_error_pb.Error;
+      reader.readMessage(value,types_error_error_pb.Error.deserializeBinaryFromReader);
       msg.setErr(value);
       break;
     default:
@@ -466,7 +466,7 @@ proto.envelopestore.StoreResponse.serializeBinaryToWriter = function(message, wr
     writer.writeMessage(
       4,
       f,
-      types_common_error_pb.Error.serializeBinaryToWriter
+      types_error_error_pb.Error.serializeBinaryToWriter
     );
   }
 };
@@ -554,16 +554,16 @@ proto.envelopestore.StoreResponse.prototype.hasEnvelope = function() {
 
 
 /**
- * optional common.Error err = 4;
- * @return {?proto.common.Error}
+ * optional error.Error err = 4;
+ * @return {?proto.error.Error}
  */
 proto.envelopestore.StoreResponse.prototype.getErr = function() {
-  return /** @type{?proto.common.Error} */ (
-    jspb.Message.getWrapperField(this, types_common_error_pb.Error, 4));
+  return /** @type{?proto.error.Error} */ (
+    jspb.Message.getWrapperField(this, types_error_error_pb.Error, 4));
 };
 
 
-/** @param {?proto.common.Error|undefined} value */
+/** @param {?proto.error.Error|undefined} value */
 proto.envelopestore.StoreResponse.prototype.setErr = function(value) {
   jspb.Message.setWrapperField(this, 4, value);
 };
@@ -1189,7 +1189,7 @@ proto.envelopestore.LoadPendingResponse.toObject = function(includeInstance, msg
   var f, obj = {
     envelopesList: jspb.Message.toObjectList(msg.getEnvelopesList(),
     types_envelope_envelope_pb.Envelope.toObject, includeInstance),
-    err: (f = msg.getErr()) && types_common_error_pb.Error.toObject(includeInstance, f)
+    err: (f = msg.getErr()) && types_error_error_pb.Error.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -1232,8 +1232,8 @@ proto.envelopestore.LoadPendingResponse.deserializeBinaryFromReader = function(m
       msg.addEnvelopes(value);
       break;
     case 2:
-      var value = new types_common_error_pb.Error;
-      reader.readMessage(value,types_common_error_pb.Error.deserializeBinaryFromReader);
+      var value = new types_error_error_pb.Error;
+      reader.readMessage(value,types_error_error_pb.Error.deserializeBinaryFromReader);
       msg.setErr(value);
       break;
     default:
@@ -1278,7 +1278,7 @@ proto.envelopestore.LoadPendingResponse.serializeBinaryToWriter = function(messa
     writer.writeMessage(
       2,
       f,
-      types_common_error_pb.Error.serializeBinaryToWriter
+      types_error_error_pb.Error.serializeBinaryToWriter
     );
   }
 };
@@ -1319,16 +1319,16 @@ proto.envelopestore.LoadPendingResponse.prototype.clearEnvelopesList = function(
 
 
 /**
- * optional common.Error err = 2;
- * @return {?proto.common.Error}
+ * optional error.Error err = 2;
+ * @return {?proto.error.Error}
  */
 proto.envelopestore.LoadPendingResponse.prototype.getErr = function() {
-  return /** @type{?proto.common.Error} */ (
-    jspb.Message.getWrapperField(this, types_common_error_pb.Error, 2));
+  return /** @type{?proto.error.Error} */ (
+    jspb.Message.getWrapperField(this, types_error_error_pb.Error, 2));
 };
 
 
-/** @param {?proto.common.Error|undefined} value */
+/** @param {?proto.error.Error|undefined} value */
 proto.envelopestore.LoadPendingResponse.prototype.setErr = function(value) {
   jspb.Message.setWrapperField(this, 2, value);
 };

@@ -2,9 +2,7 @@ import { Web3ModuleOptions } from 'web3-core'
 import Web3 from 'web3'
 import { EventEmitter } from 'events';
 import { 
-  KafkaClient,
   KafkaClientOptions,
-  ProduceRequest,
   Message
 } from 'kafka-node'
 
@@ -95,10 +93,17 @@ export interface CoreStackRequest {
 }
 
 export interface Protocol {
-  name: string
-  tag?: string
+  type: ProtocolType
   extra?: object
 }
+
+export declare enum ProtocolType {
+  EthereumConstantinople,
+  QuorumConstellation,
+  QuorumTessera,
+  PantheonOrion,
+}
+
 export interface Metadata {
   id: string
   extra?: object

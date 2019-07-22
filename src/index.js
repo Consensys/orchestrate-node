@@ -1,6 +1,8 @@
 import CoreStackBroker from './broker'
 import { CoreStackWeb3 } from './web3'
 
+export { ProtocolType } from './broker/types/chain/protocol'
+
 /**
  * [CoreStack with broker and web3]
  * @type {class}

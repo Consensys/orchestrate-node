@@ -1,5 +1,7 @@
-import { marshallEnvelope, marshallMetadata, unmarshallEnvelope } from '../envelope'
+import { ProtocolType } from '../../../..'
+import protocol_pb from '../../chain/protocol_pb'
 import { marshallReceipt } from '../../ethereum/receipt'
+import { marshallEnvelope, marshallMetadata, unmarshallEnvelope } from '../envelope'
 import envelope_pb from '../envelope_pb'
 
 let envelope
@@ -26,7 +28,7 @@ describe("# marshallEnvelope ", () => {
     test("set invalid object format of other marshaller methods", () => {
         const testMsg = {chainId: {error: false}}
         try {
-            marshallEnvelope(testMsg)         
+            marshallEnvelope(testMsg)
         } catch(e) {
             expect(e.message).toBe('marshallChain: "[object Object]" is not a number')
         }
@@ -37,7 +39,7 @@ describe("# marshallEnvelope ", () => {
         const testMsg = {
             chainId: '3',
             protocol: {
-                name: 'pantheon',
+                type: ProtocolType.PantheonOrion,
                 extra: {
                     test: 'test'
                 }
@@ -67,8 +69,7 @@ describe("# marshallEnvelope ", () => {
             chain: { id: '3' },
             protocol: {
                 extraMap: {test: 'test'},
-                name: 'pantheon',
-                tag: '',
+                type: protocol_pb.ProtocolType.PANTHEON_ORION
             },
             from: '0xaf84242d70ae9d268e2be3616ed497ba28a7b62c',
             tx: {

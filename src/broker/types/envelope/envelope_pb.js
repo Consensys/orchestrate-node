@@ -15,8 +15,6 @@ var types_chain_chain_pb = require('../../types/chain/chain_pb.js');
 goog.object.extend(proto, types_chain_chain_pb);
 var types_chain_protocol_pb = require('../../types/chain/protocol_pb.js');
 goog.object.extend(proto, types_chain_protocol_pb);
-var types_common_error_pb = require('../../types/common/error_pb.js');
-goog.object.extend(proto, types_common_error_pb);
 var types_ethereum_base_pb = require('../../types/ethereum/base_pb.js');
 goog.object.extend(proto, types_ethereum_base_pb);
 var types_ethereum_transaction_pb = require('../../types/ethereum/transaction_pb.js');
@@ -27,6 +25,8 @@ var types_args_private_pb = require('../../types/args/private_pb.js');
 goog.object.extend(proto, types_args_private_pb);
 var types_args_call_pb = require('../../types/args/call_pb.js');
 goog.object.extend(proto, types_args_call_pb);
+var types_error_error_pb = require('../../types/error/error_pb.js');
+goog.object.extend(proto, types_error_error_pb);
 goog.exportSymbol('proto.envelope.Args', null, global);
 goog.exportSymbol('proto.envelope.Envelope', null, global);
 goog.exportSymbol('proto.envelope.Metadata', null, global);
@@ -491,7 +491,7 @@ proto.envelope.Envelope.toObject = function(includeInstance, msg) {
     tx: (f = msg.getTx()) && types_ethereum_transaction_pb.Transaction.toObject(includeInstance, f),
     receipt: (f = msg.getReceipt()) && types_ethereum_receipt_pb.Receipt.toObject(includeInstance, f),
     errorsList: jspb.Message.toObjectList(msg.getErrorsList(),
-    types_common_error_pb.Error.toObject, includeInstance),
+    types_error_error_pb.Error.toObject, includeInstance),
     args: (f = msg.getArgs()) && proto.envelope.Args.toObject(includeInstance, f),
     metadata: (f = msg.getMetadata()) && proto.envelope.Metadata.toObject(includeInstance, f)
   };
@@ -556,8 +556,8 @@ proto.envelope.Envelope.deserializeBinaryFromReader = function(msg, reader) {
       msg.setReceipt(value);
       break;
     case 6:
-      var value = new types_common_error_pb.Error;
-      reader.readMessage(value,types_common_error_pb.Error.deserializeBinaryFromReader);
+      var value = new types_error_error_pb.Error;
+      reader.readMessage(value,types_error_error_pb.Error.deserializeBinaryFromReader);
       msg.addErrors(value);
       break;
     case 7:
@@ -644,7 +644,7 @@ proto.envelope.Envelope.serializeBinaryToWriter = function(message, writer) {
     writer.writeRepeatedMessage(
       6,
       f,
-      types_common_error_pb.Error.serializeBinaryToWriter
+      types_error_error_pb.Error.serializeBinaryToWriter
     );
   }
   f = message.getArgs();
@@ -832,28 +832,28 @@ proto.envelope.Envelope.prototype.hasReceipt = function() {
 
 
 /**
- * repeated common.Error errors = 6;
- * @return {!Array<!proto.common.Error>}
+ * repeated error.Error errors = 6;
+ * @return {!Array<!proto.error.Error>}
  */
 proto.envelope.Envelope.prototype.getErrorsList = function() {
-  return /** @type{!Array<!proto.common.Error>} */ (
-    jspb.Message.getRepeatedWrapperField(this, types_common_error_pb.Error, 6));
+  return /** @type{!Array<!proto.error.Error>} */ (
+    jspb.Message.getRepeatedWrapperField(this, types_error_error_pb.Error, 6));
 };
 
 
-/** @param {!Array<!proto.common.Error>} value */
+/** @param {!Array<!proto.error.Error>} value */
 proto.envelope.Envelope.prototype.setErrorsList = function(value) {
   jspb.Message.setRepeatedWrapperField(this, 6, value);
 };
 
 
 /**
- * @param {!proto.common.Error=} opt_value
+ * @param {!proto.error.Error=} opt_value
  * @param {number=} opt_index
- * @return {!proto.common.Error}
+ * @return {!proto.error.Error}
  */
 proto.envelope.Envelope.prototype.addErrors = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 6, opt_value, proto.common.Error, opt_index);
+  return jspb.Message.addToRepeatedWrapperField(this, 6, opt_value, proto.error.Error, opt_index);
 };
 
 

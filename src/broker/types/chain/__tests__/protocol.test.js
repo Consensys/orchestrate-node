@@ -1,5 +1,5 @@
-import { marshallProtocol, unmarshallProtocol } from '../protocol'
 import envelope_pb from '../../envelope/envelope_pb'
+import { marshallProtocol, ProtocolType, unmarshallProtocol } from '../protocol'
 
 let envelope
 
@@ -13,7 +13,7 @@ describe("# marshallTransaction ", () => {
 
         expect(() => {
             marshallProtocol(envelope, testMsg)
-        }).toThrow();
+        }).toThrow('Protocol message has invalid format');
     })
 
     test("set invalid object format", () => {
@@ -21,29 +21,45 @@ describe("# marshallTransaction ", () => {
 
         expect(() => {
             marshallProtocol(envelope, testMsg)
-        }).toThrow();
+        }).toThrow('Protocol message do not expect "error" field');
     })
+
+    test("invalid protocol type", () => {
+        const testMsg = {
+            type: 'invalid.protocol'
+        }
+
+        expect(() => {
+            marshallProtocol(envelope, testMsg)
+        }).toThrow('Cannot convert protocol type "invalid.protocol"');
+    })
+
+    test("should unmarshall unknown protocol type", () => {
+        const pbMessage = {
+            type: 123,
+            extraMap: {}
+        }
+
+        const receipt = unmarshallProtocol(pbMessage)
+        const expected = {
+            type: undefined,
+            extra: {}
+        }
+        expect(receipt).toEqual(expected)
+    })
+
     test("set object", () => {
         const testMsg = {
-            name: 'test',
-            tag: 'test',
+            type: ProtocolType.EthereumConstantinople,
             extra: {
                 extra1: 'testExtra1',
                 extra2: 'testExtra2'
             }
         }
+
         marshallProtocol(envelope, testMsg)
         const receipt = unmarshallProtocol(envelope.getProtocol().toObject())
-        const expected = {
-            name: 'test',
-            tag: 'test',
-            extraMap: {
-                extra1: 'testExtra1',
-                extra2: 'testExtra2'
-            }        
-        }
-        expect(receipt).toEqual(expected)
-
+        expect(receipt).toEqual(testMsg)
     })
-    
+
 })
