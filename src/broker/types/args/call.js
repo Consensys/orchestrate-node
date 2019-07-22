@@ -4,10 +4,9 @@ import { parseSignature } from '../../utils/solidity'
 import * as web3utils from 'web3-utils'
 
 /**
- * [marshallCall description]
- * @param  {proto} args [proto args]
- * @param  {Object} msg   [call message object - fields: contract, method, args]
- * @return {[type]}       [description]
+ * [marshallContract: marshall the contract part of the envelope and sets it as the contract field in our protobuff]
+ * @param  {Object}   args  [protoBuff to be set]
+ * @param  {Object}   msg   [message object from the transaction payload to be marhaslled]
  */
 export const marshallCall = (args, msg) => {
     let call = args.getCall()
@@ -40,9 +39,9 @@ export const marshallCall = (args, msg) => {
 }
 
 /**
- * [formatCall description]
- * @param  {Object} msg   [call message object]
- * @return {[type]}       [description]
+ * [formatCall format the Call part of the envelop to format it so it can be marshalled after]
+ * @param  {Object} msg   [call message object from the transaction payload]
+ * @return {Object} msg   [protobuff formated message]
  */
 export const formatCall = msg => {
     const signature = getSignsature(msg['method'])
@@ -69,7 +68,9 @@ export const formatCall = msg => {
 }
 
 /**
- * 
+ * [formatArgsAndSignature format the args and signature part of the envelop and returns it to formatCall]
+ * @param  {Object} args   [call message object]
+ * @return {Object} args   [formated args]
  */
 export const formatArgsAndSignature = (args, sigArgTypes) => {
     args.forEach((arg, i) => {
@@ -86,6 +87,12 @@ export const formatArgsAndSignature = (args, sigArgTypes) => {
     return args
 }
 
+/**
+ * [formatElementaryType format the signature part depending of it's type]
+ * @param  {Object} args         [call message object]
+ * @param  {Object} sigArgType   [type of the signature to be formated]
+ * @return {string} arg          [formated signature]
+ */
 export const formatElementaryType = (arg, sigArgType) => {
     switch (true) {
         case /uint|int/.test(sigArgType):
@@ -101,6 +108,11 @@ export const formatElementaryType = (arg, sigArgType) => {
     }
 }
 
+/**
+ * [getSignsature looks for the method signature and returns it]
+ * @param  {string | Object}  method     [method's name or object]
+ * @return {string | null}    method     [method's signature]
+ */
 export const getSignsature = method => {
     switch (typeof method) {
         case 'string':
@@ -113,15 +125,20 @@ export const getSignsature = method => {
 }
 
 /**
- * [marshallArgs description]
- * @param  {[type]} call [description]
- * @param  {[type]} msg  [description]
- * @return {[type]}      [description]
+ * [marshallArgs set the protobuff Args array with the value we provide]
+ * @param  {Object} call [protoBuff to be set]
+ * @param  {Object} msg  [Args value from the transaction payload]
  */
 export const marshallArgs = (call, msg) => {
     call.setArgsList(msg)
 }
 
+/**
+ * [formatArraySliceArg format the Args array of the transaction payload]
+ * @param  {Object} call      [value to be formated]
+ * @param  {Object} msg       [Args value from the transaction payload]
+ * @return {string | Error}   [correctly formated array or throw an error]
+ */
 export const formatArraySliceArg = (args, sigArgType) => {
     if (!(typeof args === 'object')) {
         throw new Error(`formatArraySliceArg: "${args}" is not an array/slice`)
@@ -130,6 +147,11 @@ export const formatArraySliceArg = (args, sigArgType) => {
     return JSON.stringify(formatedArray)
 }
 
+/**
+ * [formatIntUintArg makes sure your arg is formated as a number]
+ * @param  {any}              arg        [value to be formated]
+ * @return {string | Error}              [correctly formated string or throw an error]
+ */
 export const formatIntUintArg = arg => {
     if (isNaN(arg)) {
         throw new Error(`formatIntUintArg: "${arg}" is not a number`)
@@ -137,6 +159,11 @@ export const formatIntUintArg = arg => {
     return web3utils.numberToHex(arg)
 }
 
+/**
+ * [formatBoolArg makes sure your arg is formated as a boolean]
+ * @param  {any}              arg        [value to be formated]
+ * @return {string | Error}              [correctly formated string or throw an error]
+ */
 export const formatBoolArg = arg => {
     if (typeof arg != 'boolean') {
         throw new Error(`formatBoolArg: "${arg}" is not a boolean`) 
@@ -144,6 +171,11 @@ export const formatBoolArg = arg => {
     return arg.toString()
 }
 
+/**
+ * [formatAddressArg makes sure your arg is formated as an Ethereum Address]
+ * @param  {any}              arg        [value to be formated]
+ * @return {string | Error}              [correctly formated string or throw an error]
+ */
 export const formatAddressArg = arg => {
     if (!web3utils.isAddress(arg)) {
         throw new Error(`formatAddressArg: "${arg}" is not an address`) 
@@ -151,6 +183,11 @@ export const formatAddressArg = arg => {
     return arg
 }
 
+/**
+ * [formatByteArg makes sure your arg is formated as an hexadecimal]
+ * @param  {any}              arg        [value to be formated]
+ * @return {string | Error}              [correctly formated string or throw an error]
+ */
 export const formatByteArg = arg => {
     if (!web3utils.isHexStrict(arg)) {
         throw new Error(`formatByteArg: "${arg}" is not a Hex string with a 0x prefix`) 

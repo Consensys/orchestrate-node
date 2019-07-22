@@ -15,6 +15,11 @@ bimap.push(ProtocolType.QuorumConstellation, protocol_pb.ProtocolType.QUORUM_CON
 bimap.push(ProtocolType.QuorumTessera, protocol_pb.ProtocolType.QUORUM_TESSERA)
 bimap.push(ProtocolType.PantheonOrion, protocol_pb.ProtocolType.PANTHEON_ORION)
 
+/**
+ * [marshallProtocol: marshall the protocol part of the envelope and sets it as the Protocol field in our protobuff]
+ * @param  {Object}         envelope    [enveloppe protoBuff]
+ * @param  {Object}         msg         [protocol object of the transaction payload]
+ */
 export const marshallProtocol = (envelope, msg) => {
     let protocol = envelope.getProtocol()
     if (!protocol) {
@@ -44,6 +49,11 @@ export const marshallProtocol = (envelope, msg) => {
     envelope.setProtocol(protocol)
 }
 
+/**
+ * [unmarshallProtocol: retrieve the protocol data from the envelop]
+ * @param  {Object} protocol  [protocol object of the envelop]
+ * @return {Object} result    [protocol payload]
+ */
 export const unmarshallProtocol = protocol => {
     const result = {}
     if (protocol.extraMap.length > 0) {
@@ -55,7 +65,12 @@ export const unmarshallProtocol = protocol => {
     return result
 }
 
-function toProtobufProtocolType(protocolType) {
+/**
+ * [toProtobufProtocolType: retrieve the type of the protocol of the procol payload]
+ * @param  {Object}         protocolType  [protocol type]
+ * @return {Object | Error} protocolType  [protocol payload type or an error if it is undefined]
+ */
+const toProtobufProtocolType = protocolType => {
     const pbProtoType = bimap.key(protocolType)
     if (pbProtoType === undefined) {
         throw new Error(`Cannot convert protocol type "${protocolType}"`)
@@ -63,6 +78,11 @@ function toProtobufProtocolType(protocolType) {
     return pbProtoType
 }
 
-function fromProtobufProtocolType(pbProtoType) {
+/**
+ * [fromProtobufProtocolType: convert the protocol ProtoBuff into a protocol payload]
+ * @param  {Object} pbProtoType  [type of the protocol]
+ * @return {Object} protocol     [protocol payload]
+ */
+const fromProtobufProtocolType = pbProtoType => {
     return bimap.val(pbProtoType)
 }

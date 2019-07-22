@@ -18,7 +18,7 @@ class Consumer {
     }
 
     /**
-     * Handles the readiness of the instance
+     * [Handles the readiness of the instance]
      * @return {Promise} Resolves if the Consumer is already ready or
      * successfully connected, throws the received error otherwise
      */
@@ -61,7 +61,7 @@ class Consumer {
 }
 
 /**
- * [consumer description]
+ * [Specific instance of Consumer that is able to consume corestack messages]
  * @type {class}
  */
 export class CoreStackConsumer extends Consumer {
@@ -90,7 +90,7 @@ export class CoreStackConsumer extends Consumer {
 }
 
 /**
- * [consumer description]
+ * [Advanced consumer instance]
  * @type {kafka}
  */
 export class CoreStackConsumerGroup extends Consumer {

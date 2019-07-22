@@ -9,9 +9,9 @@ import { mapToObject, rawToHex } from '../../utils/formatters'
 import { unmarshallRawReceipt } from '../ethereum/receipt'
 
 /**
- * [marshallEnvelope description]
- * @param  {[type]} msg [description]
- * @return {[type]}     [description]
+ * [marshallEnvelope takes a transaction payload as an input and output a protoBuff version of it called an envelop]
+ * @param  {Object}   msg     [transaction payload]
+ * @return {Object | Error}   [envelop protoBuff object or an error if the input is not an object]
  */
 export const marshallEnvelope = msg => {
     const envelope = new envelope_pb.Envelope()
@@ -59,6 +59,11 @@ export const marshallEnvelope = msg => {
     return envelope
 }
 
+/**
+ * [marshallArgs takes the call object of the transaction as an input and set its value in our protoBuff]
+ * @param  {Object}   envelope     [envelope protoBuff]
+ * @param  {Object}   msg          [call object of the transaction]
+ */
 export const marshallArgs = (envelope, msg) => {
     let args = envelope.getArgs()
     if (!args) {
@@ -86,10 +91,9 @@ export const marshallArgs = (envelope, msg) => {
 }
 
 /**
- * [marshallMetadata description]
- * @param  {[type]} envelope [description]
- * @param  {[type]} msg   [description]
- * @return {[type]}       [description]
+ * [marshallMetadata takes the metadata object of the transaction as an input and set its value in our protoBuff]
+ * @param  {Object}         envelope     [envelope protoBuff]
+ * @param  {Object}         msg          [metadata object of the transaction]
  */
 export const marshallMetadata = (envelope, msg) => {
     let metadata = envelope.getMetadata()
@@ -126,9 +130,9 @@ export const marshallMetadata = (envelope, msg) => {
 }
 
 /**
- * [unmarshallEnvelope description]
- * @param  {[type]} msg [description]
- * @return {[type]}     [description]
+ * [unmarshallEnvelope takes an envelop as input and return a transaction payload]
+ * @param  {Object}   msg        [envelope of the transaction to deserialize]
+ * @return {Object}   envelope   [transaction payload]
  */
 export const unmarshallEnvelope = msg => {
     const envelope = envelope_pb.Envelope.deserializeBinary(msg)

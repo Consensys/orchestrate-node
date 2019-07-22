@@ -2,10 +2,9 @@ import abi_pb from './abi_pb'
 import { capitalize } from '../../utils/formatters';
 
 /**
- * [marshallContract description]
- * @param  {[type]} proto [description]
- * @param  {[type]} msg   [description]
- * @return {[type]}       [description]
+ * [marshallContract: marshall the contract part of the envelope and sets it as the contract field in our protobuff]
+ * @param  {Object}            proto  [protoBuff to be set]
+ * @param  {string | object}   msg    [part of the envelop to be marshalled]
  */
 export const marshallContract = (proto, msg) => {
     let contract = proto.getContract()
@@ -45,6 +44,11 @@ export const marshallContract = (proto, msg) => {
     proto.setContract(contract)
 }
 
+/**
+ * [marshallContractId: marshall the registry, name and tag of the envelope and sets it as the contractId field in our protobuff]
+ * @param  {Object}            proto  [protoBuff to be set]
+ * @param  {string | object}   msg    [part of the envelop to be marshalled]
+ */
 export const marshallContractId = (proto, msg) => {
     let contractId = proto.getId()
     if (!contractId) {
@@ -72,10 +76,9 @@ export const marshallContractId = (proto, msg) => {
 }
 
 /**
- * [marshallMethod description]
- * @param  {[type]} proto [description]
- * @param  {[type]} msg   [description]
- * @return {[type]}       [description]
+ * [marshallMethod: marshall the signature and abi of the envelope and sets it as the contractId field in our protobuff]
+ * @param  {Object}           proto   [protoBuff to be set]
+ * @param  {object | string}  msg     [description]
  */
 export const marshallMethod = (proto, msg) => {
     let method = proto.getMethod()

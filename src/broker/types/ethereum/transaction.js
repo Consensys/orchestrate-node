@@ -3,10 +3,9 @@ import { capitalize, unmarshallRawObj } from '../../utils/formatters'
 import { marshallData, marshallHash, marshallAccount, marshallQuantity, unmarshallQuantity } from './base'
 
 /**
- * [marshallTransaction description]
- * @param  {[type]} envelope [description]
- * @param  {[type]} msg   [description]
- * @return {[type]}       [description]
+ * [marshallTransaction takes an envelope protoBuff and a transaction payload as an input and sets the Tx protoBuff in our envelope protoBuff]
+ * @param  {Object}  envelope  [envelope protoBuff]
+ * @param  {Object}  msg       [transaction payload]
  */
 export const marshallTransaction = (envelope, msg) => {
     let tx = envelope.getTx()
@@ -41,6 +40,11 @@ export const marshallTransaction = (envelope, msg) => {
     envelope.setTx(tx)
 }
 
+/**
+ * [marshallTransactionField sets the to, value, gas, nonce, gasPrice and data of the transaction in our TxData protoBuff]
+ * @param   {Object}  tx   [tx protoBuff]
+ * @param   {Object}  value   [value of the object to be set in our protoBuff]
+ */
 const marshallTransactionField = key => (transaction, msg) => {
   let txData = transaction.getTxData()
   if (!txData) {
@@ -67,6 +71,11 @@ const marshallTransactionField = key => (transaction, msg) => {
   transaction.setTxData(txData)
 }
 
+/**
+ * [unmarshallRawTx decerialize the Tx protoBuff into a raw transaction paylaod]
+ * @param   {Object}  receipt   [tx object of our envelope protoBuff]
+ * @return  {Object}  receipt   [raw transaction payload]
+ */
 export const unmarshallRawTx = tx => {
     const formatList = ['hash', 'raw']
     unmarshallRawObj(tx, formatList)
@@ -76,7 +85,11 @@ export const unmarshallRawTx = tx => {
     return tx
 }
 
-
+/**
+ * [unmarshallRawTxData decerialize the txData protoBuff into a txData payload]
+ * @param   {Object}  txData   [txData protoBuff]
+ * @return  {Object}  txData   [txData payload]
+ */
 export const unmarshallRawTxData = txData => {
     const formatList = ['data', 'to']
     unmarshallRawObj(txData, formatList)

@@ -16,7 +16,7 @@ import {
  */
 export default class CoreStackBroker {
     /**
-     * [constructor description]
+     * [instanciate a kafka broker with custom corestack producer and consumer]
      * @param {string} endpoint [Kafka endpoint]
      * @param {Object} options  [Options to instanciate kafka-node. see https://github.com/SOHU-Co/kafka-node#options]
      */
@@ -27,10 +27,10 @@ export default class CoreStackBroker {
     }
 
     /**
-     * [producer description]
-     * @param  {string} topic   [Topic name to send envelopes]
-     * @param  {Object} options [Options of kafka-node Producer, see https://github.com/SOHU-Co/kafka-node#producerkafkaclient-options-custompartitioner]
-     * @return {[type]}         [description]
+     * [producer creates a CoreStackProducer instance]
+     * @param  {string} topic       [Topic name to send envelopes]
+     * @param  {Object} options     [Options of kafka-node Producer, see https://github.com/SOHU-Co/kafka-node#producerkafkaclient-options-custompartitioner]
+     * @return {CoreStackProducer}  [CoreStackProducer instance]
      */
     producer = async (topic = DefaultCSInTopic, options) => {
       const CSProducer = new CoreStackProducer(this.client, topic, options)
@@ -63,8 +63,8 @@ export default class CoreStackBroker {
     })
 
     /**
-     * [consumer description]
-     * @param  {Array} topics     [List of topics to consume - default = DefaultCSOutTopic]
+     * [Consumer creates a CoreStackConsumer instance]
+     * @param  {Array} topics      [List of topics to consume - default = DefaultCSOutTopic]
      * @param  {Object} options    [Options of a kafka.Consumer, see https://github.com/SOHU-Co/kafka-node#consumerclient-payloads-options]
      * @return {CoreStackConsumer} [return a new CoreStackConsumer instance]
      */
@@ -79,9 +79,9 @@ export default class CoreStackBroker {
     }
     
     /**
-     * [consumerGroup description]
-     * @param  {Array} topics     [List of topics to consume - default = DefaultCSOutTopic]
-     * @param  {Object} options  [Options of a kafka.ConsumerGroup, see https://github.com/SOHU-Co/kafka-node#consumergroupoptions-topics]
+     * [ConsumerGroup creates a CoreSatckConsumerGroup instance]
+     * @param  {Array} topics           [List of topics to consume - default = DefaultCSOutTopic]
+     * @param  {Object} options         [Options of a kafka.ConsumerGroup, see https://github.com/SOHU-Co/kafka-node#consumergroupoptions-topics]
      * @return {CoreStackConsumerGroup} [return a new CoreStackConsumerGroup instance]
      */
     consumerGroup = async (topics = [DefaultCSOutTopic], options) => {
@@ -94,7 +94,7 @@ export default class CoreStackBroker {
     }
     
     /**
-     * [generateWallet description]
+     * [creates a WalletGenerator instance]
      * @param  {string} topicIn  [Name of the topic to send a wallet generation message]
      * @param  {Array} topicOut  [Name of the topic to consume a wallet generated]
      * @return {WalletGenerator} [return a new WalletGenerator instance]

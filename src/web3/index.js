@@ -27,7 +27,7 @@ export class CoreStackWeb3 {
 
     /**
      * [getNetworks get web3 instances labels]
-     * @return {Array} [description]
+     * @return {Array} [Names of web3 instances]
      */
     getNetworks = () => {
       return Object.keys(this.web3)

@@ -2,10 +2,9 @@ import private_pb from './private_pb'
 import { capitalize } from '../../utils/formatters'
 
 /**
- * [marshallQuorum description]
- * @param  {[type]} args [description]
- * @param  {[type]} msg  [description]
- * @return {[type]}      [description]
+ * [marshallPrivate: marshall the private object contained int the Call object of the transaction payload and sets it as the contractId field in our protoBuff]
+ * @param  {Object}  args    [protoBuff to be set]
+ * @param  {Object}  msg     [private object contained in the Call object]
  */
 export const marshallPrivate = (args, msg) => {
     let privateProto = args.getPrivate()

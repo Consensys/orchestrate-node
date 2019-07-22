@@ -1,13 +1,13 @@
 
 /**
- * [WalletGenerator description]
+ * [WalletGenerator class that enables you to generate wallet]
  * @type {class}
  */
 export class WalletGenerator {
     /**
      * [constructor init generator and listener]
-     * @param  {broker.CoreStackProducer} producer [description]
-     * @param  {broker.CoreStackConsumer} endpoint [description]
+     * @param  {broker.CoreStackProducer} producer [kafka producer]
+     * @param  {broker.CoreStackConsumer} endpoint [kafka consumer]
      */
     constructor(producer, consumer) {
       this.producer = producer
@@ -19,8 +19,6 @@ export class WalletGenerator {
 
     /**
      * [pause stop consuming on kafka]
-     *
-     * @return  {[type]}  [return description]
      */
     pause = () => {
       if (Object.keys(this.pendingWallets).length === 0) {
@@ -31,8 +29,6 @@ export class WalletGenerator {
 
     /**
      * [resume consuming on kafka]
-     *
-     * @return  {[type]}  [return description]
      */
     resume = () => {
       if (Object.keys(this.pendingWallets).length > 0) {
@@ -43,8 +39,6 @@ export class WalletGenerator {
 
     /**
      * [listening consumes message and pass to handler]
-     *
-     * @return  {[type]}  [return description]
      */
     listening = () => {
       this.consumer.consume().on('message', message => this.generatedWalletHandler(message))
@@ -54,7 +48,6 @@ export class WalletGenerator {
     /**
      * [walletHandler handles wallet creation message]
      * @param  {Object} msg   [Kafka node raw message]
-     * @return {[type]}       [description]
      */
     generatedWalletHandler = msg => {
       const envelope = msg['value']

@@ -3,10 +3,9 @@ import { marshallHash, marshallAccount } from './base'
 import { capitalize, unmarshallRawObj, b64ToHex, rawToHex } from '../../utils/formatters';
 
 /**
- * [marshallReceipt description]
- * @param  {[type]} envelope [description]
- * @param  {[type]} msg   [description]
- * @return {[type]}       [description]
+ * [marshallReceipt takes an envelope protoBuff and a transaction payload as an input and sets the receipt protoBuff in our envelope protoBuff]
+ * @param  {Object}         envelope     [envelope protoBuff]
+ * @param  {Object}         msg          [transaction payload]
  */
 export const marshallReceipt = (envelope, msg) => {
     let receipt = envelope.getReceipt()
@@ -54,10 +53,9 @@ export const marshallReceipt = (envelope, msg) => {
 }
 
 /**
- * [marshallLogs description]
- * @param  {[type]} receipt [description]
- * @param  {[type]} msg     [description]
- * @return {[type]}         [description]
+ * [marshallLogs takes the logList array of a transaction as an input and output a protoBuff version of it]
+ * @param  {Object}         envelope     [envelope protoBuff]
+ * @param  {Object}         msg          [logList array]
  */
 export const marshallLogs = (receipt, msg) => {
     if(typeof msg === 'object') {
@@ -107,6 +105,11 @@ export const marshallLogs = (receipt, msg) => {
 
 }
 
+/**
+ * [marshallTopics a topicList as an input and sets it in our log protoBuff]
+ * @param  {Object}  logpb   [log protoBuff]
+ * @param  {Object}  msg     [topicList array]
+ */
 export const marshallTopics = (logpb, msg) => {
     if(Array.isArray(msg)) {
         msg.forEach(topic => {
@@ -116,6 +119,11 @@ export const marshallTopics = (logpb, msg) => {
 }
 
 
+/**
+ * [unmarshallRawReceipt decerialize the Receipt protoBuff into a receipt payload]
+ * @param   {Object}  receipt   [receipt object of our envelope protoBuff]
+ * @return  {Object}  receipt   [raw receipt payload]
+ */
 export const unmarshallRawReceipt = receipt => {
     const format = ['txHash', 'blockHash', 'contractAddress']
     unmarshallRawObj(receipt, format)
@@ -129,6 +137,11 @@ export const unmarshallRawReceipt = receipt => {
     return receipt
 }
 
+/**
+ * [unmarshallRawLog decerialize the Log protoBuff into a LogList]
+ * @param   {Object}  log   [Log object of our envelope protoBuff]
+ * @return  {Object}  log   [LogList object]
+ */
 export const unmarshallRawLog = log => {
     const format = ['address', 'blockHash', 'txHash']
     unmarshallRawObj(log, format)
