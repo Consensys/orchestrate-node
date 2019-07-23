@@ -18,4 +18,3 @@ import-proto:
 	@mv $(PROTO_REPO)/$(PROTO_SRC_DIR)/* $(PROTO_DIST_DIR);
 	@rm -rf $(PROTO_REPO)/;
 	@rm $(PROTO_DIST_DIR)/*/*.go;
-

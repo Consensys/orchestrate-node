@@ -1,4 +1,11 @@
 # CHANGELOG
+  
+### Version 0.4.0
+
+*Released on July 23th 2019*
+
+- [FEAT]: Update `pkg` to v0.7.0
+- [DOCS]: Update docstring
 
 ### Version 0.3.1
 
