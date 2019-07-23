@@ -1,5 +1,11 @@
 # CHANGELOG
   
+### Version 0.4.1
+
+*Released on July 23th 2019*
+
+- [FIX]: Update type definition path in `package.json`
+
 ### Version 0.4.0
 
 *Released on July 23th 2019*
