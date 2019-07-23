@@ -62,13 +62,13 @@ To quickly start implement CoreStack
 
 1. Install
 ```js
-$ npm install corestack-sdk --save
+$ npm install core-stack-sdk --save
 ```
 
 2. Import and initialize the broker
 
 ```js
-import CoreStackSDK from 'corestack-sdk'
+import CoreStackSDK from 'core-stack-sdk'
 const CoreStack = new CoreStackSDK()
 // Initialize a "broker" with a kafka endpoint
 const broker = CoreStack.broker('localhost:9092')

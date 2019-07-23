@@ -1,5 +1,5 @@
 {
-  "name": "corestack-sdk",
+  "name": "core-stack-sdk",
   "version": "0.4.0",
   "description": "CoreStack SDK",
   "main": "./lib/index.js",
