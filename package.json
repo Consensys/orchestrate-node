@@ -5,7 +5,7 @@
   "main": "./build/bundle.js",
   "types": "./typedefinitions/index.d.ts",
   "scripts": {
-    "clean": "rimraf ./coverage ./lib",
+    "clean": "rimraf ./coverage ./build ./lib",
     "test": "cross-env NODE_ENV=test jest",
     "lint": "eslint src",
     "test:clean": "cross-env NODE_ENV=test jest --clearCache",
