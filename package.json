@@ -1,8 +1,8 @@
 {
   "name": "core-stack-sdk",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "CoreStack SDK",
-  "main": "./lib/index.js",
+  "main": "./build/bundle.js",
   "types": "./typedefinitions/index.d.ts",
   "scripts": {
     "clean": "rimraf ./coverage ./lib",
@@ -24,7 +24,7 @@
     "protobuf"
   ],
   "files": [
-    "lib",
+    "build",
     "typedefinitions"
   ],
   "author": "Christian Tran <christian.tran@consensys.com>",

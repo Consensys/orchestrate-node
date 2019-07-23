@@ -15,7 +15,9 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'build'),
         filename: 'bundle.js',
-        publicPath: 'build/'
+        publicPath: 'build/',
+        libraryTarget:'umd',
+        libraryExport: 'default'
     },
     module: {
         rules: [

@@ -38,3 +38,4 @@ export default class CoreStack {
         return this.web3Client
     }
 }
+export var __useDefault = true

@@ -19,7 +19,7 @@ npm-publish:
     - npm install
   script:
     - npm run clean
-    - npm run build
+    - npm run webpack
     - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
     - npm publish
   only:
