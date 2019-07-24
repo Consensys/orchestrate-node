@@ -1,3 +1,6 @@
+import "core-js/stable";
+import "regenerator-runtime/runtime"
+
 import CoreStackBroker from './broker'
 import { CoreStackWeb3 } from './web3'
 
