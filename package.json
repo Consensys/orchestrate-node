@@ -1,6 +1,6 @@
 {
   "name": "core-stack-sdk",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "CoreStack SDK",
   "main": "./build/bundle.js",
   "types": "./typedefinitions/index.d.ts",
@@ -12,8 +12,7 @@
     "test:watch": "cross-env NODE_ENV=test jest --watch",
     "test:cover": "cross-env NODE_ENV=test jest --coverage",
     "coveralls": "npm run test:cover && cat ./coverage/lcov.info | coveralls",
-    "build": "cross-env BABEL_ENV=production babel src --out-dir lib",
-    "webpack": "webpack --mode production"
+    "build": "webpack --mode production"
   },
   "keywords": [
     "blockchain",
@@ -56,13 +55,17 @@
     "webpack-node-externals": "~1.7.2"
   },
   "dependencies": {
+    "@types/web3": "~1.0.19",
     "bimap": "0.0.15",
+    "core-js": "~3.1.4",
     "google-protobuf": "~3.8.0",
     "kafka-node": "~4.1.3",
+    "regenerator-runtime": "~0.13.3",
     "uuid": "~3.3.2",
-    "web3": "~1.0.0-beta.55",
-    "web3-core": "^1.0.0-beta.55",
-    "web3-utils": "~1.0.0-beta.55"
+    "web3": "~1.2.0",
+    "web3-core": "~1.2.0",
+    "web3-core-requestmanager": "~1.2.0",
+    "web3-utils": "~1.2.0"
   },
   "jest": {
     "collectCoverageFrom": [

@@ -1,4 +1,3 @@
-import { Web3ModuleOptions } from 'web3-core'
 import Web3 from 'web3'
 import { EventEmitter } from 'events';
 import { 
@@ -26,10 +25,10 @@ export default class CoreStack {
   /**
    * [web3 creates a CoreStackWeb3 instance]
    * @param  {Web3Endpoints}      endpoints [JSON/RPC endpoints with label as key and endpoints as value]
-   * @param  {Web3ModuleOptions}  options   [web3.js options. see https://web3js.readthedocs.io/en/1.0/web3-shh.html#web3-module-options]
+   * @param  {Object}  options   [web3.js options. see https://web3js.readthedocs.io/en/1.0/web3-shh.html#web3-module-options]
    * @return {CoreStackWeb3}                [Class with web3 instances]
    */
-  web3(endpoint: Web3Endpoints, options?: Web3ModuleOptions): CoreStackWeb3 
+  web3(endpoint: Web3Endpoints, options?: Object): CoreStackWeb3 
 }  
 
 /**
@@ -40,10 +39,10 @@ export class CoreStackWeb3 {
    * [wallet class to generate wallet in CoreStack]
    *
    * @param   {[Web3Endpoints]}      endpoint:  [JSON/RPC endpoints with label as key and endpoints as value]
-   * @param   {[Web3ModuleOptions]}  options?:  [web3.js options. see https://web3js.readthedocs.io/en/1.0/web3-shh.html#web3-module-options]
+   * @param   {[Object]}  options?:  [web3.js options. see https://web3js.readthedocs.io/en/1.0/web3-shh.html#web3-module-options]
    *
    */
-  constructor(endpoints: Web3Endpoints, options?: Web3ModuleOptions)
+  constructor(endpoints: Web3Endpoints, options?: Object)
 
   /**
    * [getWeb3 get web3 instances]
