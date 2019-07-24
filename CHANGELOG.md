@@ -1,5 +1,12 @@
 # CHANGELOG
   
+### Version 0.4.3
+
+*Released on July 25th 2019*
+
+- [FEAT]: Update web3 to v1.2.0
+- [FIX]: Use regenerator-runtime in main file
+
 ### Version 0.4.2
 
 *Released on July 23th 2019*
