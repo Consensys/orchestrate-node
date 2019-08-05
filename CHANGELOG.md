@@ -1,5 +1,11 @@
 # CHANGELOG
   
+### Version 0.4.4
+
+*Released on August 5th 2019*
+
+- [FEAT]: Update Readme - redirect to documentation website
+  
 ### Version 0.4.3
 
 *Released on July 25th 2019*
