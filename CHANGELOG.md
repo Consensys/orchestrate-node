@@ -1,5 +1,11 @@
 # CHANGELOG
   
+### Version 0.4.5
+
+*Released on September 13th 2019*
+
+- [FIX]: Update types options for producer, consumer, consumerGroup
+
 ### Version 0.4.4
 
 *Released on August 5th 2019*
