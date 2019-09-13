@@ -1,4 +1,4 @@
-import CoreStackSDK from '../../build/bundle'
+import CoreStackSDK from '../../src'
 
 // Test for generating many wallets
 (async () => {

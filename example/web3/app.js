@@ -1,4 +1,4 @@
-import CoreStackSDK from '../../build/bundle'
+import CoreStackSDK from '../../src'
 
  // Should be in your .env for example
 const INFURA_API_KEY = ''

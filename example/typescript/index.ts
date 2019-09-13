@@ -1,4 +1,4 @@
-import CoreStack, { CoreStackRequest } from "core-stack-sdk";
+import CoreStack, { CoreStackRequest } from "../../";
 
 (async() => {
     const CS = new CoreStack();
@@ -6,7 +6,7 @@ import CoreStack, { CoreStackRequest } from "core-stack-sdk";
   
     // Init producer, consumer, wallet generator
     const producer = await broker.producer();
-    const consumer = await broker.consumer();
+    const consumer = await broker.consumerGroup();
     const walletGenerator = await broker.walletGenerator()
 
     // Start consuming

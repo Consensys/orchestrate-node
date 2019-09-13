@@ -1,10 +1,23 @@
-import CoreStackSDK from '../../build/bundle'
+import CoreStackSDK from '../../src'
 
 // Test for generating many wallets
 (async () => {
     try {
         //Init CoreStackSDK
         const CoreStack = new CoreStackSDK()
+
+        // Test SDK with SSL_SASL communication
+        // const options = {
+        //     sasl: {
+        //         mechanism: 'plain',
+        //         username: 'worker',
+        //         password: 'worker-secret'
+        //     },
+        //     sslOptions: {
+        //       rejectUnauthorized: false
+        //     }
+        // }
+        // const broker = CoreStack.broker('localhost:9092', options)
 
         // Init broker to connect to a kafka borker
         const broker = CoreStack.broker('localhost:9092')

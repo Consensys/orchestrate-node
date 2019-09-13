@@ -2,7 +2,10 @@ import Web3 from 'web3'
 import { EventEmitter } from 'events';
 import { 
   KafkaClientOptions,
-  Message
+  Message,
+  ProducerOptions,
+  ConsumerOptions,
+  ConsumerGroupOptions
 } from 'kafka-node'
 
 /**
@@ -74,31 +77,31 @@ export class CoreStackBroker {
    * [produce message on a kafka topic]
    *
    * @param   {[string]}              topic?:    [topicIn?: topic to send wallet creation request - default: topic-wallet-generator]
-   * @param   {[KafkaClientOptions]}  options?:  [Options?: to instanciate kafka-node. see https://github.com/SOHU-Co/kafka-node#options]
+   * @param   {[ProducerOptions]}  options?:  [Options?: to instanciate kafka-node. see https://github.com/SOHU-Co/kafka-node#producerkafkaclient-options-custompartitioner]
    *
    * @return  {Producer}     [return a Producer instance]
    */
-  producer(topic?: string, options?: KafkaClientOptions): Producer
+  producer(topic?: string, options?: ProducerOptions): Producer
   
   /**
    * [Consume message from kafka topics]
    *
    * @param   {[string[]]}            topics?:   [List of topics to consume - default = DefaultCSOutTopic]
-   * @param   {[KafkaClientOptions]}  options?:  [Options of kafka-node Producer, see https://github.com/SOHU-Co/kafka-node#producerkafkaclient-options-custompartitioner]
+   * @param   {[ConsumerOptions]}  options?:  [Options of kafka-node Consumer, see https://github.com/SOHU-Co/kafka-node#consumerclient-payloads-options]
    *
    * @return  {Consumer}     [return a Consumer instance]
    */
-  consumer(topics?: string[], options?: KafkaClientOptions) : Consumer
+  consumer(topics?: string[], options?: ConsumerOptions) : Consumer
 
   /**
    * [Advanced consumer that consume messages from kafka topics]
    *
    * @param   {[string[]]}  topics?:   [List of topics to consume - default = DefaultCSOutTopic]
-   * @param   {[KafkaClientOptions]}  options?:  [Options?: topic to consume wallet genrated in CoreStack - default topic-wallet-generated]
+   * @param   {[ConsumerGroupOptions]}  options?:  [Options of kafka-node ConsumerGroup, see https://github.com/SOHU-Co/kafka-node#consumergroupoptions-topics]
    *
    * @return  {Consumer}     [return a Consumer instance ]
    */
-  consumerGroup(topics?: string[], options?: KafkaClientOptions): Consumer
+  consumerGroup(topics?: string[], options?: ConsumerGroupOptions): Consumer
   
   /**
    * [wallet class to generate wallet in CoreStack]

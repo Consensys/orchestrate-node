@@ -1,4 +1,4 @@
-import CoreStackSDK from '../../build/bundle'
+import CoreStackSDK from '../../src'
 
 // Simple getting started example to send a transaction and consume a tx once mined
 
