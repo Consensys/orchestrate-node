@@ -157,7 +157,7 @@ export interface Web3Endpoints {
 
 export interface ProducerOutput {
   offset: number
-  id: number
+  id: string
 } 
 
 export interface Web3Instances {
