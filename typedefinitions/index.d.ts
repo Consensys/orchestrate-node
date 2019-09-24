@@ -79,9 +79,9 @@ export class CoreStackBroker {
    * @param   {[string]}              topic?:    [topicIn?: topic to send wallet creation request - default: topic-wallet-generator]
    * @param   {[ProducerOptions]}  options?:  [Options?: to instanciate kafka-node. see https://github.com/SOHU-Co/kafka-node#producerkafkaclient-options-custompartitioner]
    *
-   * @return  {Producer}     [return a Producer instance]
+   * @return  {Promise<Producer>}     [return a Producer instance]
    */
-  producer(topic?: string, options?: ProducerOptions): Producer
+  producer(topic?: string, options?: ProducerOptions): Promise<Producer>
   
   /**
    * [Consume message from kafka topics]
@@ -89,9 +89,9 @@ export class CoreStackBroker {
    * @param   {[string[]]}            topics?:   [List of topics to consume - default = DefaultCSOutTopic]
    * @param   {[ConsumerOptions]}  options?:  [Options of kafka-node Consumer, see https://github.com/SOHU-Co/kafka-node#consumerclient-payloads-options]
    *
-   * @return  {Consumer}     [return a Consumer instance]
+   * @return  {Promise<Consumer>}     [return a Consumer instance]
    */
-  consumer(topics?: string[], options?: ConsumerOptions) : Consumer
+  consumer(topics?: string[], options?: ConsumerOptions) : Promise<Consumer>
 
   /**
    * [Advanced consumer that consume messages from kafka topics]
@@ -99,9 +99,9 @@ export class CoreStackBroker {
    * @param   {[string[]]}  topics?:   [List of topics to consume - default = DefaultCSOutTopic]
    * @param   {[ConsumerGroupOptions]}  options?:  [Options of kafka-node ConsumerGroup, see https://github.com/SOHU-Co/kafka-node#consumergroupoptions-topics]
    *
-   * @return  {Consumer}     [return a Consumer instance ]
+   * @return  {Promise<Consumer>}     [return a Consumer instance ]
    */
-  consumerGroup(topics?: string[], options?: ConsumerGroupOptions): Consumer
+  consumerGroup(topics?: string[], options?: ConsumerGroupOptions): Promise<Consumer>
   
   /**
    * [wallet class to generate wallet in CoreStack]
@@ -109,9 +109,9 @@ export class CoreStackBroker {
    * @param   {[type]}  topicIn?:   [topicIn?: topic to send wallet creation request - default: topic-wallet-generator]
    * @param   {[type]}  topicOut?:  [topicOut?: topic to consume wallet genrated in CoreStack - default topic-wallet-generated]
    *
-   * @return  {Consumer}     [return class with the method generate()]
+   * @return  {Promise<WalletGenerator>}     [return class with the method generate()]
    */
-  walletGenerator(topicIn?: string, topicOut?: string[]): WalletGenerator
+  walletGenerator(topicIn?: string, topicOut?: string[]): Promise<WalletGenerator>
 }
 
 /**
