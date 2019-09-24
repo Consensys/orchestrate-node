@@ -1,5 +1,11 @@
 # CHANGELOG
   
+### Version 0.4.7
+
+*Released on September 24th 2019*
+
+- [FIX]: Update ProducerOutput type with 'id' field as a string
+
 ### Version 0.4.6
 
 *Released on September 24th 2019*
