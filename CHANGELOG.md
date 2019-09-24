@@ -1,5 +1,11 @@
 # CHANGELOG
   
+### Version 0.4.6
+
+*Released on September 24th 2019*
+
+- [FIX]: Update types for methods with Promises
+
 ### Version 0.4.5
 
 *Released on September 13th 2019*
