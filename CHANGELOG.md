@@ -1,5 +1,11 @@
 # CHANGELOG
   
+### Version 0.4.8
+
+*Released on September 24th 2019*
+
+- [FIX]: Update type definition file  - add class attributes
+
 ### Version 0.4.7
 
 *Released on September 24th 2019*
