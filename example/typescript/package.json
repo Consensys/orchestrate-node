@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "core-stack-sdk": "~0.4.3"
+    "core-stack-sdk": "~0.4.8-alpha.2"
   },
   "devDependencies": {
     "typescript": "~3.5.3"

@@ -1,4 +1,4 @@
-import CoreStack, { CoreStackRequest } from "../../";
+import CoreStack, { CoreStackRequest } from "core-stack-sdk";
 
 (async() => {
     const CS = new CoreStack();
