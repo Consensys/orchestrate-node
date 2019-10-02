@@ -3,6 +3,7 @@ import "regenerator-runtime/runtime"
 
 import CoreStackBroker from './broker'
 import { CoreStackWeb3 } from './web3'
+import { CoreStackContractRegistry } from  './contractRegistry'
 
 export { ProtocolType } from './broker/types/chain/protocol'
 
@@ -17,6 +18,7 @@ export default class CoreStack {
     constructor() {
         this.brokerClient = {}
         this.web3Client = {}
+        this.contractRegistryClient = {}
     }
 
     /**
@@ -26,7 +28,7 @@ export default class CoreStack {
      * @return {CoreStackBroker} [Class to produce, consume messages with a kafka]
      */
     broker = (endpoint, options) => {
-        this.brokerClient = new CoreStackBroker(endpoint, options)
+        this.brokerClient = new CoreStackBroker(endpoint, options);
         return this.brokerClient
     }
 
@@ -39,6 +41,17 @@ export default class CoreStack {
     web3 = (endpoints, options) => {
         this.web3Client = new CoreStackWeb3(endpoints, options);
         return this.web3Client
+    }
+
+    /**
+     * [contractRegistry creates a CoreStackContractRegistry instance]
+     * @param  {String} endpoints               [string object representing the remote gRPC endpoint]
+     * @param  {Object} options                 [optional arguments, for instance "credentials" for the gRPC client]
+     * @return {CoreStackContractRegistry}      [Class with contractRegistry instances]
+     */
+    contractRegistry = (endpoint, options) => {
+        this.contractRegistryClient = new CoreStackContractRegistry(endpoint, options);
+        return this.contractRegistryClient
     }
 }
 export var __useDefault = true
