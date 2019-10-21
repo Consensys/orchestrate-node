@@ -3,7 +3,7 @@ const { CoreStackContractRegistry } = require('../../src/contractRegistry/index'
 const web3 = require('web3');
 const commander = require('commander');
 const program = new commander.Command();
-const path = require('path');
+const fs = require('fs');
 
 export const handleGetTags = async options => {
     if (!options.name || !options.endpoint) {
@@ -71,15 +71,9 @@ export const handleAddContract = async options => {
     const CSCR = new CoreStackContractRegistry(options.endpoint);
     let artifact;
 
-    try {
-        // Manage relative path provided
-        let filepath = options.filepath;
-        if (!path.isAbsolute(filepath)) {
-            filepath = path.join('../..', filepath);
-        }
-        // Import the artifacts with a require. 
+    try { 
         // Breaks if the file does not exist or invalid json
-        artifact = require(filepath);
+        artifact = JSON.parse(fs.readFileSync(options.filepath));
         checkArtifact(artifact); // Throws if the check is not OK
     } catch (e) {      
         // eslint-disable-next-line no-console
