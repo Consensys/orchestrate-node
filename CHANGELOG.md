@@ -1,5 +1,11 @@
 # CHANGELOG
   
+### Version 0.4.9
+
+*Unreleased*
+
+- [FEAT] Make cli installable
+
 ### Version 0.4.8
 
 *Released on September 24th 2019*
