@@ -1,6 +1,6 @@
 {
   "name": "core-stack-sdk",
-  "version": "0.4.8",
+  "version": "0.4.9-alpha.1",
   "description": "CoreStack SDK",
   "main": "./build/bundle.js",
   "types": "./typedefinitions/index.d.ts",
