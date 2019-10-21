@@ -8,7 +8,9 @@ module.exports = {
       contractregistry: './cli/contract-registry/index.js'
     },
     watchOptions: {
-      ignored: /node_modules/
+      ignored: [
+        /node_modules/
+      ]
     },
     target: 'node',
     devtool: 'source-map',
@@ -16,7 +18,7 @@ module.exports = {
     output: {
       path: path.join(__dirname, "build"),
       filename: "[name].bundled.js",
-      library: "",
+      publicPath: 'build/',
       libraryTarget: "umd",
       libraryExport: 'default'
     },
@@ -24,7 +26,9 @@ module.exports = {
         rules: [
             {
               test: /\.js$/,
-              exclude: /node_modules/,
+              exclude: [
+                /node_modules/
+              ],
               use: [
                 {loader: 'babel-loader'},
                 {loader: 'eslint-loader'},
