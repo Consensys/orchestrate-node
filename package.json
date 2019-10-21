@@ -1,6 +1,6 @@
 {
   "name": "core-stack-sdk",
-  "version": "0.4.9-alpha.3",
+  "version": "0.4.9-alpha.4",
   "description": "CoreStack SDK",
   "scripts": {
     "clean": "rimraf ./coverage ./build ./lib",
