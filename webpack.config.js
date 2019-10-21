@@ -8,9 +8,7 @@ module.exports = {
       contractregistry: './cli/contract-registry/index.js'
     },
     watchOptions: {
-      ignored: [
-        /node_modules/
-      ]
+      ignored:  /node_modules/
     },
     target: 'node',
     devtool: 'source-map',
@@ -26,11 +24,21 @@ module.exports = {
         rules: [
             {
               test: /\.js$/,
-              exclude: [
-                /node_modules/
-              ],
+              exclude:  /node_modules/,
               use: [
-                {loader: 'babel-loader'},
+                {
+                  loader: 'babel-loader',
+                  options: {
+                    presets: ['@babel/preset-env'],
+                    plugins: [
+                      "@babel/plugin-syntax-dynamic-import",
+                      "@babel/plugin-syntax-import-meta",
+                      "@babel/plugin-proposal-class-properties",
+                      "@babel/plugin-proposal-json-strings",
+                      "@babel/plugin-transform-runtime"
+                    ]
+                  }
+                },
                 {loader: 'eslint-loader'},
                 {loader: 'shebang-loader'}
               ]

@@ -23,7 +23,8 @@
   ],
   "files": [
     "build",
-    "typedefinitions"
+    "typedefinitions",
+    "types"
   ],
   "author": "Christian Tran <christian.tran@consensys.com>",
   "license": "Apache-2.0",
