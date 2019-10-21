@@ -20,6 +20,9 @@ module.exports = {
       libraryTarget: "umd",
       libraryExport: 'default'
     },
+    node: {
+      __dirname: false
+    },
     module: {
         rules: [
             {

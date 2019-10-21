@@ -5,7 +5,6 @@ const protoLoader = require('@grpc/proto-loader');
 /**
  * Declare the path to the protobuff and load the class specific objects
  */
-const PROTO_PATH = path.normalize('./');
 
 const PROTO_FILE = 'types/contract-registry/registry.proto';
 
@@ -16,7 +15,9 @@ const PACKAGE_DEFINITION = protoLoader.loadSync(PROTO_FILE, {
     defaults: true,
     oneofs: true,
     includeDirs: [
-        PROTO_PATH
+        __dirname,
+        path.normalize(path.join(__dirname, "..")),
+        path.normalize(path.join(__dirname, "../.."))
     ]
 });
 
