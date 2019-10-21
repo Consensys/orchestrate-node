@@ -59,9 +59,9 @@ export class CoreStackContractRegistry {
         return new Promise((resolve, reject) => {
             this.stub.RegisterContract(this.formatRegisterRequest(contract),
                 // Resolve or reject the promise as a callback
-                (err, response) => {
+                (err) => {
                     if (err) { reject(err); return; }
-                    resolve(response);
+                    resolve();
                 },
             )
         });

@@ -10,5 +10,4 @@ require('@babel/register')({
     ]
 })
 
-console.log(process.argv);
-require('../../src/contractRegistry/cli').cli(process.argv);
+require('./cli').cli(process.argv);

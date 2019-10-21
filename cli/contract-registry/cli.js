@@ -1,12 +1,15 @@
 
-const { CoreStackContractRegistry } = require('./index');
+const { CoreStackContractRegistry } = require('../../src/contractRegistry/index');
 const web3 = require('web3');
 const commander = require('commander');
 const program = new commander.Command();
+const path = require('path');
 
 export const handleGetTags = async options => {
     if (!options.name || !options.endpoint) {
-        throw new Error('Not all options where submitted. See add-contract --help for usages');
+        // eslint-disable-next-line no-console
+        console.log('Not all options where submitted. See add-contract --help for usages');
+        return;
     }
 
     const CSCR = new CoreStackContractRegistry(options.endpoint);
@@ -17,7 +20,9 @@ export const handleGetTags = async options => {
         .catch(err => err);
 
     if (err) {
-        throw err
+        // eslint-disable-next-line no-console
+        console.log(err.details);
+        return;
     }
 }
 
@@ -30,7 +35,9 @@ program
 
 export const handleGetCatalog = async options => {
     if (!options.endpoint) {
-        throw new Error('No endpoint specified. See get-catalog --help for usage');
+        // eslint-disable-next-line no-console
+        console.log('No endpoint specified. See get-catalog --help for usage');
+        return;
     }
 
     const CSCR = new CoreStackContractRegistry(options.endpoint);
@@ -41,7 +48,9 @@ export const handleGetCatalog = async options => {
         .catch(err => err);
 
     if (err) {
-        throw err;
+        // eslint-disable-next-line no-console
+        console.log(err.details)
+        return;
     }
 }
 
@@ -54,19 +63,28 @@ program
 export const handleAddContract = async options => {
 
     if (!options.name || !options.tag || !options.filepath || !options.endpoint) {
-        throw new Error('Not all options where submitted. See add-contract --help for usages');
+        // eslint-disable-next-line no-console
+        console.log('Not all options where submitted. See add-contract --help for usages');
+        return;
     }
 
     const CSCR = new CoreStackContractRegistry(options.endpoint);
     let artifact;
 
     try {
+        // Manage relative path provided
+        let filepath = options.filepath;
+        if (!path.isAbsolute(filepath)) {
+            filepath = path.join('../..', filepath);
+        }
         // Import the artifacts with a require. 
         // Breaks if the file does not exist or invalid json
-        artifact = require('../../' + options.filepath);
+        artifact = require(filepath);
         checkArtifact(artifact); // Throws if the check is not OK
     } catch (e) {      
-        throw new Error(`Could not import artifacts: ${e}`);
+        // eslint-disable-next-line no-console
+        console.log(`Could not import artifacts: ${e}`);
+        return;
     }
 
     const contract = {
@@ -81,10 +99,12 @@ export const handleAddContract = async options => {
     }
 
     let err = await CSCR.register(contract)
-        .catch(err => err);
+        .catch(err => { return err; });
 
-    if (err) {      
-        throw err
+    if (err) {
+        // eslint-disable-next-line no-console
+        console.log(err.details);
+        return;
     }
 }
 
@@ -99,14 +119,18 @@ program
 
 const checkArtifact = (artifact) => {
     if (!artifact.abi || typeof artifact.abi !== 'object') {      
+        // eslint-disable-next-line no-console
         throw new Error('No abi in artifact');
     }
     if (!artifact.deployedBytecode || typeof artifact.deployedBytecode !== 'string') {      
+        // eslint-disable-next-line no-console
         throw new Error('No deployedBytecode in artifact');
     }
     if (!artifact.bytecode || typeof artifact.bytecode !== 'string') {      
+        // eslint-disable-next-line no-console
         throw new Error('No bytecode in artifact');
     }
+    return true
 }
 
 export const cli = args => {
