@@ -1,4 +1,4 @@
-import CoreStackSDK from '../../build/bundle'
+import CoreStackSDK from '../../src'
 
 // Simply register a contract in the registry
 
