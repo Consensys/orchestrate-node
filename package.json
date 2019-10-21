@@ -27,8 +27,9 @@
   ],
   "author": "Christian Tran <christian.tran@consensys.com>",
   "license": "Apache-2.0",
+  "main": "./build/library.bundled.js",
   "bin": {
-    "contract-registry": "./cli/contract-registry/index.js"
+    "contract-registry": "./build/contractregistry.bundled.js"
   },
   "devDependencies": {
     "@babel/cli": "~7.2.3",
@@ -69,6 +70,7 @@
     "kafka-node": "~4.1.3",
     "path": "^0.12.7",
     "regenerator-runtime": "~0.13.3",
+    "shebang-loader": "^0.0.1",
     "uuid": "~3.3.2",
     "web3": "~1.2.0",
     "web3-core": "~1.2.0",
