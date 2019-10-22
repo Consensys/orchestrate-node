@@ -30,7 +30,8 @@
   "license": "Apache-2.0",
   "main": "./build/library.bundled.js",
   "bin": {
-    "contract-registry": "./build/contractregistry.bundled.js"
+    "contract-registry": "./build/contractregistry.bundled.js",
+    "wallet": "./build/wallet.bundled.js"
   },
   "devDependencies": {
     "@babel/cli": "~7.2.3",

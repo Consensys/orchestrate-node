@@ -72,8 +72,11 @@ export class WalletGenerator {
      * [generate creates a message for creating a wallet to kafka and returns a promise to be resolved in walletHandler ]
      * @return {Promise} [Promise to be resolved in the walletHandler]
      */
-    generate = async () => {
-      const msg = await this.producer.send({})
+    generate = async (chain = "", value = "") => {
+      const msg = await this.producer.send({
+        chainId: chain,
+        value: value,
+      })
 
       const res = new Promise((resolve, reject) => {
         this.pendingWallets[msg.id] = {resolve, reject}

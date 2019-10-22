@@ -5,7 +5,8 @@ const nodeExternals = require('webpack-node-externals');
 module.exports = {
     entry: {
       library: './src/index.js',
-      contractregistry: './cli/contract-registry/index.js'
+      contractregistry: './cli/contract-registry/index.js',
+      wallet: './cli/wallet/index.js'
     },
     watchOptions: {
       ignored:  /node_modules/
