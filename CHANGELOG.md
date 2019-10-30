@@ -2,7 +2,7 @@
   
 ### Version 0.5.0
 
-*Released on October 20th 2019*
+*Released on October 30th 2019*
 
 - [FEAT] Make cli installable
 - [FEAT] Support for TLS GRPC servers
