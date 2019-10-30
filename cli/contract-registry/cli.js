@@ -13,7 +13,9 @@ export const handleGetTags = async options => {
     }
 
     const registry = new ContractRegistry(options.endpoint);
-    let err = await registry.getTags(options.name)
+    const call = registry.createGetTagsCall(options.name);
+
+    let err = await registry.performCall(call)
         .then(res => 
             // eslint-disable-next-line no-console
             console.log(res))
@@ -41,7 +43,9 @@ export const handleGetCatalog = async options => {
     }
 
     const registry = new ContractRegistry(options.endpoint);
-    let err = await registry.getCatalog()
+    const call = registry.createGetCatalogCall()
+
+    let err = await registry.performCall(call)
         .then(res => 
             // eslint-disable-next-line no-console
             console.log(res))
@@ -69,6 +73,7 @@ export const handleAddContract = async options => {
     }
 
     const registry = new ContractRegistry(options.endpoint);
+
     let artifact;
 
     try { 
@@ -92,8 +97,10 @@ export const handleAddContract = async options => {
         deployedBytecode: web3.utils.hexToBytes(artifact.deployedBytecode),
     }
 
-    let err = await registry.register(contract)
-        .catch(err => { return err; });
+    const call = registry.createRegisterCall(contract)
+
+    let err = await registry.performCall(call)
+        .catch(err => err);
 
     if (err) {
         // eslint-disable-next-line no-console

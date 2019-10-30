@@ -36,10 +36,15 @@ export class ContractRegistry {
     constructor(endpoint, options={}) {
         this.endpoint = endpoint;
         let credentials = options.credentials || grpc.credentials.createInsecure();
-
+        
         this.stub = new PROTO_DESCRIPTOR.contractregistry.Registry(
             endpoint,
             credentials,
+        );
+
+        this.stubSsl = new PROTO_DESCRIPTOR.contractregistry.Registry(
+            endpoint,
+            grpc.credentials.createSsl(),
         );
     }
 
@@ -51,52 +56,73 @@ export class ContractRegistry {
     formatRegisterRequest = (contract) => { return { contract }; }
 
     /**
-     * Returns a promisified request to register a contract
+     * Call performs the inputed call and update the SSL configuration if necessary
+     * @param {function} call
+     * @return {Promise} A promise that resolves if the call succeed
+     */
+    performCall = (call) => {
+        return call(this.stub)
+        .catch((err) => {
+            if (err.code === 14) {
+                this.stub = this.stubSsl;
+                return call(this.stubSsl)
+            }
+        })
+    }
+
+    /**
+     * createRegisterCall returns a promisified request to register a contract
      * @param {Object} contract     [An abi.Contract object]
      * @return {Promise}            [A promisied contract registering request]
      */
-    register = (contract) => {
-        return new Promise((resolve, reject) => {
-            this.stub.RegisterContract(this.formatRegisterRequest(contract),
-                // Resolve or reject the promise as a callback
-                (err) => {
-                    if (err) { reject(err); return; }
-                    resolve();
-                },
-            )
-        });
+    createRegisterCall = (contract) => {
+        return (stub) => {
+            return new Promise((resolve, reject) => {
+                stub.RegisterContract(this.formatRegisterRequest(contract),
+                    // Resolve or reject the promise as a callback
+                    (err, response) => {
+                        if (err) { reject(err); return; }
+                        resolve(response);
+                    },
+                )
+            });
+        }
     }
 
     /**
-     * getCatalog returns the list of available contract names in the registry
+     * createGetCatalogCall returns the list of available contract names in the registry
      * @return {Promise}            [A promisied contract catalog request]
      */
-    getCatalog = () => {
-        return new Promise((resolve, reject) => {
-            this.stub.GetCatalog({}, 
-                // Resolve or reject the promise as a callback
-                (err, response) => {
-                    if (err) { reject(err); return; }
-                    resolve(response);
-                },
-            )
-        });
+    createGetCatalogCall = () => {
+        return (stub) => {
+            return new Promise((resolve, reject) => {
+                stub.GetCatalog({}, 
+                    // Resolve or reject the promise as a callback
+                    (err, response) => {
+                        if (err) { reject(err); return; }
+                        resolve(response);
+                    },
+                )
+            });
+        }
     }
 
     /**
-     * getTag returns the list of registered tags in the registry
+     * createGetCatalogCall returns the list of registered tags in the registry
      * @param {String} name          [Name of the contract to query tags for]
      * @return {Promise}             [A promisified contract getTag request]
      */
-    getTags = (name) => {
-        return new Promise((resolve, reject) => {
-            this.stub.GetTags({ name }, 
-                // Resolve or reject the promise as a callback
-                (err, response) => {
-                    if (err) { reject(err); return; }
-                    resolve(response);
-                },
-            )
-        });
+    createGetTagsCall = (name) => {
+        return (stub) => {
+            return new Promise((resolve, reject) => {
+                stub.GetTags({ name }, 
+                    // Resolve or reject the promise as a callback
+                    (err, response) => {
+                        if (err) { reject(err); return; }
+                        resolve(response);
+                    },
+                )
+            });
+        }
     }
 }

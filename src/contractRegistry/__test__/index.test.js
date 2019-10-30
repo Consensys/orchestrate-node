@@ -5,7 +5,7 @@ describe('# ContractRegistry', () => {
     test('Init ContractRegistry', async () => {
         const CSCR = new ContractRegistry('localhost:1000');
         expect(typeof CSCR.formatRegisterRequest).toBe('function');
-        expect(typeof CSCR.register).toBe('function');
+        expect(typeof CSCR.createRegisterCall).toBe('function');
 
         const contract = {
             id: {
@@ -19,18 +19,21 @@ describe('# ContractRegistry', () => {
         }
 
         // We attempt to register the contract to a non-existant remote host
-        let err = await CSCR.register(contract).catch(err => err);
+        const registerCall = CSCR.createRegisterCall(contract);
+        const catalogCall = CSCR.createGetCatalogCall();
+        const tagsCall = CSCR.createGetTagsCall('name')
+
+        let err = await CSCR.performCall(registerCall).catch(err => err);
         // This should fails only because the connection failed
         expect(err.toString().includes('connect')).toBe(true);
 
-        err = await CSCR.getCatalog().catch(err => err);
+        err = await CSCR.performCall(catalogCall).catch(err => err);
         // This should fails only because the connection failed
         expect(err.toString().includes('connect')).toBe(true);
 
-        err = await CSCR.getTags('name').catch(err => err);
+        err = await CSCR.performCall(tagsCall).catch(err => err);
         // This should fails only because the connection failed
         expect(err.toString().includes('connect')).toBe(true);
-
     })
 
 })
