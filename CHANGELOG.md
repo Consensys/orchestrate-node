@@ -1,10 +1,12 @@
 # CHANGELOG
   
-### Version 0.4.9
+### Version 0.5.0
 
-*Unreleased*
+*Released on October 20th 2019*
 
 - [FEAT] Make cli installable
+- [FEAT] Support for TLS GRPC servers
+- [REFACTOR] Rename to PegaSys Orchestrate
 
 ### Version 0.4.8
 
