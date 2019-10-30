@@ -1,4 +1,4 @@
-import CoreStackSDK from '../../src'
+import Orchestrate from '../../src'
 
 // Simple getting started example to send a transaction and consume a tx once mined
 
@@ -55,8 +55,8 @@ const consume = async broker => {
 
 (async () => {
     try {
-        const CoreStack = new CoreStackSDK()
-        const broker = CoreStack.broker('localhost:9092')
+        const orch = new Orchestrate()
+        const broker = orch.broker('localhost:9092')
 
         consume(broker)
         produce(broker)

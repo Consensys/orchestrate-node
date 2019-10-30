@@ -1,4 +1,4 @@
-import { CoreStackConsumer, CoreStackConsumerGroup } from '../consumer'
+import { Consumer, ConsumerGroup } from '../consumer'
 import kafka from 'kafka-node'
 import { marshallEnvelope } from '../types/envelope/envelope'
 jest.mock('events')
@@ -41,14 +41,14 @@ const mockUnmarshaller = msg => msg
 const client = new kafka.KafkaClient({kafkaHost: 'testHost:9092'})
 
 let CSConsumer
-describe("# CoreStackConsumer", () => {
+describe("# Consumer", () => {
 
   beforeEach(() => {
     kafka.Consumer = mockConsumer(true);
-    CSConsumer = new CoreStackConsumer('', topics, mockUnmarshaller)
+    CSConsumer = new Consumer('', topics, mockUnmarshaller)
   })
 
-  test('init CoreStackConsumer', async () => {
+  test('init Consumer', async () => {
       expect(typeof CSConsumer.connect).toBe('function')
       expect(typeof CSConsumer.consume).toBe('function')
       expect(typeof CSConsumer.consumer).toBe('object')
@@ -72,7 +72,7 @@ describe("# CoreStackConsumer", () => {
 
       beforeEach(() => {
         kafka.Consumer = mockConsumer(false);
-        CSConsumer = new CoreStackConsumer(mockConsumer(false));
+        CSConsumer = new Consumer(mockConsumer(false));
       })
 
       describe("when there is no error", () => {
@@ -91,15 +91,15 @@ describe("# CoreStackConsumer", () => {
 })
 
 let CSConsumerGroup
-describe("# CoreStackConsumerGroup", () => {
+describe("# ConsumerGroup", () => {
 
   beforeEach(() => {
     kafka.ConsumerGroup = mockConsumer(true);
-    CSConsumerGroup = new CoreStackConsumerGroup(client, topics, mockUnmarshaller)
+    CSConsumerGroup = new ConsumerGroup(client, topics, mockUnmarshaller)
 
   })
 
-  test('init CoreStackConsumer', async () => {
+  test('init Consumer', async () => {
       expect(typeof CSConsumerGroup.connect).toBe('function')
       expect(typeof CSConsumerGroup.consume).toBe('function')
       expect(typeof CSConsumerGroup.consumer).toBe('object')
@@ -121,7 +121,7 @@ describe("# CoreStackConsumerGroup", () => {
 
       beforeEach(() => {
         kafka.ConsumerGroup = mockConsumer(true);
-        CSConsumerGroup = new CoreStackConsumerGroup(client, topics, mockUnmarshaller)
+        CSConsumerGroup = new ConsumerGroup(client, topics, mockUnmarshaller)
       })
 
       describe("when there is no error", () => {

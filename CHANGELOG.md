@@ -47,7 +47,7 @@
 
 *Released on July 23th 2019*
 
-- [FIX]: Use webpack instead of babel to build and avoid 'CoreStack is not a constructor' error
+- [FIX]: Use webpack instead of babel to build
 
 ### Version 0.4.1
 

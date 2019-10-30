@@ -6,8 +6,8 @@
 export class WalletGenerator {
     /**
      * [constructor init generator and listener]
-     * @param  {broker.CoreStackProducer} producer [kafka producer]
-     * @param  {broker.CoreStackConsumer} endpoint [kafka consumer]
+     * @param  {broker.Producer} producer [kafka producer]
+     * @param  {broker.Consumer} endpoint [kafka consumer]
      */
     constructor(producer, consumer) {
       this.producer = producer

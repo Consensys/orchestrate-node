@@ -1,9 +1,9 @@
-import Web3 from 'web3'
+import BaseWeb3 from 'web3'
 
 /**
- * [CoreStackWeb3 with multiple web3 instances]
+ * [Web3 with multiple web3 instances]
  */
-export class CoreStackWeb3 {
+export class Web3 {
     /**
      * [constructor init web3 instances]
      * @param {Object} endpoints    [JSON/RPC endpoints with label as key and endpoints as value]
@@ -13,7 +13,7 @@ export class CoreStackWeb3 {
       this.endpoints = endpoints
       this.web3 = {}
       Object.keys(this.endpoints).forEach(async ethName => {
-        this.web3[ethName] = new Web3(new Web3.providers.HttpProvider(this.endpoints[ethName]), null, options)  
+        this.web3[ethName] = new BaseWeb3(new BaseWeb3.providers.HttpProvider(this.endpoints[ethName]), null, options)  
       })
     }
 

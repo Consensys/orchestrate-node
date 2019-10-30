@@ -1,31 +1,31 @@
-import CoreStackBroker from '../index'
-import { CoreStackProducer } from '../producer'
-import { CoreStackConsumer, CoreStackConsumerGroup } from '../consumer'
+import Broker from '../index'
+import { Producer } from '../producer'
+import { Consumer, ConsumerGroup } from '../consumer'
 import kafka from 'kafka-node'
 jest.mock('../producer')
 jest.mock('../consumer')
 jest.mock('kafka-node')
 
 
-describe("# CoreStack ", () => {
+describe("# Test client ", () => {
 
-    let CoreStack
+    let broker
     const host = 'testHost'
     beforeEach(() => {
-        CoreStack = new CoreStackBroker(host)
+        broker = new Broker(host)
 
     })
 
     describe("# constructor ", () => {
-        test('Init CoreStack', async () => {
-            CoreStack = new CoreStackBroker(host)
-            expect(CoreStack.endpoint).toEqual(host)
+        test('Init broker', async () => {
+            broker = new Broker(host)
+            expect(broker.endpoint).toEqual(host)
         })
     })
 
     describe("# producer ", () => {
-        test('Init CoreStackProducer with Producer already ready', async () => {
-            CoreStackProducer.mockImplementation(() => ({
+        test('Init producer with Producer already ready', async () => {
+            Producer.mockImplementation(() => ({
                 connect: () => ({
                   producer: {
                       ready: true
@@ -36,12 +36,12 @@ describe("# CoreStack ", () => {
                 // }
             }))
             const topic = 'testTopic'
-            const producer = await CoreStack.producer(topic)
+            const producer = await broker.producer(topic)
             expect(producer.producer.ready).toBeTruthy();
         })
 
-        test('Init CoreStackProducer with Producer not yet ready', async () => {
-            CoreStackProducer.mockImplementation(() => ({
+        test('Init Producer with Producer not yet ready', async () => {
+            Producer.mockImplementation(() => ({
               connect: () => ({
                   producer: {
                       ready: false
@@ -59,7 +59,7 @@ describe("# CoreStack ", () => {
                 // }
             }))
             const topic = 'testTopic'
-            const producer = await CoreStack.producer(topic)
+            const producer = await broker.producer(topic)
             expect(producer.producer.ready).toBeFalsy();
         })
     })
@@ -79,11 +79,11 @@ describe("# CoreStack ", () => {
                     }
                 }
             }))
-            const getLatestOffset = await CoreStack.getLatestOffset(topic)
+            const getLatestOffset = await broker.getLatestOffset(topic)
             expect(getLatestOffset).toEqual({[topic]: testOffset})
 
             try {
-                await CoreStack.getLatestOffset(topicError)
+                await broker.getLatestOffset(topicError)
             } catch(e) {
                 expect(e).toEqual(topicError)
             }
@@ -91,8 +91,8 @@ describe("# CoreStack ", () => {
     })
 
     describe("# consumer ", () => {
-        test('Init CoreStackConsumer with Consumer already ready', async () => {
-            CoreStackConsumer.mockImplementation(() => ({
+        test('Init Consumer with Consumer already ready', async () => {
+            Consumer.mockImplementation(() => ({
                 connect: () => ({
                   consumer: {
                       ready: true
@@ -100,12 +100,12 @@ describe("# CoreStack ", () => {
                 })
             }))
             const topic = 'testTopic'
-            const consumer = await CoreStack.consumer(topic)
+            const consumer = await broker.consumer(topic)
             expect(consumer.consumer.ready).toBeTruthy();
         })
 
-        test('Init CoreStackProducer with Consumer not yet ready', async () => {
-            CoreStackConsumer.mockImplementation(() => ({
+        test('Init Producer with Consumer not yet ready', async () => {
+            Consumer.mockImplementation(() => ({
                 connect: () => ({
                   consumer: {
                       ready: false
@@ -123,14 +123,14 @@ describe("# CoreStack ", () => {
                 // }
             }))
             const topic = 'testTopic'
-            const consumer = await CoreStack.consumer(topic)
+            const consumer = await broker.consumer(topic)
             expect(consumer.consumer.ready).toBeFalsy();
         })
     })
 
     describe("# consumerGroup ", () => {
-        test('Init CoreStackConsumerGroup with ConsumerGroup already ready', async () => {
-            CoreStackConsumerGroup.mockImplementation(() => ({
+        test('Init ConsumerGroup with ConsumerGroup already ready', async () => {
+            ConsumerGroup.mockImplementation(() => ({
                 connect: () => ({
                   consumer: {
                       ready: true
@@ -141,12 +141,12 @@ describe("# CoreStack ", () => {
                 // }
             }))
             const topic = 'testTopic'
-            const consumerGroup = await CoreStack.consumerGroup(topic)
+            const consumerGroup = await broker.consumerGroup(topic)
             expect(consumerGroup.consumer.ready).toBeTruthy();
         })
 
-        test('Init CoreStackProducer with ConsumerGroup not yet ready', async () => {
-            CoreStackConsumerGroup.mockImplementation(() => ({
+        test('Init Producer with ConsumerGroup not yet ready', async () => {
+            ConsumerGroup.mockImplementation(() => ({
                 connect: () => ({
                   consumer: {
                       ready: false
@@ -164,7 +164,7 @@ describe("# CoreStack ", () => {
                 // }
             }))
             const topic = 'testTopic'
-            const consumerGroup = await CoreStack.consumerGroup(topic)
+            const consumerGroup = await broker.consumerGroup(topic)
             expect(consumerGroup.consumer.ready).toBeFalsy();
         })
     })

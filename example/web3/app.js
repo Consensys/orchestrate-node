@@ -1,4 +1,4 @@
-import CoreStackSDK from '../../src'
+import Orchestrate from '../../src'
 
  // Should be in your .env for example
 const INFURA_API_KEY = ''
@@ -15,11 +15,11 @@ const endpoints = {
 
 const test = async () => {
     try {
-        //Init CoreStackSDK
-        const CoreStack = new CoreStackSDK()
+        //Init orch
+        const orch = new Orchestrate()
 
         // Init broker to connect to a kafka borker
-        const web3providers = CoreStack.web3(endpoints)
+        const web3providers = orch.web3(endpoints)
 
         const web3 = web3providers.getWeb3()
         web3.mainnet.eth.net.getId().then(id => console.log("Mainnet's ID is: ", id))

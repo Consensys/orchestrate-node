@@ -1,4 +1,4 @@
-import CoreStackSDK from '../../src'
+import Orchestrate from '../../src'
 const commander = require('commander');
 const program = new commander.Command();
 
@@ -9,8 +9,8 @@ export const handleGenerateWallet = async options => {
         return;
     }
 
-    const CoreStack = new CoreStackSDK()
-    const broker = new CoreStack.broker(options.endpoint);
+    const orch = new Orchestrate()
+    const broker = new orch.broker(options.endpoint);
     const walletGenerator = await broker.walletGenerator()
     
     let err = await walletGenerator.generate(options.chain, options.value)

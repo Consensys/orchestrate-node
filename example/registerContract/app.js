@@ -1,4 +1,4 @@
-import CoreStackSDK from '../../src'
+import Orchestrate from '../../src'
 
 // Simply register a contract in the registry
 
@@ -21,8 +21,8 @@ const ABI = [
 ];
 
 (async () => {
-    const CoreStack = new CoreStackSDK()
-    const registry = CoreStack.contractRegistry('localhost:8087')
+    const orch = new Orchestrate()
+    const registry = orch.contractRegistry('localhost:8087')
 
     const contract = {
         id: {

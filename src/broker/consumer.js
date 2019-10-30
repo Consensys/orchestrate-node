@@ -4,7 +4,7 @@ import kafka from 'kafka-node'
 /**
  * [Consumer is a generic class for a kafka.Consumer and kafka.ConsumerGroup]
  */
-class Consumer {
+class BaseConsumer {
 
     /**
      * [constructor initialize an event emitter]
@@ -61,10 +61,10 @@ class Consumer {
 }
 
 /**
- * [Specific instance of Consumer that is able to consume corestack messages]
+ * [Specific instance of Consumer that is able to consume PegaSys Orchestrate messages]
  * @type {class}
  */
-export class CoreStackConsumer extends Consumer {
+export class Consumer extends BaseConsumer {
 
     /**
      * [constructor description]
@@ -93,7 +93,7 @@ export class CoreStackConsumer extends Consumer {
  * [Advanced consumer instance]
  * @type {kafka}
  */
-export class CoreStackConsumerGroup extends Consumer {
+export class ConsumerGroup extends Consumer {
     
     /**
      * [constructor description]

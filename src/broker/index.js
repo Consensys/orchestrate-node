@@ -1,22 +1,22 @@
 import kafka from 'kafka-node'
-import { CoreStackConsumer, CoreStackConsumerGroup } from './consumer'
-import { CoreStackProducer } from './producer'
+import { Consumer, ConsumerGroup } from './consumer'
+import { Producer } from './producer'
 import { WalletGenerator } from './wallet'
 import { unmarshallEnvelope } from './types/envelope/envelope';
 import { 
-  DefaultCSInTopic,
-  DefaultCSOutTopic,
-  DefaultTopicWalletGenerator,
-  DefaultTopicWalletGenerated
+  DEFAULT_TOPIC_TX_CRAFTER,
+  DEFAULT_TOPIC_TX_DECODED,
+  DEFAULT_TOPIC_WALLET_GENERATOR,
+  DEFAULT_TOPIC_WALLET_GENERATED
 } from './default'
 
 /**
- * [CoreStackBroker class gathering producer, consumer for interacting with kafka]
+ * [Broker class gathering producer, consumer for interacting with kafka]
  * @type {class}
  */
-export default class CoreStackBroker {
+export default class Broker {
     /**
-     * [instanciate a kafka broker with custom corestack producer and consumer]
+     * [instanciate a kafka broker with custom producer and consumer]
      * @param {string} endpoint [Kafka endpoint]
      * @param {Object} options  [Options to instanciate kafka-node. see https://github.com/SOHU-Co/kafka-node#options]
      */
@@ -27,15 +27,15 @@ export default class CoreStackBroker {
     }
 
     /**
-     * [producer creates a CoreStackProducer instance]
+     * [producer creates a Producer instance]
      * @param  {string} topic       [Topic name to send envelopes]
      * @param  {Object} options     [Options of kafka-node Producer, see https://github.com/SOHU-Co/kafka-node#producerkafkaclient-options-custompartitioner]
-     * @return {CoreStackProducer}  [CoreStackProducer instance]
+     * @return {Producer}  [Producer instance]
      */
-    producer = async (topic = DefaultCSInTopic, options) => {
-      const CSProducer = new CoreStackProducer(this.client, topic, options)
+    producer = async (topic = DEFAULT_TOPIC_TX_CRAFTER, options) => {
+      const producer = new Producer(this.client, topic, options)
       try {
-        return await CSProducer.connect()
+        return await producer.connect()
       } catch (e) {
         throw new Error('Producer not able to connect:', e)
       }
@@ -63,14 +63,14 @@ export default class CoreStackBroker {
     })
 
     /**
-     * [Consumer creates a CoreStackConsumer instance]
-     * @param  {Array} topics      [List of topics to consume - default = DefaultCSOutTopic]
+     * [Consumer creates a Consumer instance]
+     * @param  {Array} topics      [List of topics to consume - default = DEFAULT_TOPIC_TX_DECODED]
      * @param  {Object} options    [Options of a kafka.Consumer, see https://github.com/SOHU-Co/kafka-node#consumerclient-payloads-options]
-     * @return {CoreStackConsumer} [return a new CoreStackConsumer instance]
+     * @return {Consumer} [return a new Consumer instance]
      */
-    consumer = async (topics = [DefaultCSOutTopic], options) => {
+    consumer = async (topics = [DEFAULT_TOPIC_TX_DECODED], options) => {
       const latestOffsetByTopics = await this.getLatestOffset(topics)
-      const CSConsumer = new CoreStackConsumer(this.client, latestOffsetByTopics, unmarshallEnvelope, options)
+      const CSConsumer = new Consumer(this.client, latestOffsetByTopics, unmarshallEnvelope, options)
       try {
         return await CSConsumer.connect()
       } catch (e) {
@@ -79,13 +79,13 @@ export default class CoreStackBroker {
     }
     
     /**
-     * [ConsumerGroup creates a CoreSatckConsumerGroup instance]
-     * @param  {Array} topics           [List of topics to consume - default = DefaultCSOutTopic]
+     * [ConsumerGroup creates a ConsumerGroup instance]
+     * @param  {Array} topics           [List of topics to consume - default = DEFAULT_TOPIC_TX_DECODED]
      * @param  {Object} options         [Options of a kafka.ConsumerGroup, see https://github.com/SOHU-Co/kafka-node#consumergroupoptions-topics]
-     * @return {CoreStackConsumerGroup} [return a new CoreStackConsumerGroup instance]
+     * @return {ConsumerGroup} [return a new ConsumerGroup instance]
      */
-    consumerGroup = async (topics = [DefaultCSOutTopic], options) => {
-      const CSConsumerGroup = new CoreStackConsumerGroup(this.client, topics, unmarshallEnvelope, options);
+    consumerGroup = async (topics = [DEFAULT_TOPIC_TX_DECODED], options) => {
+      const CSConsumerGroup = new ConsumerGroup(this.client, topics, unmarshallEnvelope, options);
       try {
         return await CSConsumerGroup.connect()
       } catch (e) {
@@ -99,7 +99,7 @@ export default class CoreStackBroker {
      * @param  {Array} topicOut  [Name of the topic to consume a wallet generated]
      * @return {WalletGenerator} [return a new WalletGenerator instance]
      */
-    walletGenerator = async (topicIn = DefaultTopicWalletGenerator, topicOut = [DefaultTopicWalletGenerated]) => { 
+    walletGenerator = async (topicIn = DEFAULT_TOPIC_WALLET_GENERATOR, topicOut = [DEFAULT_TOPIC_WALLET_GENERATED]) => { 
       let producer, consumer
       [producer, consumer] = await Promise.all([this.producer(topicIn), this.consumer(topicOut)])
       return new WalletGenerator(producer, consumer)

@@ -1,7 +1,7 @@
 import { WalletGenerator } from '../wallet'
 import kafka from 'kafka-node'
-import { CoreStackConsumer } from '../consumer'
-import { CoreStackProducer } from '../producer'
+import { Consumer } from '../consumer'
+import { Producer } from '../producer'
 
 
 const testMsg = {
@@ -48,11 +48,11 @@ const mockConsumer = ready => jest.fn(() => ({
 const topics = ['topic']
 const mockUnmarshaller = msg => msg
 const client = new kafka.KafkaClient({kafkaHost: 'testHost:9092'})
-const CSConsumer = new CoreStackConsumer(client, topics, mockUnmarshaller)
-const CSProducer = new CoreStackProducer(client, topics[0])
+const CSConsumer = new Consumer(client, topics, mockUnmarshaller)
+const CSProducer = new Producer(client, topics[0])
 
 let CSWallet
-describe("# CoreStackConsumer", () => {
+describe("# Consumer", () => {
 
     beforeEach(() => {
         kafka.Consumer = mockConsumer(true);

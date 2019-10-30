@@ -1,19 +1,19 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime"
 
-import CoreStackBroker from './broker'
-import { CoreStackWeb3 } from './web3'
-import { CoreStackContractRegistry } from  './contractRegistry'
+import Broker from './broker'
+import { Web3 } from './web3'
+import { ContractRegistry } from  './contractRegistry'
 
 export { ProtocolType } from './broker/types/chain/protocol'
 
 /**
- * [CoreStack with broker and web3]
+ * [Orchestrate is the main class to connect to a PegaSys Orchestrate APIs]
  * @type {class}
  */
-export default class CoreStack {
+export default class Orchestrate {
     /**
-     * [constructor Wrapper for CoreStackSDK with broker and web3]
+     * [constructor Wrapper for Orchestrate with broker and web3]
      */
     constructor() {
         this.brokerClient = {}
@@ -22,35 +22,35 @@ export default class CoreStack {
     }
 
     /**
-     * [broker creates a CoreStackBroker instance]
+     * [broker creates a broker instance to connect to Kafka]
      * @param  {string} endpoint [Kafka endpoint]
      * @param  {Object} options  [Options to instanciate kafka-node. see https://github.com/SOHU-Co/kafka-node#options]
-     * @return {CoreStackBroker} [Class to produce, consume messages with a kafka]
+     * @return {Broker} [Class to produce, consume messages with a kafka]
      */
     broker = (endpoint, options) => {
-        this.brokerClient = new CoreStackBroker(endpoint, options);
+        this.brokerClient = new Broker(endpoint, options);
         return this.brokerClient
     }
 
     /**
-     * [web3 creates a CoreStackWeb3 instance]
+     * [web3 creates a Web3 instance to connect to Ethereum clients]
      * @param  {Object} endpoints [JSON/RPC endpoints with label as key and endpoints as value]
      * @param  {Object} options   [web3.js options. see https://web3js.readthedocs.io/en/1.0/web3-shh.html#web3-module-options]
-     * @return {CoreStackWeb3}    [Class with web3 instances]
+     * @return {Web3}    [Class with web3 instances]
      */
     web3 = (endpoints, options) => {
-        this.web3Client = new CoreStackWeb3(endpoints, options);
+        this.web3Client = new Web3(endpoints, options);
         return this.web3Client
     }
 
     /**
-     * [contractRegistry creates a CoreStackContractRegistry instance]
+     * [contractRegistry creates a ContractRegistry instance]
      * @param  {String} endpoints               [string object representing the remote gRPC endpoint]
      * @param  {Object} options                 [optional arguments, for instance "credentials" for the gRPC client]
-     * @return {CoreStackContractRegistry}      [Class with contractRegistry instances]
+     * @return {ContractRegistry}      [Class with contractRegistry instances]
      */
     contractRegistry = (endpoint, options) => {
-        this.contractRegistryClient = new CoreStackContractRegistry(endpoint, options);
+        this.contractRegistryClient = new ContractRegistry(endpoint, options);
         return this.contractRegistryClient
     }
 }

@@ -1,10 +1,10 @@
-import CoreStackSDK from '../../src'
+import Orchestrate from '../../src'
 
 // Test for generating many wallets
 (async () => {
     try {
-        //Init CoreStackSDK
-        const CoreStack = new CoreStackSDK()
+        //Init Orchestrate
+        const orch = new Orchestrate()
 
         // Test SDK with SSL_SASL communication
         // const options = {
@@ -17,12 +17,12 @@ import CoreStackSDK from '../../src'
         //       rejectUnauthorized: false
         //     }
         // }
-        // const broker = CoreStack.broker('localhost:9092', options)
+        // const broker = orch.broker('localhost:9092', options)
 
         // Init broker to connect to a kafka borker
-        const broker = CoreStack.broker('localhost:9092')
+        const broker = orch.broker('localhost:9092')
 
-        // Init class to generate wallets, produce, consume in CoreStack
+        // Init class to generate wallets, produce, consume messages transactions envelopes
         const producer = await broker.producer()
         const consumer = await broker.consumer()
         const walletGenerator = await broker.walletGenerator()

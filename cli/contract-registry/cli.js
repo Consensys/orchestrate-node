@@ -1,5 +1,5 @@
 
-const { CoreStackContractRegistry } = require('../../src/contractRegistry/index');
+const { ContractRegistry } = require('../../src/contractRegistry/index');
 const web3 = require('web3');
 const commander = require('commander');
 const program = new commander.Command();
@@ -12,8 +12,8 @@ export const handleGetTags = async options => {
         return;
     }
 
-    const CSCR = new CoreStackContractRegistry(options.endpoint);
-    let err = await CSCR.getTags(options.name)
+    const registry = new ContractRegistry(options.endpoint);
+    let err = await registry.getTags(options.name)
         .then(res => 
             // eslint-disable-next-line no-console
             console.log(res))
@@ -40,8 +40,8 @@ export const handleGetCatalog = async options => {
         return;
     }
 
-    const CSCR = new CoreStackContractRegistry(options.endpoint);
-    let err = await CSCR.getCatalog()
+    const registry = new ContractRegistry(options.endpoint);
+    let err = await registry.getCatalog()
         .then(res => 
             // eslint-disable-next-line no-console
             console.log(res))
@@ -68,7 +68,7 @@ export const handleAddContract = async options => {
         return;
     }
 
-    const CSCR = new CoreStackContractRegistry(options.endpoint);
+    const registry = new ContractRegistry(options.endpoint);
     let artifact;
 
     try { 
@@ -92,7 +92,7 @@ export const handleAddContract = async options => {
         deployedBytecode: web3.utils.hexToBytes(artifact.deployedBytecode),
     }
 
-    let err = await CSCR.register(contract)
+    let err = await registry.register(contract)
         .catch(err => { return err; });
 
     if (err) {

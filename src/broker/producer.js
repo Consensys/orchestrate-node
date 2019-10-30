@@ -2,14 +2,11 @@ import kafka from 'kafka-node'
 import uuidv4 from 'uuid/v4'
 import { marshallEnvelope } from './types/envelope/envelope'
 
-export const DefaultTopicInCoreStack = 'topic-tx-crafter'
-export const DefaultTopicOutCoreStack = 'topic-tx-decoded'
-
 /**
- * [Producer is a generic class for a kafka.Producer including connect and produce]
+ * [BaseProducer is a generic class for a kafka.Producer including connect and produce]
  * @type {class}
  */
-export class Producer {
+export class BaseProducer {
     /**
      * [constructor initialize a kafka.Producer]
      * @param {kafka.KafkaClient} client  [kafka.KafkaClient instance]
@@ -21,7 +18,7 @@ export class Producer {
 
     /**
      * [Handles the readiness of the instance]
-     * @return {Promise} [Resolves if the CoreStackProducer is already ready or
+     * @return {Promise} [Resolves if the Producer is already ready or
      * successfully connected, throws the received error otherwise]
      */
     connect = () => new Promise((resolve, reject) => {
@@ -50,11 +47,11 @@ export class Producer {
 }
 
 /**
- * [CoreStackProducer is a Producer wrapper to be used for sending CoreStack envelopes types]
+ * [Producer is a Producer wrapper to be used to send transaction envelopes into PegaSys Orchestrate]
  */
-export class CoreStackProducer extends Producer {
+export class Producer extends BaseProducer {
   /**
-   * [constructor initialize a kafka producer capable of sending corestack shaped messages]
+   * [constructor initialize a kafka producer capable of sending shaped envelopes]
    * @param {kafka.KafkaClient} client  [kafka.KafkaClient instance]
    * @param {string} topic              [Topic name to send envelopes]
    * @param {Object} options            [Options of kafka-node Producer, see https://github.com/SOHU-Co/kafka-node#producerkafkaclient-options-custompartitioner]

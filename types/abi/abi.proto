@@ -6,7 +6,7 @@ package abi;
 
 message ContractId {
     // Registry of contract
-    // e.g. "registry.consensys.net/corestack"
+    // e.g. "registry.consensys.net"
     string registry = 1;
 
     // Name of contract

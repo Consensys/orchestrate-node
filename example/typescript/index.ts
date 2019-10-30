@@ -1,8 +1,8 @@
-import CoreStack, { CoreStackRequest } from "core-stack-sdk";
+import Orchestrate, { Request } from "pegasys-orchestrate";
 
 (async() => {
-    const CS = new CoreStack();
-    const broker = CS.broker("localhost:9092");
+    const orch = new Orchestrate();
+    const broker = orch.broker("localhost:9092");
   
     // Init producer, consumer, wallet generator
     const producer = await broker.producer();
@@ -16,7 +16,7 @@ import CoreStack, { CoreStackRequest } from "core-stack-sdk";
     });
   
     // Produce a transaction
-    const payload: CoreStackRequest = {
+    const payload: Request = {
         chainId: '888',
         to: "0x71b7d704598945e72e7581bac3b070d300dc6eb3",
         call: {

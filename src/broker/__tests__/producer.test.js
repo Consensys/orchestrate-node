@@ -1,4 +1,4 @@
-import { CoreStackProducer } from '../producer'
+import { Producer } from '../producer'
 import { unmarshallEnvelope } from '../types/envelope/envelope'
 import kafka from 'kafka-node'
 
@@ -21,14 +21,14 @@ const mockProducer = ready => jest.fn(() => ({
 }))
 
 let topic, CSProducer
-describe("# CoreStackProducer ", () => {
+describe("# Producer ", () => {
     beforeEach(() => {
         kafka.Producer = mockProducer(true);
         topic = 'testTopic'
-        CSProducer = new CoreStackProducer('', topic)
+        CSProducer = new Producer('', topic)
     })
 
-    test('Init CoreStackProducer', async () => {
+    test('Init Producer', async () => {
         expect(typeof CSProducer.connect).toBe('function')
         expect(typeof CSProducer.marshall).toBe('function')
         expect(typeof CSProducer.send).toBe('function')

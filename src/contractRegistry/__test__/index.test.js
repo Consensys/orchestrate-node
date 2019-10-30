@@ -1,9 +1,9 @@
-import { CoreStackContractRegistry } from '../index'
+import { ContractRegistry } from '../index'
 
-describe('# CoreStackContractRegistry', () => {
+describe('# ContractRegistry', () => {
 
     test('Init ContractRegistry', async () => {
-        const CSCR = new CoreStackContractRegistry('localhost:1000');
+        const CSCR = new ContractRegistry('localhost:1000');
         expect(typeof CSCR.formatRegisterRequest).toBe('function');
         expect(typeof CSCR.register).toBe('function');
 

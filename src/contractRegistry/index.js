@@ -24,9 +24,9 @@ const PACKAGE_DEFINITION = protoLoader.loadSync(PROTO_FILE, {
 const PROTO_DESCRIPTOR = grpc.loadPackageDefinition(PACKAGE_DEFINITION);
 
 /**
- * [CoreStackContractRegistry is a gRPC client for the contract registry]
+ * [ContractRegistry is a gRPC client for the contract registry]
  */
-export class CoreStackContractRegistry {
+export class ContractRegistry {
 
     /**
      * [constructor init a gRPC client for the contract registry]

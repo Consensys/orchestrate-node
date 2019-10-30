@@ -1,13 +1,13 @@
-import CoreStack from '../index'
+import Orchestrate from '../index'
 
-describe("# CoreStack ", () => {
+describe("# orch ", () => {
 
-    test('Init CoreStack', async () => {
-        const CS = new CoreStack()
-        expect(typeof CS.broker).toBe('function')
-        expect(typeof CS.web3).toBe('function')
+    test('Init orch', async () => {
+        const orch = new Orchestrate()
+        expect(typeof orch.broker).toBe('function')
+        expect(typeof orch.web3).toBe('function')
 
-        const broker = CS.broker()
+        const broker = orch.broker()
         expect(typeof broker).toBe('object')
 
         const providers = {
@@ -15,7 +15,7 @@ describe("# CoreStack ", () => {
             ropsten: 'ropstenProvider',
             rinkeby: 'rinkedbyProvider'
         }
-        const web3 = CS.web3(providers)
+        const web3 = orch.web3(providers)
         expect(typeof web3).toBe('object')
     })
 
