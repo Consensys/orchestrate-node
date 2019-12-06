@@ -1,20 +1,24 @@
 .PHONY: all protobuf import-proto
 
 # gitlab options
-PROTO_REPO=pkg
+PROTO_REPO=orchestrate
 PROTO_DIST_DIR=types
 PROTO_SRC_DIR=types
-GITLAB_PATH=ConsenSys/client/fr/core-stack
-PROTO_TAG=v0.7.0
+COMMIT_HASH=5f1a7a66912923437150624617dae387022590db
 
 protobuf: ## Generate protobuf stubs
-	@docker-compose -f scripts/docker-compose.yml up
-	@sh scripts/update-permissions.sh
+	# Delete existing stubs
+	@find . -type f -name '*._pb.js' -delete
+	@docker-compose -f scripts/docker-compose.yml up --build
 
 import-proto:
-	@rm -rf $(PROTO_REPO) $(PROTO_DIST_DIR)
-	@git clone -b $(PROTO_TAG) --single-branch git@gitlab.com:$(GITLAB_PATH)/$(PROTO_REPO).git;
+	@rm -rf orchestrate $(PROTO_DIST_DIR)
+	@git clone --single-branch git@gitlab.com:ConsenSys/client/fr/core-stack/$(PROTO_REPO).git;
+	@cd $(PROTO_REPO)
+	@git checkout $(COMMIT)
+	@cd ..
 	@mkdir -p $(PROTO_DIST_DIR);
 	@mv $(PROTO_REPO)/$(PROTO_SRC_DIR)/* $(PROTO_DIST_DIR);
 	@rm -rf $(PROTO_REPO)/;
-	@rm $(PROTO_DIST_DIR)/*/*.go;
+	@find ./$(PROTO_DIST_DIR) -type f -name '*.go' -delete
+	@find ./$(PROTO_DIST_DIR) -type d -empty -delete

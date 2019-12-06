@@ -2,11 +2,11 @@ import private_pb from './private_pb'
 import { capitalize } from '../../utils/formatters'
 
 /**
- * [marshallPrivate: marshall the private object contained int the Call object of the transaction payload and sets it as the contractId field in our protoBuff]
+ * [marshalPrivate: marshal the private object contained int the Call object of the transaction payload and sets it as the contractId field in our protoBuff]
  * @param  {Object}  args    [protoBuff to be set]
  * @param  {Object}  msg     [private object contained in the Call object]
  */
-export const marshallPrivate = (args, msg) => {
+export const marshalPrivate = (args, msg) => {
     let privateProto = args.getPrivate()
     if (!privateProto) {
         privateProto = new private_pb.Private()

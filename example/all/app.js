@@ -24,7 +24,7 @@ import Orchestrate from '../../src'
 
         // Init class to generate wallets, produce, consume messages transactions envelopes
         const producer = await broker.producer()
-        const consumer = await broker.consumer()
+        const consumer = await broker.consumerGroup()
         const walletGenerator = await broker.walletGenerator()
 
         const consume = consumer.consume()

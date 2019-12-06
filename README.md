@@ -14,7 +14,7 @@ And you can consult as well all [PegaSys Orchestrate's documentation here.](http
 Install the package with:
 
 ```
-npm install pegasys-orchestrate-node --save
+npm install pegasys-orchestrate --save
 ```
 
 # Usage

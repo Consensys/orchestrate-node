@@ -1,52 +1,53 @@
 import envelope_pb from './envelope_pb'
-import { marshallChain, unmarshallChain } from '../chain/chain'
-import { marshallProtocol } from '../chain/protocol'
-import { marshallTransaction, unmarshallRawTx } from '../ethereum/transaction'
-import { marshallAccount } from '../ethereum/base'
-import { marshallCall } from '../args/call'
-import { marshallPrivate } from '../args/private'
+import { marshalChain, unmarshalChain } from '../chain/chain'
+import { marshalProtocol } from '../chain/protocol'
+import { marshalTransaction, unmarshalRawTx } from '../ethereum/transaction'
+import { marshalAccount } from '../ethereum/base'
+import { marshalCall } from '../args/call'
+import { marshalPrivate } from '../args/private'
 import { mapToObject, rawToHex } from '../../utils/formatters'
-import { unmarshallRawReceipt } from '../ethereum/receipt'
+import { unmarshalRawReceipt } from '../ethereum/receipt'
 
 /**
- * [marshallEnvelope takes a transaction payload as an input and output a protoBuff version of it called an envelop]
+ * [MarshalEnvelope takes a transaction payload as an input and output a protoBuff version of it called an envelop]
  * @param  {Object}   msg     [transaction payload]
  * @return {Object | Error}   [envelop protoBuff object or an error if the input is not an object]
  */
-export const marshallEnvelope = msg => {
+export const marshalEnvelope = msg => {
     const envelope = new envelope_pb.Envelope()
     switch (typeof msg) {
         case 'object':
             Object.entries(msg).forEach(([key, value]) => {
                 switch(key) {
                     case 'chainId':
-                        envelope.setChain(marshallChain(value))
+                        envelope.setChain(marshalChain(value))
                         break;
                     case 'protocol':
-                        marshallProtocol(envelope, value)
+                        marshalProtocol(envelope, value)
                         break;
                     case 'to':
                     case 'value':
                     case 'gas':
                     case 'gasPrice':
                     case 'data':
+                    case 'nonce':
                     case 'raw':
                     case 'hash':
-                        marshallTransaction(envelope, {[key]: value})
+                        marshalTransaction(envelope, {[key]: value})
                         break;
                     case 'from':
-                        envelope.setFrom(marshallAccount(value))
+                        envelope.setFrom(marshalAccount(value))
                         break;
                     case 'call':
-                        marshallArgs(envelope, {call: value})
+                        marshalArgs(envelope, {call: value})
                         break;
                     case 'privateFrom':
                     case 'privateFor':
                     case 'privateTxType':
-                        marshallArgs(envelope, {private: {[key]: value}})
+                        marshalArgs(envelope, {private: {[key]: value}})
                         break;
                     case 'metadata':
-                        marshallMetadata(envelope, value)
+                        marshalMetadata(envelope, value)
                         break;
                     default:
                         throw new Error(`Envelope message do not expect a "${key}" field`)
@@ -60,11 +61,11 @@ export const marshallEnvelope = msg => {
 }
 
 /**
- * [marshallArgs takes the call object of the transaction as an input and set its value in our protoBuff]
+ * [marshalArgs takes the call object of the transaction as an input and set its value in our protoBuff]
  * @param  {Object}   envelope     [envelope protoBuff]
  * @param  {Object}   msg          [call object of the transaction]
  */
-export const marshallArgs = (envelope, msg) => {
+export const marshalArgs = (envelope, msg) => {
     let args = envelope.getArgs()
     if (!args) {
         args = new envelope_pb.Args()
@@ -74,10 +75,10 @@ export const marshallArgs = (envelope, msg) => {
         Object.entries(msg).forEach(([key, value]) => {
         switch(key) {
             case 'call':
-                marshallCall(args, value)
+                marshalCall(args, value)
                 break;
             case 'private':
-                marshallPrivate(args, value)
+                marshalPrivate(args, value)
                 break;
             default:
                 throw new Error('Args message not in a valid format')
@@ -91,11 +92,11 @@ export const marshallArgs = (envelope, msg) => {
 }
 
 /**
- * [marshallMetadata takes the metadata object of the transaction as an input and set its value in our protoBuff]
+ * [marshalMetadata takes the metadata object of the transaction as an input and set its value in our protoBuff]
  * @param  {Object}         envelope     [envelope protoBuff]
  * @param  {Object}         msg          [metadata object of the transaction]
  */
-export const marshallMetadata = (envelope, msg) => {
+export const marshalMetadata = (envelope, msg) => {
     let metadata = envelope.getMetadata()
     if (!metadata) {
         metadata = new envelope_pb.Metadata()
@@ -130,18 +131,18 @@ export const marshallMetadata = (envelope, msg) => {
 }
 
 /**
- * [unmarshallEnvelope takes an envelop as input and return a transaction payload]
+ * [UnmarshalEnvelope takes an envelop as input and return a transaction payload]
  * @param  {Object}   msg        [envelope of the transaction to deserialize]
  * @return {Object}   envelope   [transaction payload]
  */
-export const unmarshallEnvelope = msg => {
+export const unmarshalEnvelope = msg => {
     const envelope = envelope_pb.Envelope.deserializeBinary(msg)
     const objEnvelope = envelope.toObject()
 
     if(objEnvelope['from']) { objEnvelope['from'] = rawToHex(objEnvelope['from']) }
-    if(objEnvelope['chain']) { objEnvelope['chain'] = unmarshallChain(objEnvelope['chain']) }
-    if(objEnvelope['receipt']) { objEnvelope['receipt'] = unmarshallRawReceipt(objEnvelope['receipt']) }
-    if(objEnvelope['tx']) { objEnvelope['tx'] = unmarshallRawTx(objEnvelope['tx']) }
+    if(objEnvelope['chain']) { objEnvelope['chain'] = unmarshalChain(objEnvelope['chain']) }
+    if(objEnvelope['receipt']) { objEnvelope['receipt'] = unmarshalRawReceipt(objEnvelope['receipt']) }
+    if(objEnvelope['tx']) { objEnvelope['tx'] = unmarshalRawTx(objEnvelope['tx']) }
 
     return mapToObject(objEnvelope)
 }

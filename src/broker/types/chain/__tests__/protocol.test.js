@@ -1,9 +1,9 @@
 import envelope_pb from '../../envelope/envelope_pb'
-import { marshallProtocol, ProtocolType, unmarshallProtocol } from '../protocol'
+import { marshalProtocol, ProtocolType, unmarshalProtocol } from '../protocol'
 
 let envelope
 
-describe("# marshallTransaction ", () => {
+describe("# marshalTransaction ", () => {
     beforeEach(() => {
         envelope = new envelope_pb.Envelope()
     })
@@ -12,7 +12,7 @@ describe("# marshallTransaction ", () => {
         const testMsg = true
 
         expect(() => {
-            marshallProtocol(envelope, testMsg)
+            marshalProtocol(envelope, testMsg)
         }).toThrow('Protocol message has invalid format');
     })
 
@@ -20,7 +20,7 @@ describe("# marshallTransaction ", () => {
         const testMsg = {error: 'testError'}
 
         expect(() => {
-            marshallProtocol(envelope, testMsg)
+            marshalProtocol(envelope, testMsg)
         }).toThrow('Protocol message do not expect "error" field');
     })
 
@@ -30,17 +30,17 @@ describe("# marshallTransaction ", () => {
         }
 
         expect(() => {
-            marshallProtocol(envelope, testMsg)
+            marshalProtocol(envelope, testMsg)
         }).toThrow('Cannot convert protocol type "invalid.protocol"');
     })
 
-    test("should unmarshall unknown protocol type", () => {
+    test("should unmarshal unknown protocol type", () => {
         const pbMessage = {
             type: 123,
             extraMap: {}
         }
 
-        const receipt = unmarshallProtocol(pbMessage)
+        const receipt = unmarshalProtocol(pbMessage)
         const expected = {
             type: undefined,
             extra: {}
@@ -57,8 +57,8 @@ describe("# marshallTransaction ", () => {
             }
         }
 
-        marshallProtocol(envelope, testMsg)
-        const receipt = unmarshallProtocol(envelope.getProtocol().toObject())
+        marshalProtocol(envelope, testMsg)
+        const receipt = unmarshalProtocol(envelope.getProtocol().toObject())
         expect(receipt).toEqual(testMsg)
     })
 

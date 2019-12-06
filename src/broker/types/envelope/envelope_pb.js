@@ -1,3 +1,4 @@
+// source: types/envelope/envelope.proto
 /**
  * @fileoverview
  * @enhanceable
@@ -170,7 +171,7 @@ proto.envelope.Metadata.deserializeBinaryFromReader = function(msg, reader) {
     case 2:
       var value = msg.getExtraMap();
       reader.readMessage(value, function(message, reader) {
-        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readString, null, "");
+        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readString, null, "", "");
          });
       break;
     default:
@@ -225,9 +226,12 @@ proto.envelope.Metadata.prototype.getId = function() {
 };
 
 
-/** @param {string} value */
+/**
+ * @param {string} value
+ * @return {!proto.envelope.Metadata} returns this
+ */
 proto.envelope.Metadata.prototype.setId = function(value) {
-  jspb.Message.setProto3StringField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
@@ -246,10 +250,11 @@ proto.envelope.Metadata.prototype.getExtraMap = function(opt_noLazyCreate) {
 
 /**
  * Clears values from the map. The map will be non-null.
+ * @return {!proto.envelope.Metadata} returns this
  */
 proto.envelope.Metadata.prototype.clearExtraMap = function() {
   this.getExtraMap().clear();
-};
+  return this;};
 
 
 
@@ -285,7 +290,8 @@ proto.envelope.Args.prototype.toObject = function(opt_includeInstance) {
 proto.envelope.Args.toObject = function(includeInstance, msg) {
   var f, obj = {
     call: (f = msg.getCall()) && types_args_call_pb.Call.toObject(includeInstance, f),
-    pb_private: (f = msg.getPrivate()) && types_args_private_pb.Private.toObject(includeInstance, f)
+    pb_private: (f = msg.getPrivate()) && types_args_private_pb.Private.toObject(includeInstance, f),
+    data: (f = msg.getData()) && types_ethereum_base_pb.Data.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -332,6 +338,11 @@ proto.envelope.Args.deserializeBinaryFromReader = function(msg, reader) {
       reader.readMessage(value,types_args_private_pb.Private.deserializeBinaryFromReader);
       msg.setPrivate(value);
       break;
+    case 3:
+      var value = new types_ethereum_base_pb.Data;
+      reader.readMessage(value,types_ethereum_base_pb.Data.deserializeBinaryFromReader);
+      msg.setData(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -377,6 +388,14 @@ proto.envelope.Args.serializeBinaryToWriter = function(message, writer) {
       types_args_private_pb.Private.serializeBinaryToWriter
     );
   }
+  f = message.getData();
+  if (f != null) {
+    writer.writeMessage(
+      3,
+      f,
+      types_ethereum_base_pb.Data.serializeBinaryToWriter
+    );
+  }
 };
 
 
@@ -390,17 +409,21 @@ proto.envelope.Args.prototype.getCall = function() {
 };
 
 
-/** @param {?proto.args.Call|undefined} value */
+/**
+ * @param {?proto.args.Call|undefined} value
+ * @return {!proto.envelope.Args} returns this
+*/
 proto.envelope.Args.prototype.setCall = function(value) {
-  jspb.Message.setWrapperField(this, 1, value);
+  return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.envelope.Args} returns this
  */
 proto.envelope.Args.prototype.clearCall = function() {
-  this.setCall(undefined);
+  return this.setCall(undefined);
 };
 
 
@@ -423,17 +446,21 @@ proto.envelope.Args.prototype.getPrivate = function() {
 };
 
 
-/** @param {?proto.args.Private|undefined} value */
+/**
+ * @param {?proto.args.Private|undefined} value
+ * @return {!proto.envelope.Args} returns this
+*/
 proto.envelope.Args.prototype.setPrivate = function(value) {
-  jspb.Message.setWrapperField(this, 2, value);
+  return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.envelope.Args} returns this
  */
 proto.envelope.Args.prototype.clearPrivate = function() {
-  this.setPrivate(undefined);
+  return this.setPrivate(undefined);
 };
 
 
@@ -443,6 +470,43 @@ proto.envelope.Args.prototype.clearPrivate = function() {
  */
 proto.envelope.Args.prototype.hasPrivate = function() {
   return jspb.Message.getField(this, 2) != null;
+};
+
+
+/**
+ * optional ethereum.Data data = 3;
+ * @return {?proto.ethereum.Data}
+ */
+proto.envelope.Args.prototype.getData = function() {
+  return /** @type{?proto.ethereum.Data} */ (
+    jspb.Message.getWrapperField(this, types_ethereum_base_pb.Data, 3));
+};
+
+
+/**
+ * @param {?proto.ethereum.Data|undefined} value
+ * @return {!proto.envelope.Args} returns this
+*/
+proto.envelope.Args.prototype.setData = function(value) {
+  return jspb.Message.setWrapperField(this, 3, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.envelope.Args} returns this
+ */
+proto.envelope.Args.prototype.clearData = function() {
+  return this.setData(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.envelope.Args.prototype.hasData = function() {
+  return jspb.Message.getField(this, 3) != null;
 };
 
 
@@ -676,17 +740,21 @@ proto.envelope.Envelope.prototype.getChain = function() {
 };
 
 
-/** @param {?proto.chain.Chain|undefined} value */
+/**
+ * @param {?proto.chain.Chain|undefined} value
+ * @return {!proto.envelope.Envelope} returns this
+*/
 proto.envelope.Envelope.prototype.setChain = function(value) {
-  jspb.Message.setWrapperField(this, 1, value);
+  return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.envelope.Envelope} returns this
  */
 proto.envelope.Envelope.prototype.clearChain = function() {
-  this.setChain(undefined);
+  return this.setChain(undefined);
 };
 
 
@@ -709,17 +777,21 @@ proto.envelope.Envelope.prototype.getProtocol = function() {
 };
 
 
-/** @param {?proto.chain.Protocol|undefined} value */
+/**
+ * @param {?proto.chain.Protocol|undefined} value
+ * @return {!proto.envelope.Envelope} returns this
+*/
 proto.envelope.Envelope.prototype.setProtocol = function(value) {
-  jspb.Message.setWrapperField(this, 2, value);
+  return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.envelope.Envelope} returns this
  */
 proto.envelope.Envelope.prototype.clearProtocol = function() {
-  this.setProtocol(undefined);
+  return this.setProtocol(undefined);
 };
 
 
@@ -742,17 +814,21 @@ proto.envelope.Envelope.prototype.getFrom = function() {
 };
 
 
-/** @param {?proto.ethereum.Account|undefined} value */
+/**
+ * @param {?proto.ethereum.Account|undefined} value
+ * @return {!proto.envelope.Envelope} returns this
+*/
 proto.envelope.Envelope.prototype.setFrom = function(value) {
-  jspb.Message.setWrapperField(this, 3, value);
+  return jspb.Message.setWrapperField(this, 3, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.envelope.Envelope} returns this
  */
 proto.envelope.Envelope.prototype.clearFrom = function() {
-  this.setFrom(undefined);
+  return this.setFrom(undefined);
 };
 
 
@@ -775,17 +851,21 @@ proto.envelope.Envelope.prototype.getTx = function() {
 };
 
 
-/** @param {?proto.ethereum.Transaction|undefined} value */
+/**
+ * @param {?proto.ethereum.Transaction|undefined} value
+ * @return {!proto.envelope.Envelope} returns this
+*/
 proto.envelope.Envelope.prototype.setTx = function(value) {
-  jspb.Message.setWrapperField(this, 4, value);
+  return jspb.Message.setWrapperField(this, 4, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.envelope.Envelope} returns this
  */
 proto.envelope.Envelope.prototype.clearTx = function() {
-  this.setTx(undefined);
+  return this.setTx(undefined);
 };
 
 
@@ -808,17 +888,21 @@ proto.envelope.Envelope.prototype.getReceipt = function() {
 };
 
 
-/** @param {?proto.ethereum.Receipt|undefined} value */
+/**
+ * @param {?proto.ethereum.Receipt|undefined} value
+ * @return {!proto.envelope.Envelope} returns this
+*/
 proto.envelope.Envelope.prototype.setReceipt = function(value) {
-  jspb.Message.setWrapperField(this, 5, value);
+  return jspb.Message.setWrapperField(this, 5, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.envelope.Envelope} returns this
  */
 proto.envelope.Envelope.prototype.clearReceipt = function() {
-  this.setReceipt(undefined);
+  return this.setReceipt(undefined);
 };
 
 
@@ -841,9 +925,12 @@ proto.envelope.Envelope.prototype.getErrorsList = function() {
 };
 
 
-/** @param {!Array<!proto.error.Error>} value */
+/**
+ * @param {!Array<!proto.error.Error>} value
+ * @return {!proto.envelope.Envelope} returns this
+*/
 proto.envelope.Envelope.prototype.setErrorsList = function(value) {
-  jspb.Message.setRepeatedWrapperField(this, 6, value);
+  return jspb.Message.setRepeatedWrapperField(this, 6, value);
 };
 
 
@@ -859,9 +946,10 @@ proto.envelope.Envelope.prototype.addErrors = function(opt_value, opt_index) {
 
 /**
  * Clears the list making it empty but non-null.
+ * @return {!proto.envelope.Envelope} returns this
  */
 proto.envelope.Envelope.prototype.clearErrorsList = function() {
-  this.setErrorsList([]);
+  return this.setErrorsList([]);
 };
 
 
@@ -875,17 +963,21 @@ proto.envelope.Envelope.prototype.getArgs = function() {
 };
 
 
-/** @param {?proto.envelope.Args|undefined} value */
+/**
+ * @param {?proto.envelope.Args|undefined} value
+ * @return {!proto.envelope.Envelope} returns this
+*/
 proto.envelope.Envelope.prototype.setArgs = function(value) {
-  jspb.Message.setWrapperField(this, 7, value);
+  return jspb.Message.setWrapperField(this, 7, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.envelope.Envelope} returns this
  */
 proto.envelope.Envelope.prototype.clearArgs = function() {
-  this.setArgs(undefined);
+  return this.setArgs(undefined);
 };
 
 
@@ -908,17 +1000,21 @@ proto.envelope.Envelope.prototype.getMetadata = function() {
 };
 
 
-/** @param {?proto.envelope.Metadata|undefined} value */
+/**
+ * @param {?proto.envelope.Metadata|undefined} value
+ * @return {!proto.envelope.Envelope} returns this
+*/
 proto.envelope.Envelope.prototype.setMetadata = function(value) {
-  jspb.Message.setWrapperField(this, 8, value);
+  return jspb.Message.setWrapperField(this, 8, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.envelope.Envelope} returns this
  */
 proto.envelope.Envelope.prototype.clearMetadata = function() {
-  this.setMetadata(undefined);
+  return this.setMetadata(undefined);
 };
 
 

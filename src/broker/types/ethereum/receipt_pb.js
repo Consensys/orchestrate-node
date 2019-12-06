@@ -1,3 +1,4 @@
+// source: types/ethereum/receipt.proto
 /**
  * @fileoverview
  * @enhanceable
@@ -165,7 +166,7 @@ proto.ethereum.Log.deserializeBinaryFromReader = function(msg, reader) {
     case 5:
       var value = msg.getDecodedDataMap();
       reader.readMessage(value, function(message, reader) {
-        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readString, null, "");
+        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readString, null, "", "");
          });
       break;
     case 6:
@@ -314,17 +315,21 @@ proto.ethereum.Log.prototype.getAddress = function() {
 };
 
 
-/** @param {?proto.ethereum.Account|undefined} value */
+/**
+ * @param {?proto.ethereum.Account|undefined} value
+ * @return {!proto.ethereum.Log} returns this
+*/
 proto.ethereum.Log.prototype.setAddress = function(value) {
-  jspb.Message.setWrapperField(this, 1, value);
+  return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.ethereum.Log} returns this
  */
 proto.ethereum.Log.prototype.clearAddress = function() {
-  this.setAddress(undefined);
+  return this.setAddress(undefined);
 };
 
 
@@ -347,9 +352,12 @@ proto.ethereum.Log.prototype.getTopicsList = function() {
 };
 
 
-/** @param {!Array<!proto.ethereum.Hash>} value */
+/**
+ * @param {!Array<!proto.ethereum.Hash>} value
+ * @return {!proto.ethereum.Log} returns this
+*/
 proto.ethereum.Log.prototype.setTopicsList = function(value) {
-  jspb.Message.setRepeatedWrapperField(this, 2, value);
+  return jspb.Message.setRepeatedWrapperField(this, 2, value);
 };
 
 
@@ -365,9 +373,10 @@ proto.ethereum.Log.prototype.addTopics = function(opt_value, opt_index) {
 
 /**
  * Clears the list making it empty but non-null.
+ * @return {!proto.ethereum.Log} returns this
  */
 proto.ethereum.Log.prototype.clearTopicsList = function() {
-  this.setTopicsList([]);
+  return this.setTopicsList([]);
 };
 
 
@@ -404,9 +413,12 @@ proto.ethereum.Log.prototype.getData_asU8 = function() {
 };
 
 
-/** @param {!(string|Uint8Array)} value */
+/**
+ * @param {!(string|Uint8Array)} value
+ * @return {!proto.ethereum.Log} returns this
+ */
 proto.ethereum.Log.prototype.setData = function(value) {
-  jspb.Message.setProto3BytesField(this, 3, value);
+  return jspb.Message.setProto3BytesField(this, 3, value);
 };
 
 
@@ -419,9 +431,12 @@ proto.ethereum.Log.prototype.getEvent = function() {
 };
 
 
-/** @param {string} value */
+/**
+ * @param {string} value
+ * @return {!proto.ethereum.Log} returns this
+ */
 proto.ethereum.Log.prototype.setEvent = function(value) {
-  jspb.Message.setProto3StringField(this, 4, value);
+  return jspb.Message.setProto3StringField(this, 4, value);
 };
 
 
@@ -440,10 +455,11 @@ proto.ethereum.Log.prototype.getDecodedDataMap = function(opt_noLazyCreate) {
 
 /**
  * Clears values from the map. The map will be non-null.
+ * @return {!proto.ethereum.Log} returns this
  */
 proto.ethereum.Log.prototype.clearDecodedDataMap = function() {
   this.getDecodedDataMap().clear();
-};
+  return this;};
 
 
 /**
@@ -455,9 +471,12 @@ proto.ethereum.Log.prototype.getBlockNumber = function() {
 };
 
 
-/** @param {number} value */
+/**
+ * @param {number} value
+ * @return {!proto.ethereum.Log} returns this
+ */
 proto.ethereum.Log.prototype.setBlockNumber = function(value) {
-  jspb.Message.setProto3IntField(this, 6, value);
+  return jspb.Message.setProto3IntField(this, 6, value);
 };
 
 
@@ -471,17 +490,21 @@ proto.ethereum.Log.prototype.getTxHash = function() {
 };
 
 
-/** @param {?proto.ethereum.Hash|undefined} value */
+/**
+ * @param {?proto.ethereum.Hash|undefined} value
+ * @return {!proto.ethereum.Log} returns this
+*/
 proto.ethereum.Log.prototype.setTxHash = function(value) {
-  jspb.Message.setWrapperField(this, 7, value);
+  return jspb.Message.setWrapperField(this, 7, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.ethereum.Log} returns this
  */
 proto.ethereum.Log.prototype.clearTxHash = function() {
-  this.setTxHash(undefined);
+  return this.setTxHash(undefined);
 };
 
 
@@ -503,9 +526,12 @@ proto.ethereum.Log.prototype.getTxIndex = function() {
 };
 
 
-/** @param {number} value */
+/**
+ * @param {number} value
+ * @return {!proto.ethereum.Log} returns this
+ */
 proto.ethereum.Log.prototype.setTxIndex = function(value) {
-  jspb.Message.setProto3IntField(this, 8, value);
+  return jspb.Message.setProto3IntField(this, 8, value);
 };
 
 
@@ -519,17 +545,21 @@ proto.ethereum.Log.prototype.getBlockHash = function() {
 };
 
 
-/** @param {?proto.ethereum.Hash|undefined} value */
+/**
+ * @param {?proto.ethereum.Hash|undefined} value
+ * @return {!proto.ethereum.Log} returns this
+*/
 proto.ethereum.Log.prototype.setBlockHash = function(value) {
-  jspb.Message.setWrapperField(this, 9, value);
+  return jspb.Message.setWrapperField(this, 9, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.ethereum.Log} returns this
  */
 proto.ethereum.Log.prototype.clearBlockHash = function() {
-  this.setBlockHash(undefined);
+  return this.setBlockHash(undefined);
 };
 
 
@@ -551,9 +581,12 @@ proto.ethereum.Log.prototype.getIndex = function() {
 };
 
 
-/** @param {number} value */
+/**
+ * @param {number} value
+ * @return {!proto.ethereum.Log} returns this
+ */
 proto.ethereum.Log.prototype.setIndex = function(value) {
-  jspb.Message.setProto3IntField(this, 10, value);
+  return jspb.Message.setProto3IntField(this, 10, value);
 };
 
 
@@ -566,9 +599,12 @@ proto.ethereum.Log.prototype.getRemoved = function() {
 };
 
 
-/** @param {boolean} value */
+/**
+ * @param {boolean} value
+ * @return {!proto.ethereum.Log} returns this
+ */
 proto.ethereum.Log.prototype.setRemoved = function(value) {
-  jspb.Message.setProto3BooleanField(this, 11, value);
+  return jspb.Message.setProto3BooleanField(this, 11, value);
 };
 
 
@@ -830,17 +866,21 @@ proto.ethereum.Receipt.prototype.getTxHash = function() {
 };
 
 
-/** @param {?proto.ethereum.Hash|undefined} value */
+/**
+ * @param {?proto.ethereum.Hash|undefined} value
+ * @return {!proto.ethereum.Receipt} returns this
+*/
 proto.ethereum.Receipt.prototype.setTxHash = function(value) {
-  jspb.Message.setWrapperField(this, 1, value);
+  return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.ethereum.Receipt} returns this
  */
 proto.ethereum.Receipt.prototype.clearTxHash = function() {
-  this.setTxHash(undefined);
+  return this.setTxHash(undefined);
 };
 
 
@@ -863,17 +903,21 @@ proto.ethereum.Receipt.prototype.getBlockHash = function() {
 };
 
 
-/** @param {?proto.ethereum.Hash|undefined} value */
+/**
+ * @param {?proto.ethereum.Hash|undefined} value
+ * @return {!proto.ethereum.Receipt} returns this
+*/
 proto.ethereum.Receipt.prototype.setBlockHash = function(value) {
-  jspb.Message.setWrapperField(this, 2, value);
+  return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.ethereum.Receipt} returns this
  */
 proto.ethereum.Receipt.prototype.clearBlockHash = function() {
-  this.setBlockHash(undefined);
+  return this.setBlockHash(undefined);
 };
 
 
@@ -895,9 +939,12 @@ proto.ethereum.Receipt.prototype.getBlockNumber = function() {
 };
 
 
-/** @param {number} value */
+/**
+ * @param {number} value
+ * @return {!proto.ethereum.Receipt} returns this
+ */
 proto.ethereum.Receipt.prototype.setBlockNumber = function(value) {
-  jspb.Message.setProto3IntField(this, 3, value);
+  return jspb.Message.setProto3IntField(this, 3, value);
 };
 
 
@@ -910,9 +957,12 @@ proto.ethereum.Receipt.prototype.getTxIndex = function() {
 };
 
 
-/** @param {number} value */
+/**
+ * @param {number} value
+ * @return {!proto.ethereum.Receipt} returns this
+ */
 proto.ethereum.Receipt.prototype.setTxIndex = function(value) {
-  jspb.Message.setProto3IntField(this, 4, value);
+  return jspb.Message.setProto3IntField(this, 4, value);
 };
 
 
@@ -926,17 +976,21 @@ proto.ethereum.Receipt.prototype.getContractAddress = function() {
 };
 
 
-/** @param {?proto.ethereum.Account|undefined} value */
+/**
+ * @param {?proto.ethereum.Account|undefined} value
+ * @return {!proto.ethereum.Receipt} returns this
+*/
 proto.ethereum.Receipt.prototype.setContractAddress = function(value) {
-  jspb.Message.setWrapperField(this, 6, value);
+  return jspb.Message.setWrapperField(this, 6, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.ethereum.Receipt} returns this
  */
 proto.ethereum.Receipt.prototype.clearContractAddress = function() {
-  this.setContractAddress(undefined);
+  return this.setContractAddress(undefined);
 };
 
 
@@ -982,9 +1036,12 @@ proto.ethereum.Receipt.prototype.getPostState_asU8 = function() {
 };
 
 
-/** @param {!(string|Uint8Array)} value */
+/**
+ * @param {!(string|Uint8Array)} value
+ * @return {!proto.ethereum.Receipt} returns this
+ */
 proto.ethereum.Receipt.prototype.setPostState = function(value) {
-  jspb.Message.setProto3BytesField(this, 7, value);
+  return jspb.Message.setProto3BytesField(this, 7, value);
 };
 
 
@@ -997,9 +1054,12 @@ proto.ethereum.Receipt.prototype.getStatus = function() {
 };
 
 
-/** @param {number} value */
+/**
+ * @param {number} value
+ * @return {!proto.ethereum.Receipt} returns this
+ */
 proto.ethereum.Receipt.prototype.setStatus = function(value) {
-  jspb.Message.setProto3IntField(this, 8, value);
+  return jspb.Message.setProto3IntField(this, 8, value);
 };
 
 
@@ -1036,9 +1096,12 @@ proto.ethereum.Receipt.prototype.getBloom_asU8 = function() {
 };
 
 
-/** @param {!(string|Uint8Array)} value */
+/**
+ * @param {!(string|Uint8Array)} value
+ * @return {!proto.ethereum.Receipt} returns this
+ */
 proto.ethereum.Receipt.prototype.setBloom = function(value) {
-  jspb.Message.setProto3BytesField(this, 10, value);
+  return jspb.Message.setProto3BytesField(this, 10, value);
 };
 
 
@@ -1052,9 +1115,12 @@ proto.ethereum.Receipt.prototype.getLogsList = function() {
 };
 
 
-/** @param {!Array<!proto.ethereum.Log>} value */
+/**
+ * @param {!Array<!proto.ethereum.Log>} value
+ * @return {!proto.ethereum.Receipt} returns this
+*/
 proto.ethereum.Receipt.prototype.setLogsList = function(value) {
-  jspb.Message.setRepeatedWrapperField(this, 11, value);
+  return jspb.Message.setRepeatedWrapperField(this, 11, value);
 };
 
 
@@ -1070,9 +1136,10 @@ proto.ethereum.Receipt.prototype.addLogs = function(opt_value, opt_index) {
 
 /**
  * Clears the list making it empty but non-null.
+ * @return {!proto.ethereum.Receipt} returns this
  */
 proto.ethereum.Receipt.prototype.clearLogsList = function() {
-  this.setLogsList([]);
+  return this.setLogsList([]);
 };
 
 
@@ -1085,9 +1152,12 @@ proto.ethereum.Receipt.prototype.getGasUsed = function() {
 };
 
 
-/** @param {number} value */
+/**
+ * @param {number} value
+ * @return {!proto.ethereum.Receipt} returns this
+ */
 proto.ethereum.Receipt.prototype.setGasUsed = function(value) {
-  jspb.Message.setProto3IntField(this, 12, value);
+  return jspb.Message.setProto3IntField(this, 12, value);
 };
 
 
@@ -1100,9 +1170,12 @@ proto.ethereum.Receipt.prototype.getCumulativeGasUsed = function() {
 };
 
 
-/** @param {number} value */
+/**
+ * @param {number} value
+ * @return {!proto.ethereum.Receipt} returns this
+ */
 proto.ethereum.Receipt.prototype.setCumulativeGasUsed = function(value) {
-  jspb.Message.setProto3IntField(this, 13, value);
+  return jspb.Message.setProto3IntField(this, 13, value);
 };
 
 

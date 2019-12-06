@@ -1,63 +1,95 @@
 syntax = "proto3";
 
-import "types/envelope/envelope.proto";
-import "types/error/error.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+import "types/envelope/envelope.proto";
+import "types/ethereum/base.proto";
+import "types/chain/chain.proto";
 
-option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/pkg.git/types/envelope-store";
+option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/orchestrate.git/types/envelope-store";
 
 package envelopestore;
 
-// Store is a GRPC service responsible to store Envelopes
-service Store {
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+	info: {
+		title: "Envelope-Store"
+        version: "1.0"
+        contact: {
+            name: "✉ PegaSys Orchestrate"
+            email: "support@pegasys.tech"
+        }
+    }
+    external_docs: {
+        url: "https://docs.orchestrate.pegasys.tech/en/latest/"
+        description: "📒 Documentation of PegaSys Orchestrate"
+    }
+};
+
+// Possible statuses for a transaction
+enum Status {
+    STORED = 0;
+    PENDING = 1;
+    MINED = 2;
+    ERROR = 3;
+}
+
+// Store is a service responsible to store Envelopes
+service EnvelopeStore {
     // Store an envelope
-    rpc Store(StoreRequest) returns (StoreResponse);
-    
-    // LoadByTxHash load an envelope by transaction hash
-	rpc LoadByTxHash(TxHashRequest) returns (StoreResponse);
+    rpc Store (StoreRequest) returns (StoreResponse);
 
-    // LoadByID load an envelope by identifier
-	rpc LoadByID(IDRequest) returns (StoreResponse);
+    // Load envelope by identifier
+    rpc LoadByID (LoadByIDRequest) returns (StoreResponse) {
+        option (google.api.http) = {
+            get: "/v1/envelopes/{id}"
+        };
+    }
 
-    // GetStatus returns envelope status
-    rpc GetStatus(IDRequest) returns (StoreResponse);
+    // Load Envelope by transaction hash
+    rpc LoadByTxHash (LoadByTxHashRequest) returns (StoreResponse);
 
     // SetStatus set an envelope status
-    rpc SetStatus(SetStatusRequest) returns (error.Error);
-    
+    rpc SetStatus (SetStatusRequest) returns (StatusResponse);
+
     // LoadPending load envelopes of pending transactions
-    rpc LoadPending(LoadPendingRequest) returns (LoadPendingResponse);
+    rpc LoadPending (LoadPendingRequest) returns (LoadPendingResponse);
 }
 
-message StoreRequest{
-	envelope.Envelope envelope = 1;
+message StatusInfo {
+    // Status of Transaction
+    Status status = 1;
+
+    // Date events for envelope
+    google.protobuf.Timestamp storedAt = 2;
+    google.protobuf.Timestamp sentAt = 3;
+    google.protobuf.Timestamp minedAt = 4;
+    google.protobuf.Timestamp errorAt = 5;
 }
 
-message StoreResponse{
-	// Status of Envelope
-	string status = 1;
+message StoreRequest {
+    envelope.Envelope envelope = 1;
+}
 
-	// Last update date of envelope stored
-    google.protobuf.Timestamp last_updated = 2;
-    
+message StoreResponse {
     // Envelope
-    envelope.Envelope envelope = 3;
-    
-    // Error
-    error.Error err = 4;
+    envelope.Envelope envelope = 1;
+
+    StatusInfo status_info = 2;
 }
 
-message TxHashRequest{
-    // Chain ID the transaction has been sent to
-    string chain_id = 1;
-
-    // Hash of the transaction
-    string tx_hash = 2;
-}
-
-message IDRequest{
+message LoadByIDRequest {
     // Envelope identifier
     string id = 1;
+}
+
+message LoadByTxHashRequest {
+    // Chain the transaction has been sent to
+    chain.Chain chain = 2;
+
+    // Hash of the transaction
+    ethereum.Hash tx_hash = 3;
 }
 
 message SetStatusRequest {
@@ -65,18 +97,19 @@ message SetStatusRequest {
     string id = 1;
 
     // Status
-    string status = 2;
+    Status status = 2;
+}
+
+message StatusResponse {
+    StatusInfo status_info = 1;
 }
 
 message LoadPendingRequest {
-    // Pending duration in nanoseconds
-    int64 duration = 1;
+    // Pending duration
+    google.protobuf.Duration duration = 1;
 }
 
 message LoadPendingResponse {
     // Pending envelopes
-    repeated envelope.Envelope envelopes = 1;
-
-    // Error
-    error.Error err = 2;
+    repeated StoreResponse responses = 1;
 }

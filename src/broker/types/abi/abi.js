@@ -2,18 +2,18 @@ import abi_pb from './abi_pb'
 import { capitalize } from '../../utils/formatters';
 
 /**
- * [marshallContract: marshall the contract part of the envelope and sets it as the contract field in our protobuff]
+ * [marshalContract: marshal the contract part of the envelope and sets it as the contract field in our protobuff]
  * @param  {Object}            proto  [protoBuff to be set]
- * @param  {string | object}   msg    [part of the envelop to be marshalled]
+ * @param  {string | object}   msg    [part of the envelop to be marshaled]
  */
-export const marshallContract = (proto, msg) => {
+export const marshalContract = (proto, msg) => {
     let contract = proto.getContract()
     if (!contract) {
         contract = new abi_pb.Contract()
     }
     switch (typeof msg) {
         case 'string':
-            marshallContractId(contract, msg)
+            marshalContractId(contract, msg)
             break;
         case 'object':
             Object.entries(msg).forEach(([key, value]) => {
@@ -21,7 +21,7 @@ export const marshallContract = (proto, msg) => {
                     case 'registry':
                     case 'name':
                     case 'tag':
-                        marshallContractId(contract, {[key]: value})
+                        marshalContractId(contract, {[key]: value})
                         break;
                     case 'abi':
                         const abi = Buffer.from(JSON.stringify(value))
@@ -45,11 +45,11 @@ export const marshallContract = (proto, msg) => {
 }
 
 /**
- * [marshallContractId: marshall the registry, name and tag of the envelope and sets it as the contractId field in our protobuff]
+ * [marshalContractId: marshal the registry, name and tag of the envelope and sets it as the contractId field in our protobuff]
  * @param  {Object}            proto  [protoBuff to be set]
- * @param  {string | object}   msg    [part of the envelop to be marshalled]
+ * @param  {string | object}   msg    [part of the envelop to be marshaled]
  */
-export const marshallContractId = (proto, msg) => {
+export const marshalContractId = (proto, msg) => {
     let contractId = proto.getId()
     if (!contractId) {
         contractId = new abi_pb.ContractId()
@@ -76,11 +76,11 @@ export const marshallContractId = (proto, msg) => {
 }
 
 /**
- * [marshallMethod: marshall the signature and abi of the envelope and sets it as the contractId field in our protobuff]
+ * [marshalMethod: marshal the signature and abi of the envelope and sets it as the contractId field in our protobuff]
  * @param  {Object}           proto   [protoBuff to be set]
  * @param  {object | string}  msg     [description]
  */
-export const marshallMethod = (proto, msg) => {
+export const marshalMethod = (proto, msg) => {
     let method = proto.getMethod()
     if (!method) {
         method = new abi_pb.Method()

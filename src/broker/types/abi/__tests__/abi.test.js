@@ -1,4 +1,4 @@
-import { marshallContract, marshallMethod } from '../abi'
+import { marshalContract, marshalMethod } from '../abi'
 import call_pb from '../../args/call_pb'
 
 let call
@@ -8,7 +8,7 @@ const protoToObject = proto => {
     return JSON.parse(buf.toString('ascii'))
 }
 
-describe("# marshallContract ", () => {
+describe("# marshalContract ", () => {
 
     beforeEach(() => {
         call = new call_pb.Call()
@@ -16,7 +16,7 @@ describe("# marshallContract ", () => {
 
     test("set default", () => {
         const testMsg = 'testName'
-        marshallContract(call, testMsg)
+        marshalContract(call, testMsg)
         const contract = call.getContract().toObject()
         expect(contract.id.name).toEqual(testMsg)
         expect(contract.id.tag).toEqual('')
@@ -29,7 +29,7 @@ describe("# marshallContract ", () => {
             error: 'test'
         }
         try {
-            marshallContract(call, testMsg)
+            marshalContract(call, testMsg)
         } catch(e) {
             expect(e.message).toEqual('Contract message not valid')
 
@@ -77,7 +77,7 @@ describe("# marshallContract ", () => {
             }],
             bytecode: '0x608060405234801561001057600080fd5b5061160a806100206000396000f3006080604052600436106100955763ffffffff60e060020a60003504166316d390bf811461009a5780633c8ac88e146100c357806353faa9a91461015157806373b40a5c14610178578063781f5a83146101e7578063898d5a5b1461020e578063995fac'
         }
-        marshallContract(call, testMsg)
+        marshalContract(call, testMsg)
         const contract = call.getContract().toObject()
         expect(testMsg.name).toEqual(contract.id.name)
         expect(testMsg.tag).toEqual(contract.id.tag)
@@ -86,11 +86,11 @@ describe("# marshallContract ", () => {
         expect(testMsg.bytecode).toEqual('0x' + buf.toString('hex'))
     })
 
-    test("marshall multiple times", () => {
+    test("marshal multiple times", () => {
         const testMsg = {
             bytecode: '0x608060405234801561001057600080fd5b5061160a806100206000396000f3006080604052600436106100955763ffffffff60e060020a60003504166316d390bf811461009a5780633c8ac88e146100c357806353faa9a91461015157806373b40a5c14610178578063781f5a83146101e7578063898d5a5b1461020e578063995fac',
         }
-        marshallContract(call, testMsg)
+        marshalContract(call, testMsg)
         let contract = call.getContract().toObject()
         const buf = Buffer.from(contract.bytecode, 'base64') 
         expect('0x' + buf.toString('hex')).toEqual(testMsg.bytecode)
@@ -100,7 +100,7 @@ describe("# marshallContract ", () => {
         const testMsg2 = {
             tag: 'testTag',
         }
-        marshallContract(call, testMsg2)
+        marshalContract(call, testMsg2)
         contract = call.getContract().toObject()
         expect('0x' + buf.toString('hex')).toEqual(testMsg.bytecode)
         expect(contract.id.tag).toEqual(testMsg2.tag)
@@ -110,7 +110,7 @@ describe("# marshallContract ", () => {
 })
 
 
-describe("# marshallMethod ", () => {
+describe("# marshalMethod ", () => {
 
     beforeEach(() => {
         call = new call_pb.Call()
@@ -118,7 +118,7 @@ describe("# marshallMethod ", () => {
 
     test("set default", () => {
         const testMsg = 'testName'
-        marshallMethod(call, testMsg)
+        marshalMethod(call, testMsg)
         const method = call.getMethod().toObject()
         expect(method.signature).toEqual(testMsg)
         expect(method.abi).toEqual('')
@@ -141,17 +141,17 @@ describe("# marshallMethod ", () => {
                 type: 'function'
             },
         }
-        marshallMethod(call, testMsg)
+        marshalMethod(call, testMsg)
         const method = call.getMethod().toObject()
         expect(testMsg.signature).toEqual(method.signature)
         expect(testMsg.abi).toEqual(protoToObject(method.abi))
     })
 
-    test("marshall multiple times", () => {
+    test("marshal multiple times", () => {
         const testMsg = {
             signature: 'testName',
         }
-        marshallMethod(call, testMsg)
+        marshalMethod(call, testMsg)
         let method = call.getMethod().toObject()
         expect(method.signature).toEqual(testMsg.signature)
         expect(method.abi).toEqual('')
@@ -170,7 +170,7 @@ describe("# marshallMethod ", () => {
                 type: 'function'
             }],
         }
-        marshallMethod(call, testMsg2)
+        marshalMethod(call, testMsg2)
         method = call.getMethod().toObject()
 
         expect(testMsg.signature).toEqual(method.signature)

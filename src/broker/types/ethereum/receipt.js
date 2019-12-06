@@ -1,13 +1,13 @@
 import receipt_pb from './receipt_pb'
-import { marshallHash, marshallAccount } from './base'
-import { capitalize, unmarshallRawObj, b64ToHex, rawToHex } from '../../utils/formatters';
+import { marshalHash, marshalAccount } from './base'
+import { capitalize, unmarshalRawObj, b64ToHex, rawToHex } from '../../utils/formatters';
 
 /**
- * [marshallReceipt takes an envelope protoBuff and a transaction payload as an input and sets the receipt protoBuff in our envelope protoBuff]
+ * [marshalReceipt takes an envelope protoBuff and a transaction payload as an input and sets the receipt protoBuff in our envelope protoBuff]
  * @param  {Object}         envelope     [envelope protoBuff]
  * @param  {Object}         msg          [transaction payload]
  */
-export const marshallReceipt = (envelope, msg) => {
+export const marshalReceipt = (envelope, msg) => {
     let receipt = envelope.getReceipt()
     if (!receipt) {
         receipt = new receipt_pb.Receipt()
@@ -18,10 +18,10 @@ export const marshallReceipt = (envelope, msg) => {
                 switch(key) {
                     case 'txHash':
                     case 'blockHash':
-                        receipt[`set${capitalize(key)}`](marshallHash(value))
+                        receipt[`set${capitalize(key)}`](marshalHash(value))
                         break;
                     case 'contractAddress':
-                        receipt[`set${capitalize(key)}`](marshallAccount(value))
+                        receipt[`set${capitalize(key)}`](marshalAccount(value))
                         break;
                     case 'blockNumber':
                     case 'txIndex':
@@ -37,7 +37,7 @@ export const marshallReceipt = (envelope, msg) => {
                         receipt.setBloom(Buffer.from(value.substr(2), "hex"))
                         break;
                     case 'logs':
-                        marshallLogs(receipt, value)
+                        marshalLogs(receipt, value)
                         break;
                     default:
                         throw new Error(`Metadata message do not expect a "${key}" field`)
@@ -53,11 +53,11 @@ export const marshallReceipt = (envelope, msg) => {
 }
 
 /**
- * [marshallLogs takes the logList array of a transaction as an input and output a protoBuff version of it]
+ * [marshalLogs takes the logList array of a transaction as an input and output a protoBuff version of it]
  * @param  {Object}         envelope     [envelope protoBuff]
  * @param  {Object}         msg          [logList array]
  */
-export const marshallLogs = (receipt, msg) => {
+export const marshalLogs = (receipt, msg) => {
     if(typeof msg === 'object') {
         msg.forEach(log => {
             if(typeof log === 'object') {
@@ -65,11 +65,11 @@ export const marshallLogs = (receipt, msg) => {
                 Object.entries(log).forEach(([key, value]) => {
                     switch(key) {
                         case 'address':
-                            logpb[`set${capitalize(key)}`](marshallAccount(value))
+                            logpb[`set${capitalize(key)}`](marshalAccount(value))
                             break;
                         case 'txHash':
                         case 'blockHash':
-                            logpb[`set${capitalize(key)}`](marshallHash(value))
+                            logpb[`set${capitalize(key)}`](marshalHash(value))
                             break;
                         case 'event':
                         case 'blockNumber':
@@ -79,7 +79,7 @@ export const marshallLogs = (receipt, msg) => {
                             logpb[`set${capitalize(key)}`](value)
                             break;
                         case 'topics':
-                            marshallTopics(logpb, value)
+                            marshalTopics(logpb, value)
                             break;
                         case 'data':
                             logpb.setData(Buffer.from(value.substr(2), "hex"))
@@ -106,30 +106,30 @@ export const marshallLogs = (receipt, msg) => {
 }
 
 /**
- * [marshallTopics a topicList as an input and sets it in our log protoBuff]
+ * [marshalTopics a topicList as an input and sets it in our log protoBuff]
  * @param  {Object}  logpb   [log protoBuff]
  * @param  {Object}  msg     [topicList array]
  */
-export const marshallTopics = (logpb, msg) => {
+export const marshalTopics = (logpb, msg) => {
     if(Array.isArray(msg)) {
         msg.forEach(topic => {
-            logpb.addTopics(marshallHash(topic))
+            logpb.addTopics(marshalHash(topic))
         })
     }
 }
 
 
 /**
- * [unmarshallRawReceipt decerialize the Receipt protoBuff into a receipt payload]
+ * [unmarshalRawReceipt decerialize the Receipt protoBuff into a receipt payload]
  * @param   {Object}  receipt   [receipt object of our envelope protoBuff]
  * @return  {Object}  receipt   [raw receipt payload]
  */
-export const unmarshallRawReceipt = receipt => {
+export const unmarshalRawReceipt = receipt => {
     const format = ['txHash', 'blockHash', 'contractAddress']
-    unmarshallRawObj(receipt, format)
+    unmarshalRawObj(receipt, format)
 
     if (receipt['logsList']) {
-        receipt['logsList'] = receipt['logsList'].map(log => unmarshallRawLog(log)) 
+        receipt['logsList'] = receipt['logsList'].map(log => unmarshalRawLog(log)) 
     }
     if (receipt['bloom']) {
         receipt['bloom'] = b64ToHex(receipt['bloom'])
@@ -138,13 +138,13 @@ export const unmarshallRawReceipt = receipt => {
 }
 
 /**
- * [unmarshallRawLog decerialize the Log protoBuff into a LogList]
+ * [unmarshalRawLog decerialize the Log protoBuff into a LogList]
  * @param   {Object}  log   [Log object of our envelope protoBuff]
  * @return  {Object}  log   [LogList object]
  */
-export const unmarshallRawLog = log => {
+export const unmarshalRawLog = log => {
     const format = ['address', 'blockHash', 'txHash']
-    unmarshallRawObj(log, format)
+    unmarshalRawObj(log, format)
 
     if (log['data']) {
         log['data'] = b64ToHex(log['data'])

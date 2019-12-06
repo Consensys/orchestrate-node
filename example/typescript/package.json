@@ -4,9 +4,9 @@
   "description": "test typescript",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "node_modules/typescript/bin/tsc",
     "start": "node index.js",
-    "all": "tsc && node index.js"
+    "all": "node_modules/typescript/bin/tsc && node index.js"
   },
   "keywords": [
     "test"
@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "pegasys-orchestrate": "~0.4.8-alpha.2"
+    "pegasys-orchestrate": "file:../.."
   },
   "devDependencies": {
     "typescript": "~3.5.3"

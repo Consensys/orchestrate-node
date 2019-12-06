@@ -9,7 +9,7 @@ import "types/args/private.proto";
 import "types/args/call.proto";
 import "types/error/error.proto";
 
-option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/pkg.git/types/envelope";
+option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/orchestrate.git/types/envelope";
 
 package envelope;
 
@@ -23,13 +23,16 @@ message Metadata {
     map<string, string> extra = 2;
 }
 
-// Args provided when requesting transaction orchestration
+// Args are provided when requesting an execution
 message Args {
     // Arguments to craft transaction
     args.Call call = 1;
 
     // Private arguments
     args.Private private = 2;
+
+    // Arbitrary data provided by user
+    ethereum.Data data = 3;
 }
 
 // Envelope wraps all information contextual to the transaction orchestrated

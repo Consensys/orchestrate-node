@@ -1,6 +1,6 @@
 import kafka from 'kafka-node'
 import uuidv4 from 'uuid/v4'
-import { marshallEnvelope } from './types/envelope/envelope'
+import { marshalEnvelope } from './types/envelope/envelope'
 
 /**
  * [BaseProducer is a generic class for a kafka.Producer including connect and produce]
@@ -62,12 +62,12 @@ export class Producer extends BaseProducer {
   }
 
   /**
-   * [marshall encode raw message to an Envelope]
+   * [marshal encode raw message to an Envelope]
    * @param  {Object} msg  [raw message to produce an envelope]
    * @return {Buffer}       [return Envelope in proto format]
    */
-  marshall = msg => {
-    const envelope = marshallEnvelope(msg);
+  marshal = msg => {
+    const envelope = marshalEnvelope(msg);
     return Buffer.from(envelope.serializeBinary())
 }
 
@@ -100,7 +100,7 @@ export class Producer extends BaseProducer {
             topic,
             key: msg['chainId'] + '-' + msg['from'],
             ...kafkaOptions,
-            messages: this.marshall(msg)
+            messages: this.marshal(msg)
         },
     ]
 

@@ -1,3 +1,4 @@
+// source: types/args/call.proto
 /**
  * @fileoverview
  * @enhanceable
@@ -192,17 +193,21 @@ proto.args.Call.prototype.getContract = function() {
 };
 
 
-/** @param {?proto.abi.Contract|undefined} value */
+/**
+ * @param {?proto.abi.Contract|undefined} value
+ * @return {!proto.args.Call} returns this
+*/
 proto.args.Call.prototype.setContract = function(value) {
-  jspb.Message.setWrapperField(this, 1, value);
+  return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.args.Call} returns this
  */
 proto.args.Call.prototype.clearContract = function() {
-  this.setContract(undefined);
+  return this.setContract(undefined);
 };
 
 
@@ -225,17 +230,21 @@ proto.args.Call.prototype.getMethod = function() {
 };
 
 
-/** @param {?proto.abi.Method|undefined} value */
+/**
+ * @param {?proto.abi.Method|undefined} value
+ * @return {!proto.args.Call} returns this
+*/
 proto.args.Call.prototype.setMethod = function(value) {
-  jspb.Message.setWrapperField(this, 2, value);
+  return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.args.Call} returns this
  */
 proto.args.Call.prototype.clearMethod = function() {
-  this.setMethod(undefined);
+  return this.setMethod(undefined);
 };
 
 
@@ -257,26 +266,31 @@ proto.args.Call.prototype.getArgsList = function() {
 };
 
 
-/** @param {!Array<string>} value */
+/**
+ * @param {!Array<string>} value
+ * @return {!proto.args.Call} returns this
+ */
 proto.args.Call.prototype.setArgsList = function(value) {
-  jspb.Message.setField(this, 3, value || []);
+  return jspb.Message.setField(this, 3, value || []);
 };
 
 
 /**
  * @param {string} value
  * @param {number=} opt_index
+ * @return {!proto.args.Call} returns this
  */
 proto.args.Call.prototype.addArgs = function(value, opt_index) {
-  jspb.Message.addToRepeatedField(this, 3, value, opt_index);
+  return jspb.Message.addToRepeatedField(this, 3, value, opt_index);
 };
 
 
 /**
  * Clears the list making it empty but non-null.
+ * @return {!proto.args.Call} returns this
  */
 proto.args.Call.prototype.clearArgsList = function() {
-  this.setArgsList([]);
+  return this.setArgsList([]);
 };
 
 

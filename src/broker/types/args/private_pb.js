@@ -1,3 +1,4 @@
+// source: types/args/private.proto
 /**
  * @fileoverview
  * @enhanceable
@@ -185,9 +186,12 @@ proto.args.Private.prototype.getPrivateFrom = function() {
 };
 
 
-/** @param {string} value */
+/**
+ * @param {string} value
+ * @return {!proto.args.Private} returns this
+ */
 proto.args.Private.prototype.setPrivateFrom = function(value) {
-  jspb.Message.setProto3StringField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
@@ -200,26 +204,31 @@ proto.args.Private.prototype.getPrivateForList = function() {
 };
 
 
-/** @param {!Array<string>} value */
+/**
+ * @param {!Array<string>} value
+ * @return {!proto.args.Private} returns this
+ */
 proto.args.Private.prototype.setPrivateForList = function(value) {
-  jspb.Message.setField(this, 2, value || []);
+  return jspb.Message.setField(this, 2, value || []);
 };
 
 
 /**
  * @param {string} value
  * @param {number=} opt_index
+ * @return {!proto.args.Private} returns this
  */
 proto.args.Private.prototype.addPrivateFor = function(value, opt_index) {
-  jspb.Message.addToRepeatedField(this, 2, value, opt_index);
+  return jspb.Message.addToRepeatedField(this, 2, value, opt_index);
 };
 
 
 /**
  * Clears the list making it empty but non-null.
+ * @return {!proto.args.Private} returns this
  */
 proto.args.Private.prototype.clearPrivateForList = function() {
-  this.setPrivateForList([]);
+  return this.setPrivateForList([]);
 };
 
 
@@ -232,9 +241,12 @@ proto.args.Private.prototype.getPrivateTxType = function() {
 };
 
 
-/** @param {string} value */
+/**
+ * @param {string} value
+ * @return {!proto.args.Private} returns this
+ */
 proto.args.Private.prototype.setPrivateTxType = function(value) {
-  jspb.Message.setProto3StringField(this, 3, value);
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 

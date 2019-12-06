@@ -9,11 +9,11 @@ class BaseConsumer {
     /**
      * [constructor initialize an event emitter]
      * @param {kafka.Consumer|kafka.ConsumerGroup} consumer [consumer]
-     * @param {function} unmarshaller [unmarshaller function to process raw message consumed]
+     * @param {function} unmarshaler [unmarshaler function to process raw message consumed]
      */
-    constructor(consumer, unmarshaller) {
+    constructor(consumer, unmarshaler) {
         this.consumer = consumer
-        this.unmarshaller = unmarshaller
+        this.unmarshaler = unmarshaler
         this.emitter = new EventEmitter()
     }
 
@@ -31,7 +31,7 @@ class BaseConsumer {
     })
 
     /**
-     * [consume consume a message with an unmarshaller]
+     * [consume consume a message with an unmarshaler]
      * @return {EventEmitter} [description]
      */
     consume = () => {
@@ -40,7 +40,7 @@ class BaseConsumer {
           msg => {
             this.emitter.emit('message', {
               ...msg,
-              value: this.unmarshaller(msg.value),
+              value: this.unmarshaler(msg.value),
             }
           )
           }
@@ -70,10 +70,10 @@ export class Consumer extends BaseConsumer {
      * [constructor description]
      * @param {kafka.KafkaClient} client       [kafka.KafkaClient instance]
      * @param {Array}             topics       [List of topics to consume]
-     * @param {function}          unmarshaller [unmarshaller function to process raw message consumed]
+     * @param {function}          unmarshaler [unmarshaler function to process raw message consumed]
      * @param {Object}            options      [Options of a kafka.Consumer, see https://github.com/SOHU-Co/kafka-node#consumerclient-payloads-options]
      */
-    constructor(client, topics, unmarshaller, options) {
+    constructor(client, topics, unmarshaler, options) {
       const fetchRequests = Object.keys(topics).map(topic => ({topic, offset: topics[topic]}))
       const consumer = new kafka.Consumer(
         client,
@@ -84,7 +84,7 @@ export class Consumer extends BaseConsumer {
           ...options
         }
       )
-      super(consumer, unmarshaller)
+      super(consumer, unmarshaler)
       this.topics = topics
     }
 }
@@ -93,16 +93,16 @@ export class Consumer extends BaseConsumer {
  * [Advanced consumer instance]
  * @type {kafka}
  */
-export class ConsumerGroup extends Consumer {
+export class ConsumerGroup extends BaseConsumer {
     
     /**
      * [constructor description]
      * @param {kafka.KafkaClient} client       [kafka.KafkaClient instance]
      * @param {Array}             topics       [List of topics to consume]
-     * @param {function}          unmarshaller [unmarshaller function to process raw message consumed]
+     * @param {function}          unmarshaler [unmarshaler function to process raw message consumed]
      * @param {Object}            options      [Options of a kafka.Consumer, see https://github.com/SOHU-Co/kafka-node#consumerclient-payloads-options]
      */
-    constructor(client, topics, unmarshaller, options) {
+    constructor(client, topics, unmarshaler, options) {
       const consumer = new kafka.ConsumerGroup(
             {
                 kafkaHost: client.options.kafkaHost,
@@ -111,7 +111,7 @@ export class ConsumerGroup extends Consumer {
             },
             topics
         )
-      super(consumer, unmarshaller)
+      super(consumer, unmarshaler)
       this.topics = topics
     }
 }

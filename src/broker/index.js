@@ -2,7 +2,7 @@ import kafka from 'kafka-node'
 import { Consumer, ConsumerGroup } from './consumer'
 import { Producer } from './producer'
 import { WalletGenerator } from './wallet'
-import { unmarshallEnvelope } from './types/envelope/envelope';
+import { unmarshalEnvelope } from './types/envelope/envelope';
 import { 
   DEFAULT_TOPIC_TX_CRAFTER,
   DEFAULT_TOPIC_TX_DECODED,
@@ -70,7 +70,7 @@ export default class Broker {
      */
     consumer = async (topics = [DEFAULT_TOPIC_TX_DECODED], options) => {
       const latestOffsetByTopics = await this.getLatestOffset(topics)
-      const CSConsumer = new Consumer(this.client, latestOffsetByTopics, unmarshallEnvelope, options)
+      const CSConsumer = new Consumer(this.client, latestOffsetByTopics, unmarshalEnvelope, options)
       try {
         return await CSConsumer.connect()
       } catch (e) {
@@ -85,7 +85,7 @@ export default class Broker {
      * @return {ConsumerGroup} [return a new ConsumerGroup instance]
      */
     consumerGroup = async (topics = [DEFAULT_TOPIC_TX_DECODED], options) => {
-      const CSConsumerGroup = new ConsumerGroup(this.client, topics, unmarshallEnvelope, options);
+      const CSConsumerGroup = new ConsumerGroup(this.client, topics, unmarshalEnvelope, options);
       try {
         return await CSConsumerGroup.connect()
       } catch (e) {

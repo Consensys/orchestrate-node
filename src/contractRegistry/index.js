@@ -37,12 +37,12 @@ export class ContractRegistry {
         this.endpoint = endpoint;
         let credentials = options.credentials || grpc.credentials.createInsecure();
         
-        this.stub = new PROTO_DESCRIPTOR.contractregistry.Registry(
+        this.stub = new PROTO_DESCRIPTOR.contractregistry.ContractRegistry(
             endpoint,
             credentials,
         );
 
-        this.stubSsl = new PROTO_DESCRIPTOR.contractregistry.Registry(
+        this.stubSsl = new PROTO_DESCRIPTOR.contractregistry.ContractRegistry(
             endpoint,
             grpc.credentials.createSsl(),
         );

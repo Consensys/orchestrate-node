@@ -1,3 +1,4 @@
+// source: types/chain/chain.proto
 /**
  * @fileoverview
  * @enhanceable
@@ -178,9 +179,12 @@ proto.chain.Chain.prototype.getId_asU8 = function() {
 };
 
 
-/** @param {!(string|Uint8Array)} value */
+/**
+ * @param {!(string|Uint8Array)} value
+ * @return {!proto.chain.Chain} returns this
+ */
 proto.chain.Chain.prototype.setId = function(value) {
-  jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3BytesField(this, 1, value);
 };
 
 

@@ -25,7 +25,7 @@ export const arrayToObject = array => array.reduce(
   {}
 )
 
-export const unmarshallRawObj = (obj, elmt) => {
+export const unmarshalRawObj = (obj, elmt) => {
     if(!obj) {
         return
     }

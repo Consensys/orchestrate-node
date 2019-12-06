@@ -1,3 +1,4 @@
+// source: types/abi/abi.proto
 /**
  * @fileoverview
  * @enhanceable
@@ -244,9 +245,12 @@ proto.abi.ContractId.prototype.getRegistry = function() {
 };
 
 
-/** @param {string} value */
+/**
+ * @param {string} value
+ * @return {!proto.abi.ContractId} returns this
+ */
 proto.abi.ContractId.prototype.setRegistry = function(value) {
-  jspb.Message.setProto3StringField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
@@ -259,9 +263,12 @@ proto.abi.ContractId.prototype.getName = function() {
 };
 
 
-/** @param {string} value */
+/**
+ * @param {string} value
+ * @return {!proto.abi.ContractId} returns this
+ */
 proto.abi.ContractId.prototype.setName = function(value) {
-  jspb.Message.setProto3StringField(this, 2, value);
+  return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
@@ -274,9 +281,12 @@ proto.abi.ContractId.prototype.getTag = function() {
 };
 
 
-/** @param {string} value */
+/**
+ * @param {string} value
+ * @return {!proto.abi.ContractId} returns this
+ */
 proto.abi.ContractId.prototype.setTag = function(value) {
-  jspb.Message.setProto3StringField(this, 3, value);
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
@@ -477,17 +487,21 @@ proto.abi.Contract.prototype.getId = function() {
 };
 
 
-/** @param {?proto.abi.ContractId|undefined} value */
+/**
+ * @param {?proto.abi.ContractId|undefined} value
+ * @return {!proto.abi.Contract} returns this
+*/
 proto.abi.Contract.prototype.setId = function(value) {
-  jspb.Message.setWrapperField(this, 1, value);
+  return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.abi.Contract} returns this
  */
 proto.abi.Contract.prototype.clearId = function() {
-  this.setId(undefined);
+  return this.setId(undefined);
 };
 
 
@@ -533,9 +547,12 @@ proto.abi.Contract.prototype.getAbi_asU8 = function() {
 };
 
 
-/** @param {!(string|Uint8Array)} value */
+/**
+ * @param {!(string|Uint8Array)} value
+ * @return {!proto.abi.Contract} returns this
+ */
 proto.abi.Contract.prototype.setAbi = function(value) {
-  jspb.Message.setProto3BytesField(this, 2, value);
+  return jspb.Message.setProto3BytesField(this, 2, value);
 };
 
 
@@ -572,9 +589,12 @@ proto.abi.Contract.prototype.getBytecode_asU8 = function() {
 };
 
 
-/** @param {!(string|Uint8Array)} value */
+/**
+ * @param {!(string|Uint8Array)} value
+ * @return {!proto.abi.Contract} returns this
+ */
 proto.abi.Contract.prototype.setBytecode = function(value) {
-  jspb.Message.setProto3BytesField(this, 3, value);
+  return jspb.Message.setProto3BytesField(this, 3, value);
 };
 
 
@@ -588,9 +608,12 @@ proto.abi.Contract.prototype.getMethodsList = function() {
 };
 
 
-/** @param {!Array<!proto.abi.Method>} value */
+/**
+ * @param {!Array<!proto.abi.Method>} value
+ * @return {!proto.abi.Contract} returns this
+*/
 proto.abi.Contract.prototype.setMethodsList = function(value) {
-  jspb.Message.setRepeatedWrapperField(this, 4, value);
+  return jspb.Message.setRepeatedWrapperField(this, 4, value);
 };
 
 
@@ -606,9 +629,10 @@ proto.abi.Contract.prototype.addMethods = function(opt_value, opt_index) {
 
 /**
  * Clears the list making it empty but non-null.
+ * @return {!proto.abi.Contract} returns this
  */
 proto.abi.Contract.prototype.clearMethodsList = function() {
-  this.setMethodsList([]);
+  return this.setMethodsList([]);
 };
 
 
@@ -622,9 +646,12 @@ proto.abi.Contract.prototype.getEventsList = function() {
 };
 
 
-/** @param {!Array<!proto.abi.Event>} value */
+/**
+ * @param {!Array<!proto.abi.Event>} value
+ * @return {!proto.abi.Contract} returns this
+*/
 proto.abi.Contract.prototype.setEventsList = function(value) {
-  jspb.Message.setRepeatedWrapperField(this, 5, value);
+  return jspb.Message.setRepeatedWrapperField(this, 5, value);
 };
 
 
@@ -640,9 +667,10 @@ proto.abi.Contract.prototype.addEvents = function(opt_value, opt_index) {
 
 /**
  * Clears the list making it empty but non-null.
+ * @return {!proto.abi.Contract} returns this
  */
 proto.abi.Contract.prototype.clearEventsList = function() {
-  this.setEventsList([]);
+  return this.setEventsList([]);
 };
 
 
@@ -679,9 +707,12 @@ proto.abi.Contract.prototype.getDeployedbytecode_asU8 = function() {
 };
 
 
-/** @param {!(string|Uint8Array)} value */
+/**
+ * @param {!(string|Uint8Array)} value
+ * @return {!proto.abi.Contract} returns this
+ */
 proto.abi.Contract.prototype.setDeployedbytecode = function(value) {
-  jspb.Message.setProto3BytesField(this, 6, value);
+  return jspb.Message.setProto3BytesField(this, 6, value);
 };
 
 
@@ -818,9 +849,12 @@ proto.abi.Method.prototype.getSignature = function() {
 };
 
 
-/** @param {string} value */
+/**
+ * @param {string} value
+ * @return {!proto.abi.Method} returns this
+ */
 proto.abi.Method.prototype.setSignature = function(value) {
-  jspb.Message.setProto3StringField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
@@ -857,9 +891,12 @@ proto.abi.Method.prototype.getAbi_asU8 = function() {
 };
 
 
-/** @param {!(string|Uint8Array)} value */
+/**
+ * @param {!(string|Uint8Array)} value
+ * @return {!proto.abi.Method} returns this
+ */
 proto.abi.Method.prototype.setAbi = function(value) {
-  jspb.Message.setProto3BytesField(this, 2, value);
+  return jspb.Message.setProto3BytesField(this, 2, value);
 };
 
 
@@ -996,9 +1033,12 @@ proto.abi.Event.prototype.getSignature = function() {
 };
 
 
-/** @param {string} value */
+/**
+ * @param {string} value
+ * @return {!proto.abi.Event} returns this
+ */
 proto.abi.Event.prototype.setSignature = function(value) {
-  jspb.Message.setProto3StringField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
@@ -1035,9 +1075,12 @@ proto.abi.Event.prototype.getAbi_asU8 = function() {
 };
 
 
-/** @param {!(string|Uint8Array)} value */
+/**
+ * @param {!(string|Uint8Array)} value
+ * @return {!proto.abi.Event} returns this
+ */
 proto.abi.Event.prototype.setAbi = function(value) {
-  jspb.Message.setProto3BytesField(this, 2, value);
+  return jspb.Message.setProto3BytesField(this, 2, value);
 };
 
 

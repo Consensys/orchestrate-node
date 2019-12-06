@@ -1,5 +1,17 @@
 # CHANGELOG
   
+### Version 1.0.0-rc1
+
+*Unreleased*
+
+- [FEAT] Add the `nonce` field 
+- [FEAT] Export the marshal and unmarshal methods in the consumer and producer
+- [FIX] Correct typo to make ConsumerGroup extending from the correct class
+- [FIX] Add types in the package.json
+- [FIX] Importing protobuf script
+- [FIX] Update examples
+- [FIX] Clean code and correct typos
+
 ### Version 0.5.0
 
 *Released on October 30th 2019*
@@ -96,19 +108,19 @@
 
 *Released on April 2nd 2019*
 
-- [FEAT]: Unmarshall extra metada into Object instead of Array
+- [FEAT]: Unmarshal extra metada into Object instead of Array
 
 ### Version 0.1.7
 
 *Released on March 26th 2019*
 
-- [FIX]: Marshall Metadata string without error
+- [FIX]: Marshal Metadata string without error
 
 ### Version 0.1.6
 
 *Released on March 25th 2019*
 
-- [FEAT]: Unmarshall DecodedData into an Object instead of an Array
+- [FEAT]: Unmarshal DecodedData into an Object instead of an Array
 - [DOCS]: Update README
 
 ### Version 0.1.5
@@ -121,5 +133,5 @@
 ### Versions 0.1.0 to 0.1.4
 
 - [FEAT]: Create Producer, Consumer, ConsumerGroup
-- [FEAT]: Marshall message in protobuf
+- [FEAT]: Marshal message in protobuf
 

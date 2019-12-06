@@ -1,19 +1,19 @@
 import { ProtocolType } from '../../../..'
 import protocol_pb from '../../chain/protocol_pb'
-import { marshallReceipt } from '../../ethereum/receipt'
-import { marshallEnvelope, marshallMetadata, unmarshallEnvelope } from '../envelope'
+import { marshalReceipt } from '../../ethereum/receipt'
+import { marshalEnvelope, marshalMetadata, unmarshalEnvelope } from '../envelope'
 import envelope_pb from '../envelope_pb'
 
 let envelope
 
-describe("# marshallEnvelope ", () => {
+describe("# marshalEnvelope ", () => {
 
 
     test("set invalid format", () => {
         const testMsg = true
 
         expect(() => {
-            marshallEnvelope(testMsg)
+            marshalEnvelope(testMsg)
         }).toThrow();
     })
 
@@ -21,16 +21,16 @@ describe("# marshallEnvelope ", () => {
         const testMsg = {error: 'testError'}
 
         expect(() => {
-            marshallEnvelope(testMsg)
+            marshalEnvelope(testMsg)
         }).toThrow();
     })
 
-    test("set invalid object format of other marshaller methods", () => {
+    test("set invalid object format of other marshaler methods", () => {
         const testMsg = {chainId: {error: false}}
         try {
-            marshallEnvelope(testMsg)
+            marshalEnvelope(testMsg)
         } catch(e) {
-            expect(e.message).toBe('marshallChain: "[object Object]" is not a number')
+            expect(e.message).toBe('marshalChain: "[object Object]" is not a number')
         }
 
     })
@@ -39,7 +39,7 @@ describe("# marshallEnvelope ", () => {
         const testMsg = {
             chainId: '3',
             protocol: {
-                type: ProtocolType.PantheonOrion,
+                type: ProtocolType.BesuOrion,
                 extra: {
                     test: 'test'
                 }
@@ -48,6 +48,7 @@ describe("# marshallEnvelope ", () => {
             value: '100000000000',
             gas: '10000',
             gasPrice: '100000',
+            nonce: '1000',
             data: '0x000000000000000000000000b5747835141b46f7c472393b31f8f5a57f74a44f',
             raw: '0x000000000000000000000000b5747835141b46f7c472393b31f8f5a57f74a44f',
             hash: '0x000000000000000000000000b5747835141b46f7c472393b31f8f5a57f74a44f',
@@ -62,19 +63,19 @@ describe("# marshallEnvelope ", () => {
             },
             metadata: 'testMetadata'
         }
-        envelope = marshallEnvelope(testMsg)
+        envelope = marshalEnvelope(testMsg)
         const bin = envelope.serializeBinary()
-        const unmarshall = unmarshallEnvelope(bin)
+        const unmarshal = unmarshalEnvelope(bin)
         const expected = {
             chain: { id: '3' },
             protocol: {
                 extraMap: {test: 'test'},
-                type: protocol_pb.ProtocolType.PANTHEON_ORION
+                type: protocol_pb.ProtocolType.BESU_ORION
             },
             from: '0xaf84242d70ae9d268e2be3616ed497ba28a7b62c',
             tx: {
                 txData: {
-                    nonce: 0,
+                    nonce: 1000,
                     to: '0xd71400dad07d70c976d6aafc241af1ea183a7236',
                     value: '100000000000',
                     gas: 10000,
@@ -107,12 +108,12 @@ describe("# marshallEnvelope ", () => {
             },
             metadata: { id: 'testMetadata', extraMap: {} }
         }
-        expect(unmarshall).toEqual(expected)
+        expect(unmarshal).toEqual(expected)
     })
 
 })
 
-describe("# marshallMetadata ", () => {
+describe("# marshalMetadata ", () => {
 
     beforeEach(() => {
         envelope = new envelope_pb.Envelope()
@@ -123,7 +124,7 @@ describe("# marshallMetadata ", () => {
         const testMsg = true
 
         expect(() => {
-            marshallMetadata(envelope, testMsg)
+            marshalMetadata(envelope, testMsg)
         }).toThrow();
     })
 
@@ -131,13 +132,13 @@ describe("# marshallMetadata ", () => {
         const testMsg = {error: 'testError'}
 
         expect(() => {
-            marshallMetadata(envelope, testMsg)
+            marshalMetadata(envelope, testMsg)
         }).toThrow();
     })
 
     test("set default", () => {
         const testMsg = 'testMetaId'
-        marshallMetadata(envelope, testMsg)
+        marshalMetadata(envelope, testMsg)
         const metadata = envelope.getMetadata().toObject()
         expect(metadata.id).toEqual(testMsg)
         expect(metadata.extraMap).toEqual([])
@@ -151,7 +152,7 @@ describe("# marshallMetadata ", () => {
                 extra2: 'testExtra2'
             }
         }
-        marshallMetadata(envelope, testMsg)
+        marshalMetadata(envelope, testMsg)
         const metadata = envelope.getMetadata().toObject()
         expect(metadata.id).toEqual(testMsg.id)
         expect(metadata.extraMap).toEqual([
@@ -160,14 +161,14 @@ describe("# marshallMetadata ", () => {
         ])
     })
 
-    test("marshall multiple times", () => {
+    test("marshal multiple times", () => {
         const testMsg = {
             extra: {
                 extra1: 'testExtra1',
                 extra2: 'testExtra2'
             }
         }
-        marshallMetadata(envelope, testMsg)
+        marshalMetadata(envelope, testMsg)
         let metadata = envelope.getMetadata().toObject()
         expect(metadata.extraMap).toEqual([
             ['extra1', 'testExtra1'],
@@ -178,7 +179,7 @@ describe("# marshallMetadata ", () => {
         const testMsg2 = {
             id: 'testMetaId',
         }
-        marshallMetadata(envelope, testMsg2)
+        marshalMetadata(envelope, testMsg2)
         metadata = envelope.getMetadata().toObject()
         expect(metadata.extraMap).toEqual([
             ['extra1', 'testExtra1'],
@@ -189,7 +190,7 @@ describe("# marshallMetadata ", () => {
 
 })
 
-describe("# unmarshallEnvelope ", () => {
+describe("# unmarshalEnvelope ", () => {
 
     test("set object", () => {
         const testMsg = {
@@ -215,7 +216,7 @@ describe("# unmarshallEnvelope ", () => {
                 },
             }
         }
-        envelope = marshallEnvelope(testMsg)
+        envelope = marshalEnvelope(testMsg)
         const testReceipt = {
             txHash: '0xbf0b3048242aff8287d1dd9de0d2d100cee25d4ea45b8afa28bdfc1e2a775afd',
             blockHash: '0xea2460a53299f7201d82483d891b26365ff2f49cd9c5c0c7686fd75599fda5b2',
@@ -280,10 +281,10 @@ describe("# unmarshallEnvelope ", () => {
             gasUsed: 10000,
             cumulativeGasUsed: 10000,
         }
-        marshallReceipt(envelope, testReceipt)
+        marshalReceipt(envelope, testReceipt)
 
         const bin = envelope.serializeBinary()
-        const unmarshallT = unmarshallEnvelope(bin)
+        const unmarshalT = unmarshalEnvelope(bin)
         const expected = {
             chain: { id: '3' },
             protocol: undefined,
@@ -375,7 +376,7 @@ describe("# unmarshallEnvelope ", () => {
             },
             metadata: { id: 'testMetadata', extraMap: { test: 'testExtra' } }
         }
-        expect(unmarshallT).toEqual(expected)
+        expect(unmarshalT).toEqual(expected)
 
     })
 

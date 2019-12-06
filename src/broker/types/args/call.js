@@ -1,14 +1,14 @@
 import call_pb from './call_pb'
-import { marshallContract, marshallMethod } from '../abi/abi'
+import { marshalContract, marshalMethod } from '../abi/abi'
 import { parseSignature } from '../../utils/solidity'
 import * as web3utils from 'web3-utils'
 
 /**
- * [marshallContract: marshall the contract part of the envelope and sets it as the contract field in our protobuff]
+ * [marshalContract: marshal the contract part of the envelope and sets it as the contract field in our protobuff]
  * @param  {Object}   args  [protoBuff to be set]
  * @param  {Object}   msg   [message object from the transaction payload to be marhaslled]
  */
-export const marshallCall = (args, msg) => {
+export const marshalCall = (args, msg) => {
     let call = args.getCall()
     if (!call) {
         call = new call_pb.Call()
@@ -19,27 +19,27 @@ export const marshallCall = (args, msg) => {
             Object.entries(msg).forEach(([key, value]) => {
                 switch(key) {
                     case 'contract':
-                        marshallContract(call, value)
+                        marshalContract(call, value)
                         break;
                     case 'method':
-                        marshallMethod(call, value)
+                        marshalMethod(call, value)
                         break;
                     case 'args':
-                        marshallArgs(call, value)
+                        marshalArgs(call, value)
                         break;
                     default:
-                        throw new Error(`marshallCall: Call message do not expect a "${key}" field`)
+                        throw new Error(`marshalCall: Call message do not expect a "${key}" field`)
                 }
             })
             break;
         default:
-            throw new Error('marshallCall: Call message not in a valid format')
+            throw new Error('marshalCall: Call message not in a valid format')
     }
     args.setCall(call)
 }
 
 /**
- * [formatCall format the Call part of the envelop to format it so it can be marshalled after]
+ * [formatCall format the Call part of the envelop to format it so it can be marshaled after]
  * @param  {Object} msg   [call message object from the transaction payload]
  * @return {Object} msg   [protobuff formated message]
  */
@@ -79,7 +79,7 @@ export const formatArgsAndSignature = (args, sigArgTypes) => {
                 args[i] = formatArraySliceArg(arg, sigArgTypes[i])
                 break
             case sigArgTypes[i].includes('('):
-                throw new Error(`marshallCall: tuple types are not yet supported`) 
+                throw new Error(`marshalCall: tuple types are not yet supported`) 
             default:
                 args[i] = formatElementaryType(arg, sigArgTypes[i])
         }
@@ -125,11 +125,11 @@ export const getSignsature = method => {
 }
 
 /**
- * [marshallArgs set the protobuff Args array with the value we provide]
+ * [marshalArgs set the protobuff Args array with the value we provide]
  * @param  {Object} call [protoBuff to be set]
  * @param  {Object} msg  [Args value from the transaction payload]
  */
-export const marshallArgs = (call, msg) => {
+export const marshalArgs = (call, msg) => {
     call.setArgsList(msg)
 }
 

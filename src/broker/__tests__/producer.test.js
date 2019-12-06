@@ -1,5 +1,5 @@
 import { Producer } from '../producer'
-import { unmarshallEnvelope } from '../types/envelope/envelope'
+import { unmarshalEnvelope } from '../types/envelope/envelope'
 import kafka from 'kafka-node'
 
 const mockProducer = ready => jest.fn(() => ({
@@ -30,7 +30,7 @@ describe("# Producer ", () => {
 
     test('Init Producer', async () => {
         expect(typeof CSProducer.connect).toBe('function')
-        expect(typeof CSProducer.marshall).toBe('function')
+        expect(typeof CSProducer.marshal).toBe('function')
         expect(typeof CSProducer.send).toBe('function')
         expect(typeof CSProducer.producer).toBe('object')
         expect(CSProducer.topic).toEqual(topic)
@@ -59,13 +59,14 @@ describe("# Producer ", () => {
       })
     })
 
-    test('marshall', async () => {
+    test('marshal', async () => {
         const testMsg = {
             chainId: '3',
             to: '0xc1912fee45d61c87cc5ea59dae31190fffff232d',
             value: '20000000000',
             gas: '1000000000',
             gasPrice: '200000',
+            nonce: '9999',
             hash: '0x000000000000000000000000b5747835141b46f7c472393b31f8f5a57f74a44f',
             from: '0xaf84242d70ae9d268e2be3616ed497ba28a7b62c',
             call: {
@@ -77,16 +78,16 @@ describe("# Producer ", () => {
                 id: 'testMetadata'
             }
         }
-        const bin = CSProducer.marshall(testMsg)
-        const unmarshallT = 
-        unmarshallEnvelope(bin)
+        const bin = CSProducer.marshal(testMsg)
+        const unmarshalT = 
+        unmarshalEnvelope(bin)
         const expected = {
             chain: { id: '3' },
             protocol: undefined,
             from: '0xaf84242d70ae9d268e2be3616ed497ba28a7b62c',
             tx: {
                 txData: {
-                    nonce: 0,
+                    nonce: 9999,
                     to: '0xc1912fee45d61c87cc5ea59dae31190fffff232d',
                     value: '20000000000',
                     gas: 1000000000,
@@ -108,7 +109,7 @@ describe("# Producer ", () => {
             },
             metadata: { id: 'testMetadata', extraMap: {} }
         }
-        expect(unmarshallT).toEqual(expected)
+        expect(unmarshalT).toEqual(expected)
     })
 
     test('send without error', async () => {
@@ -214,7 +215,7 @@ describe("# Producer ", () => {
         try {
             await CSProducer.send(testMsg)
         } catch(e) {
-            expect(e.message).toEqual('marshallAccount: testFromError is not a valid address')
+            expect(e.message).toEqual('marshalAccount: testFromError is not a valid address')
 
         }
     })

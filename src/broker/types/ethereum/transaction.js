@@ -1,13 +1,13 @@
 import tx_pb from './transaction_pb'
-import { capitalize, unmarshallRawObj } from '../../utils/formatters'
-import { marshallData, marshallHash, marshallAccount, marshallQuantity, unmarshallQuantity } from './base'
+import { capitalize, unmarshalRawObj } from '../../utils/formatters'
+import { marshalData, marshalHash, marshalAccount, marshalQuantity, unmarshalQuantity } from './base'
 
 /**
- * [marshallTransaction takes an envelope protoBuff and a transaction payload as an input and sets the Tx protoBuff in our envelope protoBuff]
+ * [marshalTransaction takes an envelope protoBuff and a transaction payload as an input and sets the Tx protoBuff in our envelope protoBuff]
  * @param  {Object}  envelope  [envelope protoBuff]
  * @param  {Object}  msg       [transaction payload]
  */
-export const marshallTransaction = (envelope, msg) => {
+export const marshalTransaction = (envelope, msg) => {
     let tx = envelope.getTx()
     if (!tx) {
         tx = new tx_pb.Transaction()
@@ -21,13 +21,14 @@ export const marshallTransaction = (envelope, msg) => {
                     case 'gas':
                     case 'gasPrice':
                     case 'data':
-                        marshallTransactionField(key)(tx, value)
+                    case 'nonce':
+                        marshalTransactionField(key)(tx, value)
                         break;
                     case 'raw':
-                        tx.setRaw(marshallData(value))
+                        tx.setRaw(marshalData(value))
                         break;
                     case 'hash':
-                        tx.setHash(marshallHash(value))
+                        tx.setHash(marshalHash(value))
                         break;
                     default:
                         throw new Error(`Tx message do not expect a "${key}" field`)
@@ -41,11 +42,11 @@ export const marshallTransaction = (envelope, msg) => {
 }
 
 /**
- * [marshallTransactionField sets the to, value, gas, nonce, gasPrice and data of the transaction in our TxData protoBuff]
+ * [marshalTransactionField sets the to, value, gas, nonce, gasPrice and data of the transaction in our TxData protoBuff]
  * @param   {Object}  tx   [tx protoBuff]
  * @param   {Object}  value   [value of the object to be set in our protoBuff]
  */
-const marshallTransactionField = key => (transaction, msg) => {
+const marshalTransactionField = key => (transaction, msg) => {
   let txData = transaction.getTxData()
   if (!txData) {
       txData = new tx_pb.TxData()
@@ -56,14 +57,14 @@ const marshallTransactionField = key => (transaction, msg) => {
         txData[`set${capitalize(key)}`](msg)
         break;
     case 'to':
-        txData[`set${capitalize(key)}`](marshallAccount(msg))
+        txData[`set${capitalize(key)}`](marshalAccount(msg))
         break;
     case 'value':
     case 'gasPrice':
-        txData[`set${capitalize(key)}`](marshallQuantity(msg))
+        txData[`set${capitalize(key)}`](marshalQuantity(msg))
         break;
     case 'data':
-        txData[`set${capitalize(key)}`](marshallData(msg))
+        txData[`set${capitalize(key)}`](marshalData(msg))
         break;
     default:
         throw new Error(`Tx message do not expect a "${key}" field`)
@@ -72,29 +73,29 @@ const marshallTransactionField = key => (transaction, msg) => {
 }
 
 /**
- * [unmarshallRawTx decerialize the Tx protoBuff into a raw transaction paylaod]
+ * [unmarshalRawTx decerialize the Tx protoBuff into a raw transaction paylaod]
  * @param   {Object}  receipt   [tx object of our envelope protoBuff]
  * @return  {Object}  receipt   [raw transaction payload]
  */
-export const unmarshallRawTx = tx => {
+export const unmarshalRawTx = tx => {
     const formatList = ['hash', 'raw']
-    unmarshallRawObj(tx, formatList)
+    unmarshalRawObj(tx, formatList)
     if (typeof tx['txData'] === 'object') {
-        tx['txData'] = unmarshallRawTxData(tx['txData'])
+        tx['txData'] = unmarshalRawTxData(tx['txData'])
     }
     return tx
 }
 
 /**
- * [unmarshallRawTxData decerialize the txData protoBuff into a txData payload]
+ * [unmarshalRawTxData decerialize the txData protoBuff into a txData payload]
  * @param   {Object}  txData   [txData protoBuff]
  * @return  {Object}  txData   [txData payload]
  */
-export const unmarshallRawTxData = txData => {
+export const unmarshalRawTxData = txData => {
     const formatList = ['data', 'to']
-    unmarshallRawObj(txData, formatList)
-    txData.value = unmarshallQuantity(txData.value)
-    txData.gasPrice = unmarshallQuantity(txData.gasPrice)
+    unmarshalRawObj(txData, formatList)
+    txData.value = unmarshalQuantity(txData.value)
+    txData.gasPrice = unmarshalQuantity(txData.gasPrice)
 
     return txData
 }

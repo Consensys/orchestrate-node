@@ -1,10 +1,10 @@
 import envelope_pb from '../../envelope/envelope_pb'
-import { marshallReceipt, marshallLogs, unmarshallRawReceipt } from '../receipt'
+import { marshalReceipt, marshalLogs, unmarshalRawReceipt } from '../receipt'
 import { b64ToHex } from '../../../utils/formatters'
 
 let envelope
 
-describe("# marshallTransaction ", () => {
+describe("# marshalTransaction ", () => {
     beforeEach(() => {
         envelope = new envelope_pb.Envelope()
     })
@@ -13,7 +13,7 @@ describe("# marshallTransaction ", () => {
         const testMsg = true
 
         expect(() => {
-            marshallReceipt(envelope, testMsg)
+            marshalReceipt(envelope, testMsg)
         }).toThrow();
     })
 
@@ -21,7 +21,7 @@ describe("# marshallTransaction ", () => {
         const testMsg = {error: 'testError'}
 
         expect(() => {
-            marshallReceipt(envelope, testMsg)
+            marshalReceipt(envelope, testMsg)
         }).toThrow();
     })
 
@@ -90,8 +90,8 @@ describe("# marshallTransaction ", () => {
             gasUsed: 10000,
             cumulativeGasUsed: 10000,
         }
-        marshallReceipt(envelope, testMsg)
-        const receipt = unmarshallRawReceipt(envelope.getReceipt().toObject())
+        marshalReceipt(envelope, testMsg)
+        const receipt = unmarshalRawReceipt(envelope.getReceipt().toObject())
         const expected = {
             txHash: testMsg.txHash,
             blockHash: testMsg.blockHash,
@@ -160,18 +160,18 @@ describe("# marshallTransaction ", () => {
 
     })
 
-    test("marshall multiple times", () => {
+    test("marshal multiple times", () => {
         const testMsg = {
             txHash: '0xbf0b3048242aff8287d1dd9de0d2d100cee25d4ea45b8afa28bdfc1e2a775afd',
         }
-        marshallReceipt(envelope, testMsg)
+        marshalReceipt(envelope, testMsg)
         let receipt = envelope.getReceipt().toObject()
         expect(b64ToHex(receipt.txHash.raw)).toEqual(testMsg.txHash)
 
         const testMsg2 = {
             blockHash: '0x',
         }
-        marshallReceipt(envelope, testMsg2)
+        marshalReceipt(envelope, testMsg2)
         receipt = envelope.getReceipt().toObject()
         expect(b64ToHex(receipt.txHash.raw)).toEqual(testMsg.txHash)
         expect(b64ToHex(receipt.blockHash.raw)).toEqual(testMsg2.blockHash)
@@ -180,7 +180,7 @@ describe("# marshallTransaction ", () => {
 
 })
 
-describe("# marshallLogs ", () => {
+describe("# marshalLogs ", () => {
     beforeEach(() => {
         envelope = new envelope_pb.Envelope()
     })
@@ -189,7 +189,7 @@ describe("# marshallLogs ", () => {
         const testMsg = true
 
         expect(() => {
-            marshallLogs(envelope, testMsg)
+            marshalLogs(envelope, testMsg)
         }).toThrow();
     })
 
@@ -197,7 +197,7 @@ describe("# marshallLogs ", () => {
         const testMsg = ['testError']
 
         expect(() => {
-            marshallLogs(envelope, testMsg)
+            marshalLogs(envelope, testMsg)
         }).toThrow();
     })
 
@@ -205,7 +205,7 @@ describe("# marshallLogs ", () => {
         const testMsg = [{error: 'testError'}]
 
         expect(() => {
-            marshallLogs(envelope, testMsg)
+            marshalLogs(envelope, testMsg)
         }).toThrow();
     })
 

@@ -1,3 +1,4 @@
+// source: types/error/error.proto
 /**
  * @fileoverview
  * @enhanceable
@@ -120,7 +121,7 @@ proto.error.Error.deserializeBinaryFromReader = function(msg, reader) {
     case 4:
       var value = msg.getExtraMap();
       reader.readMessage(value, function(message, reader) {
-        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readString, null, "");
+        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readString, null, "", "");
          });
       break;
     default:
@@ -189,9 +190,12 @@ proto.error.Error.prototype.getMessage = function() {
 };
 
 
-/** @param {string} value */
+/**
+ * @param {string} value
+ * @return {!proto.error.Error} returns this
+ */
 proto.error.Error.prototype.setMessage = function(value) {
-  jspb.Message.setProto3StringField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
@@ -204,9 +208,12 @@ proto.error.Error.prototype.getCode = function() {
 };
 
 
-/** @param {number} value */
+/**
+ * @param {number} value
+ * @return {!proto.error.Error} returns this
+ */
 proto.error.Error.prototype.setCode = function(value) {
-  jspb.Message.setProto3IntField(this, 2, value);
+  return jspb.Message.setProto3IntField(this, 2, value);
 };
 
 
@@ -219,9 +226,12 @@ proto.error.Error.prototype.getComponent = function() {
 };
 
 
-/** @param {string} value */
+/**
+ * @param {string} value
+ * @return {!proto.error.Error} returns this
+ */
 proto.error.Error.prototype.setComponent = function(value) {
-  jspb.Message.setProto3StringField(this, 3, value);
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
@@ -240,10 +250,11 @@ proto.error.Error.prototype.getExtraMap = function(opt_noLazyCreate) {
 
 /**
  * Clears values from the map. The map will be non-null.
+ * @return {!proto.error.Error} returns this
  */
 proto.error.Error.prototype.clearExtraMap = function() {
   this.getExtraMap().clear();
-};
+  return this;};
 
 
 goog.object.extend(exports, proto.error);

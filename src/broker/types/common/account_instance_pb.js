@@ -1,3 +1,4 @@
+// source: types/common/account_instance.proto
 /**
  * @fileoverview
  * @enhanceable
@@ -175,17 +176,21 @@ proto.common.AccountInstance.prototype.getChain = function() {
 };
 
 
-/** @param {?proto.chain.Chain|undefined} value */
+/**
+ * @param {?proto.chain.Chain|undefined} value
+ * @return {!proto.common.AccountInstance} returns this
+*/
 proto.common.AccountInstance.prototype.setChain = function(value) {
-  jspb.Message.setWrapperField(this, 1, value);
+  return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.common.AccountInstance} returns this
  */
 proto.common.AccountInstance.prototype.clearChain = function() {
-  this.setChain(undefined);
+  return this.setChain(undefined);
 };
 
 
@@ -208,17 +213,21 @@ proto.common.AccountInstance.prototype.getAccount = function() {
 };
 
 
-/** @param {?proto.ethereum.Account|undefined} value */
+/**
+ * @param {?proto.ethereum.Account|undefined} value
+ * @return {!proto.common.AccountInstance} returns this
+*/
 proto.common.AccountInstance.prototype.setAccount = function(value) {
-  jspb.Message.setWrapperField(this, 2, value);
+  return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.common.AccountInstance} returns this
  */
 proto.common.AccountInstance.prototype.clearAccount = function() {
-  this.setAccount(undefined);
+  return this.setAccount(undefined);
 };
 
 

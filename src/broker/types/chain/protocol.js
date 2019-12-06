@@ -6,21 +6,21 @@ export const ProtocolType = {
     EthereumConstantinople: 'ethereum.constantinople',
     QuorumConstellation: 'quorum.constellation',
     QuorumTessera: 'quorum.tessera',
-    PantheonOrion: 'pantheon.orion',
+    BesuOrion: 'besu.orion',
 }
 
 const bimap = new BiMap()
 bimap.push(ProtocolType.EthereumConstantinople, protocol_pb.ProtocolType.ETHEREUM_CONSTANTINOPLE)
 bimap.push(ProtocolType.QuorumConstellation, protocol_pb.ProtocolType.QUORUM_CONSTELLATION)
 bimap.push(ProtocolType.QuorumTessera, protocol_pb.ProtocolType.QUORUM_TESSERA)
-bimap.push(ProtocolType.PantheonOrion, protocol_pb.ProtocolType.PANTHEON_ORION)
+bimap.push(ProtocolType.BesuOrion, protocol_pb.ProtocolType.BESU_ORION)
 
 /**
- * [marshallProtocol: marshall the protocol part of the envelope and sets it as the Protocol field in our protobuff]
+ * [marshalProtocol: marshal the protocol part of the envelope and sets it as the Protocol field in our protobuff]
  * @param  {Object}         envelope    [enveloppe protoBuff]
  * @param  {Object}         msg         [protocol object of the transaction payload]
  */
-export const marshallProtocol = (envelope, msg) => {
+export const marshalProtocol = (envelope, msg) => {
     let protocol = envelope.getProtocol()
     if (!protocol) {
         protocol = new protocol_pb.Protocol()
@@ -50,11 +50,11 @@ export const marshallProtocol = (envelope, msg) => {
 }
 
 /**
- * [unmarshallProtocol: retrieve the protocol data from the envelop]
+ * [unmarshalProtocol: retrieve the protocol data from the envelop]
  * @param  {Object} protocol  [protocol object of the envelop]
  * @return {Object} result    [protocol payload]
  */
-export const unmarshallProtocol = protocol => {
+export const unmarshalProtocol = protocol => {
     const result = {}
     if (protocol.extraMap.length > 0) {
         result.extra = arrayToObject(protocol.extraMap)

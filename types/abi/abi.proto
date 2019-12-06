@@ -1,12 +1,12 @@
 syntax = "proto3";
 
-option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/pkg.git/types/abi";
+option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/orchestrate.git/types/abi";
 
 package abi;
 
 message ContractId {
     // Registry of contract
-    // e.g. "registry.consensys.net"
+    // e.g. "registry.consensys.net/orchestrate"
     string registry = 1;
 
     // Name of contract
@@ -56,6 +56,6 @@ message Event {
     // e.g "Transfer(address, address, uint256)"
     string signature = 1;
 
-     // ABI of the method (Optional)
+    // ABI of the method (Optional)
     bytes abi = 2;
 }

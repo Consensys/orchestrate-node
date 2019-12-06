@@ -17,33 +17,92 @@ import {
  */
 export default class Orchestrate {
   /**
-   * [constructor Wrapper for Orchestrate with broker and web3]
+   * [constructor Wrapper for OrchestrateSDK with broker and web3]
    */
   constructor()
 
   /**
-   * [broker creates a Broker instance]
+   * [broker creates a OrchestrateBroker instance]
    * @param  {string}             endpoint [Kafka endpoint]
    * @param  {KafkaClientOptions} options  [Options to instanciate kafka-node. see https://github.com/SOHU-Co/kafka-node#options]
-   * @return {Broker}             [Class to produce, consume messages with a kafka]
+   * @return {OrchestrateBroker}             [Class to produce, consume messages with a kafka]
    */
-  broker(endpoint: string, options?: KafkaClientOptions) : Broker
+  broker(endpoint: string, options?: KafkaClientOptions) : OrchestrateBroker
 
   /**
-   * [web3 creates a Web3 instance]
+   * [web3 creates a OrchestrateWeb3 instance]
    * @param  {Web3Endpoints}      endpoints [JSON/RPC endpoints with label as key and endpoints as value]
    * @param  {Object}  options   [web3.js options. see https://web3js.readthedocs.io/en/1.0/web3-shh.html#web3-module-options]
-   * @return {Web3}                [Class with web3 instances]
+   * @return {OrchestrateWeb3}                [Class with web3 instances]
    */
-  web3(endpoint: Web3Endpoints, options?: Object): Web3 
+  web3(endpoint: Web3Endpoints, options?: Object): OrchestrateWeb3 
+
+  /**
+   * [contractRegistry creates a ContractRegistry instance]
+   * @param  {String} endpoints               [string object representing the remote gRPC endpoint]
+   * @param  {Object} options                 [optional arguments, for instance "credentials" for the gRPC client]
+   * @return {ContractRegistry}      [Class with contractRegistry instances]
+   */
+  contractRegistry(endpoint: string, options?: Object): ContractRegistry 
 }  
 
 /**
- * [Web3 with multiple web3 instances]
+ * [ContractRegistry is a gRPC client for the contract registry]
  */
-export class Web3 {
+export class ContractRegistry {
+  endpoint: string
+  credentials: any
+  stub: any
+  stubSsl: any
+
+  /**
+   * [constructor init a gRPC client for the contract registry]
+   * @param {String} endpoint     [mandatory params, indicate the endpoint of the remote gRPC server]
+   * @param {Object} options      [optional params, can be used to pass custom credentials]
+   */
+  constructor(endpoint: string, options?: Object)
+
+  /**
+   * [Returns a preformatted request object that can be used by the gRPC client]
+   * @param {Object} contract     [An abi.Contract object]
+   * @return {Object}             [A preformatted instance of proto RegisterContractRequest]
+   */
+  formatRegisterRequest(contract: Object): Object
+
+  /**
+   * Call performs the inputed call and update the SSL configuration if necessary
+   * @param {function} call
+   * @return {Promise} A promise that resolves if the call succeed
+   */
+  performCall(call: any): any
+
+  /**
+   * createRegisterCall returns a promisified request to register a contract
+   * @param {Object} contract     [An abi.Contract object]
+   * @return {Promise}            [A promisied contract registering request]
+   */
+  createRegisterCall(contract: Object): Promise<any>
+
+  /**
+   * createGetCatalogCall returns the list of available contract names in the registry
+   * @return {Promise}            [A promisied contract catalog request]
+   */
+  createGetCatalogCall(): Promise<any>
+
+  /**
+   * createGetCatalogCall returns the list of registered tags in the registry
+   * @param {String} name          [Name of the contract to query tags for]
+   * @return {Promise}             [A promisified contract getTag request]
+   */
+  createGetTagsCall(name: string): Promise<any>
+}
+
+/**
+ * [OrchestrateWeb3 with multiple web3 instances]
+ */
+export class OrchestrateWeb3 {
    /**
-   * [wallet class to generate wallet in ]
+   * [wallet class to generate wallet in Orchestrate]
    *
    * @param   {[Web3Endpoints]}      endpoint:  [JSON/RPC endpoints with label as key and endpoints as value]
    * @param   {[Object]}  options?:  [web3.js options. see https://web3js.readthedocs.io/en/1.0/web3-shh.html#web3-module-options]
@@ -65,9 +124,9 @@ export class Web3 {
 }
 
 /**
- * [Broker class gathering producer, consumer for interacting with kafka]
+ * [OrchestrateBroker class gathering producer, consumer for interacting with kafka]
  */
-export class Broker {
+export class OrchestrateBroker {
   endpoint: string
   options: KafkaClientOptions
   client: KafkaClient
@@ -86,9 +145,9 @@ export class Broker {
    * @param   {[string]}              topic?:    [topicIn?: topic to send wallet creation request - default: topic-wallet-generator]
    * @param   {[ProducerOptions]}  options?:  [Options?: to instanciate kafka-node. see https://github.com/SOHU-Co/kafka-node#producerkafkaclient-options-custompartitioner]
    *
-   * @return  {Promise<Producer>}     [return a Producer instance]
+   * @return  {Promise<OrchestrateProducer>}     [return a OrchestrateProducer instance]
    */
-  producer(topic?: string, options?: ProducerOptions): Promise<Producer>
+  producer(topic?: string, options?: ProducerOptions): Promise<OrchestrateProducer>
   
   /**
    * [Consume message from kafka topics]
@@ -96,9 +155,9 @@ export class Broker {
    * @param   {[string[]]}            topics?:   [List of topics to consume - default = DefaultCSOutTopic]
    * @param   {[ConsumerOptions]}  options?:  [Options of kafka-node Consumer, see https://github.com/SOHU-Co/kafka-node#consumerclient-payloads-options]
    *
-   * @return  {Promise<Consumer>}     [return a Consumer instance]
+   * @return  {Promise<OrchestrateConsumer>}     [return a Consumer instance]
    */
-  consumer(topics?: string[], options?: ConsumerOptions) : Promise<Consumer>
+  consumer(topics?: string[], options?: ConsumerOptions) : Promise<OrchestrateConsumer>
 
   /**
    * [Advanced consumer that consume messages from kafka topics]
@@ -106,15 +165,15 @@ export class Broker {
    * @param   {[string[]]}  topics?:   [List of topics to consume - default = DefaultCSOutTopic]
    * @param   {[ConsumerGroupOptions]}  options?:  [Options of kafka-node ConsumerGroup, see https://github.com/SOHU-Co/kafka-node#consumergroupoptions-topics]
    *
-   * @return  {Promise<Consumer>}     [return a Consumer instance ]
+   * @return  {Promise<OrchestrateConsumer>}     [return a Consumer instance ]
    */
-  consumerGroup(topics?: string[], options?: ConsumerGroupOptions): Promise<Consumer>
+  consumerGroup(topics?: string[], options?: ConsumerGroupOptions): Promise<OrchestrateConsumer>
   
   /**
-   * [wallet class to generate wallet]
+   * [wallet class to generate wallet in Orchestrate]
    *
    * @param   {[type]}  topicIn?:   [topicIn?: topic to send wallet creation request - default: topic-wallet-generator]
-   * @param   {[type]}  topicOut?:  [topicOut?: topic to consume wallet generated - default topic-wallet-generated]
+   * @param   {[type]}  topicOut?:  [topicOut?: topic to consume wallet genrated in Orchestrate - default topic-wallet-generated]
    *
    * @return  {Promise<WalletGenerator>}     [return class with the method generate()]
    */
@@ -125,32 +184,35 @@ export class Broker {
  * [WalletGenerator class that enables you to generate wallet]
  */
 export class WalletGenerator {
-  producer: Producer
-  consumer: Consumer
+  producer: OrchestrateProducer
+  consumer: OrchestrateConsumer
   pendingWallets: object
   /**
    * [constructor init generator and listener]
-   * @param  {Producer} producer [Kafka Producer]
-   * @param  {Consumer} endpoint [Kafka Consumer]
+   * @param  {OrchestrateProducer} producer [Kafka OrchestrateProducer]
+   * @param  {OrchestrateConsumer} endpoint [Kafka OrchestrateConsumer]
    */
-  constructor(producer?: Producer, consumer?: Consumer)
+  constructor(producer?: OrchestrateProducer, consumer?: OrchestrateConsumer)
 
   /**
-   * [generate method to create a wallet]
+   * [generate method to create a wallet on Orchestrate]
    *
-   * @return  {Promise<string>}  [return promise of an public address generated]
+   * @return  {Promise<string>}  [return promise of an public address generated in Orchestrate]
    */
   generate(): Promise<string>
 }
 
 // # Interfaces
-export interface Producer { 
+export interface OrchestrateProducer { 
   producer: Producer
-  send(msg: Request, topic?: string, kafkaOptions?: KafkaClientOptions): ProducerOutput
+  marshal(msg: OrchestrateRequest): any
+  send(msg: OrchestrateRequest, topic?: string, kafkaOptions?: KafkaClientOptions): ProducerOutput
 }
 
-export interface Consumer {
+
+export interface OrchestrateConsumer {
   consumer: Consumer | ConsumerGroup
+  unmarshaler: (msg: any) => any
   consume(): EventEmitter
 }
 
@@ -175,7 +237,7 @@ export interface Web3Instances {
   [web3InstanceName: string]: Web3
 }
 
-export interface Request {
+export interface OrchestrateRequest {
   chainId?: string
   protocol?: Protocol
   to?: string
@@ -201,7 +263,7 @@ export declare enum ProtocolType {
   EthereumConstantinople,
   QuorumConstellation,
   QuorumTessera,
-  PantheonOrion,
+  BesuOrion,
 }
 
 export interface Metadata {

@@ -1,6 +1,6 @@
 import { 
-    marshallCall,
-    marshallArgs,
+    marshalCall,
+    marshalArgs,
     formatCall,
     formatArgsAndSignature,
     formatArraySliceArg,
@@ -14,7 +14,7 @@ import call_pb from '../call_pb'
 
 let args
 
-describe("# marshallCall ", () => {
+describe("# marshalCall ", () => {
 
     beforeEach(() => {
         args = new envelope_pb.Args()
@@ -23,7 +23,7 @@ describe("# marshallCall ", () => {
     test("set invalid format", () => {
         const testMsg = 'testName'
         expect(() => {
-            marshallCall(args, testMsg)
+            marshalCall(args, testMsg)
         }).toThrow();
     })
 
@@ -31,7 +31,7 @@ describe("# marshallCall ", () => {
         const testMsg = {error: 'testError'}
 
         expect(() => {
-            marshallCall(args, testMsg)
+            marshalCall(args, testMsg)
         }).toThrow();
     })
 
@@ -42,18 +42,18 @@ describe("# marshallCall ", () => {
             args: ['testArgs'],
 
         }
-        marshallCall(args, testMsg)
+        marshalCall(args, testMsg)
         const call = args.getCall().toObject()
         expect(call.contract.id.name).toEqual(testMsg.contract)
         expect(call.method.signature).toEqual(testMsg.method)
         expect(call.argsList).toEqual(testMsg.args)
     })
 
-    test("marshall multiple times", () => {
+    test("marshal multiple times", () => {
         const testMsg = {
             contract: 'testContract' 
         }
-        marshallCall(args, testMsg)
+        marshalCall(args, testMsg)
         let getCall = args.getCall().toObject()
         expect(getCall.contract.id.name).toEqual(testMsg.contract)
         expect(getCall.method).toBeUndefined()
@@ -63,7 +63,7 @@ describe("# marshallCall ", () => {
             method: 'testMethod(string)',
             args: ['testArgs'],
         }
-        marshallCall(args, testMsg1)
+        marshalCall(args, testMsg1)
         getCall = args.getCall().toObject()
         expect(getCall.contract.id.name).toEqual(testMsg.contract)
         expect(getCall.method.signature).toEqual(testMsg1.method)
@@ -74,7 +74,7 @@ describe("# marshallCall ", () => {
 
 let call
 
-describe("# marshallArgs ", () => {
+describe("# marshalArgs ", () => {
 
     beforeEach(() => {
         call = new call_pb.Call()
@@ -82,7 +82,7 @@ describe("# marshallArgs ", () => {
 
     test("set args", () => {
         const testMsg = ['arg1', 'arg2', 'arg3']
-        marshallArgs(call, testMsg)
+        marshalArgs(call, testMsg)
         expect(call.getArgsList()).toEqual(testMsg)
     })
 

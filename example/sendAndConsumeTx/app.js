@@ -33,7 +33,7 @@ const produce = async broker => {
 const consume = async broker => {
     try {
         console.log('Init consumer...')
-        const consumer = await broker.consumer()
+        const consumer = await broker.consumerGroup()
 
         const consume = consumer.consume()
 

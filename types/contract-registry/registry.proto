@@ -1,14 +1,32 @@
 syntax = "proto3";
 
+// import "google/api/annotations.proto";
+// import "protoc-gen-swagger/options/annotations.proto";
 import "types/abi/abi.proto";
 import "types/common/account_instance.proto";
 
-option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/pkg.git/types/contract-registry";
+
+option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/orchestrate.git/types/contract-registry";
 
 package contractregistry;
 
-// Registry is a GRPC service responsible for registering Contracts
-service Registry {
+// option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+// 	info: {
+// 		title: "Contract-Registry"
+//         version: "1.0"
+//         contact: {
+//             name: "✉ PegaSys Orchestrate"
+//             email: "support@pegasys.tech"
+//         }
+//     }
+//     external_docs: {
+//         url: "https://docs.orchestrate.pegasys.tech/en/latest/"
+//         description: "📒 Documentation of PegaSys Orchestrate"
+//     }
+// };
+
+// Registry is a gRPC service responsible for registering Contracts
+service ContractRegistry {
     // Register a contract
     rpc RegisterContract (RegisterContractRequest) returns (RegisterContractResponse);
     // DeregisterContract remove the name + tag association to a contract artifact (abi, bytecode, deployedBytecode). Artifacts are not deleted.
@@ -16,17 +34,46 @@ service Registry {
     // DeleteArtifact delete a contract artifact (abi, bytecode, deployedBytecode).
     rpc DeleteArtifact (DeleteArtifactRequest) returns (DeleteArtifactResponse);
     // Retrieve contract
-    rpc GetContract (GetContractRequest) returns (GetContractResponse);
+    rpc GetContract (GetContractRequest) returns (GetContractResponse) {
+        // option (google.api.http) = {
+        //     get: "/v1/contracts/{contractId.name}/{contractId.tag}"
+        // };
+    }
+
     // Retrieve contract ABI
-    rpc GetContractABI (GetContractRequest) returns (GetContractABIResponse);
+    rpc GetContractABI (GetContractRequest) returns (GetContractABIResponse) {
+        // option (google.api.http) = {
+        //     get: "/v1/contracts/{contractId.name}/{contractId.tag}/abi"
+        // };
+    }
+
     // Returns the bytecode
-    rpc GetContractBytecode (GetContractRequest) returns (GetContractBytecodeResponse);
+    rpc GetContractBytecode (GetContractRequest) returns (GetContractBytecodeResponse) {
+        // option (google.api.http) = {
+        //     get: "/v1/contracts/{contractId.name}/{contractId.tag}/bytecode"
+        // };
+    }
+
     // Returns the deployed bytecode
-    rpc GetContractDeployedBytecode (GetContractRequest) returns (GetContractDeployedBytecodeResponse);
+    rpc GetContractDeployedBytecode (GetContractRequest) returns (GetContractDeployedBytecodeResponse) {
+        // option (google.api.http) = {
+        //     get: "/v1/contracts/{contractId.name}/{contractId.tag}/deployedBytecode"
+        // };
+    }
+
     // Returns a list of all registered contracts
-    rpc GetCatalog (GetCatalogRequest) returns (GetCatalogResponse);
+    rpc GetCatalog (GetCatalogRequest) returns (GetCatalogResponse) {
+        // option (google.api.http) = {
+        //     get: "/v1/contracts"
+        // };
+    }
+
     // Returns a list of all tags associated to a contract
-    rpc GetTags (GetTagsRequest) returns (GetTagsResponse);
+    rpc GetTags (GetTagsRequest) returns (GetTagsResponse) {
+        // option (google.api.http) = {
+        //     get: "/v1/contracts/{name}"
+        // };
+    }
 
     // Retrieve methods using 4 bytes unique selector
     rpc GetMethodsBySelector (GetMethodsBySelectorRequest) returns (GetMethodsBySelectorResponse);
@@ -106,14 +153,13 @@ message GetMethodsBySelectorRequest {
     // Chain & Address of the contract
     common.AccountInstance accountInstance = 2;
 }
-
-
 message GetMethodsBySelectorResponse {
     // Contains the ABI of the exact method if the deployed contract has a known bytecode
     bytes method = 1;
     // Contains the ABIs of the potential methods(s) if the deployed contract is not known 
     repeated bytes defaultMethods = 2;
 }
+
 message GetEventsBySigHashRequest {
     // Event signature hash (aka: topic[0])
     bytes sigHash = 1;

@@ -1,3 +1,4 @@
+// source: types/ethereum/base.proto
 /**
  * @fileoverview
  * @enhanceable
@@ -244,9 +245,12 @@ proto.ethereum.Account.prototype.getRaw_asU8 = function() {
 };
 
 
-/** @param {!(string|Uint8Array)} value */
+/**
+ * @param {!(string|Uint8Array)} value
+ * @return {!proto.ethereum.Account} returns this
+ */
 proto.ethereum.Account.prototype.setRaw = function(value) {
-  jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3BytesField(this, 1, value);
 };
 
 
@@ -395,9 +399,12 @@ proto.ethereum.Hash.prototype.getRaw_asU8 = function() {
 };
 
 
-/** @param {!(string|Uint8Array)} value */
+/**
+ * @param {!(string|Uint8Array)} value
+ * @return {!proto.ethereum.Hash} returns this
+ */
 proto.ethereum.Hash.prototype.setRaw = function(value) {
-  jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3BytesField(this, 1, value);
 };
 
 
@@ -546,9 +553,12 @@ proto.ethereum.Quantity.prototype.getRaw_asU8 = function() {
 };
 
 
-/** @param {!(string|Uint8Array)} value */
+/**
+ * @param {!(string|Uint8Array)} value
+ * @return {!proto.ethereum.Quantity} returns this
+ */
 proto.ethereum.Quantity.prototype.setRaw = function(value) {
-  jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3BytesField(this, 1, value);
 };
 
 
@@ -697,9 +707,12 @@ proto.ethereum.Data.prototype.getRaw_asU8 = function() {
 };
 
 
-/** @param {!(string|Uint8Array)} value */
+/**
+ * @param {!(string|Uint8Array)} value
+ * @return {!proto.ethereum.Data} returns this
+ */
 proto.ethereum.Data.prototype.setRaw = function(value) {
-  jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3BytesField(this, 1, value);
 };
 
 

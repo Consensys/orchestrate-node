@@ -1,6 +1,6 @@
 import { Consumer, ConsumerGroup } from '../consumer'
 import kafka from 'kafka-node'
-import { marshallEnvelope } from '../types/envelope/envelope'
+import { marshalEnvelope } from '../types/envelope/envelope'
 jest.mock('events')
 
 const testMsg = {
@@ -19,7 +19,7 @@ const testMsg = {
         id: 'testMetadata'
     }
 }
-const bin = Buffer.from(marshallEnvelope(testMsg).serializeBinary())
+const bin = Buffer.from(marshalEnvelope(testMsg).serializeBinary())
 
 const mockConsumer = ready => jest.fn(() => ({
     ready,
@@ -37,7 +37,7 @@ const mockConsumer = ready => jest.fn(() => ({
 }))
 
 const topics = ['topic']
-const mockUnmarshaller = msg => msg
+const mockUnmarshaler = msg => msg
 const client = new kafka.KafkaClient({kafkaHost: 'testHost:9092'})
 
 let CSConsumer
@@ -45,7 +45,7 @@ describe("# Consumer", () => {
 
   beforeEach(() => {
     kafka.Consumer = mockConsumer(true);
-    CSConsumer = new Consumer('', topics, mockUnmarshaller)
+    CSConsumer = new Consumer('', topics, mockUnmarshaler)
   })
 
   test('init Consumer', async () => {
@@ -95,7 +95,7 @@ describe("# ConsumerGroup", () => {
 
   beforeEach(() => {
     kafka.ConsumerGroup = mockConsumer(true);
-    CSConsumerGroup = new ConsumerGroup(client, topics, mockUnmarshaller)
+    CSConsumerGroup = new ConsumerGroup(client, topics, mockUnmarshaler)
 
   })
 
@@ -121,7 +121,7 @@ describe("# ConsumerGroup", () => {
 
       beforeEach(() => {
         kafka.ConsumerGroup = mockConsumer(true);
-        CSConsumerGroup = new ConsumerGroup(client, topics, mockUnmarshaller)
+        CSConsumerGroup = new ConsumerGroup(client, topics, mockUnmarshaler)
       })
 
       describe("when there is no error", () => {

@@ -1,3 +1,4 @@
+// source: types/ethereum/transaction.proto
 /**
  * @fileoverview
  * @enhanceable
@@ -246,9 +247,12 @@ proto.ethereum.TxData.prototype.getNonce = function() {
 };
 
 
-/** @param {number} value */
+/**
+ * @param {number} value
+ * @return {!proto.ethereum.TxData} returns this
+ */
 proto.ethereum.TxData.prototype.setNonce = function(value) {
-  jspb.Message.setProto3IntField(this, 1, value);
+  return jspb.Message.setProto3IntField(this, 1, value);
 };
 
 
@@ -262,17 +266,21 @@ proto.ethereum.TxData.prototype.getTo = function() {
 };
 
 
-/** @param {?proto.ethereum.Account|undefined} value */
+/**
+ * @param {?proto.ethereum.Account|undefined} value
+ * @return {!proto.ethereum.TxData} returns this
+*/
 proto.ethereum.TxData.prototype.setTo = function(value) {
-  jspb.Message.setWrapperField(this, 2, value);
+  return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.ethereum.TxData} returns this
  */
 proto.ethereum.TxData.prototype.clearTo = function() {
-  this.setTo(undefined);
+  return this.setTo(undefined);
 };
 
 
@@ -295,17 +303,21 @@ proto.ethereum.TxData.prototype.getValue = function() {
 };
 
 
-/** @param {?proto.ethereum.Quantity|undefined} value */
+/**
+ * @param {?proto.ethereum.Quantity|undefined} value
+ * @return {!proto.ethereum.TxData} returns this
+*/
 proto.ethereum.TxData.prototype.setValue = function(value) {
-  jspb.Message.setWrapperField(this, 3, value);
+  return jspb.Message.setWrapperField(this, 3, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.ethereum.TxData} returns this
  */
 proto.ethereum.TxData.prototype.clearValue = function() {
-  this.setValue(undefined);
+  return this.setValue(undefined);
 };
 
 
@@ -327,9 +339,12 @@ proto.ethereum.TxData.prototype.getGas = function() {
 };
 
 
-/** @param {number} value */
+/**
+ * @param {number} value
+ * @return {!proto.ethereum.TxData} returns this
+ */
 proto.ethereum.TxData.prototype.setGas = function(value) {
-  jspb.Message.setProto3IntField(this, 4, value);
+  return jspb.Message.setProto3IntField(this, 4, value);
 };
 
 
@@ -343,17 +358,21 @@ proto.ethereum.TxData.prototype.getGasPrice = function() {
 };
 
 
-/** @param {?proto.ethereum.Quantity|undefined} value */
+/**
+ * @param {?proto.ethereum.Quantity|undefined} value
+ * @return {!proto.ethereum.TxData} returns this
+*/
 proto.ethereum.TxData.prototype.setGasPrice = function(value) {
-  jspb.Message.setWrapperField(this, 5, value);
+  return jspb.Message.setWrapperField(this, 5, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.ethereum.TxData} returns this
  */
 proto.ethereum.TxData.prototype.clearGasPrice = function() {
-  this.setGasPrice(undefined);
+  return this.setGasPrice(undefined);
 };
 
 
@@ -376,17 +395,21 @@ proto.ethereum.TxData.prototype.getData = function() {
 };
 
 
-/** @param {?proto.ethereum.Data|undefined} value */
+/**
+ * @param {?proto.ethereum.Data|undefined} value
+ * @return {!proto.ethereum.TxData} returns this
+*/
 proto.ethereum.TxData.prototype.setData = function(value) {
-  jspb.Message.setWrapperField(this, 6, value);
+  return jspb.Message.setWrapperField(this, 6, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.ethereum.TxData} returns this
  */
 proto.ethereum.TxData.prototype.clearData = function() {
-  this.setData(undefined);
+  return this.setData(undefined);
 };
 
 
@@ -551,17 +574,21 @@ proto.ethereum.Transaction.prototype.getTxData = function() {
 };
 
 
-/** @param {?proto.ethereum.TxData|undefined} value */
+/**
+ * @param {?proto.ethereum.TxData|undefined} value
+ * @return {!proto.ethereum.Transaction} returns this
+*/
 proto.ethereum.Transaction.prototype.setTxData = function(value) {
-  jspb.Message.setWrapperField(this, 1, value);
+  return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.ethereum.Transaction} returns this
  */
 proto.ethereum.Transaction.prototype.clearTxData = function() {
-  this.setTxData(undefined);
+  return this.setTxData(undefined);
 };
 
 
@@ -584,17 +611,21 @@ proto.ethereum.Transaction.prototype.getRaw = function() {
 };
 
 
-/** @param {?proto.ethereum.Data|undefined} value */
+/**
+ * @param {?proto.ethereum.Data|undefined} value
+ * @return {!proto.ethereum.Transaction} returns this
+*/
 proto.ethereum.Transaction.prototype.setRaw = function(value) {
-  jspb.Message.setWrapperField(this, 2, value);
+  return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.ethereum.Transaction} returns this
  */
 proto.ethereum.Transaction.prototype.clearRaw = function() {
-  this.setRaw(undefined);
+  return this.setRaw(undefined);
 };
 
 
@@ -617,17 +648,21 @@ proto.ethereum.Transaction.prototype.getHash = function() {
 };
 
 
-/** @param {?proto.ethereum.Hash|undefined} value */
+/**
+ * @param {?proto.ethereum.Hash|undefined} value
+ * @return {!proto.ethereum.Transaction} returns this
+*/
 proto.ethereum.Transaction.prototype.setHash = function(value) {
-  jspb.Message.setWrapperField(this, 3, value);
+  return jspb.Message.setWrapperField(this, 3, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
+ * @return {!proto.ethereum.Transaction} returns this
  */
 proto.ethereum.Transaction.prototype.clearHash = function() {
-  this.setHash(undefined);
+  return this.setHash(undefined);
 };
 
 

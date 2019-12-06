@@ -46,9 +46,9 @@ const mockConsumer = ready => jest.fn(() => ({
 }))
 
 const topics = ['topic']
-const mockUnmarshaller = msg => msg
+const mockUnmarshaler = msg => msg
 const client = new kafka.KafkaClient({kafkaHost: 'testHost:9092'})
-const CSConsumer = new Consumer(client, topics, mockUnmarshaller)
+const CSConsumer = new Consumer(client, topics, mockUnmarshaler)
 const CSProducer = new Producer(client, topics[0])
 
 let CSWallet

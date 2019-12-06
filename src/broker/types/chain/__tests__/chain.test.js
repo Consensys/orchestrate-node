@@ -1,11 +1,11 @@
-import { marshallChain, unmarshallChain } from '../chain'
+import { marshalChain, unmarshalChain } from '../chain'
 
-describe("# marshallChain ", () => {
+describe("# marshalChain ", () => {
     test("set default", () => {
         const testMsg = '10000000000000000'
-        const chain = marshallChain(testMsg)
+        const chain = marshalChain(testMsg)
         const id = chain.getId()
-        const chainId = unmarshallChain({id})
+        const chainId = unmarshalChain({id})
 
         expect(chainId.id).toEqual(testMsg)
     })

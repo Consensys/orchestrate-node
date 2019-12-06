@@ -1,16 +1,16 @@
 import {
-    marshallAccount, 
-    marshallHash,
-    marshallQuantity,
-    unmarshallQuantity,
-    marshallData
+    marshalAccount, 
+    marshalHash,
+    marshalQuantity,
+    unmarshalQuantity,
+    marshalData
 } from '../base'
 import * as web3utils from 'web3-utils'
 
-describe("# marshallAccount ", () => {
+describe("# marshalAccount ", () => {
     test("set default", () => {
         const testMsg = '0xc1912fee45d61c87cc5ea59dae31190fffff232d'
-        const account = marshallAccount(testMsg)
+        const account = marshalAccount(testMsg)
         const raw = account.getRaw()
         expect(raw.toString('hex')).toEqual(testMsg.substr(2))
     })
@@ -18,17 +18,17 @@ describe("# marshallAccount ", () => {
     test("set non-hex account", () => {
         const testMsg = 'test'
         try {
-            marshallAccount(testMsg)
+            marshalAccount(testMsg)
         } catch(e) {
-            expect(e.message).toEqual(`marshallAccount: ${testMsg} is not a valid address`)
+            expect(e.message).toEqual(`marshalAccount: ${testMsg} is not a valid address`)
         }
     })
 })
 
-describe("# marshallHash ", () => {
+describe("# marshalHash ", () => {
     test("set default", () => {
         const testMsg = '0x72c9a04f5af7b512172c5283ca138c25bca64dd210e70a15dfe015aa4fe67b1a'
-        const account = marshallHash(testMsg)
+        const account = marshalHash(testMsg)
         const raw = account.getRaw()
         expect(raw.toString('hex')).toEqual(testMsg.substr(2))
     })
@@ -36,34 +36,34 @@ describe("# marshallHash ", () => {
     test("set non-hex account", () => {
         const testMsg = 'test'
         try {
-            marshallHash(testMsg)
+            marshalHash(testMsg)
         } catch(e) {
-            expect(e.message).toEqual(`marshallHash: ${testMsg} is not a valid hash`)
+            expect(e.message).toEqual(`marshalHash: ${testMsg} is not a valid hash`)
         }
     })
 })
 
-describe("# marshallQuantity ", () => {
+describe("# marshalQuantity ", () => {
     test("set default", () => {
         const testMsg = '1'
-        const quantity = marshallQuantity(testMsg)
+        const quantity = marshalQuantity(testMsg)
         const raw = quantity.getRaw()
-        expect(unmarshallQuantity({raw})).toEqual(testMsg)
+        expect(unmarshalQuantity({raw})).toEqual(testMsg)
     })
 
 
     test("set hex", () => {
         const testMsg = '0x2710'
-        const quantity = marshallQuantity(testMsg)
+        const quantity = marshalQuantity(testMsg)
         const raw = quantity.getRaw()
-        expect(unmarshallQuantity({raw})).toEqual(web3utils.hexToNumberString(testMsg))
+        expect(unmarshalQuantity({raw})).toEqual(web3utils.hexToNumberString(testMsg))
     })
 })
 
-describe("# marshallData ", () => {
+describe("# marshalData ", () => {
     test("set default", () => {
         const testMsg = '0x72c9a04f5af7b512172c5283ca138c25bca64dd210e70a15dfe015aa4fe67b1a'
-        const data = marshallData(testMsg)
+        const data = marshalData(testMsg)
         const raw = data.getRaw()
         expect(raw.toString('hex')).toEqual(testMsg.substr(2))
     })
@@ -71,9 +71,9 @@ describe("# marshallData ", () => {
     test("set non hex hash", () => {
         const testMsg = 'test'
         try {
-            marshallData(testMsg)
+            marshalData(testMsg)
         } catch(e) {
-            expect(e.message).toEqual(`marshallData: ${testMsg} is not a valid data hash`)
+            expect(e.message).toEqual(`marshalData: ${testMsg} is not a valid data hash`)
         }
     })
 })

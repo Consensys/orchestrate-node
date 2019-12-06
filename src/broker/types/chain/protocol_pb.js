@@ -1,3 +1,4 @@
+// source: types/chain/protocol.proto
 /**
  * @fileoverview
  * @enhanceable
@@ -111,7 +112,7 @@ proto.chain.Protocol.deserializeBinaryFromReader = function(msg, reader) {
     case 3:
       var value = msg.getExtraMap();
       reader.readMessage(value, function(message, reader) {
-        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readString, null, "");
+        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readString, null, "", "");
          });
       break;
     default:
@@ -166,9 +167,12 @@ proto.chain.Protocol.prototype.getType = function() {
 };
 
 
-/** @param {!proto.chain.ProtocolType} value */
+/**
+ * @param {!proto.chain.ProtocolType} value
+ * @return {!proto.chain.Protocol} returns this
+ */
 proto.chain.Protocol.prototype.setType = function(value) {
-  jspb.Message.setProto3EnumField(this, 1, value);
+  return jspb.Message.setProto3EnumField(this, 1, value);
 };
 
 
@@ -187,10 +191,11 @@ proto.chain.Protocol.prototype.getExtraMap = function(opt_noLazyCreate) {
 
 /**
  * Clears values from the map. The map will be non-null.
+ * @return {!proto.chain.Protocol} returns this
  */
 proto.chain.Protocol.prototype.clearExtraMap = function() {
   this.getExtraMap().clear();
-};
+  return this;};
 
 
 /**
@@ -200,7 +205,7 @@ proto.chain.ProtocolType = {
   ETHEREUM_CONSTANTINOPLE: 0,
   QUORUM_CONSTELLATION: 1,
   QUORUM_TESSERA: 2,
-  PANTHEON_ORION: 3
+  BESU_ORION: 3
 };
 
 goog.object.extend(exports, proto.chain);

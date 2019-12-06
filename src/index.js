@@ -4,7 +4,6 @@ import "regenerator-runtime/runtime"
 import Broker from './broker'
 import { Web3 } from './web3'
 import { ContractRegistry } from  './contractRegistry'
-
 export { ProtocolType } from './broker/types/chain/protocol'
 
 /**

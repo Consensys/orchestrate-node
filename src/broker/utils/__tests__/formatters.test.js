@@ -1,9 +1,9 @@
-import { unmarshallRawObj, hexToB64, mapToObject } from '../formatters'
+import { unmarshalRawObj, hexToB64, mapToObject } from '../formatters'
 
-describe("# unmarshallRawObj", () => {
+describe("# unmarshalRawObj", () => {
 
-    test('unmarshallRawObj will null object', async () => {
-        expect(unmarshallRawObj(null, [])).toBeUndefined()
+    test('unmarshalRawObj will null object', async () => {
+        expect(unmarshalRawObj(null, [])).toBeUndefined()
     });
 
 })
