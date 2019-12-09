@@ -212,7 +212,7 @@ export interface OrchestrateProducer {
 
 export interface OrchestrateConsumer {
   consumer: Consumer | ConsumerGroup
-  unmarshaler: (msg: any) => any
+  unmarshal: (msg: any) => any
   consume(): EventEmitter
 }
 

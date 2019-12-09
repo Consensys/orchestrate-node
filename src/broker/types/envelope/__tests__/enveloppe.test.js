@@ -25,7 +25,7 @@ describe("# marshalEnvelope ", () => {
         }).toThrow();
     })
 
-    test("set invalid object format of other marshaler methods", () => {
+    test("set invalid object format of other marshaller methods", () => {
         const testMsg = {chainId: {error: false}}
         try {
             marshalEnvelope(testMsg)

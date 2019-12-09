@@ -37,7 +37,7 @@ const mockConsumer = ready => jest.fn(() => ({
 }))
 
 const topics = ['topic']
-const mockUnmarshaler = msg => msg
+const mockUnmarshaller = msg => msg
 const client = new kafka.KafkaClient({kafkaHost: 'testHost:9092'})
 
 let CSConsumer
@@ -45,7 +45,7 @@ describe("# Consumer", () => {
 
   beforeEach(() => {
     kafka.Consumer = mockConsumer(true);
-    CSConsumer = new Consumer('', topics, mockUnmarshaler)
+    CSConsumer = new Consumer('', topics, mockUnmarshaller)
   })
 
   test('init Consumer', async () => {
@@ -95,7 +95,7 @@ describe("# ConsumerGroup", () => {
 
   beforeEach(() => {
     kafka.ConsumerGroup = mockConsumer(true);
-    CSConsumerGroup = new ConsumerGroup(client, topics, mockUnmarshaler)
+    CSConsumerGroup = new ConsumerGroup(client, topics, mockUnmarshaller)
 
   })
 
@@ -121,7 +121,7 @@ describe("# ConsumerGroup", () => {
 
       beforeEach(() => {
         kafka.ConsumerGroup = mockConsumer(true);
-        CSConsumerGroup = new ConsumerGroup(client, topics, mockUnmarshaler)
+        CSConsumerGroup = new ConsumerGroup(client, topics, mockUnmarshaller)
       })
 
       describe("when there is no error", () => {

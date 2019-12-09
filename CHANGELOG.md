@@ -1,6 +1,6 @@
 # CHANGELOG
   
-### Version 1.0.0-rc1
+### Version 1.0.0
 
 *Unreleased*
 
@@ -8,9 +8,6 @@
 - [FEAT] Export the marshal and unmarshal methods in the consumer and producer
 - [FIX] Correct typo to make ConsumerGroup extending from the correct class
 - [FIX] Add types in the package.json
-- [FIX] Importing protobuf script
-- [FIX] Update examples
-- [FIX] Clean code and correct typos
 
 ### Version 0.5.0
 
