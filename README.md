@@ -4,21 +4,9 @@ The PegaSys Orchestrate library provides convenient access to the PegaSys Orches
 
 # Documentation
 
-See the [SDK's documentation here.](https://consensys.gitlab.io/client/fr/core-stack/doc/Getting-Started/SDK/)
+See the [SDK's documentation here.](https://docs.orchestrate.pegasys.tech/en/latest/Tutorials/SDK/)
 
-And you can consult as well all [PegaSys Orchestrate's documentation here.](https://consensys.gitlab.io/client/fr/core-stack/doc)
+And you can consult as well all [PegaSys Orchestrate's documentation here.](https://docs.orchestrate.pegasys.tech/)
 
+Please contact us to support@pegasys.tech
 
-# Installation
-
-Install the package with:
-
-```
-npm install pegasys-orchestrate --save
-```
-
-# Usage
-
-# Usage with TypeScript
-
-# Development
