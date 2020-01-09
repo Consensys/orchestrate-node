@@ -9,6 +9,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest --config jestconfig.json",
+    "test:coverage": "npm run test -- --coverage",
     "build": "tsc",
     "clean": "rimraf lib",
     "lint": "tslint -p . -c tslint.json",
