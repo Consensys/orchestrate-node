@@ -18,10 +18,11 @@ describe('# ContractRegistry', () => {
             deployedBytecode: Buffer.from('deployedBytecode'),
         }
 
-        // We attempt to register the contract to a non-existant remote host
+        // We attempt to register the contract to a non-existent remote host
         const registerCall = CSCR.createRegisterCall(contract);
         const catalogCall = CSCR.createGetCatalogCall();
-        const tagsCall = CSCR.createGetTagsCall('name')
+        const tagsCall = CSCR.createGetTagsCall('name');
+        const getContractCall = CSCR.createGetContractCall({name: 'name', tag: 'tag'});
 
         let err = await CSCR.performCall(registerCall).catch(err => err);
         // This should fails only because the connection failed
@@ -32,6 +33,10 @@ describe('# ContractRegistry', () => {
         expect(err.toString().includes('connect')).toBe(true);
 
         err = await CSCR.performCall(tagsCall).catch(err => err);
+        // This should fails only because the connection failed
+        expect(err.toString().includes('connect')).toBe(true);
+
+        err = await CSCR.performCall(getContractCall).catch(err => err);
         // This should fails only because the connection failed
         expect(err.toString().includes('connect')).toBe(true);
     })

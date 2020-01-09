@@ -16,9 +16,9 @@ import {
  */
 export default class Broker {
     /**
-     * [instanciate a kafka broker with custom producer and consumer]
+     * [instantiate a kafka broker with custom producer and consumer]
      * @param {string} endpoint [Kafka endpoint]
-     * @param {Object} options  [Options to instanciate kafka-node. see https://github.com/SOHU-Co/kafka-node#options]
+     * @param {Object} options  [Options to instantiate kafka-node. see https://github.com/SOHU-Co/kafka-node#options]
      */
     constructor(endpoint, options) {
       this.endpoint = endpoint
@@ -53,11 +53,11 @@ export default class Broker {
                 reject(err)
             } else {
               // Get latest offset in the partition 0 by default
-              let offsetsbyTopics = {}
+              let offsetsByTopics = {}
               Object.keys(offsets).forEach(topic => {
-                Object.assign(offsetsbyTopics, {[topic]: offsets[topic][0]});
+                Object.assign(offsetsByTopics, {[topic]: offsets[topic][0]});
               })
-              resolve(offsetsbyTopics)
+              resolve(offsetsByTopics)
             }
         })
     })

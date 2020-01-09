@@ -1,6 +1,6 @@
 {
   "name": "pegasys-orchestrate",
-  "version": "1.0.0-rc1",
+  "version": "1.0.0-rc2",
   "description": "The PegaSys Orchestrate library provides convenient access to the PegaSys Orchestrate API from applications written in server-side JavaScript",
   "scripts": {
     "clean": "rimraf ./coverage ./build ./lib",
@@ -31,8 +31,9 @@
   "contributors": [
     "Alexandre Belling <alexandre.belling@consensys.net>",
     "Alexis Masseron <alexis.masseron@consensys.net>",
-    "Nicolas Maurice <nicolas.maurice@consensys.net>",
-    "Christian Tran <christian.tran@consensys.net>"
+    "Christian Tran <christian.tran@consensys.net>",
+    "Julien Marchand <julien.marchand@consensys.net>",
+    "Nicolas Maurice <nicolas.maurice@consensys.net>"
   ],
   "license": "Apache-2.0",
   "main": "./build/library.bundled.js",

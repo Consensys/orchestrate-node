@@ -24,7 +24,7 @@ export default class Orchestrate {
   /**
    * [broker creates a OrchestrateBroker instance]
    * @param  {string}             endpoint [Kafka endpoint]
-   * @param  {KafkaClientOptions} options  [Options to instanciate kafka-node. see https://github.com/SOHU-Co/kafka-node#options]
+   * @param  {KafkaClientOptions} options  [Options to instantiate kafka-node. see https://github.com/SOHU-Co/kafka-node#options]
    * @return {OrchestrateBroker}             [Class to produce, consume messages with a kafka]
    */
   broker(endpoint: string, options?: KafkaClientOptions) : OrchestrateBroker
@@ -70,7 +70,7 @@ export class ContractRegistry {
   formatRegisterRequest(contract: Object): Object
 
   /**
-   * Call performs the inputed call and update the SSL configuration if necessary
+   * Call performs the inputted call and update the SSL configuration if necessary
    * @param {function} call
    * @return {Promise} A promise that resolves if the call succeed
    */
@@ -79,22 +79,29 @@ export class ContractRegistry {
   /**
    * createRegisterCall returns a promisified request to register a contract
    * @param {Object} contract     [An abi.Contract object]
-   * @return {Promise}            [A promisied contract registering request]
+   * @return {Promise}            [A promised contract registering request]
    */
   createRegisterCall(contract: Object): Promise<any>
 
   /**
    * createGetCatalogCall returns the list of available contract names in the registry
-   * @return {Promise}            [A promisied contract catalog request]
+   * @return {Promise}            [A promised contract catalog request]
    */
   createGetCatalogCall(): Promise<any>
 
   /**
-   * createGetCatalogCall returns the list of registered tags in the registry
+   * createGetTagsCall returns the list of registered tags in the registry
    * @param {String} name          [Name of the contract to query tags for]
    * @return {Promise}             [A promisified contract getTag request]
    */
   createGetTagsCall(name: string): Promise<any>
+
+  /**
+   * createGetContractCall returns a registered contract instance
+   * @param {Object} contractId    [ContractId to query data for]
+   * @return {Promise}             [A promisified contract getContract request]
+   */
+  createGetContractCall(contractId: ContractId): Promise<any>
 }
 
 /**
@@ -120,7 +127,7 @@ export class OrchestrateWeb3 {
    * [getNetworks get web3 instances labels]
    * @return {string[]} [Names of web3 instances]
    */
-  getNeworks(): string[]
+  getNetworks(): string[]
 }
 
 /**
@@ -134,7 +141,7 @@ export class OrchestrateBroker {
    * [constructor initialize a Kafka broker]
    *
    * @param   {[string]}              endpoint:  [Kafka endpoint]
-   * @param   {[KafkaClientOptions]}  options?:  [Options?: to instanciate kafka-node. see https://github.com/SOHU-Co/kafka-node#options]
+   * @param   {[KafkaClientOptions]}  options?:  [Options?: to instantiate kafka-node. see https://github.com/SOHU-Co/kafka-node#options]
    *
    */
   constructor(endpoint: string, options?: KafkaClientOptions)
@@ -143,7 +150,7 @@ export class OrchestrateBroker {
    * [produce message on a kafka topic]
    *
    * @param   {[string]}              topic?:    [topicIn?: topic to send wallet creation request - default: topic-wallet-generator]
-   * @param   {[ProducerOptions]}  options?:  [Options?: to instanciate kafka-node. see https://github.com/SOHU-Co/kafka-node#producerkafkaclient-options-custompartitioner]
+   * @param   {[ProducerOptions]}  options?:  [Options?: to instantiate kafka-node. see https://github.com/SOHU-Co/kafka-node#producerkafkaclient-options-custompartitioner]
    *
    * @return  {Promise<OrchestrateProducer>}     [return a OrchestrateProducer instance]
    */
@@ -173,11 +180,16 @@ export class OrchestrateBroker {
    * [wallet class to generate wallet in Orchestrate]
    *
    * @param   {[type]}  topicIn?:   [topicIn?: topic to send wallet creation request - default: topic-wallet-generator]
-   * @param   {[type]}  topicOut?:  [topicOut?: topic to consume wallet genrated in Orchestrate - default topic-wallet-generated]
+   * @param   {[type]}  topicOut?:  [topicOut?: topic to consume wallet generated in Orchestrate - default topic-wallet-generated]
    *
    * @return  {Promise<WalletGenerator>}     [return class with the method generate()]
    */
   walletGenerator(topicIn?: string, topicOut?: string[]): Promise<WalletGenerator>
+}
+
+export interface ContractId {
+    name: string
+    tag: string
 }
 
 /**

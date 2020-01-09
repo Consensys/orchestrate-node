@@ -4,8 +4,10 @@
 
 *Unreleased*
 
+- [FEAT] Add the `GetContract` gRPC function call
 - [FEAT] Add the `nonce` field 
 - [FEAT] Export the marshal and unmarshal methods in the consumer and producer
+- [FIX] Rename `geNetworks` in `getNetworks`
 - [FIX] Correct typo to make ConsumerGroup extending from the correct class
 - [FIX] Add types in the package.json
 
@@ -14,7 +16,7 @@
 *Released on October 30th 2019*
 
 - [FEAT] Make cli installable
-- [FEAT] Support for TLS GRPC servers
+- [FEAT] Support for TLS gRPC servers
 - [REFACTOR] Rename to PegaSys Orchestrate
 
 ### Version 0.4.8
@@ -105,7 +107,7 @@
 
 *Released on April 2nd 2019*
 
-- [FEAT]: Unmarshal extra metada into Object instead of Array
+- [FEAT]: Unmarshal extra metadata into Object instead of Array
 
 ### Version 0.1.7
 

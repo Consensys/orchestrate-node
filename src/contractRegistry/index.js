@@ -3,7 +3,7 @@ const grpc = require('grpc');
 const protoLoader = require('@grpc/proto-loader');
 
 /**
- * Declare the path to the protobuff and load the class specific objects
+ * Declare the path to the protobuf and load the class specific objects
  */
 
 const PROTO_FILE = 'types/contract-registry/registry.proto';
@@ -56,7 +56,7 @@ export class ContractRegistry {
     formatRegisterRequest = (contract) => { return { contract }; }
 
     /**
-     * Call performs the inputed call and update the SSL configuration if necessary
+     * Call performs the inputted call and update the SSL configuration if necessary
      * @param {function} call
      * @return {Promise} A promise that resolves if the call succeed
      */
@@ -73,7 +73,7 @@ export class ContractRegistry {
     /**
      * createRegisterCall returns a promisified request to register a contract
      * @param {Object} contract     [An abi.Contract object]
-     * @return {Promise}            [A promisied contract registering request]
+     * @return {Promise}            [A promised contract registering request]
      */
     createRegisterCall = (contract) => {
         return (stub) => {
@@ -91,7 +91,7 @@ export class ContractRegistry {
 
     /**
      * createGetCatalogCall returns the list of available contract names in the registry
-     * @return {Promise}            [A promisied contract catalog request]
+     * @return {Promise}            [A promised contract catalog request]
      */
     createGetCatalogCall = () => {
         return (stub) => {
@@ -110,12 +110,31 @@ export class ContractRegistry {
     /**
      * createGetCatalogCall returns the list of registered tags in the registry
      * @param {String} name          [Name of the contract to query tags for]
-     * @return {Promise}             [A promisified contract getTag request]
+     * @return {Promise}             [A promised contract getTag request]
      */
     createGetTagsCall = (name) => {
         return (stub) => {
             return new Promise((resolve, reject) => {
                 stub.GetTags({ name }, 
+                    // Resolve or reject the promise as a callback
+                    (err, response) => {
+                        if (err) { reject(err); return; }
+                        resolve(response);
+                    },
+                )
+            });
+        }
+    }
+
+    /**
+     * createGetCatalogCall returns the list of registered tags in the registry
+     * @param {String} name          [Name of the contract to query tags for]
+     * @return {Promise}             [A promised contract getTag request]
+     */
+    createGetContractCall = (contractId) => {
+        return (stub) => {
+            return new Promise((resolve, reject) => {
+                stub.GetContract({ contractId }, 
                     // Resolve or reject the promise as a callback
                     (err, response) => {
                         if (err) { reject(err); return; }

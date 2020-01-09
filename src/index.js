@@ -23,7 +23,7 @@ export default class Orchestrate {
     /**
      * [broker creates a broker instance to connect to Kafka]
      * @param  {string} endpoint [Kafka endpoint]
-     * @param  {Object} options  [Options to instanciate kafka-node. see https://github.com/SOHU-Co/kafka-node#options]
+     * @param  {Object} options  [Options to instantiate kafka-node. see https://github.com/SOHU-Co/kafka-node#options]
      * @return {Broker} [Class to produce, consume messages with a kafka]
      */
     broker = (endpoint, options) => {
