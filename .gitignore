@@ -1,2 +1,16 @@
+# IDE & OS specific
+.DS_Store
+.idea
+
+# Logs
+logs
+*.log
+
+# Dependencies
 node_modules
-/lib
+
+# Coverage
+coverage
+
+# Release
+lib
