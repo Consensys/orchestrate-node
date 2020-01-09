@@ -10,7 +10,7 @@
   "scripts": {
     "test": "jest --config jestconfig.json",
     "build": "tsc",
-    "clean:dist": "rimraf lib",
+    "clean": "rimraf lib",
     "lint": "tslint -p . -c tslint.json",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --write 'src/**/*.{ts,js,json}'",
