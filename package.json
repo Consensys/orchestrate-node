@@ -33,7 +33,11 @@
   "author": "ConsenSys PegaSys Engineering",
   "contributors": [
     "Dario Anongba Varela <dario.varela@consensys.net>",
-    "Christian Tran <christian.tran@consensys.net>"
+    "Alexandre Belling <alexandre.belling@consensys.net>",
+    "Alexis Masseron <alexis.masseron@consensys.net>",
+    "Christian Tran <christian.tran@consensys.net>",
+    "Julien Marchand <julien.marchand@consensys.net>",
+    "Nicolas Maurice <nicolas.maurice@consensys.net>"
   ],
   "license": "Apache-2.0",
   "bugs": {
