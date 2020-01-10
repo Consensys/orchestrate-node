@@ -3,6 +3,7 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2.1
+
 jobs:
   build:
     docker:
@@ -36,3 +37,17 @@ jobs:
       - run:
           name: Unit tests
           command: npm run test:coverage
+
+workflows:
+  version: 2
+  default:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - /^feature\/[a-zA-Z0-9\/\-.]*$/
+                - /^fix\/[a-zA-Z0-9\/\-.]*$/
+                - /^maintenance\/[a-zA-Z0-9\/\-.]*$/
+                - /^release\/[a-zA-Z0-9\/\-.]*$/
+                - master
