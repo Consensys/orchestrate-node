@@ -65,6 +65,12 @@ workflows:
           type: approval
           requires:
             - build
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              only:
+                - master
       - publish:
           requires:
             - wait-for-approval
