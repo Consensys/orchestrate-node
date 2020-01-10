@@ -4,18 +4,19 @@
   "description": "The PegaSys Orchestrate library provides convenient access to the PegaSys Orchestrate API from applications written in server-side JavaScript",
   "main": "lib/index.js",
   "files": [
-    "lib/**/*"
+    "lib"
   ],
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest --config jestconfig.json",
+    "test:watch": "npm run test -- --watch",
     "test:coverage": "npm run test -- --coverage",
     "build": "tsc",
-    "clean": "rimraf lib",
+    "clean": "rimraf ./lib ./coverage",
     "lint": "tslint -p . -c tslint.json",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --write 'src/**/*.{ts,js,json}'",
-    "check-formatting": "prettier --list-different 'src/**/*.{ts,ts,js,json}'"
+    "check-formatting": "prettier --list-different 'src/**/*.{ts,js,json}'"
   },
   "repository": {
     "type": "git",
@@ -50,6 +51,7 @@
     "jest": "^24.9.0",
     "lint-staged": "^9.5.0",
     "prettier": "^1.19.1",
+    "rimraf": "^3.0.0",
     "ts-jest": "^24.3.0",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
