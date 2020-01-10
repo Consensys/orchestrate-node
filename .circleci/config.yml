@@ -37,6 +37,16 @@ jobs:
       - run:
           name: Unit tests
           command: npm run test:coverage
+  publish:
+    docker:
+      - image: circleci/node:12
+    steps:
+      - checkout
+      - run:
+          name: Publish on npm
+          command: |
+            echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
+            npm publish --access public
 
 workflows:
   version: 2
@@ -50,4 +60,17 @@ workflows:
                 - /^fix\/[a-zA-Z0-9\/\-.]*$/
                 - /^maintenance\/[a-zA-Z0-9\/\-.]*$/
                 - /^release\/[a-zA-Z0-9\/\-.]*$/
+                - master
+      - wait-for-approval:
+          type: approval
+          requires:
+            - build
+      - publish:
+          requires:
+            - wait-for-approval
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              only:
                 - master
