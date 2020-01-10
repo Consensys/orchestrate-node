@@ -14,8 +14,3 @@ coverage
 
 # Release
 lib
-build
-
-example/typescript/index.js
-
-package-lock.json
