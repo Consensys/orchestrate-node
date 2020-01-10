@@ -27,7 +27,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       - run:
           name: Build
-          command: npm run clean && npm run build
+          command: npm run build
       - run:
           name: Unit tests
           command: npm run test:coverage
