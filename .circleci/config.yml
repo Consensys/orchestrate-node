@@ -32,5 +32,5 @@ jobs:
           name: Unit tests
           command: npm run test:coverage
       - store-artifacts:
-        path: ./artifacts.out
-        destination: ./artifacts.out
+          path: ./artifacts.out
+          destination: ./artifacts.out
