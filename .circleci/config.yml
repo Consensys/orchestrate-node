@@ -26,6 +26,11 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - run:
+          name: Lint and formatting
+          command: |
+            npm run lint
+            npm run check-formatting
+      - run:
           name: Build
           command: npm run build
       - run:
