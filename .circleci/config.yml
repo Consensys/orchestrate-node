@@ -5,7 +5,7 @@
 version: 2.1
 
 jobs:
-  build:
+  init:
     docker:
       - image: circleci/node:12
     working_directory: ~/project
@@ -26,14 +26,26 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+  lint:
+    docker:
+      - image: circleci/node:12
+    working_directory: ~/project
       - run:
           name: Lint and formatting
           command: |
             npm run lint
             npm run check-formatting
+  test:
+    docker:
+      - image: circleci/node:12
+    working_directory: ~/project
       - run:
           name: Unit tests
           command: npm run test:coverage
+  build:
+    docker:
+      - image: circleci/node:12
+    working_directory: ~/project
       - run:
           name: Build
           command: npm run build
@@ -52,7 +64,40 @@ workflows:
   version: 2
   default:
     jobs:
+      - init:
+          filters:
+            branches:
+              only:
+                - /^feature\/[a-zA-Z0-9\/\-.]*$/
+                - /^fix\/[a-zA-Z0-9\/\-.]*$/
+                - /^maintenance\/[a-zA-Z0-9\/\-.]*$/
+                - /^release\/[a-zA-Z0-9\/\-.]*$/
+                - master
+      - lint:
+          requires:
+            - init
+          filters:
+            branches:
+              only:
+                - /^feature\/[a-zA-Z0-9\/\-.]*$/
+                - /^fix\/[a-zA-Z0-9\/\-.]*$/
+                - /^maintenance\/[a-zA-Z0-9\/\-.]*$/
+                - /^release\/[a-zA-Z0-9\/\-.]*$/
+                - master
+      - test:
+          requires:
+            - init
+          filters:
+            branches:
+              only:
+                - /^feature\/[a-zA-Z0-9\/\-.]*$/
+                - /^fix\/[a-zA-Z0-9\/\-.]*$/
+                - /^maintenance\/[a-zA-Z0-9\/\-.]*$/
+                - /^release\/[a-zA-Z0-9\/\-.]*$/
+                - master
       - build:
+          requires:
+            - test
           filters:
             branches:
               only:
