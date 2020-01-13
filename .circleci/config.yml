@@ -1,0 +1,82 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node:12
+    working_directory: ~/project
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      - run:
+          name: npm version
+          command: npm -v
+      - run:
+          name: Install dependencies
+          command: npm install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: Lint and formatting
+          command: |
+            npm run lint
+            npm run check-formatting
+      - run:
+          name: Unit tests
+          command: npm run test:coverage
+      - run:
+          name: Build
+          command: npm run build
+  publish:
+    docker:
+      - image: circleci/node:12
+    steps:
+      - checkout
+      - run:
+          name: Publish on npm
+          command: |
+            echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
+            npm publish --access public
+
+workflows:
+  version: 2
+  default:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - /^feature\/[a-zA-Z0-9\/\-.]*$/
+                - /^fix\/[a-zA-Z0-9\/\-.]*$/
+                - /^maintenance\/[a-zA-Z0-9\/\-.]*$/
+                - /^release\/[a-zA-Z0-9\/\-.]*$/
+                - master
+      - wait-for-approval:
+          type: approval
+          requires:
+            - build
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              only:
+                - master
+      - publish:
+          requires:
+            - wait-for-approval
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              only:
+                - master
