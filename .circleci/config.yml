@@ -32,8 +32,8 @@ jobs:
             npm run lint
             npm run check-formatting
       - run:
-        name: Unit tests
-        command: npm run test:coverage
+          name: Unit tests
+          command: npm run test:coverage
       - run:
           name: Build
           command: npm run build
