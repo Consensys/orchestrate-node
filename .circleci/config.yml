@@ -68,15 +68,9 @@ workflows:
           filters:
             tags:
               only: /^v.*/
-            branches:
-              only:
-                - master
       - publish:
           requires:
             - wait-for-approval
           filters:
             tags:
               only: /^v.*/
-            branches:
-              only:
-                - master
