@@ -30,6 +30,8 @@ jobs:
     docker:
       - image: circleci/node:12
     working_directory: ~/project
+    steps:
+      - checkout
       - run:
           name: Lint and formatting
           command: |
@@ -39,6 +41,8 @@ jobs:
     docker:
       - image: circleci/node:12
     working_directory: ~/project
+    steps:
+      - checkout
       - run:
           name: Unit tests
           command: npm run test:coverage
@@ -46,6 +50,8 @@ jobs:
     docker:
       - image: circleci/node:12
     working_directory: ~/project
+    steps:
+      - checkout
       - run:
           name: Build
           command: npm run build
