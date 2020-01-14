@@ -75,6 +75,6 @@
     ]
   },
   "dependencies": {
-    "kafka-node": "^5.0.0"
+    "node-rdkafka": "^2.7.4"
   }
 }

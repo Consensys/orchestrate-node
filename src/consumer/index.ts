@@ -1,1 +1,1 @@
-export * from './ConsumerGroup'
+export * from './Consumer'
