@@ -1,6 +1,3 @@
-import { connect, consume, getConsumer } from './app'
+import { start } from './app'
 
-const consumer = getConsumer()
-connect(consumer).then(() => {
-  consume(consumer)
-})
+start()
