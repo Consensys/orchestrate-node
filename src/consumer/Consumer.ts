@@ -1,33 +1,36 @@
 import { EventEmitter } from 'events'
-import { ConsumerStreamMessage, KafkaConsumer } from 'node-rdkafka'
+import * as KakfaJS from 'kafkajs'
 
-import { EventType } from '../types'
+import { EventType, IOrchestrateMessage } from '../types'
 
 /**
  * Consumes and decodes Orchestrate messages
  */
 export class Consumer extends EventEmitter {
-  private readonly consumer: KafkaConsumer
+  private readonly consumer: KakfaJS.Consumer
   private isReady = false
 
   /**
-   * Creates a new instance of the ConsumerGroup
+   * Creates a new instance of the Consumer
    *
    * @param kafkaHost - URL of the Kafka host
    * @param topics - List of topics to consume
-   * @param options - Options
+   * @param id - ID of the consumer
    */
-  constructor(private readonly kafkaHost: string, private readonly topics: string[], groupId?: string) {
+  constructor(
+    private readonly kafkaHost: string,
+    private readonly topics: string[],
+    id?: string,
+    loglevel?: KakfaJS.logLevel
+  ) {
     super()
 
-    this.consumer = new KafkaConsumer(
-      {
-        'group.id': groupId || 'orchestrate-consumer-group',
-        'metadata.broker.list': kafkaHost,
-        'enable.auto.commit': false
-      },
-      {}
-    )
+    const kafka = new KakfaJS.Kafka({
+      logLevel: loglevel || KakfaJS.logLevel.INFO,
+      brokers: [this.kafkaHost],
+      clientId: 'orchestrate-consumer'
+    })
+    this.consumer = kafka.consumer({ groupId: id || 'orchestrate-consumer-group' })
   }
 
   /**
@@ -52,28 +55,18 @@ export class Consumer extends EventEmitter {
   }
 
   /**
-   * Waits until a connection to Kafka is successfully established or fails
+   * Connects to Kafka and subscribes to each topic
    *
    * @returns a Promise that resolves if the connection is successful and rejects otherwise
-   * @throws Error if the client cannot connect to the Kafka node
    */
-  public async connect(): Promise<Consumer> {
-    return new Promise((resolve, reject) => {
-      if (this.isReady) {
-        resolve(this)
-      }
+  public async connect(): Promise<void> {
+    await this.consumer.connect()
 
-      this.consumer.on('ready', () => {
-        this.consumer.subscribe(this.topics)
-        this.isReady = true
+    for (const topic of this.topics) {
+      await this.consumer.subscribe({ topic })
+    }
 
-        resolve(this)
-      })
-
-      this.consumer.on('connection.failure', error => reject(error))
-
-      this.consumer.connect()
-    })
+    this.isReady = true
   }
 
   /**
@@ -81,32 +74,25 @@ export class Consumer extends EventEmitter {
    *
    * @returns a Promise that resolves if the connection is disconnected successfully
    */
-  public async disconnect(): Promise<Consumer> {
+  public async disconnect(): Promise<void> {
     this.checkReadiness()
-
-    return new Promise((resolve, _) => {
-      this.consumer.on('disconnected', () => {
-        this.consumer.unsubscribe()
-        this.isReady = false
-
-        resolve(this)
-      })
-
-      this.consumer.disconnect()
-    })
+    await this.consumer.disconnect()
+    this.isReady = false
   }
 
   /**
    * Starts consuming messages
    */
-  public consume(): void {
+  public async consume(): Promise<void> {
     // Not absolutely necessary but enforces user to call connect() before calling consume()
     this.checkReadiness()
 
-    this.consumer.on('event.error', error => this.onError(error, EventType.EventError))
-    this.consumer.on('data', message => this.onMessage(message))
-
-    this.consumer.consume()
+    await this.consumer.run({
+      autoCommit: false,
+      eachMessage: async payload => {
+        this.onMessage(payload)
+      }
+    })
   }
 
   /**
@@ -114,24 +100,28 @@ export class Consumer extends EventEmitter {
    *
    * @param message - Message from which to get the offset
    */
-  public commit(message: ConsumerStreamMessage) {
+  public async commit(message: IOrchestrateMessage): Promise<void> {
     this.checkReadiness()
 
-    this.consumer.commitMessage(message)
+    await this.consumer.commitOffsets([
+      {
+        offset: message.offset,
+        topic: message.topic,
+        partition: message.partition
+      }
+    ])
   }
 
-  private onMessage(message: ConsumerStreamMessage) {
+  private onMessage({ topic, partition, message }: KakfaJS.EachMessagePayload) {
     // TODO: Implement unmarshallers when the new enveloppe format is ready
-    const unmarshaller = (msg: ConsumerStreamMessage) => msg.value
+    const unmarshaller = (msg: KakfaJS.KafkaMessage) => msg.value
 
     this.emit(EventType.Message, {
       ...message,
+      topic,
+      partition,
       value: unmarshaller(message)
     })
-  }
-
-  private onError(error: any, errorType: EventType) {
-    this.emit(errorType, error)
   }
 
   private checkReadiness() {
