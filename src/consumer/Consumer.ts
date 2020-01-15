@@ -1,7 +1,9 @@
 import { EventEmitter } from 'events'
 import * as KakfaJS from 'kafkajs'
 
-import { EventType, IOrchestrateMessage } from '../types'
+import { IOrchestrateMessage } from '../types'
+
+import { onMessageReceived } from './helpers'
 
 /**
  * Consumes and decodes Orchestrate messages
@@ -90,7 +92,7 @@ export class Consumer extends EventEmitter {
     await this.consumer.run({
       autoCommit: false,
       eachMessage: async payload => {
-        this.onMessage(payload)
+        onMessageReceived(payload, this)
       }
     })
   }
@@ -110,18 +112,6 @@ export class Consumer extends EventEmitter {
         partition: message.partition
       }
     ])
-  }
-
-  private onMessage({ topic, partition, message }: KakfaJS.EachMessagePayload) {
-    // TODO: Implement unmarshallers when the new enveloppe format is ready
-    const unmarshaller = (msg: KakfaJS.KafkaMessage) => msg.value
-
-    this.emit(EventType.Message, {
-      ...message,
-      topic,
-      partition,
-      value: unmarshaller(message)
-    })
   }
 
   private checkReadiness() {

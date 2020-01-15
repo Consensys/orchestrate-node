@@ -7,6 +7,7 @@ export const start = async () => {
 
     await consumer.connect()
 
+    // Register the event listener before calling consume
     consumer.on(EventType.Message, async (msg: IOrchestrateMessage) => {
       if (Number(msg.offset) % 10 === 0) {
         await consumer.commit(msg)

@@ -77,7 +77,6 @@
     ]
   },
   "dependencies": {
-    "kafkajs": "^1.11.0",
-    "node-rdkafka": "^2.7.4"
+    "kafkajs": "^1.11.0"
   }
 }
