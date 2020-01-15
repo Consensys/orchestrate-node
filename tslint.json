@@ -27,7 +27,8 @@
         "grouped-imports": true
       }
     ],
-    "no-trailing-whitespace": true
+    "no-trailing-whitespace": true,
+    "no-floating-promises": { "severity": "warning" }
   },
   "rulesDirectory": []
 }
