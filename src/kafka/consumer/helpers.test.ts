@@ -8,7 +8,7 @@ import { ResponseMessage } from './ResponseMessage'
 
 const mockKafkaMessagePayload = {
   message: {
-    value: new Buffer('my message value'),
+    value: Buffer.from('my message value'),
     offset: '0'
   },
   partition: 0,

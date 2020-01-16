@@ -20,7 +20,7 @@ const mockMessage = {
   partition: 50,
   topic: 'topic0',
   offset: '0',
-  value: new Buffer('myValue')
+  value: Buffer.from('myValue')
 }
 
 describe('Consumer', () => {

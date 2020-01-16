@@ -1,3 +1,5 @@
+import { DEFAULT_TOPIC_WALLET_GENERATOR } from '../constants'
+
 import { Producer } from './Producer'
 
 const mockKafkaProducer = {
@@ -15,10 +17,8 @@ jest.mock('kafkajs', () => ({
 const brokers = ['kafkaHost:6000', 'kafkaHost:6001']
 const topic = 'topic'
 const mockMessage = {
-  partition: 50,
-  topic: 'topic0',
-  offset: '0',
-  value: new Buffer('myValue')
+  field: 'myField',
+  value: 'myValue'
 }
 const mockResult = { field: 'myResult' }
 
@@ -112,11 +112,35 @@ describe('Producer', () => {
       )
     })
 
-    it('should produce a message successfully with default values', async () => {
-      await producer.connect()
-      const result = await producer.produce(topic, mockMessage as any)
+    it('should generate message to create a wallet succesfully', async () => {
+      const extraData = { extraDataField: 'extraDataField' }
+      const requestId = 'requestId'
 
-      expect(mockKafkaProducer.send).toHaveBeenCalledWith({ topic, messages: [mockMessage] })
+      await producer.connect()
+      const result = await producer.generateWallet(topic, requestId, extraData)
+
+      // TODO: Test unmarshal method is used instead of JSON.stringify
+      const expectedMessage = {
+        value: JSON.stringify({
+          metadata: {
+            id: requestId,
+            extra: extraData
+          }
+        })
+      }
+
+      expect(mockKafkaProducer.send).toHaveBeenCalledWith({ topic, messages: [expectedMessage] })
+      expect(result).toEqual(mockResult)
+    })
+
+    it('should use default topic iand generate a random id if none is specified', async () => {
+      await producer.connect()
+      const result = await producer.generateWallet()
+
+      expect(mockKafkaProducer.send).toHaveBeenCalledWith({
+        topic: DEFAULT_TOPIC_WALLET_GENERATOR,
+        messages: expect.any(Array)
+      })
       expect(result).toEqual(mockResult)
     })
   })
