@@ -77,6 +77,6 @@
     ]
   },
   "dependencies": {
-    "kafkajs": "^1.11.0"
+    "kafkajs": "~1.11.0"
   }
 }
