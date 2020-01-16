@@ -18,9 +18,8 @@ jest.mock('kafkajs', () => ({
   }
 }))
 
-const kafkaHost = 'kafkaHost:6000'
+const brokers = ['kafkaHost:6000', 'kafkaHost:6001']
 const topics = ['topic0', 'topic1']
-const groupId = 'groupId'
 const mockMessage = {
   partition: 50,
   topic: 'topic0',
@@ -32,12 +31,12 @@ describe('Consumer', () => {
   let consumer: Consumer
 
   beforeEach(() => {
-    consumer = new Consumer(kafkaHost, topics, groupId)
+    consumer = new Consumer(topics, brokers)
   })
 
-  describe('getHost', () => {
+  describe('getBrokers', () => {
     it('should return the kafka host successfully', () => {
-      expect(consumer.getHost()).toEqual(kafkaHost)
+      expect(consumer.getBrokers()).toEqual(brokers)
     })
   })
 

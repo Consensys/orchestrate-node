@@ -1,2 +1,2 @@
 export * from './EventType'
-export * from './IOrchestrateMessage'
+export * from './IResponse'

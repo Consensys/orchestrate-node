@@ -1,9 +1,10 @@
 import { createMockInstance } from 'jest-create-mock-instance'
 
-import { EventType } from '../types'
+import { EventType } from '../../types'
 
 import { Consumer } from './Consumer'
 import { onMessageReceived } from './helpers'
+import { ResponseMessage } from './ResponseMessage'
 
 const mockKafkaMessagePayload = {
   message: {
@@ -32,7 +33,10 @@ describe('helpers', () => {
 
       onMessageReceived(mockKafkaMessagePayload as any, mockConsumer)
 
-      expect(mockConsumer.emit).toHaveBeenCalledWith(EventType.Message, expectedMessage)
+      expect(mockConsumer.emit).toHaveBeenCalledWith(
+        EventType.Response,
+        new ResponseMessage(mockConsumer, expectedMessage as any)
+      )
     })
   })
 })
