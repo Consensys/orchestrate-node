@@ -9,13 +9,9 @@ const mockKafkaConsumer = {
 }
 
 jest.mock('kafkajs', () => ({
-  Consumer: jest.fn().mockImplementation(() => mockKafkaConsumer),
   Kafka: jest.fn().mockImplementation(() => ({
     consumer: jest.fn().mockImplementation(() => mockKafkaConsumer)
-  })),
-  logLevel: {
-    INFO: 'info'
-  }
+  }))
 }))
 
 const brokers = ['kafkaHost:6000', 'kafkaHost:6001']

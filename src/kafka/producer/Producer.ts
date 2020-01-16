@@ -52,6 +52,8 @@ export class Producer extends KafkaClient {
    * @param message - Kafka message
    */
   public async produce(topic: string, message: KakfaJS.Message) {
+    this.checkReadiness()
+
     const result = await this.producer.send({ topic, messages: [message] })
     return result[0]
   }
@@ -79,9 +81,15 @@ export class Producer extends KafkaClient {
   /**
    * Generates a new wallet
    *
+   * @param topic - topic of the wallet generator if modified
    * @param requestId - id of the message
+   * @param extraData - extra metadata of the message
    */
-  public async generateWallet(requestId?: string, extraData?: IExtraData): Promise<KakfaJS.RecordMetadata> {
+  public async generateWallet(
+    topic?: string,
+    requestId?: string,
+    extraData?: IExtraData
+  ): Promise<KakfaJS.RecordMetadata> {
     this.checkReadiness()
 
     const value = {
@@ -91,7 +99,7 @@ export class Producer extends KafkaClient {
       }
     }
 
-    return this.produce(DEFAULT_TOPIC_WALLET_GENERATOR, {
+    return this.produce(topic || DEFAULT_TOPIC_WALLET_GENERATOR, {
       value: this.marshal(value)
     })
   }
