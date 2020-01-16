@@ -48,6 +48,7 @@
   "homepage": "https://github.com/PegaSysEng/orchestrate-node#readme",
   "devDependencies": {
     "@types/jest": "^24.0.25",
+    "@types/uuid": "^3.4.6",
     "husky": "^4.0.1",
     "jest": "^24.9.0",
     "jest-create-mock-instance": "^1.1.0",
@@ -77,6 +78,7 @@
     ]
   },
   "dependencies": {
-    "kafkajs": "^1.11.0"
+    "kafkajs": "^1.11.0",
+    "uuid": "^3.3.3"
   }
 }

@@ -1,6 +1,6 @@
 import * as KakfaJS from 'kafkajs'
 
-import { EventType } from '../types'
+import { EventType } from '../../types'
 
 import { Consumer } from './Consumer'
 

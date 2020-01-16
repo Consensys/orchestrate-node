@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events'
 import * as KakfaJS from 'kafkajs'
 
-import { IOrchestrateMessage } from '../types'
+import { IOrchestrateMessage } from '../../types'
 
 import { onMessageReceived } from './helpers'
 
@@ -72,7 +72,7 @@ export class Consumer extends EventEmitter {
   }
 
   /**
-   * Disconnects from the Broker and unsubscribes from the topics
+   * Disconnects from the broker and unsubscribes from the topics
    *
    * @returns a Promise that resolves if the connection is disconnected successfully
    */
