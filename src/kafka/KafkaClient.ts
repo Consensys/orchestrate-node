@@ -9,27 +9,26 @@ export abstract class KafkaClient extends EventEmitter {
   protected isReady = false
 
   /**
-   * Creates a new instance of the Kafka client
+   * Instantiates a new Kafka client
    *
-   * @param clientId - ID of the client
-   * @param kafkaHost - URL of the Kafka host
-   * @param loglevel - log level
+   * @param brokers - List of brokers to connect to
+   * @param kafkaConfig - Kafka client configuration
    */
-  constructor(clientId: string, private readonly kafkaHost: string, loglevel?: KakfaJS.logLevel) {
+  constructor(private readonly brokers: string[], kafkaConfig?: KakfaJS.KafkaConfig) {
     super()
 
     this.kafka = new KakfaJS.Kafka({
-      logLevel: loglevel || KakfaJS.logLevel.INFO,
-      brokers: [this.kafkaHost],
-      clientId
+      clientId: 'orchestrate-consumer',
+      ...kafkaConfig,
+      brokers
     })
   }
 
   /**
-   * Returns the Kafka host
+   * Returns the Kafka brokers
    */
-  public getHost(): string {
-    return this.kafkaHost
+  public getBrokers(): string[] {
+    return this.brokers
   }
 
   /**

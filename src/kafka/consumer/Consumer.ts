@@ -1,45 +1,32 @@
-import { EventEmitter } from 'events'
 import * as KakfaJS from 'kafkajs'
 
 import { IResponse } from '../../types'
+import { KafkaClient } from '../KafkaClient'
 
 import { onMessageReceived } from './helpers'
 
 /**
  * Consumes and decodes Orchestrate messages
  */
-export class Consumer extends EventEmitter {
+export class Consumer extends KafkaClient {
   private readonly consumer: KakfaJS.Consumer
-  private isReady = false
 
   /**
    * Creates a new instance of the Consumer
    *
-   * @param kafkaHost - URL of the Kafka host
    * @param topics - List of topics to consume
-   * @param id - ID of the consumer
+   * @param brokers - List of brokers to connect to
+   * @param kafkaConfig - Kafka client configuration
+   * @param consumerConfig
    */
   constructor(
     private readonly topics: string[],
-    private readonly brokers: string[],
+    brokers: string[],
     kafkaConfig?: KakfaJS.KafkaConfig,
     consumerConfig?: KakfaJS.ConsumerConfig
   ) {
-    super()
-
-    const kafka = new KakfaJS.Kafka({
-      clientId: 'orchestrate-consumer',
-      ...kafkaConfig,
-      brokers
-    })
-    this.consumer = kafka.consumer({ groupId: 'orchestrate-consumer-group', ...consumerConfig })
-  }
-
-  /**
-   * Returns the Kafka brokers
-   */
-  public getBrokers(): string[] {
-    return this.brokers
+    super(brokers, kafkaConfig)
+    this.consumer = this.kafka.consumer({ groupId: 'orchestrate-consumer-group', ...consumerConfig })
   }
 
   /**
@@ -47,13 +34,6 @@ export class Consumer extends EventEmitter {
    */
   public getTopics(): string[] {
     return this.topics
-  }
-
-  /**
-   * Returns true if the Consumer is ready to consume messages
-   */
-  public ready(): boolean {
-    return this.isReady
   }
 
   /**

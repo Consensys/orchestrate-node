@@ -79,6 +79,6 @@
   },
   "dependencies": {
     "kafkajs": "~1.11.0",
-    "uuid": "^3.3.3"
+    "uuid": "~3.3.3"
   }
 }
