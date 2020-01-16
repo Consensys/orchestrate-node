@@ -1,6 +1,7 @@
 import * as KakfaJS from 'kafkajs'
 
 import { IResponse } from '../../types'
+import { DEFAULT_TOPIC_TX_DECODED } from '../constants'
 import { KafkaClient } from '../KafkaClient'
 
 import { onMessageReceived } from './helpers'
@@ -10,22 +11,25 @@ import { onMessageReceived } from './helpers'
  */
 export class Consumer extends KafkaClient {
   private readonly consumer: KakfaJS.Consumer
+  private readonly topics: string[]
 
   /**
    * Creates a new instance of the Consumer
    *
-   * @param topics - List of topics to consume
    * @param brokers - List of brokers to connect to
+   * @param topics - List of topics to consume
    * @param kafkaConfig - Kafka client configuration
-   * @param consumerConfig
+   * @param consumerConfig - Consumer configuration
    */
   constructor(
-    private readonly topics: string[],
     brokers: string[],
+    topics?: string[],
     kafkaConfig?: KakfaJS.KafkaConfig,
     consumerConfig?: KakfaJS.ConsumerConfig
   ) {
     super(brokers, kafkaConfig)
+
+    this.topics = topics ? topics : [DEFAULT_TOPIC_TX_DECODED]
     this.consumer = this.kafka.consumer({ groupId: 'orchestrate-consumer-group', ...consumerConfig })
   }
 

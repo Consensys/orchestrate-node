@@ -1,4 +1,4 @@
-import { Consumer } from './Consumer'
+import { Producer } from './Producer'
 
 const mockKafkaConsumer = {
   connect: jest.fn(),
@@ -27,7 +27,7 @@ const mockMessage = {
   value: new Buffer('myValue')
 }
 
-describe('Consumer', () => {
+describe('Producer', () => {
   let consumer: Consumer
 
   beforeEach(() => {

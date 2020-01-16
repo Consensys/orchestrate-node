@@ -1,12 +1,12 @@
 import * as KakfaJS from 'kafkajs'
 import { v4 as uuidv4 } from 'uuid'
 
-import { ITransactionRequest, ProtocolType } from '../../types'
+import { IExtraData, ITransactionRequest, ProtocolType } from '../../types'
 import { DEFAULT_TOPIC_TX_CRAFTER, DEFAULT_TOPIC_WALLET_GENERATOR, MAINNET_CHAIN_ID } from '../constants'
 import { KafkaClient } from '../KafkaClient'
 
 /**
- * Sends transactions to Orchestrate
+ * Class used to send messages to Orchestrate
  */
 export class Producer extends KafkaClient {
   private readonly producer: KakfaJS.Producer
@@ -14,12 +14,14 @@ export class Producer extends KafkaClient {
   /**
    * Creates a new instance of the Producer
    *
-   * @param kafkaHost - URL of the Kafka host
-   * @param loglevel - log level
+   * @param brokers - List of brokers to connect to
+   * @param kafkaConfig - Kafka client configuration
+   * @param producerConfig - Producer configuration
    */
-  constructor(kafkaHost: string, loglevel?: KakfaJS.logLevel) {
-    super('orchestrate-producer', kafkaHost, loglevel)
-    this.producer = this.kafka.producer()
+
+  constructor(brokers: string[], kafkaConfig?: KakfaJS.KafkaConfig, producerConfig?: KakfaJS.ProducerConfig) {
+    super(brokers, kafkaConfig)
+    this.producer = this.kafka.producer(producerConfig)
   }
 
   /**
@@ -44,6 +46,17 @@ export class Producer extends KafkaClient {
   }
 
   /**
+   * Sends a message to Kafka
+   *
+   * @param topic - topic
+   * @param message - Kafka message
+   */
+  public async produce(topic: string, message: KakfaJS.Message) {
+    const result = await this.producer.send({ topic, messages: [message] })
+    return result[0]
+  }
+
+  /**
    * Sends an Ethereum transaction
    *
    * @param request - Transaction request
@@ -60,11 +73,7 @@ export class Producer extends KafkaClient {
     request.protocol = request.protocol ? request.protocol : { type: ProtocolType.EthereumConstantinople }
     request.requestId = request.requestId ? request.requestId : uuidv4()
 
-    const message = this.createTxMessage(request)
-
-    const result = await this.producer.send({ topic, messages: [message] })
-
-    return result[0]
+    return this.produce(topic, this.createTxMessage(request))
   }
 
   /**
@@ -72,12 +81,13 @@ export class Producer extends KafkaClient {
    *
    * @param requestId - id of the message
    */
-  public async generateWallet(requestId?: string): Promise<KakfaJS.RecordMetadata> {
+  public async generateWallet(requestId?: string, extraData?: IExtraData): Promise<KakfaJS.RecordMetadata> {
     this.checkReadiness()
 
     const value = {
       metadata: {
-        id: requestId ? requestId : uuidv4()
+        id: requestId ? requestId : uuidv4(),
+        extra: extraData
       }
     }
 
@@ -93,7 +103,7 @@ export class Producer extends KafkaClient {
   }
 
   private createTxMessage(request: ITransactionRequest): KakfaJS.Message {
-    const value = {
+    const messagePayload = {
       metadata: {
         id: request.requestId,
         extra: request.extraData
@@ -107,15 +117,15 @@ export class Producer extends KafkaClient {
     }
 
     // Clean object of unnecessary fields
-    delete value.extraData
-    delete value.requestId
-    delete value.contract
-    delete value.method
-    delete value.args
+    delete messagePayload.extraData
+    delete messagePayload.requestId
+    delete messagePayload.contract
+    delete messagePayload.method
+    delete messagePayload.args
 
     return {
       key: `${request.chainId}-${request.from}`,
-      value: this.marshal(value)
+      value: this.marshal(messagePayload)
     }
   }
 
@@ -125,10 +135,5 @@ export class Producer extends KafkaClient {
 
     const envelope = marshalEnvelope(data)
     return JSON.stringify(envelope)
-  }
-
-  private async produce(topic: string, message: KakfaJS.Message) {
-    const result = await this.producer.send({ topic, messages: [message] })
-    return result[0]
   }
 }

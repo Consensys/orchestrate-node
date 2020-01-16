@@ -3,7 +3,7 @@ import { EventType } from '../../src/types'
 
 export const start = async () => {
   try {
-    const consumer = new Consumer(['topic-tx-decoded'], ['localhost:9092'])
+    const consumer = new Consumer(['localhost:9092'])
 
     await consumer.connect()
 
