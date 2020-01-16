@@ -28,105 +28,15 @@ const mockMessage = {
 }
 
 describe('Producer', () => {
-  let consumer: Consumer
+  let producer: Producer
 
   beforeEach(() => {
-    consumer = new Consumer(brokers, topics)
+    producer = new Producer(brokers)
   })
 
   describe('getBrokers', () => {
     it('should return the kafka host successfully', () => {
-      expect(consumer.getBrokers()).toEqual(brokers)
-    })
-  })
-
-  describe('getTopics', () => {
-    it('should return the topics successfully', () => {
-      expect(consumer.getTopics()).toEqual(topics)
-    })
-  })
-
-  describe('connect', () => {
-    it('ready() should return false if connect() has not been called', () => {
-      expect(consumer.ready()).toEqual(false)
-    })
-
-    it('should connect and subscribe to each topic successfully', async () => {
-      await consumer.connect()
-
-      expect(mockKafkaConsumer.connect).toHaveBeenCalled()
-      for (let i = 1; i < topics.length; i++) {
-        expect(mockKafkaConsumer.subscribe).toHaveBeenNthCalledWith(i, { topic: topics[i - 1] })
-      }
-      expect(consumer.ready()).toEqual(true)
-    })
-
-    it('should return an error if connect() fails', async () => {
-      const error = new Error()
-      mockKafkaConsumer.connect.mockRejectedValueOnce(error)
-
-      await expect(consumer.connect()).rejects.toThrow(error)
-    })
-  })
-
-  describe('disconnect', () => {
-    it('should fail if the consumer is not connected', async () => {
-      await expect(consumer.disconnect()).rejects.toThrowError(
-        new Error('Consumer is not currently connected, did you forget to call connect()?')
-      )
-    })
-
-    it('should disconnect successfully ', async () => {
-      await consumer.connect()
-      await consumer.disconnect()
-
-      expect(mockKafkaConsumer.disconnect).toHaveBeenCalled()
-      expect(consumer.ready()).toEqual(false)
-    })
-  })
-
-  describe('consume', () => {
-    it('should fail if the consumer is not connected', async () => {
-      await expect(consumer.consume()).rejects.toThrowError(
-        new Error('Consumer is not currently connected, did you forget to call connect()?')
-      )
-    })
-
-    it('should start consuming messages with autoCommit false', async () => {
-      await consumer.connect()
-      await consumer.consume()
-
-      expect(mockKafkaConsumer.run).toHaveBeenCalledWith({
-        autoCommit: false,
-        eachMessage: expect.any(Function)
-      })
-    })
-
-    it('should reject if the consumer fails to run', async () => {
-      mockKafkaConsumer.run.mockRejectedValueOnce(new Error())
-
-      await expect(consumer.consume()).rejects.toThrow()
-    })
-  })
-
-  describe('commit', () => {
-    it('should fail if the Consumer is not connected', async () => {
-      await expect(consumer.commit(mockMessage as any)).rejects.toThrowError(
-        new Error('Consumer is not currently connected, did you forget to call connect()?')
-      )
-    })
-
-    it('should commit successfully', async () => {
-      await consumer.connect()
-      await consumer.commit(mockMessage as any)
-
-      expect(mockKafkaConsumer.commitOffsets).toHaveBeenCalledWith([
-        {
-          offset: mockMessage.offset,
-          topic: mockMessage.topic,
-          partition: mockMessage.partition
-        }
-      ])
+      expect(producer.getBrokers()).toEqual(brokers)
     })
   })
 })
