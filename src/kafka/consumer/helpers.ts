@@ -3,6 +3,7 @@ import * as KakfaJS from 'kafkajs'
 import { EventType } from '../../types'
 
 import { Consumer } from './Consumer'
+import { ResponseMessage } from './ResponseMessage'
 
 /**
  * Unmarshalls the message value and emit an enriched message event
@@ -16,10 +17,12 @@ export function onMessageReceived(payload: KakfaJS.EachMessagePayload, consumer:
   // TODO: Implement unmarshallers when the new enveloppe format is ready
   const unmarshaller = (msg: KakfaJS.KafkaMessage) => msg.value
 
-  consumer.emit(EventType.Message, {
+  const responseMessage = new ResponseMessage(consumer, {
     ...message,
     topic,
     partition,
     value: unmarshaller(message)
   })
+
+  consumer.emit(EventType.Response, responseMessage)
 }

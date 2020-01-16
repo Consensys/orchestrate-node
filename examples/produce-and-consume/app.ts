@@ -1,22 +1,24 @@
-import { Consumer } from '../../src/consumer'
-import { EventType, IOrchestrateMessage } from '../../src/types'
+import { Consumer, ResponseMessage } from '../../src'
+import { EventType } from '../../src/types'
 
 export const start = async () => {
   try {
-    const consumer = new Consumer('localhost:9092', ['topic-tx-decoded'], 'orchestrate-sdk-example')
+    const consumer = new Consumer(['topic-tx-decoded'], ['localhost:9092'])
 
     await consumer.connect()
 
     // Register the event listener before calling consume
-    consumer.on(EventType.Message, async (msg: IOrchestrateMessage) => {
-      if (Number(msg.offset) % 10 === 0) {
-        await consumer.commit(msg)
+    consumer.on(EventType.Response, async (message: ResponseMessage) => {
+      const { offset, topic } = message.content()
+
+      if (Number(offset) % 10 === 0) {
+        await message.commit()
       }
       // tslint:disable-next-line: no-console
-      console.log('Message received !', { offset: msg.offset, partition: msg.partition, topic: msg.topic })
+      console.log('Message received !', { offset, topic })
     })
 
-    consumer.consume()
+    await consumer.consume()
   } catch (error) {
     // tslint:disable-next-line: no-console
     console.error(error)

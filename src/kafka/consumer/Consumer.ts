@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events'
 import * as KakfaJS from 'kafkajs'
 
-import { IOrchestrateMessage } from '../../types'
+import { IResponse } from '../../types'
 
 import { onMessageReceived } from './helpers'
 
@@ -20,26 +20,26 @@ export class Consumer extends EventEmitter {
    * @param id - ID of the consumer
    */
   constructor(
-    private readonly kafkaHost: string,
     private readonly topics: string[],
-    id?: string,
-    loglevel?: KakfaJS.logLevel
+    private readonly brokers: string[],
+    kafkaConfig?: KakfaJS.KafkaConfig,
+    consumerConfig?: KakfaJS.ConsumerConfig
   ) {
     super()
 
     const kafka = new KakfaJS.Kafka({
-      logLevel: loglevel || KakfaJS.logLevel.INFO,
-      brokers: [this.kafkaHost],
-      clientId: 'orchestrate-consumer'
+      clientId: 'orchestrate-consumer',
+      ...kafkaConfig,
+      brokers
     })
-    this.consumer = kafka.consumer({ groupId: id || 'orchestrate-consumer-group' })
+    this.consumer = kafka.consumer({ groupId: 'orchestrate-consumer-group', ...consumerConfig })
   }
 
   /**
-   * Returns the Kafka host
+   * Returns the Kafka brokers
    */
-  public getHost(): string {
-    return this.kafkaHost
+  public getBrokers(): string[] {
+    return this.brokers
   }
 
   /**
@@ -102,7 +102,7 @@ export class Consumer extends EventEmitter {
    *
    * @param message - Message from which to get the offset
    */
-  public async commit(message: IOrchestrateMessage): Promise<void> {
+  public async commit(message: IResponse): Promise<void> {
     this.checkReadiness()
 
     await this.consumer.commitOffsets([

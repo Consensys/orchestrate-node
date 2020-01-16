@@ -1,3 +1,3 @@
 export enum EventType {
-  Message = 'message'
+  Response = 'response'
 }

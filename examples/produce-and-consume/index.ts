@@ -1,3 +1,4 @@
 import { start } from './app'
 
-start()
+// tslint:disable-next-line: no-console
+start().catch(console.log)
