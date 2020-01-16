@@ -1,7 +1,8 @@
 import * as KakfaJS from 'kafkajs'
 import { v4 as uuidv4 } from 'uuid'
 
-import { IExtraData, ITransactionRequest, ProtocolType } from '../../types'
+import { IExtraData, ITransactionRequest } from '../../types'
+import { ProtocolType } from '../../types/ProtocolType'
 import { DEFAULT_TOPIC_TX_CRAFTER, DEFAULT_TOPIC_WALLET_GENERATOR, MAINNET_CHAIN_ID } from '../constants'
 import { KafkaClient } from '../KafkaClient'
 
@@ -62,7 +63,7 @@ export class Producer extends KafkaClient {
    * Sends an Ethereum transaction
    *
    * @param request - Transaction request
-   * @param topic - Topic name
+   * @param topic - Topic name. Sends to Transaction Crafter by default
    */
   public async sendTransaction(
     request: ITransactionRequest,

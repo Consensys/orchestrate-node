@@ -1,4 +1,5 @@
 import { IExtraData } from './IExtraData'
+import { ProtocolType } from './ProtocolType'
 
 export interface IRequest {
   chainId?: string
@@ -16,14 +17,7 @@ interface IProtocol {
   extra?: IExtraData
 }
 
-export enum ProtocolType {
-  EthereumConstantinople = 0,
-  QuorumConstellation = 1,
-  QuorumTessera = 2,
-  BesuOrion = 3
-}
-
-export interface IContract {
+interface IContract {
   registry?: string
   name: string
   tag?: string
@@ -34,7 +28,7 @@ export interface IContract {
   events?: object[]
 }
 
-export interface IMethod {
+interface IMethod {
   signature: string
   abi?: string
 }
