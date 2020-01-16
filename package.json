@@ -17,6 +17,7 @@
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --write 'src/**/*.{ts,js,json}'",
     "check-formatting": "prettier --list-different 'src/**/*.{ts,js,json}'",
+    "generate-docs": "typedoc --out docs src --name \"Orchestrate SDK Documentation\" --exclude \"**/*+(index|.spec|.e2e|.test).ts\"",
     "example:produce-and-consume": "ts-node examples/produce-and-consume"
   },
   "repository": {
@@ -59,6 +60,7 @@
     "ts-node": "^8.6.2",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
+    "typedoc": "^0.16.6",
     "typescript": "^3.7.4"
   },
   "husky": {
