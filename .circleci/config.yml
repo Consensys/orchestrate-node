@@ -70,9 +70,13 @@ workflows:
           filters:
             tags:
               only: /^v.*/
+            branches:
+              ignore: /.*/
       - publish: # Runs for tags only
           requires:
             - wait-for-approval
           filters:
             tags:
               only: /^v.*/
+            branches:
+              ignore: /.*/
