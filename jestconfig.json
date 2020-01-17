@@ -4,12 +4,12 @@
   },
   "testRegex": "((\\.|/)(test|spec))\\.(jsx?|tsx?)$",
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
-  "collectCoverageFrom": ["src/**/*.{ts,js}", "!<rootDir>/node_modules/"],
+  "collectCoverageFrom": ["src/**/*.{ts,js}", "!<rootDir>/node_modules/", "!src/**/index.{ts,js}"],
   "coverageThreshold": {
     "global": {
       "statements": 90,
       "branches": 80,
-      "functions": 90,
+      "functions": 85,
       "lines": 90
     }
   }

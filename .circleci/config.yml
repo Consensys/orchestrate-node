@@ -21,7 +21,7 @@ jobs:
           command: npm -v
       - run:
           name: Install dependencies
-          command: npm install
+          command: npm ci
       - save_cache:
           paths:
             - node_modules
@@ -52,7 +52,7 @@ workflows:
   version: 2
   default:
     jobs:
-      - build:
+      - build: # Runs for the specified branches OR all tags
           filters:
             branches:
               only:
@@ -61,7 +61,9 @@ workflows:
                 - /^maintenance\/[a-zA-Z0-9\/\-.]*$/
                 - /^release\/[a-zA-Z0-9\/\-.]*$/
                 - master
-      - wait-for-approval:
+            tags:
+              only: /.*/
+      - wait-for-approval: # Runs for tags only
           type: approval
           requires:
             - build
@@ -69,14 +71,12 @@ workflows:
             tags:
               only: /^v.*/
             branches:
-              only:
-                - master
-      - publish:
+              ignore: /.*/
+      - publish: # Runs for tags only
           requires:
             - wait-for-approval
           filters:
             tags:
               only: /^v.*/
             branches:
-              only:
-                - master
+              ignore: /.*/

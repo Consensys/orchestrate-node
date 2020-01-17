@@ -16,7 +16,8 @@
     "lint": "tslint -p . -c tslint.json",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --write 'src/**/*.{ts,js,json}'",
-    "check-formatting": "prettier --list-different 'src/**/*.{ts,js,json}'"
+    "check-formatting": "prettier --list-different 'src/**/*.{ts,js,json}'",
+    "example:produce-and-consume": "ts-node examples/produce-and-consume"
   },
   "repository": {
     "type": "git",
@@ -49,10 +50,12 @@
     "@types/jest": "^24.0.25",
     "husky": "^4.0.1",
     "jest": "^24.9.0",
+    "jest-create-mock-instance": "^1.1.0",
     "lint-staged": "^9.5.0",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.0",
     "ts-jest": "^24.3.0",
+    "ts-node": "^8.6.2",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.7.4"
@@ -72,5 +75,8 @@
       "tslint",
       "git add"
     ]
+  },
+  "dependencies": {
+    "kafkajs": "~1.11.0"
   }
 }
