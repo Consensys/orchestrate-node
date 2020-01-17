@@ -52,7 +52,7 @@ workflows:
   version: 2
   default:
     jobs:
-      - build:
+      - build: # Runs for the specified branches OR all tags
           filters:
             branches:
               only:
@@ -61,16 +61,22 @@ workflows:
                 - /^maintenance\/[a-zA-Z0-9\/\-.]*$/
                 - /^release\/[a-zA-Z0-9\/\-.]*$/
                 - master
-      - wait-for-approval:
+            tags:
+              only: /.*/
+      - wait-for-approval: # Runs for tags only
           type: approval
           requires:
             - build
           filters:
             tags:
               only: /^v.*/
-      - publish:
+            branches:
+              ignore: /.*/
+      - publish: # Runs for tags only
           requires:
             - wait-for-approval
           filters:
             tags:
               only: /^v.*/
+            branches:
+              ignore: /.*/
