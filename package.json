@@ -17,7 +17,7 @@
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --write 'src/**/*.{ts,js,json}'",
     "check-formatting": "prettier --list-different 'src/**/*.{ts,js,json}'",
-    "generate-docs": "typedoc --out docs src --name \"Orchestrate SDK Documentation\" --exclude \"**/*+(index|.spec|.e2e|.test).ts\"",
+    "generate-docs": "rimraf docs && typedoc",
     "example:produce-and-consume": "ts-node examples/produce-and-consume"
   },
   "repository": {
