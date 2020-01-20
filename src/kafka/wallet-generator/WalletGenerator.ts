@@ -1,4 +1,4 @@
-import { EventType, IExtraData } from '../../types'
+import { EventType, IExtraData } from '../../definitions'
 import { DEFAULT_TOPIC_WALLET_GENERATOR } from '../constants'
 import { Consumer, ResponseMessage } from '../consumer'
 import { Producer } from '../producer'

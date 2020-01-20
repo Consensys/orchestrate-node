@@ -1,6 +1,6 @@
 import * as KakfaJS from 'kafkajs'
 
-import { IResponse } from '../../types'
+import { IResponse } from '../../definitions'
 import { DEFAULT_TOPIC_TX_DECODED } from '../constants'
 import { KafkaClient } from '../KafkaClient'
 
