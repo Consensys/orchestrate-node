@@ -1,0 +1,13 @@
+{
+  "mode": "file",
+  "out": "docs",
+  "name": "Orchestrate SDK Documentation",
+  "includeVersion": true,
+  "inputFiles": ["./src"],
+  "exclude": "**/*+(index|constants|helpers|.spec|.e2e|.test).ts",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "excludeNotExported": true,
+  "ignoreCompilerErrors": true
+}

@@ -1,5 +1,5 @@
 import { Consumer, Producer, ResponseMessage } from '../../src'
-import { EventType } from '../../src/definitions'
+import { EventType } from '../../src/types'
 
 const consume = async (consumer: Consumer) => {
   await consumer.connect()
