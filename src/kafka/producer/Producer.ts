@@ -87,7 +87,7 @@ export class Producer extends KafkaClient {
    * @param extraData - extra metadata of the message
    */
   public async generateWallet(
-    topic?: string,
+    topic = DEFAULT_TOPIC_WALLET_GENERATOR,
     requestId?: string,
     extraData?: IExtraData
   ): Promise<KakfaJS.RecordMetadata> {
@@ -100,7 +100,7 @@ export class Producer extends KafkaClient {
       }
     }
 
-    return this.produce(topic || DEFAULT_TOPIC_WALLET_GENERATOR, {
+    return this.produce(topic, {
       value: this.marshal(value)
     })
   }
