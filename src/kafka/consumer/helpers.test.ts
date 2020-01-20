@@ -1,6 +1,6 @@
 import { createMockInstance } from 'jest-create-mock-instance'
 
-import { EventType } from '../../definitions'
+import { EventType } from '../../types'
 
 import { Consumer } from './Consumer'
 import { onMessageReceived } from './helpers'

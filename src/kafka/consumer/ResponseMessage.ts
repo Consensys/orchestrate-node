@@ -1,4 +1,4 @@
-import { IResponse } from '../../definitions'
+import { IResponse } from '../../types'
 
 import { Consumer } from './Consumer'
 

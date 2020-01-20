@@ -4,13 +4,7 @@
   },
   "testRegex": "((\\.|/)(test|spec))\\.(jsx?|tsx?)$",
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
-  "collectCoverageFrom": [
-    "src/**/*.{ts,js}",
-    "!<rootDir>/node_modules/",
-    "!src/**/index.{ts,js}",
-    "!src/**/*_pb.js",
-    "!src/**/*_pb.d.ts"
-  ],
+  "collectCoverageFrom": ["src/**/*.{ts,js}", "!<rootDir>/node_modules/", "!src/**/index.{ts,js}", "!src/stubs/*"],
   "coverageThreshold": {
     "global": {
       "statements": 90,

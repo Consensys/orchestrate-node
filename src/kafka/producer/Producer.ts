@@ -1,8 +1,8 @@
 import * as KakfaJS from 'kafkajs'
 import { v4 as uuidv4 } from 'uuid'
 
-import { IExtraData, ITransactionRequest } from '../../definitions'
-import { ProtocolType } from '../../definitions/ProtocolType'
+import { IExtraData, ITransactionRequest } from '../../types'
+import { ProtocolType } from '../../types/ProtocolType'
 import { DEFAULT_TOPIC_TX_CRAFTER, DEFAULT_TOPIC_WALLET_GENERATOR, MAINNET_CHAIN_ID } from '../constants'
 import { KafkaClient } from '../KafkaClient'
 

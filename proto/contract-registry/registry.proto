@@ -1,7 +1,7 @@
 syntax = "proto3";
 
-// import "google/api/annotations.proto";
-// import "protoc-gen-swagger/options/annotations.proto";
+import "google/api/annotations.proto";
+import "protoc-gen-swagger/options/annotations.proto";
 import "types/abi/abi.proto";
 import "types/common/account_instance.proto";
 
@@ -10,20 +10,20 @@ option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/orchestrate.git/t
 
 package contractregistry;
 
-// option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
-// 	info: {
-// 		title: "Contract-Registry"
-//         version: "1.0"
-//         contact: {
-//             name: "✉ PegaSys Orchestrate"
-//             email: "support@pegasys.tech"
-//         }
-//     }
-//     external_docs: {
-//         url: "https://docs.orchestrate.pegasys.tech/en/latest/"
-//         description: "📒 Documentation of PegaSys Orchestrate"
-//     }
-// };
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+	info: {
+		title: "Contract-Registry"
+        version: "1.0"
+        contact: {
+            name: "✉ PegaSys Orchestrate"
+            email: "support@pegasys.tech"
+        }
+    }
+    external_docs: {
+        url: "https://docs.orchestrate.pegasys.tech/en/latest/"
+        description: "📒 Documentation of PegaSys Orchestrate"
+    }
+};
 
 // Registry is a gRPC service responsible for registering Contracts
 service ContractRegistry {
@@ -35,44 +35,44 @@ service ContractRegistry {
     rpc DeleteArtifact (DeleteArtifactRequest) returns (DeleteArtifactResponse);
     // Retrieve contract
     rpc GetContract (GetContractRequest) returns (GetContractResponse) {
-        // option (google.api.http) = {
-        //     get: "/v1/contracts/{contractId.name}/{contractId.tag}"
-        // };
+        option (google.api.http) = {
+            get: "/contracts/{contractId.name}/{contractId.tag}"
+        };
     }
 
     // Retrieve contract ABI
     rpc GetContractABI (GetContractRequest) returns (GetContractABIResponse) {
-        // option (google.api.http) = {
-        //     get: "/v1/contracts/{contractId.name}/{contractId.tag}/abi"
-        // };
+        option (google.api.http) = {
+            get: "/contracts/{contractId.name}/{contractId.tag}/abi"
+        };
     }
 
     // Returns the bytecode
     rpc GetContractBytecode (GetContractRequest) returns (GetContractBytecodeResponse) {
-        // option (google.api.http) = {
-        //     get: "/v1/contracts/{contractId.name}/{contractId.tag}/bytecode"
-        // };
+        option (google.api.http) = {
+            get: "/contracts/{contractId.name}/{contractId.tag}/bytecode"
+        };
     }
 
     // Returns the deployed bytecode
     rpc GetContractDeployedBytecode (GetContractRequest) returns (GetContractDeployedBytecodeResponse) {
-        // option (google.api.http) = {
-        //     get: "/v1/contracts/{contractId.name}/{contractId.tag}/deployedBytecode"
-        // };
+        option (google.api.http) = {
+            get: "/contracts/{contractId.name}/{contractId.tag}/deployedBytecode"
+        };
     }
 
     // Returns a list of all registered contracts
     rpc GetCatalog (GetCatalogRequest) returns (GetCatalogResponse) {
-        // option (google.api.http) = {
-        //     get: "/v1/contracts"
-        // };
+        option (google.api.http) = {
+            get: "/contracts"
+        };
     }
 
     // Returns a list of all tags associated to a contract
     rpc GetTags (GetTagsRequest) returns (GetTagsResponse) {
-        // option (google.api.http) = {
-        //     get: "/v1/contracts/{name}"
-        // };
+        option (google.api.http) = {
+            get: "/contracts/{name}"
+        };
     }
 
     // Retrieve methods using 4 bytes unique selector

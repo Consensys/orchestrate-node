@@ -1,4 +1,4 @@
-import { ProtocolType } from '../../definitions/ProtocolType'
+import { ProtocolType } from '../../types/ProtocolType'
 import { DEFAULT_TOPIC_WALLET_GENERATOR } from '../constants'
 
 import { Producer } from './Producer'

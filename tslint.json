@@ -1,7 +1,7 @@
 {
   "extends": ["tslint:recommended", "tslint-config-prettier"],
   "linterOptions": {
-    "exclude": ["**/node_modules/**/*", "**src/**/*_pb.d.ts", "**src/**/*_pb.js"]
+    "exclude": ["**/node_modules/**/*", "./src/stubs/*"]
   },
   "jsRules": {},
   "rules": {
