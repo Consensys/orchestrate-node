@@ -9,13 +9,9 @@ const mockKafkaConsumer = {
 }
 
 jest.mock('kafkajs', () => ({
-  Consumer: jest.fn().mockImplementation(() => mockKafkaConsumer),
   Kafka: jest.fn().mockImplementation(() => ({
     consumer: jest.fn().mockImplementation(() => mockKafkaConsumer)
-  })),
-  logLevel: {
-    INFO: 'info'
-  }
+  }))
 }))
 
 const brokers = ['kafkaHost:6000', 'kafkaHost:6001']
@@ -24,14 +20,14 @@ const mockMessage = {
   partition: 50,
   topic: 'topic0',
   offset: '0',
-  value: new Buffer('myValue')
+  value: Buffer.from('myValue')
 }
 
 describe('Consumer', () => {
   let consumer: Consumer
 
   beforeEach(() => {
-    consumer = new Consumer(topics, brokers)
+    consumer = new Consumer(brokers, topics)
   })
 
   describe('getBrokers', () => {

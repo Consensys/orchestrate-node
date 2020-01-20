@@ -1,45 +1,36 @@
-import { EventEmitter } from 'events'
 import * as KakfaJS from 'kafkajs'
 
 import { IResponse } from '../../types'
+import { DEFAULT_TOPIC_TX_DECODED } from '../constants'
+import { KafkaClient } from '../KafkaClient'
 
 import { onMessageReceived } from './helpers'
 
 /**
  * Consumes and decodes Orchestrate messages
  */
-export class Consumer extends EventEmitter {
+export class Consumer extends KafkaClient {
   private readonly consumer: KakfaJS.Consumer
-  private isReady = false
+  private readonly topics: string[]
 
   /**
    * Creates a new instance of the Consumer
    *
-   * @param kafkaHost - URL of the Kafka host
+   * @param brokers - List of brokers to connect to
    * @param topics - List of topics to consume
-   * @param id - ID of the consumer
+   * @param kafkaConfig - Kafka client configuration
+   * @param consumerConfig - Consumer configuration
    */
   constructor(
-    private readonly topics: string[],
-    private readonly brokers: string[],
+    brokers: string[],
+    topics?: string[],
     kafkaConfig?: KakfaJS.KafkaConfig,
     consumerConfig?: KakfaJS.ConsumerConfig
   ) {
-    super()
+    super(brokers, kafkaConfig)
 
-    const kafka = new KakfaJS.Kafka({
-      clientId: 'orchestrate-consumer',
-      ...kafkaConfig,
-      brokers
-    })
-    this.consumer = kafka.consumer({ groupId: 'orchestrate-consumer-group', ...consumerConfig })
-  }
-
-  /**
-   * Returns the Kafka brokers
-   */
-  public getBrokers(): string[] {
-    return this.brokers
+    this.topics = topics ? topics : [DEFAULT_TOPIC_TX_DECODED]
+    this.consumer = this.kafka.consumer({ groupId: 'orchestrate-consumer-group', ...consumerConfig })
   }
 
   /**
@@ -47,13 +38,6 @@ export class Consumer extends EventEmitter {
    */
   public getTopics(): string[] {
     return this.topics
-  }
-
-  /**
-   * Returns true if the Consumer is ready to consume messages
-   */
-  public ready(): boolean {
-    return this.isReady
   }
 
   /**
@@ -72,7 +56,7 @@ export class Consumer extends EventEmitter {
   }
 
   /**
-   * Disconnects from the Broker and unsubscribes from the topics
+   * Disconnects from the broker and unsubscribes from the topics
    *
    * @returns a Promise that resolves if the connection is disconnected successfully
    */
