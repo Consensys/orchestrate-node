@@ -17,7 +17,7 @@
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --write 'src/**/*.{ts,js,json}'",
     "check-formatting": "prettier --list-different 'src/**/*.{ts,js,json}'",
-    "generate:stubs": "pbjs -t static-module -w es6 -o src/stubs/index.js proto/**/*.proto && pbts -o src/stubs/index.d.ts src/stubs/index.js",
+    "generate:stubs": "pbjs -t static-module -o src/stubs/index.js proto/**/*.proto && pbts -o src/stubs/index.d.ts src/stubs/index.js",
     "generate:docs": "rimraf docs && typedoc",
     "example:produce-and-consume": "ts-node examples/produce-and-consume"
   },
@@ -81,6 +81,7 @@
     ]
   },
   "dependencies": {
+    "ethers": "^4.0.43",
     "kafkajs": "~1.11.0",
     "protobufjs": "~6.8.8",
     "uuid": "~3.3.3"
