@@ -1,13 +1,14 @@
 import { Message } from 'kafkajs'
 
 import { envelope } from '../../../stubs'
-import { IExtraData, ITransactionRequest } from '../../../types'
+import { ITransactionRequest } from '../../../types'
+import { IRequest } from '../../../types/IRequest'
 
 import * as formatters from './stub-formatters'
 
 export function marshalTransactionRequest(request: ITransactionRequest): Message {
   const envelopeMessage: envelope.IEnvelope = {
-    metadata: formatters.formatMetadata(request.id!, request.extraData),
+    metadata: formatters.formatMetadata(request.id!, request.extraData, request.authToken),
     args: formatters.formatEnvelopeArgs(
       {
         contractName: request.contractName,
@@ -30,9 +31,9 @@ export function marshalTransactionRequest(request: ITransactionRequest): Message
   }
 }
 
-export function marshalWalletRequest(id: string, extraData?: IExtraData): Message {
+export function marshalRequest(request: IRequest): Message {
   const envelopeMessage: envelope.IEnvelope = {
-    metadata: formatters.formatMetadata(id, extraData)
+    metadata: formatters.formatMetadata(request.id, request.extraData, request.authToken)
   }
 
   return { value: marshalEnvelope(envelopeMessage) }
@@ -41,6 +42,6 @@ export function marshalWalletRequest(id: string, extraData?: IExtraData): Messag
 function marshalEnvelope(envelopeMessage: envelope.IEnvelope) {
   const { encode } = envelope.Envelope
 
-  // The type is Buffer on Node but types say Uint8Array (browser)
+  // The type is Buffer on Node
   return encode(envelopeMessage).finish() as Buffer
 }

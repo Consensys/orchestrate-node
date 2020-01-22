@@ -1,15 +1,18 @@
 import { utils } from 'ethers'
 
 import { abi, args, chain, envelope, ethereum } from '../../../stubs'
-import { IExtraData } from '../../../types'
 import { ICall } from '../../../types/ICall'
+import { IExtraData } from '../../../types/IExtraData'
 import { ITransaction } from '../../../types/ITransaction'
 import { ProtocolType } from '../../../types/ProtocolType'
 import { MAINNET_CHAIN_ID } from '../../constants'
 
 import { formatMethodArgs } from './solidity-formatters'
 
-export function formatMetadata(id?: string, extra?: IExtraData) {
+export function formatMetadata(id?: string, extra?: IExtraData, authToken?: string) {
+  if (authToken) {
+    extra = { Bearer: authToken, ...extra }
+  }
   return envelope.Metadata.create({ id, extra })
 }
 
@@ -95,7 +98,7 @@ export function formatTxData(tx: ITransaction) {
 }
 
 export function formatData(data?: string) {
-  return data ? ethereum.Data.create({ raw: Buffer.from(data) }) : undefined
+  return data ? ethereum.Data.create({ raw: utils.arrayify(data) }) : undefined
 }
 
 export function formatQuantity(data?: string) {

@@ -1,11 +1,12 @@
 import * as KakfaJS from 'kafkajs'
 import { v4 as uuidv4 } from 'uuid'
 
-import { IExtraData, ITransactionRequest } from '../../types'
+import { ITransactionRequest } from '../../types'
+import { IRequest } from '../../types/IRequest'
 import { DEFAULT_TOPIC_TX_CRAFTER, DEFAULT_TOPIC_WALLET_GENERATOR } from '../constants'
 import { KafkaClient } from '../KafkaClient'
 
-import { marshalTransactionRequest, marshalWalletRequest } from './helpers'
+import { marshalRequest, marshalTransactionRequest } from './helpers'
 
 /**
  * Class used to send messages to Orchestrate
@@ -84,17 +85,16 @@ export class Producer extends KafkaClient {
    * @param extraData - extra metadata of the message
    * @returns the ID of the message
    */
-  public async generateWallet(
-    topic = DEFAULT_TOPIC_WALLET_GENERATOR,
-    requestId?: string,
-    extraData?: IExtraData
-  ): Promise<string> {
+  public async generateWallet(request?: IRequest, topic = DEFAULT_TOPIC_WALLET_GENERATOR): Promise<string> {
     this.checkReadiness()
 
-    const id = requestId ? requestId : uuidv4()
-    await this.produce(topic, marshalWalletRequest(id, extraData))
+    if (!request || !request.id) {
+      request = { id: uuidv4(), ...request }
+    }
 
-    return id
+    await this.produce(topic, marshalRequest(request))
+
+    return request.id!
   }
 
   private checkReadiness() {
