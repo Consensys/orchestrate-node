@@ -1,10 +1,9 @@
-import { ICall } from './ICall'
 import { IChain } from './IChain'
 import { IExtraData } from './IExtraData'
-import { IPrivate } from './IPrivate'
-import { IProtocol } from './IProtocol'
+import { IReceipt } from './IReceipt'
+import { ITransactionContext } from './ITransactionContext'
 
-export interface IResponseValue extends IProtocol, IChain {
+export interface IResponseValue extends IChain {
   id: string
   from?: string
   txContext?: ITransactionContext
@@ -13,44 +12,8 @@ export interface IResponseValue extends IProtocol, IChain {
   extraData?: IExtraData
 }
 
-interface ITransactionContext extends IPrivate, ICall {
-  gas?: number
-  gasPrice?: string
-  nonce?: number
-  value?: string
-  input?: string
-}
-
-interface IReceipt {
-  txHash: string
-  blockHash: string
-  blockNumber: number
-  txIndex: number
-  contractAddress?: string
-  postState: string
-  status: boolean
-  bloom: string
-  logs: ILog[]
-  gasUsed: number
-  cumulativeGasUsed: number
-}
-
 interface IError {
-  message: string
-  code: number
+  message?: string
+  code?: number
   component?: string
-}
-
-interface ILog {
-  address: string
-  topics: string[]
-  data: string
-  event: string
-  decodedData: IExtraData
-  blockNumber: number
-  txHash: string
-  txIndex: number
-  blockHash: string
-  index: number
-  removed: boolean
 }

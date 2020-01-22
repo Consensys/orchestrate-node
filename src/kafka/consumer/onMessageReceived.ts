@@ -18,9 +18,9 @@ export function onMessageReceived(payload: KakfaJS.EachMessagePayload, consumer:
   const responseMessage = new ResponseMessage(consumer, {
     ...message,
     key: message.key.toString(),
+    value: unmarshalEnvelope(message.value),
     topic,
-    partition,
-    value: unmarshalEnvelope(message.value)
+    partition
   })
 
   consumer.emit(EventType.Response, responseMessage)
