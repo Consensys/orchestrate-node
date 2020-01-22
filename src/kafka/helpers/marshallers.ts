@@ -1,9 +1,9 @@
 import { Message } from 'kafkajs'
 
-import { envelope } from '../../../stubs'
-import { ITransactionRequest } from '../../../types'
-import { IRequest } from '../../../types/IRequest'
-import { MAINNET_CHAIN_ID } from '../../constants'
+import { envelope } from '../../stubs'
+import { ITransactionRequest } from '../../types'
+import { IRequest } from '../../types/IRequest'
+import { MAINNET_CHAIN_ID } from '../constants'
 
 import * as formatters from './stub-formatters'
 

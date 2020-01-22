@@ -1,6 +1,15 @@
-import { KafkaMessage } from 'kafkajs'
+import { IHeaders, KafkaMessage } from 'kafkajs'
 
-export interface IResponse extends KafkaMessage {
+import { IResponseValue } from './IResponseValue'
+
+export interface IResponse extends Omit<KafkaMessage, 'key' | 'value'> {
+  key: string
+  value: IResponseValue
+  timestamp: string
+  size: number
+  attributes: number
+  offset: string
+  headers?: IHeaders
   partition: number
   topic: string
 }

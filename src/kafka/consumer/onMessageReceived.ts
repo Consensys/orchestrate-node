@@ -1,6 +1,7 @@
 import * as KakfaJS from 'kafkajs'
 
 import { EventType } from '../../types'
+import { unmarshalEnvelope } from '../helpers'
 
 import { Consumer } from './Consumer'
 import { ResponseMessage } from './ResponseMessage'
@@ -14,14 +15,12 @@ import { ResponseMessage } from './ResponseMessage'
 export function onMessageReceived(payload: KakfaJS.EachMessagePayload, consumer: Consumer) {
   const { topic, partition, message } = payload
 
-  // TODO: Implement unmarshallers when the new enveloppe format is ready
-  const unmarshaller = (msg: KakfaJS.KafkaMessage) => msg.value
-
   const responseMessage = new ResponseMessage(consumer, {
     ...message,
+    key: message.key.toString(),
     topic,
     partition,
-    value: unmarshaller(message)
+    value: unmarshalEnvelope(message.value)
   })
 
   consumer.emit(EventType.Response, responseMessage)

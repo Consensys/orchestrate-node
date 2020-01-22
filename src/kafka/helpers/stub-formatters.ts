@@ -1,11 +1,11 @@
 import { utils } from 'ethers'
 
-import { abi, args, chain, envelope, ethereum } from '../../../stubs'
-import { ICall } from '../../../types/ICall'
-import { IExtraData } from '../../../types/IExtraData'
-import { ITransaction } from '../../../types/ITransaction'
-import { ProtocolType } from '../../../types/ProtocolType'
-import { MAINNET_CHAIN_ID } from '../../constants'
+import { abi, args, chain, envelope, ethereum } from '../../stubs'
+import { ICall } from '../../types/ICall'
+import { IExtraData } from '../../types/IExtraData'
+import { ITransaction } from '../../types/ITransaction'
+import { ProtocolType } from '../../types/ProtocolType'
+import { MAINNET_CHAIN_ID } from '../constants'
 
 import { formatMethodArgs } from './solidity-formatters'
 

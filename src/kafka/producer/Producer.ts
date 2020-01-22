@@ -4,9 +4,8 @@ import { v4 as uuidv4 } from 'uuid'
 import { ITransactionRequest } from '../../types'
 import { IRequest } from '../../types/IRequest'
 import { DEFAULT_TOPIC_TX_CRAFTER, DEFAULT_TOPIC_WALLET_GENERATOR } from '../constants'
+import { marshalRequest, marshalTransactionRequest } from '../helpers'
 import { KafkaClient } from '../KafkaClient'
-
-import { marshalRequest, marshalTransactionRequest } from './helpers'
 
 /**
  * Class used to send messages to Orchestrate
