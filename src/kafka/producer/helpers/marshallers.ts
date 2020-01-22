@@ -3,6 +3,7 @@ import { Message } from 'kafkajs'
 import { envelope } from '../../../stubs'
 import { ITransactionRequest } from '../../../types'
 import { IRequest } from '../../../types/IRequest'
+import { MAINNET_CHAIN_ID } from '../../constants'
 
 import * as formatters from './stub-formatters'
 
@@ -26,7 +27,7 @@ export function marshalTransactionRequest(request: ITransactionRequest): Message
   }
 
   return {
-    key: `${request.chainId}-${request.from}`,
+    key: `${request.chainId || MAINNET_CHAIN_ID}-${request.from}`,
     value: marshalEnvelope(envelopeMessage)
   }
 }

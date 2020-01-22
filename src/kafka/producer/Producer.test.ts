@@ -1,6 +1,6 @@
-import { ProtocolType } from '../../types/ProtocolType'
-import { DEFAULT_TOPIC_WALLET_GENERATOR } from '../constants'
+import { DEFAULT_TOPIC_WALLET_GENERATOR, MAINNET_CHAIN_ID } from '../constants'
 
+import { marshalRequest, marshalTransactionRequest } from './helpers'
 import { Producer } from './Producer'
 
 const mockKafkaProducer = {
@@ -24,6 +24,7 @@ const mockMessage = {
 const mockResult = { field: 'myResult' }
 const extraData = { extraDataField: 'extraDataField' }
 const requestId = 'requestId'
+const mockFrom = '0xc1912fee45d61c87cc5ea59dae31190fffff2333'
 
 describe('Producer', () => {
   let producer: Producer
@@ -98,100 +99,45 @@ describe('Producer', () => {
 
   describe('sendTransaction', () => {
     it('should fail if the producer is not connected', async () => {
-      await expect(producer.produce(topic, mockMessage as any)).rejects.toThrowError(
-        new Error('Producer is not currently connected, did you forget to call connect()?')
-      )
-    })
-
-    it('should produce a message successfully ', async () => {
-      await producer.connect()
-      const result = await producer.produce(topic, mockMessage as any)
-
-      expect(mockKafkaProducer.send).toHaveBeenCalledWith({ topic, messages: [mockMessage] })
-      expect(result).toEqual(mockResult)
-    })
-  })
-
-  describe('sendTransaction', () => {
-    it('should fail if the producer is not connected', async () => {
       await expect(producer.sendTransaction({} as any)).rejects.toThrowError(
         new Error('Producer is not currently connected, did you forget to call connect()?')
       )
     })
 
     it('should send a transaction successfully', async () => {
-      const from = 'ethereumAccount'
       const request = {
-        from,
-        requestId,
+        from: mockFrom,
+        id: requestId,
         extraData,
         chainId: '1',
-        protocol: {
-          type: ProtocolType.QuorumConstellation
-        }
+        contractName: 'contract'
       }
 
       await producer.connect()
       const result = await producer.sendTransaction(request, topic)
 
-      // TODO: Test unmarshal method is used instead of JSON.stringify
-      const expectedMessage = {
-        value: JSON.stringify({
-          metadata: {
-            id: requestId,
-            extra: extraData
-          },
-          call: {},
-          from,
-          chainId: request.chainId,
-          protocol: request.protocol
-        }),
-        key: `${request.chainId}-${from}`
-      }
-
-      expect(mockKafkaProducer.send).toHaveBeenCalledWith({ topic, messages: [expectedMessage] })
-      expect(result).toEqual(mockResult)
+      expect(mockKafkaProducer.send).toHaveBeenCalledWith({ topic, messages: [marshalTransactionRequest(request)] })
+      expect(result).toEqual(requestId)
     })
 
-    it('should send a transaction successfully with default values', async () => {
-      const from = 'ethereumAccount'
+    it('should send a transaction request with default parameters', async () => {
       const request = {
-        from,
-        requestId
+        from: mockFrom,
+        contractName: 'contractName'
       }
 
       await producer.connect()
       const result = await producer.sendTransaction(request, topic)
 
-      // TODO: Test unmarshal method is used instead of JSON.stringify
-      const expectedMessage = {
-        value: JSON.stringify({
-          metadata: {
-            id: requestId
-          },
-          call: {},
-          from,
-          chainId: '1',
-          protocol: {
-            type: ProtocolType.EthereumConstantinople
-          }
-        }),
-        key: `1-${from}`
-      }
-
-      expect(mockKafkaProducer.send).toHaveBeenCalledWith({ topic, messages: [expectedMessage] })
-      expect(result).toEqual(mockResult)
+      expect(mockKafkaProducer.send).toHaveBeenCalledWith({ topic, messages: [marshalTransactionRequest(request)] })
+      expect(result).toEqual(expect.any(String))
     })
 
     it('should use default topic iand generate a random id if none is specified', async () => {
       await producer.connect()
       const result = await producer.generateWallet()
 
-      expect(mockKafkaProducer.send).toHaveBeenCalledWith({
-        topic: DEFAULT_TOPIC_WALLET_GENERATOR,
-        messages: expect.any(Array)
-      })
-      expect(result).toEqual(mockResult)
+      expect(result).toEqual(expect.any(String))
     })
   })
 
@@ -203,32 +149,19 @@ describe('Producer', () => {
     })
 
     it('should generate message to create a wallet succesfully', async () => {
+      const request = { id: requestId, extraData }
       await producer.connect()
-      const result = await producer.generateWallet(topic, requestId, extraData)
+      const result = await producer.generateWallet(request, topic)
 
-      // TODO: Test unmarshal method is used instead of JSON.stringify
-      const expectedMessage = {
-        value: JSON.stringify({
-          metadata: {
-            id: requestId,
-            extra: extraData
-          }
-        })
-      }
-
-      expect(mockKafkaProducer.send).toHaveBeenCalledWith({ topic, messages: [expectedMessage] })
-      expect(result).toEqual(mockResult)
+      expect(mockKafkaProducer.send).toHaveBeenCalledWith({ topic, messages: [marshalRequest(request)] })
+      expect(result).toEqual(request.id)
     })
 
     it('should use default topic iand generate a random id if none is specified', async () => {
       await producer.connect()
       const result = await producer.generateWallet()
 
-      expect(mockKafkaProducer.send).toHaveBeenCalledWith({
-        topic: DEFAULT_TOPIC_WALLET_GENERATOR,
-        messages: expect.any(Array)
-      })
-      expect(result).toEqual(mockResult)
+      expect(result).toEqual(expect.any(String))
     })
   })
 })
