@@ -10,10 +10,10 @@ const mockFrom = '0xc1912fee45d61c87cc5ea59dae31190fffff2333'
 const mockGasPrice = '233333'
 const mockValue = '44444'
 const mockHash = '0xhash'
-const mockContractAdddress = '0xc1912fee45d61c87cc5ea59dae31190fffff233f'
+const mockContractAddress = '0xc1912fee45d61c87cc5ea59dae31190fffff233f'
 const mockBloom = '0x31232344fff'
 const mockPostState = '0x31232344fffee'
-const mockEnvelope = {
+export const mockEnvelope = {
   args: {
     call: {
       args: ['arg0', 'arg1'],
@@ -67,7 +67,7 @@ const mockEnvelope = {
     txHash: { raw: Buffer.from(mockHash) },
     status: 0,
     gasUsed: 555,
-    contractAddress: { raw: Buffer.from(mockContractAdddress) },
+    contractAddress: { raw: Buffer.from(mockContractAddress) },
     cumulativeGasUsed: 7777,
     logs: [],
     bloom: Buffer.from(mockBloom),
@@ -96,7 +96,7 @@ describe('unmarshallers', () => {
           logs: undefined,
           bloom: mockBloom,
           postState: mockPostState,
-          contractAddress: mockContractAdddress
+          contractAddress: mockContractAddress
         },
         txContext: {
           contractName: mockEnvelope.args.call.contract.id.name,

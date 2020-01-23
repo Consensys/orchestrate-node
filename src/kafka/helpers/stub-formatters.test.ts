@@ -40,18 +40,17 @@ describe('stub-formatters', () => {
     }
     const mockPrivateFrom = '0xconstellationAddress'
     const mockPrivateFor = ['0xconstellationFor']
+    const mockData = '0x43243fefe'
 
     it('should create a valid Args message', () => {
-      const message = formatters.formatEnvelopeArgs(mockCall, mockPrivateFrom, mockPrivateFor)
-      expect(message).toEqual({
+      const message = formatters.formatEnvelopeArgs(mockCall, mockData, mockPrivateFrom, mockPrivateFor)
+      expect(message).toMatchObject({
         call: {
           contract: {
             id: {
               name: mockCall.contractName,
               tag: mockCall.contractTag
-            },
-            events: [],
-            methods: []
+            }
           },
           method: { signature: mockCall.methodSignature },
           args: mockCall.args

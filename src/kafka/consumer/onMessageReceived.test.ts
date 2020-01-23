@@ -1,21 +1,19 @@
 import { createMockInstance } from 'jest-create-mock-instance'
 
-import { EventType, ITransactionRequest } from '../../types'
-import { marshalTransactionRequest, unmarshalEnvelope } from '../helpers'
+import { envelope } from '../../stubs'
+import { EventType } from '../../types'
+import { unmarshalEnvelope } from '../helpers'
+import { mockEnvelope } from '../helpers/unmarshallers.test'
 
 import { Consumer } from './Consumer'
 import { onMessageReceived } from './onMessageReceived'
 import { ResponseMessage } from './ResponseMessage'
 
 const mockKey = '1-0xc1912fee45d61c87cc5ea59dae31190fffff232d'
-const mockRequest: ITransactionRequest = {
-  from: '0xc1912fee45d61c87cc5ea59dae31190fffff232d',
-  contractName: 'myContract'
-}
-const mockEnvelopeMarshalled = marshalTransactionRequest(mockRequest)
+
 const mockKafkaMessagePayload = {
   message: {
-    value: mockEnvelopeMarshalled.value,
+    value: envelope.Envelope.encode(mockEnvelope).finish(),
     offset: '0',
     key: Buffer.from(mockKey)
   },

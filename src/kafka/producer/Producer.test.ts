@@ -1,6 +1,5 @@
-import { DEFAULT_TOPIC_WALLET_GENERATOR, MAINNET_CHAIN_ID } from '../constants'
+import { marshalRequest, marshalTransactionRequest } from '../helpers'
 
-import { marshalRequest, marshalTransactionRequest } from './helpers'
 import { Producer } from './Producer'
 
 const mockKafkaProducer = {
