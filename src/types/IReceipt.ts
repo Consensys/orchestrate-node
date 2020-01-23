@@ -3,7 +3,7 @@ import { ILog } from './ILog'
 export interface IReceipt {
   txHash?: string
   blockHash?: string
-  blockNumber?: string
+  blockNumber?: number
   txIndex?: number
   contractAddress?: string
   postState?: string

@@ -73,7 +73,7 @@ function parseReceipt(receipt?: ethereum.IReceipt | null): IReceipt | undefined 
   if (receipt) {
     return {
       blockHash: parseRawString(receipt.blockHash),
-      blockNumber: parseRawString(receipt.blockNumber),
+      blockNumber: parseNumber(receipt.blockNumber),
       txIndex: receipt.txIndex ? Number(receipt.txIndex) : undefined,
       txHash: parseRawString(receipt.txHash),
       status: receipt.status ? Boolean(receipt.status) : undefined,
@@ -134,11 +134,11 @@ function parseRawStringArray(data?: any[] | null) {
 }
 
 function parseTx(tx?: ethereum.ITransaction | null) {
-  if (tx) {
-    const value = tx.txData && tx.txData.value ? parseRawString(tx.txData.value) : undefined
-    const gas = tx.txData && tx.txData.gas ? (tx.txData.gas as number) : undefined
-    const gasPrice = tx.txData && tx.txData.gasPrice ? parseRawString(tx.txData.gasPrice) : undefined
-    const nonce = tx.txData && tx.txData.nonce ? (tx.txData.nonce as number) : undefined
+  if (tx && tx.txData) {
+    const value = tx.txData.value ? parseQuantity(tx.txData.value) : undefined
+    const gas = tx.txData.gas ? Number(tx.txData.gas) : undefined
+    const gasPrice = tx.txData.gasPrice ? parseQuantity(tx.txData.gasPrice) : undefined
+    const nonce = tx.txData.nonce ? Number(tx.txData.nonce) : undefined
 
     return {
       value,
@@ -171,4 +171,8 @@ function parseBuffer(buffer?: Uint8Array | null) {
 
 function parseNumber(value?: number | Long | null) {
   return value ? Number(value) : undefined
+}
+
+function parseQuantity(quantity?: ethereum.IQuantity | null) {
+  return quantity && quantity.raw ? utils.toUtf8String(quantity.raw) : undefined
 }

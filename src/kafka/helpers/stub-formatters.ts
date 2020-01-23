@@ -16,10 +16,11 @@ export function formatMetadata(id?: string, extra?: IExtraData, authToken?: stri
   return envelope.Metadata.create({ id, extra })
 }
 
-export function formatEnvelopeArgs(call: ICall, privateFrom?: string, privateFor?: string[]) {
+export function formatEnvelopeArgs(call: ICall, data?: string, privateFrom?: string, privateFor?: string[]) {
   return envelope.Args.create({
     call: formatCall(call),
-    private: formatPrivate(privateFrom, privateFor)
+    private: formatPrivate(privateFrom, privateFor),
+    data: formatData(data)
   })
 }
 

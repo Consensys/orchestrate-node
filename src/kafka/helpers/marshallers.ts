@@ -17,6 +17,7 @@ export function marshalTransactionRequest(request: ITransactionRequest): Message
         methodSignature: request.methodSignature,
         args: request.args
       },
+      request.data,
       request.privateFrom,
       request.privateFor
     ),

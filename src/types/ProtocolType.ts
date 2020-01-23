@@ -1,6 +1,6 @@
 export enum ProtocolType {
-  EthereumConstantinople = 0,
-  QuorumConstellation = 1,
-  QuorumTessera = 2,
-  BesuOrion = 3
+  EthereumConstantinople = 'EthereumConstantinople',
+  QuorumConstellation = 'QuorumConstellation',
+  QuorumTessera = 'QuorumTessera',
+  BesuOrion = 'BesuOrion'
 }
