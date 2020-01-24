@@ -5,15 +5,20 @@ const consume = async (consumer: Consumer) => {
 
   // Register the event listener before calling consume
   consumer.on(EventType.Response, async (message: ResponseMessage) => {
-    const { offset, topic } = message.content()
-
-    // We commit every multiple of 10: 0, 10, 20, ...
-    if (Number(offset) % 10 === 0) {
-      await message.commit()
-    }
+    const { offset, topic, value } = message.content()
 
     // tslint:disable-next-line: no-console
     console.log('Message received !', { offset, topic })
+    if (value.errors && value.errors.length !== 0) {
+      // tslint:disable-next-line: no-console
+      console.log('Transaction failed!', value.errors)
+    } else {
+      // tslint:disable-next-line: no-console
+      console.log('Receipt:', value.receipt)
+    }
+
+    // We commit every messgage
+    await message.commit()
   })
 
   await consumer.consume()
@@ -21,7 +26,14 @@ const consume = async (consumer: Consumer) => {
 
 const produce = async (producer: Producer) => {
   await producer.connect()
-  await producer.generateWallet()
+
+  // Deploy a new SimpleToken contract
+  await producer.sendTransaction({
+    chainId: '888',
+    contractName: 'SimpleToken',
+    methodSignature: 'constructor()',
+    from: '0x7e654d251da770a068413677967f6d3ea2fea9e4'
+  })
 }
 
 export const start = async () => {

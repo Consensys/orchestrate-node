@@ -7,4 +7,5 @@ export interface ITransactionContext extends IPrivate, ICall {
   nonce?: number
   value?: string
   input?: string
+  to?: string
 }

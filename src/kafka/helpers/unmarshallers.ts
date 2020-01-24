@@ -15,7 +15,7 @@ function mapEnvelopeToResponse(envelopeMessage: envelope.IEnvelope): IResponseVa
   return {
     id: envelopeMessage.metadata!.id!,
     chainId: parseChain(envelopeMessage.chain),
-    from: parseRawString(envelopeMessage.from),
+    from: parseAccount(envelopeMessage.from),
     protocol: parseProtocol(envelopeMessage.protocol),
     txContext: parseTxContext(envelopeMessage),
     receipt: parseReceipt(envelopeMessage.receipt),
@@ -61,6 +61,7 @@ function parseTxContext(envelopeMessage: envelope.IEnvelope) {
       gas: txParsed.gas,
       gasPrice: txParsed.gasPrice,
       nonce: txParsed.nonce,
+      to: txParsed.to,
       privateFrom: privateParsed.privateFrom,
       privateFor: privateParsed.privateFor
     }
@@ -77,7 +78,7 @@ function parseReceipt(receipt?: ethereum.IReceipt | null): IReceipt | undefined 
       txIndex: receipt.txIndex ? Number(receipt.txIndex) : undefined,
       txHash: parseRawString(receipt.txHash),
       status: receipt.status ? Boolean(receipt.status) : undefined,
-      contractAddress: parseRawString(receipt.contractAddress),
+      contractAddress: parseAccount(receipt.contractAddress),
       gasUsed: receipt.gasUsed ? Number(receipt.gasUsed) : undefined,
       cumulativeGasUsed: receipt.cumulativeGasUsed ? Number(receipt.cumulativeGasUsed) : undefined,
       postState: parseBuffer(receipt.postState),
@@ -100,7 +101,7 @@ function parseErrors(errors?: error.IError[] | null) {
 function parseLogs(logs?: ethereum.ILog[] | null) {
   if (logs && logs.length !== 0) {
     return logs.map(log => ({
-      address: parseRawString(log.address),
+      address: parseAccount(log.address),
       topics: parseRawStringArray(log.topics),
       data: parseBuffer(log.data),
       event: log.event ? log.event : undefined,
@@ -139,12 +140,14 @@ function parseTx(tx?: ethereum.ITransaction | null) {
     const gas = tx.txData.gas ? Number(tx.txData.gas) : undefined
     const gasPrice = tx.txData.gasPrice ? parseQuantity(tx.txData.gasPrice) : undefined
     const nonce = tx.txData.nonce ? Number(tx.txData.nonce) : undefined
+    const to = parseAccount(tx.txData.to)
 
     return {
       value,
       gas,
       gasPrice,
-      nonce
+      nonce,
+      to
     }
   }
 
@@ -175,4 +178,8 @@ function parseNumber(value?: number | Long | null) {
 
 function parseQuantity(quantity?: ethereum.IQuantity | null) {
   return quantity && quantity.raw ? utils.toUtf8String(quantity.raw) : undefined
+}
+
+function parseAccount(account?: ethereum.IAccount | null) {
+  return account && account.raw ? utils.hexlify(account.raw) : undefined
 }

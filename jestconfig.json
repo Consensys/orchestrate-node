@@ -4,7 +4,13 @@
   },
   "testRegex": "((\\.|/)(test|spec))\\.(jsx?|tsx?)$",
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
-  "collectCoverageFrom": ["src/**/*.{ts,js}", "!<rootDir>/node_modules/", "!src/**/index.{ts,js}", "!src/stubs/*"],
+  "collectCoverageFrom": [
+    "src/**/*.{ts,js}",
+    "!<rootDir>/node_modules/",
+    "!src/**/index.{ts,js}",
+    "!src/stubs/*",
+    "!src/kafka/helpers/unmarshallers.ts"
+  ],
   "coverageThreshold": {
     "global": {
       "statements": 90,
