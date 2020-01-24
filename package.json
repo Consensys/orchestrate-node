@@ -1,6 +1,6 @@
 {
   "name": "pegasys-orchestrate",
-  "version": "1.0.0-rc2",
+  "version": "1.0.0-rc3",
   "description": "The PegaSys Orchestrate library provides convenient access to the PegaSys Orchestrate API from applications written in server-side JavaScript",
   "scripts": {
     "clean": "rimraf ./coverage ./build ./lib",
