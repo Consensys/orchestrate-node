@@ -1,10 +1,12 @@
 import * as KakfaJS from 'kafkajs'
 import { v4 as uuidv4 } from 'uuid'
 
-import { IExtraData, ITransactionRequest } from '../../types'
-import { ProtocolType } from '../../types/ProtocolType'
-import { DEFAULT_TOPIC_TX_CRAFTER, DEFAULT_TOPIC_WALLET_GENERATOR, MAINNET_CHAIN_ID } from '../constants'
+import { ITransactionRequest } from '../../types'
+import { IRequest } from '../../types/IRequest'
+import { DEFAULT_TOPIC_TX_CRAFTER, DEFAULT_TOPIC_WALLET_GENERATOR } from '../constants'
 import { KafkaClient } from '../KafkaClient'
+
+import { marshalRequest, marshalTransactionRequest } from './helpers'
 
 /**
  * Class used to send messages to Orchestrate
@@ -52,7 +54,7 @@ export class Producer extends KafkaClient {
    * @param topic - topic
    * @param message - Kafka message
    */
-  public async produce(topic: string, message: KakfaJS.Message) {
+  public async produce(topic: string, message: KakfaJS.Message): Promise<KakfaJS.RecordMetadata> {
     this.checkReadiness()
 
     const result = await this.producer.send({ topic, messages: [message] })
@@ -64,85 +66,40 @@ export class Producer extends KafkaClient {
    *
    * @param request - Transaction request
    * @param topic - Topic name. Sends to Transaction Crafter by default
+   * @returns The ID of the message
    */
-  public async sendTransaction(
-    request: ITransactionRequest,
-    topic = DEFAULT_TOPIC_TX_CRAFTER
-  ): Promise<KakfaJS.RecordMetadata> {
+  public async sendTransaction(request: ITransactionRequest, topic = DEFAULT_TOPIC_TX_CRAFTER): Promise<string> {
     this.checkReadiness()
 
-    // Field default initialization
-    request.chainId = request.chainId ? request.chainId : MAINNET_CHAIN_ID
-    request.protocol = request.protocol ? request.protocol : { type: ProtocolType.EthereumConstantinople }
-    request.requestId = request.requestId ? request.requestId : uuidv4()
+    request.id = request.id ? request.id : uuidv4()
+    await this.produce(topic, marshalTransactionRequest(request))
 
-    return this.produce(topic, this.createTxMessage(request))
+    return request.id
   }
 
   /**
-   * Generates a new wallet
+   * Generates a new Ethereum wallet
    *
    * @param topic - topic of the wallet generator if modified
    * @param requestId - id of the message
    * @param extraData - extra metadata of the message
+   * @returns the ID of the message
    */
-  public async generateWallet(
-    topic = DEFAULT_TOPIC_WALLET_GENERATOR,
-    requestId?: string,
-    extraData?: IExtraData
-  ): Promise<KakfaJS.RecordMetadata> {
+  public async generateWallet(request?: IRequest, topic = DEFAULT_TOPIC_WALLET_GENERATOR): Promise<string> {
     this.checkReadiness()
 
-    const value = {
-      metadata: {
-        id: requestId ? requestId : uuidv4(),
-        extra: extraData
-      }
+    if (!request || !request.id) {
+      request = { id: uuidv4(), ...request }
     }
 
-    return this.produce(topic, {
-      value: this.marshal(value)
-    })
+    await this.produce(topic, marshalRequest(request))
+
+    return request.id!
   }
 
   private checkReadiness() {
     if (!this.isReady) {
       throw new Error('Producer is not currently connected, did you forget to call connect()?')
     }
-  }
-
-  private createTxMessage(request: ITransactionRequest): KakfaJS.Message {
-    const messagePayload = {
-      metadata: {
-        id: request.requestId,
-        extra: request.extraData
-      },
-      call: {
-        contract: request.contract,
-        method: request.method,
-        args: request.args
-      },
-      ...request
-    }
-
-    // Clean object of unnecessary fields
-    delete messagePayload.extraData
-    delete messagePayload.requestId
-    delete messagePayload.contract
-    delete messagePayload.method
-    delete messagePayload.args
-
-    return {
-      key: `${request.chainId}-${request.from}`,
-      value: this.marshal(messagePayload)
-    }
-  }
-
-  private marshal(data: any) {
-    // TODO: Implement marshalEnvelope when new envelope format is defined
-    const marshalEnvelope = (payload: any) => payload
-
-    const envelope = marshalEnvelope(data)
-    return JSON.stringify(envelope)
   }
 }

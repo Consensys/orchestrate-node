@@ -1,3 +1,3 @@
 export interface IExtraData {
-  [key: string]: any
+  [key: string]: string
 }

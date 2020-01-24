@@ -11,14 +11,14 @@ export class ResponseMessage {
   /**
    * Commits the message offset
    */
-  public async commit() {
+  public async commit(): Promise<void> {
     await this.consumer.commit(this.message)
   }
 
   /**
    * Gets the message
    */
-  public content() {
+  public content(): IResponse {
     return this.message
   }
 }
