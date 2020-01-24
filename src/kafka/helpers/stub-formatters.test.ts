@@ -26,7 +26,7 @@ describe('stub-formatters', () => {
       const message = formatters.formatMetadata(mockId, mockExtraData, mockAuthToken)
       expect(message).toEqual({
         id: mockId,
-        extra: { Bearer: mockAuthToken, ...mockExtraData }
+        extra: { Authorization: mockAuthToken, ...mockExtraData }
       })
     })
   })
