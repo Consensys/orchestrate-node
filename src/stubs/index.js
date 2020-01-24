@@ -1608,6 +1608,8 @@
              * @memberof chain
              * @interface IChain
              * @property {Uint8Array|null} [id] Chain id
+             * @property {string|null} [nodeId] Chain nodeId
+             * @property {string|null} [nodeName] Chain nodeName
              */
     
             /**
@@ -1632,6 +1634,22 @@
              * @instance
              */
             Chain.prototype.id = $util.newBuffer([]);
+    
+            /**
+             * Chain nodeId.
+             * @member {string} nodeId
+             * @memberof chain.Chain
+             * @instance
+             */
+            Chain.prototype.nodeId = "";
+    
+            /**
+             * Chain nodeName.
+             * @member {string} nodeName
+             * @memberof chain.Chain
+             * @instance
+             */
+            Chain.prototype.nodeName = "";
     
             /**
              * Creates a new Chain instance using the specified properties.
@@ -1659,6 +1677,10 @@
                     writer = $Writer.create();
                 if (message.id != null && message.hasOwnProperty("id"))
                     writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.id);
+                if (message.nodeId != null && message.hasOwnProperty("nodeId"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.nodeId);
+                if (message.nodeName != null && message.hasOwnProperty("nodeName"))
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.nodeName);
                 return writer;
             };
     
@@ -1695,6 +1717,12 @@
                     switch (tag >>> 3) {
                     case 1:
                         message.id = reader.bytes();
+                        break;
+                    case 2:
+                        message.nodeId = reader.string();
+                        break;
+                    case 3:
+                        message.nodeName = reader.string();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -1734,6 +1762,12 @@
                 if (message.id != null && message.hasOwnProperty("id"))
                     if (!(message.id && typeof message.id.length === "number" || $util.isString(message.id)))
                         return "id: buffer expected";
+                if (message.nodeId != null && message.hasOwnProperty("nodeId"))
+                    if (!$util.isString(message.nodeId))
+                        return "nodeId: string expected";
+                if (message.nodeName != null && message.hasOwnProperty("nodeName"))
+                    if (!$util.isString(message.nodeName))
+                        return "nodeName: string expected";
                 return null;
             };
     
@@ -1754,6 +1788,10 @@
                         $util.base64.decode(object.id, message.id = $util.newBuffer($util.base64.length(object.id)), 0);
                     else if (object.id.length)
                         message.id = object.id;
+                if (object.nodeId != null)
+                    message.nodeId = String(object.nodeId);
+                if (object.nodeName != null)
+                    message.nodeName = String(object.nodeName);
                 return message;
             };
     
@@ -1770,7 +1808,7 @@
                 if (!options)
                     options = {};
                 var object = {};
-                if (options.defaults)
+                if (options.defaults) {
                     if (options.bytes === String)
                         object.id = "";
                     else {
@@ -1778,8 +1816,15 @@
                         if (options.bytes !== Array)
                             object.id = $util.newBuffer(object.id);
                     }
+                    object.nodeId = "";
+                    object.nodeName = "";
+                }
                 if (message.id != null && message.hasOwnProperty("id"))
                     object.id = options.bytes === String ? $util.base64.encode(message.id, 0, message.id.length) : options.bytes === Array ? Array.prototype.slice.call(message.id) : message.id;
+                if (message.nodeId != null && message.hasOwnProperty("nodeId"))
+                    object.nodeId = message.nodeId;
+                if (message.nodeName != null && message.hasOwnProperty("nodeName"))
+                    object.nodeName = message.nodeName;
                 return object;
             };
     

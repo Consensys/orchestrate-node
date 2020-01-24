@@ -1,7 +1,6 @@
 import { chain, ethereum } from '../../stubs'
 import { ICall } from '../../types/ICall'
 import { ProtocolType } from '../../types/ProtocolType'
-import { MAINNET_CHAIN_ID } from '../constants'
 
 import * as formatters from './stub-formatters'
 
@@ -106,20 +105,19 @@ describe('stub-formatters', () => {
   })
 
   describe('formatChain', () => {
-    const mockChainId = 'chainId'
+    const mockNodeId = 'nodeId'
+    const mockNodeName = 'nodeName'
 
     it('should create a valid Chain message', () => {
-      const message = formatters.formatChain(mockChainId)
+      const message = formatters.formatChain(mockNodeId, mockNodeName)
       expect(message).toEqual({
-        id: Buffer.from(mockChainId)
+        nodeId: mockNodeId,
+        nodeName: mockNodeName
       })
     })
 
-    it('should create a valid Chain message with Mainnet by default', () => {
-      const message = formatters.formatChain()
-      expect(message).toEqual({
-        id: Buffer.from(MAINNET_CHAIN_ID)
-      })
+    it('should fail if nodeId and nodeName are undefined', () => {
+      expect(() => formatters.formatChain()).toThrowError(new Error('Either nodeId or nodeName must be specified'))
     })
   })
 

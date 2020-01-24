@@ -1,7 +1,6 @@
 import { chain, envelope } from '../../stubs'
 import { IResponseValue } from '../../types'
 import { ProtocolType } from '../../types/ProtocolType'
-import { MAINNET_CHAIN_ID } from '../constants'
 
 import { unmarshalEnvelope } from './unmarshallers'
 
@@ -35,7 +34,8 @@ export const mockEnvelope = {
     }
   },
   chain: {
-    id: Buffer.from(MAINNET_CHAIN_ID)
+    nodeId: 'nodeId',
+    nodeName: 'nodeName'
   },
   from: { raw: Buffer.from(mockFrom, 'hex') },
   protocol: {
@@ -81,7 +81,8 @@ describe('unmarshallers', () => {
     it('should unmarshall an envelope successfully', () => {
       const expectedValue: IResponseValue = {
         id: mockEnvelope.metadata.id,
-        chainId: MAINNET_CHAIN_ID,
+        nodeId: mockEnvelope.chain.nodeId,
+        nodeName: mockEnvelope.chain.nodeName,
         from: `0x${mockFrom}`,
         protocol: ProtocolType.BesuOrion,
         errors: mockEnvelope.errors,
