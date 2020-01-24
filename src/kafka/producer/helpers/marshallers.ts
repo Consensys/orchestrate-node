@@ -6,7 +6,7 @@ import { IRequest } from '../../../types/IRequest'
 
 import * as formatters from './stub-formatters'
 
-export function marshalTransactionRequest(request: ITransactionRequest): Message {
+export function marshalTransactionRequest(request: ITransactionRequest) {
   const envelopeMessage: envelope.IEnvelope = {
     metadata: formatters.formatMetadata(request.id!, request.extraData, request.authToken),
     args: formatters.formatEnvelopeArgs(
@@ -28,7 +28,7 @@ export function marshalTransactionRequest(request: ITransactionRequest): Message
   return marshalEnvelope(envelopeMessage)
 }
 
-export function marshalRequest(request: IRequest): Message {
+export function marshalRequest(request: IRequest) {
   const envelopeMessage: envelope.IEnvelope = {
     metadata: formatters.formatMetadata(request.id, request.extraData, request.authToken)
   }
@@ -36,7 +36,7 @@ export function marshalRequest(request: IRequest): Message {
   return marshalEnvelope(envelopeMessage)
 }
 
-function marshalEnvelope(envelopeMessage: envelope.IEnvelope) {
+function marshalEnvelope(envelopeMessage: envelope.IEnvelope): Message {
   const { encode } = envelope.Envelope
 
   // The type is Buffer on Node
