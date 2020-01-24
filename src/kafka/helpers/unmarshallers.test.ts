@@ -6,11 +6,12 @@ import { MAINNET_CHAIN_ID } from '../constants'
 import { unmarshalEnvelope } from './unmarshallers'
 
 const mockData = '0xfefe'
-const mockFrom = '0xc1912fee45d61c87cc5ea59dae31190fffff2333'
+const mockFrom = 'c1912fee45d61c87cc5ea59dae31190fffff2333'
+const mockTo = 'c1912fee45d61c87cc5ea59dae31190fffff233e'
 const mockGasPrice = '233333'
 const mockValue = '44444'
 const mockHash = '0xhash'
-const mockContractAddress = '0xc1912fee45d61c87cc5ea59dae31190fffff233f'
+const mockContractAddress = 'c1912fee45d61c87cc5ea59dae31190fffff233f'
 const mockBloom = '0x31232344fff'
 const mockPostState = '0x31232344fffee'
 export const mockEnvelope = {
@@ -36,7 +37,7 @@ export const mockEnvelope = {
   chain: {
     id: Buffer.from(MAINNET_CHAIN_ID)
   },
-  from: { raw: Buffer.from(mockFrom) },
+  from: { raw: Buffer.from(mockFrom, 'hex') },
   protocol: {
     type: chain.ProtocolType.BESU_ORION
   },
@@ -56,7 +57,7 @@ export const mockEnvelope = {
       gas: 13221321,
       gasPrice: { raw: Buffer.from(mockGasPrice) },
       nonce: 66,
-      to: { raw: Buffer.from('0xc1912fee45d61c87cc5ea59dae31190fffff233e') },
+      to: { raw: Buffer.from(mockTo, 'hex') },
       value: { raw: Buffer.from(mockValue) }
     }
   },
@@ -67,7 +68,7 @@ export const mockEnvelope = {
     txHash: { raw: Buffer.from(mockHash) },
     status: 0,
     gasUsed: 555,
-    contractAddress: { raw: Buffer.from(mockContractAddress) },
+    contractAddress: { raw: Buffer.from(mockContractAddress, 'hex') },
     cumulativeGasUsed: 7777,
     logs: [],
     bloom: Buffer.from(mockBloom),
@@ -81,7 +82,7 @@ describe('unmarshallers', () => {
       const expectedValue: IResponseValue = {
         id: mockEnvelope.metadata.id,
         chainId: MAINNET_CHAIN_ID,
-        from: mockFrom,
+        from: `0x${mockFrom}`,
         protocol: ProtocolType.BesuOrion,
         errors: mockEnvelope.errors,
         extraData: mockEnvelope.metadata.extra,
@@ -96,7 +97,7 @@ describe('unmarshallers', () => {
           logs: undefined,
           bloom: mockBloom,
           postState: mockPostState,
-          contractAddress: mockContractAddress
+          contractAddress: `0x${mockContractAddress}`
         },
         txContext: {
           contractName: mockEnvelope.args.call.contract.id.name,
@@ -108,6 +109,7 @@ describe('unmarshallers', () => {
           value: mockValue,
           args: mockEnvelope.args.call.args,
           input: mockData,
+          to: `0x${mockTo}`,
           privateFor: mockEnvelope.args.private.privateFor,
           privateFrom: mockEnvelope.args.private.privateFrom
         }
