@@ -81,7 +81,7 @@
     ]
   },
   "dependencies": {
-    "ethers": "^4.0.43",
+    "ethers": "~4.0.43",
     "kafkajs": "~1.11.0",
     "protobufjs": "~6.8.8",
     "uuid": "~3.3.3"

@@ -11,7 +11,7 @@ import { formatMethodArgs } from './solidity-formatters'
 
 export function formatMetadata(id?: string, extra?: IExtraData, authToken?: string) {
   if (authToken) {
-    extra = { Bearer: authToken, ...extra }
+    extra = { Authorization: authToken, ...extra }
   }
   return envelope.Metadata.create({ id, extra })
 }
