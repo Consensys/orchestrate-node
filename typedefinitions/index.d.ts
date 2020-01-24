@@ -211,7 +211,7 @@ export class WalletGenerator {
    *
    * @return  {Promise<string>}  [return promise of an public address generated in Orchestrate]
    */
-  generate(): Promise<string>
+  generate(chain?: string, value?: string): Promise<string>
 }
 
 // # Interfaces
