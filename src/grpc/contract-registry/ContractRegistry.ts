@@ -1,6 +1,4 @@
-import { ChannelCredentials, Client } from '@grpc/grpc-js'
-// tslint:disable-next-line: no-submodule-imports
-import { ClientOptions } from '@grpc/grpc-js/build/src/client'
+import * as grpc from '@grpc/grpc-js'
 import { utils } from 'ethers'
 import { Method } from 'protobufjs'
 
@@ -8,32 +6,18 @@ import { contractregistry } from '../../stubs'
 import { IRegisterContractRequest } from '../types'
 
 export class ContractRegistry {
-  private readonly rpcClient: Client
-  private readonly contractRegistryService: contractregistry.ContractRegistry
+  private readonly rpcClient: grpc.Client
+  private readonly registry: contractregistry.ContractRegistry
 
-  constructor(
-    endpoint: string,
-    credentials: ChannelCredentials = ChannelCredentials.createInsecure(),
-    options?: ClientOptions
-  ) {
-    this.rpcClient = new Client(endpoint, credentials, options)
-    this.contractRegistryService = new contractregistry.ContractRegistry(this.rpc.bind(this) as any)
+  constructor(endpoint: string, credentials = grpc.credentials.createInsecure()) {
+    const Client = grpc.makeClientConstructor({}, 'contractregistry')
+
+    this.rpcClient = new Client(endpoint, credentials)
+    this.registry = new contractregistry.ContractRegistry(this.rpc.bind(this) as any)
   }
 
-  public async connect() {
-    return new Promise((resolve, reject) => {
-      this.rpcClient.waitForReady(500000, err => {
-        if (err) {
-          reject(err)
-        }
-
-        resolve()
-      })
-    })
-  }
-
-  public async register(request: IRegisterContractRequest): Promise<contractregistry.RegisterContractResponse> {
-    const response = await this.contractRegistryService.registerContract({
+  public async register(request: IRegisterContractRequest): Promise<any> {
+    const message = contractregistry.RegisterContractRequest.create({
       contract: {
         id: {
           name: request.name,
@@ -45,20 +29,21 @@ export class ContractRegistry {
       }
     })
 
-    return response
+    return this.registry.registerContract(message)
   }
 
-  private rpc(method: Method, requestData: Uint8Array, callback: (err: any, resp: any) => void) {
+  public async getCatalog(): Promise<any> {
+    const message = contractregistry.GetCatalogRequest.create({})
+    return this.registry.getCatalog(message)
+  }
+
+  private rpc(method: Method, requestData: any, callback: any) {
     this.rpcClient.makeUnaryRequest(
-      `ContractRegistry/${method.name}`,
-      requestBuffer => requestBuffer as Buffer,
-      responseBuffer => responseBuffer,
+      `contractregistry.ContractRegistry/${method.name}`, // method.fullName is undefined here for some reason
+      arg => arg,
+      arg => arg,
       requestData,
-      (err, resp) => {
-        // tslint:disable-next-line: no-console
-        console.log(resp)
-        callback(err, Buffer.from('resp'))
-      }
+      callback
     )
   }
 }
