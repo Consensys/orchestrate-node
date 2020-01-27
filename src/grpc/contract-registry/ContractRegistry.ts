@@ -48,7 +48,7 @@ export class ContractRegistry {
     return response
   }
 
-  private rpc(method: any, requestData: Uint8Array, callback: (err: any, resp: any) => void) {
+  private rpc(method: Method, requestData: Uint8Array, callback: (err: any, resp: any) => void) {
     this.rpcClient.makeUnaryRequest(
       `ContractRegistry/${method.name}`,
       requestBuffer => requestBuffer as Buffer,
