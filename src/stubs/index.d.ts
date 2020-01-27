@@ -633,6 +633,12 @@ export namespace chain {
 
         /** Chain id */
         id?: (Uint8Array|null);
+
+        /** Chain nodeId */
+        nodeId?: (string|null);
+
+        /** Chain nodeName */
+        nodeName?: (string|null);
     }
 
     /** Represents a Chain. */
@@ -646,6 +652,12 @@ export namespace chain {
 
         /** Chain id. */
         public id: Uint8Array;
+
+        /** Chain nodeId. */
+        public nodeId: string;
+
+        /** Chain nodeName. */
+        public nodeName: string;
 
         /**
          * Creates a new Chain instance using the specified properties.

@@ -29,7 +29,8 @@ const produce = async (producer: Producer) => {
 
   // Deploy a new SimpleToken contract
   await producer.sendTransaction({
-    chainId: '888',
+    nodeId: 'TO_BE_DEFINED',
+    nodeName: 'TO_BE_DEFINED',
     contractName: 'SimpleToken',
     methodSignature: 'constructor()',
     from: '0x7e654d251da770a068413677967f6d3ea2fea9e4'

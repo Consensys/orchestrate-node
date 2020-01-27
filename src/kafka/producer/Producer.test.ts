@@ -108,7 +108,7 @@ describe('Producer', () => {
         from: mockFrom,
         id: requestId,
         extraData,
-        chainId: '1',
+        nodeId: 'nodeId',
         contractName: 'contract'
       }
 
@@ -122,7 +122,8 @@ describe('Producer', () => {
     it('should send a transaction request with default parameters', async () => {
       const request = {
         from: mockFrom,
-        contractName: 'contractName'
+        contractName: 'contractName',
+        nodeId: 'nodeId'
       }
 
       await producer.connect()

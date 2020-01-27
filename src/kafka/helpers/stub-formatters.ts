@@ -5,7 +5,6 @@ import { ICall } from '../../types/ICall'
 import { IExtraData } from '../../types/IExtraData'
 import { ITransaction } from '../../types/ITransaction'
 import { ProtocolType } from '../../types/ProtocolType'
-import { MAINNET_CHAIN_ID } from '../constants'
 
 import { formatMethodArgs } from './solidity-formatters'
 
@@ -78,9 +77,12 @@ export function formatAccount(address?: string) {
   return ethereum.Account.create({ raw: utils.arrayify(formattedAddress) })
 }
 
-export function formatChain(chainId?: string) {
-  const id = chainId ? chainId : MAINNET_CHAIN_ID
-  return chain.Chain.create({ id: Buffer.from(id) })
+export function formatChain(nodeId?: string, nodeName?: string) {
+  if (!nodeId && !nodeName) {
+    throw new Error('Either nodeId or nodeName must be specified')
+  }
+
+  return chain.Chain.create({ nodeId, nodeName })
 }
 
 export function formatTransaction(tx: ITransaction) {
