@@ -1,11 +1,11 @@
 import * as KakfaJS from 'kafkajs'
 import { v4 as uuidv4 } from 'uuid'
 
-import { ITransactionRequest } from '../../types'
-import { IRequest } from '../../types/IRequest'
 import { DEFAULT_TOPIC_TX_CRAFTER, DEFAULT_TOPIC_WALLET_GENERATOR } from '../constants'
 import { marshalRequest, marshalTransactionRequest } from '../helpers'
 import { KafkaClient } from '../KafkaClient'
+import { ITransactionRequest } from '../types'
+import { IRequest } from '../types/IRequest'
 
 /**
  * Class used to send messages to Orchestrate

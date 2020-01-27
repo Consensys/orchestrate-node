@@ -1,10 +1,10 @@
 import { utils } from 'ethers'
 
 import { abi, args, chain, envelope, error, ethereum } from '../../stubs'
-import { IResponseValue } from '../../types'
-import { IReceipt } from '../../types/IReceipt'
-import { ITransactionContext } from '../../types/ITransactionContext'
-import { ProtocolType } from '../../types/ProtocolType'
+import { IResponseValue } from '../types'
+import { IReceipt } from '../types/IReceipt'
+import { ITransactionContext } from '../types/ITransactionContext'
+import { ProtocolType } from '../types/ProtocolType'
 
 export function unmarshalEnvelope(data: Buffer): IResponseValue {
   const envelopeMessage = envelope.Envelope.decode(data)

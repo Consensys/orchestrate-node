@@ -19,7 +19,8 @@
     "check-formatting": "prettier --list-different 'src/**/*.{ts,js,json}'",
     "generate:stubs": "pbjs -t static-module -o src/stubs/index.js proto/**/*.proto && pbts -o src/stubs/index.d.ts src/stubs/index.js",
     "generate:docs": "rimraf docs && typedoc",
-    "example:produce-and-consume": "ts-node examples/produce-and-consume"
+    "example:produce-and-consume": "ts-node examples/produce-and-consume",
+    "example:register-contract": "ts-node examples/register-contract"
   },
   "repository": {
     "type": "git",
@@ -81,6 +82,7 @@
     ]
   },
   "dependencies": {
+    "@grpc/grpc-js": "^0.6.15",
     "ethers": "~4.0.43",
     "kafkajs": "~1.11.0",
     "protobufjs": "~6.8.8",
