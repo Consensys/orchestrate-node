@@ -60,7 +60,7 @@ export class ContractRegistry {
           name: request.name,
           tag: request.tag
         },
-        abi: utils.arrayify(JSON.stringify(request.abi)),
+        abi: utils.toUtf8Bytes(JSON.stringify(request.abi)),
         bytecode: utils.arrayify(request.bytecode),
         deployedBytecode: utils.arrayify(request.deployedBytecode)
       }

@@ -1,9 +1,9 @@
 import { createMockInstance } from 'jest-create-mock-instance'
 
 import { envelope } from '../../stubs'
-import { EventType } from '../../types'
 import { unmarshalEnvelope } from '../helpers'
 import { mockEnvelope } from '../helpers/unmarshallers.test'
+import { EventType } from '../types'
 
 import { Consumer } from './Consumer'
 import { onMessageReceived } from './onMessageReceived'
