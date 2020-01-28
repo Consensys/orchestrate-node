@@ -27,11 +27,11 @@ function mapEnvelopeToResponse(envelopeMessage: envelope.IEnvelope): IResponseVa
 }
 
 function parseNodeId(chainMessage?: chain.IChain | null) {
-  return chainMessage && chainMessage.nodeId ? chainMessage.nodeId : undefined
+  return chainMessage && chainMessage.uuid ? chainMessage.uuid : undefined
 }
 
 function parseNodeName(chainMessage?: chain.IChain | null) {
-  return chainMessage && chainMessage.nodeName ? chainMessage.nodeName : undefined
+  return chainMessage && chainMessage.name ? chainMessage.name : undefined
 }
 
 function parseProtocol(value?: chain.IProtocol | null) {

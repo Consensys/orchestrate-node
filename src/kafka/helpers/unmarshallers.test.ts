@@ -7,7 +7,6 @@ import { unmarshalEnvelope } from './unmarshallers'
 const mockData = '0xfefe'
 const mockFrom = 'c1912fee45d61c87cc5ea59dae31190fffff2333'
 const mockTo = 'c1912fee45d61c87cc5ea59dae31190fffff233e'
-const mockGasPrice = '233333'
 const mockValue = '4c4b40'
 const mockHash = '0xhash'
 const mockContractAddress = 'c1912fee45d61c87cc5ea59dae31190fffff233f'
@@ -34,8 +33,8 @@ export const mockEnvelope = {
     }
   },
   chain: {
-    nodeId: 'nodeId',
-    nodeName: 'nodeName'
+    uuid: 'nodeId',
+    name: 'nodeName'
   },
   from: { raw: Buffer.from(mockFrom, 'hex') },
   protocol: {
@@ -81,8 +80,8 @@ describe('unmarshallers', () => {
     it('should unmarshall an envelope successfully', () => {
       const expectedValue: IResponseValue = {
         id: mockEnvelope.metadata.id,
-        nodeId: mockEnvelope.chain.nodeId,
-        nodeName: mockEnvelope.chain.nodeName,
+        nodeId: mockEnvelope.chain.uuid,
+        nodeName: mockEnvelope.chain.name,
         from: `0x${mockFrom}`,
         protocol: ProtocolType.BesuOrion,
         errors: mockEnvelope.errors,
