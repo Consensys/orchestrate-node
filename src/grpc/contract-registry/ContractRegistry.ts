@@ -11,17 +11,18 @@ import { IRegisterContractRequest } from '../types'
 import { IContractRequest } from '../types/IContractRequest'
 
 /**
- *
+ * Class that enables interaction with the Contract Registry
  */
 export class ContractRegistry {
   private readonly rpcClient: grpc.Client
   private readonly registry: contractregistry.ContractRegistry
 
   /**
+   * Creates a new ContractRegistry instance
    *
-   * @param endpoint
-   * @param credentials
-   * @param options
+   * @param endpoint - the URL and port of the contract registry RPC
+   * @param credentials - gRPC credentials to use, insecure by default
+   * @param options - optional gRPC channel options
    */
   constructor(endpoint: string, credentials = grpc.credentials.createInsecure(), options?: ChannelOptions) {
     const Client = grpc.makeClientConstructor({}, 'contractregistry')
@@ -31,8 +32,9 @@ export class ContractRegistry {
   }
 
   /**
+   * Waits for a connection or time out
    *
-   * @param timeout
+   * @param timeout - time out value in milliseconds
    */
   public async connect(timeout: number): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -47,8 +49,9 @@ export class ContractRegistry {
   }
 
   /**
+   * Registers a new contract in the contract registry
    *
-   * @param request
+   * @param request - contrect registration request
    */
   public async register(request: IRegisterContractRequest): Promise<void> {
     await this.registry.registerContract({
@@ -57,7 +60,7 @@ export class ContractRegistry {
           name: request.name,
           tag: request.tag
         },
-        abi: Buffer.from(JSON.stringify(request.abi)),
+        abi: utils.arrayify(JSON.stringify(request.abi)),
         bytecode: utils.arrayify(request.bytecode),
         deployedBytecode: utils.arrayify(request.deployedBytecode)
       }
@@ -65,16 +68,18 @@ export class ContractRegistry {
   }
 
   /**
+   * Removes a contract from the contract registry
    *
-   * @param request
+   * @param request - Contract details
    */
   public async deregister(request: IContractRequest): Promise<void> {
     await this.registry.deregisterContract(this.formatContractId(request))
   }
 
   /**
+   * Deletes the artifacts related to a contract but keeps the contract in the contract registry
    *
-   * @param bytecodeHash
+   * @param bytecodeHash - hash of the bytecode
    */
   public async deleteArtifact(bytecodeHash: string): Promise<void> {
     await this.registry.deleteArtifact({
@@ -83,7 +88,9 @@ export class ContractRegistry {
   }
 
   /**
+   * Gets all the contract names from the contract registry
    *
+   * @returns the list of contract names
    */
   public async getCatalog(): Promise<string[]> {
     const response = await this.registry.getCatalog({})
@@ -91,7 +98,10 @@ export class ContractRegistry {
   }
 
   /**
+   * Gets a contract
    *
+   * @param request - Contract details
+   * @returns the contract details
    */
   public async get(request: IContractRequest): Promise<abi.IContract | null> {
     const response = await this.registry.getContract(this.formatContractId(request))
@@ -99,15 +109,21 @@ export class ContractRegistry {
   }
 
   /**
+   * Gets a contract's ABI
    *
+   * @param request - Contract details
+   * @returns the contract ABI
    */
   public async getABI(request: IContractRequest): Promise<string | null> {
     const response = await this.registry.getContractABI(this.formatContractId(request))
-    return response.abi ? JSON.parse(response.abi.toString()) : null
+    return response.abi ? JSON.parse(utils.toUtf8String(response.abi)) : null
   }
 
   /**
+   * Gets a contract's bytecode
    *
+   * @param request - Contract details
+   * @returns the contract bytecode
    */
   public async getBytecode(request: IContractRequest): Promise<string | null> {
     const response = await this.registry.getContractBytecode(this.formatContractId(request))
@@ -115,7 +131,10 @@ export class ContractRegistry {
   }
 
   /**
+   * Gets a contract's deployed bytecode
    *
+   * @param request - Contract details
+   * @returns the contract deployed bytecode
    */
   public async getDeployedBytecode(request: IContractRequest): Promise<string | null> {
     const response = await this.registry.getContractDeployedBytecode(this.formatContractId(request))
@@ -123,7 +142,10 @@ export class ContractRegistry {
   }
 
   /**
+   * Gets all the tags of a contract by name
    *
+   * @param contractName - Contract name
+   * @returns the tags of the contract
    */
   public async getTags(contractName: string): Promise<string[]> {
     const response = await this.registry.getTags({ name: contractName })
@@ -131,7 +153,12 @@ export class ContractRegistry {
   }
 
   /**
+   * Retrieve methods using 4 bytes unique selector
    *
+   * @param account - account address
+   * @param selector - selector
+   * @param nodeId - node id
+   * @param nodeName - node name
    */
   public async getMethodsBySelector(
     account: string,
@@ -146,7 +173,13 @@ export class ContractRegistry {
   }
 
   /**
+   * Retrieve events using hash of signature
    *
+   * @param account - account address
+   * @param sigHash - hash of the signature of the event
+   * @param nodeId - node id
+   * @param nodeName - node name
+   * @param indexedInputCount - count of indexed inputs in event abi
    */
   public async getEventsBySigHash(
     account: string,
