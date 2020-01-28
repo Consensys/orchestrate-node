@@ -45,7 +45,9 @@ export function formatMethod(signature?: string) {
 }
 
 export function formatPrivate(privateFrom?: string, privateFor?: string[]) {
-  return args.Private.create({ privateFrom, privateFor })
+  return privateFrom && privateFor && privateFor.length !== 0
+    ? args.Private.create({ privateFrom, privateFor })
+    : undefined
 }
 
 export function formatProtocol(type?: ProtocolType) {
