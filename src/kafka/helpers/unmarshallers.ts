@@ -1,4 +1,5 @@
 import { utils } from 'ethers'
+import { hexToNumberString } from 'web3-utils'
 
 import { abi, args, chain, envelope, error, ethereum } from '../../stubs'
 import { IResponseValue } from '../../types'
@@ -182,7 +183,7 @@ function parseNumber(value?: number | Long | null) {
 }
 
 function parseQuantity(quantity?: ethereum.IQuantity | null) {
-  return quantity && quantity.raw ? utils.toUtf8String(quantity.raw) : undefined
+  return quantity && quantity.raw ? hexToNumberString(utils.hexlify(quantity.raw)) : undefined
 }
 
 function parseAccount(account?: ethereum.IAccount | null) {

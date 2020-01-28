@@ -1,4 +1,5 @@
 import { utils } from 'ethers'
+import { toBN } from 'web3-utils'
 
 import { abi, args, chain, envelope, ethereum } from '../../stubs'
 import { ICall } from '../../types/ICall'
@@ -105,5 +106,5 @@ export function formatData(data?: string) {
 }
 
 export function formatQuantity(data?: string) {
-  return data ? ethereum.Quantity.create({ raw: Buffer.from(data) }) : undefined
+  return data ? ethereum.Quantity.create({ raw: toBN(data).toBuffer() }) : undefined
 }
