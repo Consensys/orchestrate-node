@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs'
 
-import { ContractRegistry } from '../../src/grpc'
+import { ContractRegistry } from '../../grpc'
 
 import { IRegisterContractOptions } from './types'
 

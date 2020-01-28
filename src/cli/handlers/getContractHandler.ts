@@ -1,4 +1,4 @@
-import { ContractRegistry } from '../../src/grpc'
+import { ContractRegistry } from '../../grpc'
 
 import { IGetContractOptions } from './types'
 
