@@ -28,8 +28,8 @@ export class Consumer extends KafkaClient {
     consumerConfig?: KakfaJS.ConsumerConfig
   ) {
     super(brokers, kafkaConfig)
-
     this.topics = topics
+
     this.consumer = this.kafka.consumer({ groupId: 'orchestrate-consumer-group', ...consumerConfig })
   }
 

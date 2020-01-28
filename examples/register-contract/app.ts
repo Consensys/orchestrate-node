@@ -30,6 +30,11 @@ export const start = async () => {
 
     // tslint:disable-next-line: no-console
     console.log(await contractRegistry.get('myContract', 'v1'))
+
+    // tslint:disable-next-line: no-console
+    console.log(await contractRegistry.deregister('myContract', 'v1'))
+    // tslint:disable-next-line: no-console
+    console.log(await contractRegistry.get('myContract', 'v1'))
   } catch (error) {
     // tslint:disable-next-line: no-console
     console.error(error)

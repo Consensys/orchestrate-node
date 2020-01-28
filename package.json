@@ -8,6 +8,9 @@
     "proto"
   ],
   "types": "lib/index.d.ts",
+  "bin": {
+    "orchestrate": "./lib/cli/index.js"
+  },
   "scripts": {
     "test": "jest --config jestconfig.json",
     "test:watch": "npm run test -- --watch",
@@ -85,6 +88,7 @@
   },
   "dependencies": {
     "@grpc/grpc-js": "~0.6.15",
+    "commander": "^4.1.0",
     "ethers": "~4.0.43",
     "kafkajs": "~1.11.0",
     "protobufjs": "~6.8.8",

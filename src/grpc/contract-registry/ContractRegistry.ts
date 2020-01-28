@@ -48,27 +48,6 @@ export class ContractRegistry {
   }
 
   /**
-   * Removes a contract from the contract registry
-   *
-   * @param name - Contract name
-   * @param tag - Contract tag
-   */
-  public async deregister(name: string, tag?: string): Promise<void> {
-    await this.registry.deregisterContract(this.formatContractId(name, tag))
-  }
-
-  /**
-   * Deletes the artifacts related to a contract but keeps the contract in the contract registry
-   *
-   * @param bytecodeHash - hash of the bytecode
-   */
-  public async deleteArtifact(bytecodeHash: string): Promise<void> {
-    await this.registry.deleteArtifact({
-      bytecodeHash: utils.arrayify(bytecodeHash)
-    })
-  }
-
-  /**
    * Gets all the contract names from the contract registry
    *
    * @returns the list of contract names
