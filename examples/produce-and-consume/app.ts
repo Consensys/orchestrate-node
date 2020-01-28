@@ -1,4 +1,4 @@
-import { Consumer, EventType, Producer, ResponseMessage } from '../../src'
+import { Consumer, EventType, Producer, ResponseMessage } from '../../lib'
 
 const consume = async (consumer: Consumer) => {
   await consumer.connect()

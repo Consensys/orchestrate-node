@@ -1,5 +1,4 @@
-// import { ContractRegistry } from '../../lib'
-import { ContractRegistry } from '../../src'
+import { ContractRegistry } from '../../lib'
 
 export const start = async () => {
   try {
