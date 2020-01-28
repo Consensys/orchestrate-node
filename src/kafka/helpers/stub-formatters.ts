@@ -85,7 +85,7 @@ export function formatChain(nodeId?: string, nodeName?: string) {
     throw new Error('Either nodeId or nodeName must be specified')
   }
 
-  return chain.Chain.create({ nodeId, nodeName })
+  return chain.Chain.create({ uuid: nodeId, name: nodeName })
 }
 
 export function formatTransaction(tx: ITransaction) {

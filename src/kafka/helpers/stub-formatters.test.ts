@@ -111,8 +111,8 @@ describe('stub-formatters', () => {
     it('should create a valid Chain message', () => {
       const message = formatters.formatChain(mockNodeId, mockNodeName)
       expect(message).toEqual({
-        nodeId: mockNodeId,
-        nodeName: mockNodeName
+        uuid: mockNodeId,
+        name: mockNodeName
       })
     })
 
