@@ -9,7 +9,7 @@ const mockRPCClient = {
 }
 
 jest.mock('@grpc/grpc-js', () => ({
-  makeClientConstructor: jest.fn().mockReturnValue(jest.fn().mockImplementation(() => mockRPCClient)),
+  Client: jest.fn().mockImplementation(() => mockRPCClient),
   credentials: { createInsecure: jest.fn() }
 }))
 

@@ -1,4 +1,4 @@
-import * as grpc from '@grpc/grpc-js'
+import { Client, credentials as grpcCredentials } from '@grpc/grpc-js'
 // tslint:disable-next-line: no-submodule-imports
 import { ChannelOptions } from '@grpc/grpc-js/build/src/channel-options'
 // tslint:disable-next-line: no-submodule-imports
@@ -13,7 +13,7 @@ import { IContract, IRegisterContractRequest } from '../types'
  * Class that enables interaction with the Contract Registry
  */
 export class ContractRegistry {
-  private readonly rpcClient: grpc.Client
+  private readonly rpcClient: Client
   private readonly registry: contractregistry.ContractRegistry
 
   /**
@@ -23,9 +23,7 @@ export class ContractRegistry {
    * @param credentials - gRPC credentials to use, insecure by default
    * @param options - optional gRPC channel options
    */
-  constructor(endpoint: string, credentials = grpc.credentials.createInsecure(), options?: ChannelOptions) {
-    const Client = grpc.makeClientConstructor({}, 'contractregistry')
-
+  constructor(endpoint: string, credentials = grpcCredentials.createInsecure(), options?: ChannelOptions) {
     this.rpcClient = new Client(endpoint, credentials, options)
     this.registry = new contractregistry.ContractRegistry(this.rpc.bind(this) as any)
   }
@@ -137,49 +135,6 @@ export class ContractRegistry {
   public async getTags(name: string): Promise<string[]> {
     const response = await this.registry.getTags({ name })
     return response.tags
-  }
-
-  /**
-   * Retrieve methods using 4 bytes unique selector
-   *
-   * @param account - account address
-   * @param selector - selector
-   * @param nodeId - node id
-   * @param nodeName - node name
-   */
-  public async getMethodsBySelector(
-    account: string,
-    selector: string,
-    nodeId?: string,
-    nodeName?: string
-  ): Promise<contractregistry.IGetMethodsBySelectorResponse> {
-    return this.registry.getMethodsBySelector({
-      accountInstance: { account: { raw: utils.arrayify(account) }, chain: { nodeId, nodeName } },
-      selector: Buffer.from(selector)
-    })
-  }
-
-  /**
-   * Retrieve events using hash of signature
-   *
-   * @param account - account address
-   * @param sigHash - hash of the signature of the event
-   * @param nodeId - node id
-   * @param nodeName - node name
-   * @param indexedInputCount - count of indexed inputs in event abi
-   */
-  public async getEventsBySigHash(
-    account: string,
-    sigHash: string,
-    nodeId?: string,
-    nodeName?: string,
-    indexedInputCount?: number
-  ): Promise<contractregistry.IGetEventsBySigHashResponse> {
-    return this.registry.getEventsBySigHash({
-      accountInstance: { account: { raw: utils.arrayify(account) }, chain: { nodeId, nodeName } },
-      sigHash: utils.arrayify(sigHash),
-      indexedInputCount
-    })
   }
 
   private rpc(method: Method, requestData: Buffer, callback: UnaryCallback<Buffer>) {
