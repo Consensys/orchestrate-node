@@ -84,9 +84,7 @@
   },
   "dependencies": {
     "@grpc/grpc-js": "~0.6.15",
-    "@grpc/proto-loader": "~0.5.3",
     "ethers": "~4.0.43",
-    "grpc": "^1.24.2",
     "kafkajs": "~1.11.0",
     "protobufjs": "~6.8.8",
     "uuid": "~3.3.3",

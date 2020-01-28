@@ -6,8 +6,9 @@ import { UnaryCallback } from '@grpc/grpc-js/build/src/client'
 import { utils } from 'ethers'
 import { Method } from 'protobufjs'
 
-import { contractregistry } from '../../stubs'
+import { abi, contractregistry } from '../../stubs'
 import { IRegisterContractRequest } from '../types'
+import { IContractRequest } from '../types/IContractRequest'
 
 /**
  *
@@ -65,10 +66,100 @@ export class ContractRegistry {
 
   /**
    *
+   * @param request
+   */
+  public async deregister(request: IContractRequest): Promise<void> {
+    await this.registry.deregisterContract(this.formatContractId(request))
+  }
+
+  /**
+   *
+   * @param bytecodeHash
+   */
+  public async deleteArtifact(bytecodeHash: string): Promise<void> {
+    await this.registry.deleteArtifact({
+      bytecodeHash: utils.arrayify(bytecodeHash)
+    })
+  }
+
+  /**
+   *
    */
   public async getCatalog(): Promise<string[]> {
     const response = await this.registry.getCatalog({})
     return response.names
+  }
+
+  /**
+   *
+   */
+  public async get(request: IContractRequest): Promise<abi.IContract | null> {
+    const response = await this.registry.getContract(this.formatContractId(request))
+    return response.contract ? response.contract : null
+  }
+
+  /**
+   *
+   */
+  public async getABI(request: IContractRequest): Promise<string | null> {
+    const response = await this.registry.getContractABI(this.formatContractId(request))
+    return response.abi ? JSON.parse(response.abi.toString()) : null
+  }
+
+  /**
+   *
+   */
+  public async getBytecode(request: IContractRequest): Promise<string | null> {
+    const response = await this.registry.getContractBytecode(this.formatContractId(request))
+    return response.bytecode ? utils.hexlify(response.bytecode) : null
+  }
+
+  /**
+   *
+   */
+  public async getDeployedBytecode(request: IContractRequest): Promise<string | null> {
+    const response = await this.registry.getContractDeployedBytecode(this.formatContractId(request))
+    return response.deployedBytecode ? utils.hexlify(response.deployedBytecode) : null
+  }
+
+  /**
+   *
+   */
+  public async getTags(contractName: string): Promise<string[]> {
+    const response = await this.registry.getTags({ name: contractName })
+    return response.tags
+  }
+
+  /**
+   *
+   */
+  public async getMethodsBySelector(
+    account: string,
+    selector: string,
+    nodeId?: string,
+    nodeName?: string
+  ): Promise<contractregistry.IGetMethodsBySelectorResponse> {
+    return this.registry.getMethodsBySelector({
+      accountInstance: { account: { raw: utils.arrayify(account) }, chain: { nodeId, nodeName } },
+      selector: Buffer.from(selector)
+    })
+  }
+
+  /**
+   *
+   */
+  public async getEventsBySigHash(
+    account: string,
+    sigHash: string,
+    nodeId?: string,
+    nodeName?: string,
+    indexedInputCount?: number
+  ): Promise<contractregistry.IGetEventsBySigHashResponse> {
+    return this.registry.getEventsBySigHash({
+      accountInstance: { account: { raw: utils.arrayify(account) }, chain: { nodeId, nodeName } },
+      sigHash: utils.arrayify(sigHash),
+      indexedInputCount
+    })
   }
 
   private rpc(method: Method, requestData: Buffer, callback: UnaryCallback<Buffer>) {
@@ -82,5 +173,14 @@ export class ContractRegistry {
       requestData,
       callback
     )
+  }
+
+  private formatContractId(request: IContractRequest) {
+    return {
+      contractId: {
+        name: request.name,
+        tag: request.tag
+      }
+    }
   }
 }
