@@ -1,4 +1,5 @@
 import { utils } from 'ethers'
+import { toBN } from 'web3-utils'
 
 import { abi, args, chain, envelope, ethereum } from '../../stubs'
 import { ICall } from '../types/ICall'
@@ -44,7 +45,9 @@ export function formatMethod(signature?: string) {
 }
 
 export function formatPrivate(privateFrom?: string, privateFor?: string[]) {
-  return args.Private.create({ privateFrom, privateFor })
+  return privateFrom && privateFor && privateFor.length !== 0
+    ? args.Private.create({ privateFrom, privateFor })
+    : undefined
 }
 
 export function formatProtocol(type?: ProtocolType) {
@@ -105,5 +108,5 @@ export function formatData(data?: string) {
 }
 
 export function formatQuantity(data?: string) {
-  return data ? ethereum.Quantity.create({ raw: Buffer.from(data) }) : undefined
+  return data ? ethereum.Quantity.create({ raw: toBN(data).toBuffer() }) : undefined
 }

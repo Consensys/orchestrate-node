@@ -1,4 +1,4 @@
-import { Consumer, EventType, Producer, ResponseMessage } from '../../lib'
+import { Consumer, EventType, Producer, ResponseMessage } from '../../src'
 
 const consume = async (consumer: Consumer) => {
   await consumer.connect()
@@ -11,7 +11,7 @@ const consume = async (consumer: Consumer) => {
     console.log('Message received !', { offset, topic })
     if (value.errors && value.errors.length !== 0) {
       // tslint:disable-next-line: no-console
-      console.log('Transaction failed!', value.errors)
+      console.log('Transaction failed!', { errors: value.errors, txContext: value.txContext })
     } else {
       // tslint:disable-next-line: no-console
       console.log('Receipt:', value.receipt)

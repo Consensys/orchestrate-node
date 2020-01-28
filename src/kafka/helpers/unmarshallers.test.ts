@@ -8,7 +8,7 @@ const mockData = '0xfefe'
 const mockFrom = 'c1912fee45d61c87cc5ea59dae31190fffff2333'
 const mockTo = 'c1912fee45d61c87cc5ea59dae31190fffff233e'
 const mockGasPrice = '233333'
-const mockValue = '44444'
+const mockValue = '4c4b40'
 const mockHash = '0xhash'
 const mockContractAddress = 'c1912fee45d61c87cc5ea59dae31190fffff233f'
 const mockBloom = '0x31232344fff'
@@ -55,10 +55,10 @@ export const mockEnvelope = {
     txData: {
       data: { raw: Buffer.from('0xfefe') },
       gas: 13221321,
-      gasPrice: { raw: Buffer.from(mockGasPrice) },
+      gasPrice: { raw: Buffer.from(mockValue, 'hex') },
       nonce: 66,
       to: { raw: Buffer.from(mockTo, 'hex') },
-      value: { raw: Buffer.from(mockValue) }
+      value: { raw: Buffer.from(mockValue, 'hex') }
     }
   },
   receipt: {
@@ -104,10 +104,10 @@ describe('unmarshallers', () => {
           contractName: mockEnvelope.args.call.contract.id.name,
           contractTag: mockEnvelope.args.call.contract.id.tag,
           gas: mockEnvelope.tx.txData.gas,
-          gasPrice: mockGasPrice,
+          gasPrice: '5000000',
           nonce: mockEnvelope.tx.txData.nonce,
           methodSignature: mockEnvelope.args.call.method.signature,
-          value: mockValue,
+          value: '5000000',
           args: mockEnvelope.args.call.args,
           input: mockData,
           to: `0x${mockTo}`,
