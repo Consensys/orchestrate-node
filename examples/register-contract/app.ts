@@ -4,9 +4,8 @@ import { ContractRegistry } from '../../src'
 export const start = async () => {
   try {
     const contractRegistry = new ContractRegistry('localhost:8020')
-    // await contractRegistry.connect()
 
-    const response = await contractRegistry.register({
+    await contractRegistry.register({
       name: 'myContract',
       tag: 'v1',
       abi: [
@@ -31,7 +30,7 @@ export const start = async () => {
     })
 
     // tslint:disable-next-line: no-console
-    console.log(response)
+    console.log(await contractRegistry.get('myContract', 'v1'))
   } catch (error) {
     // tslint:disable-next-line: no-console
     console.error(error)

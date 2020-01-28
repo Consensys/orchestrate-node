@@ -7,8 +7,7 @@ import { utils } from 'ethers'
 import { Method } from 'protobufjs'
 
 import { abi, contractregistry } from '../../stubs'
-import { IRegisterContractRequest } from '../types'
-import { IContractRequest } from '../types/IContractRequest'
+import { IContract, IRegisterContractRequest } from '../types'
 
 /**
  * Class that enables interaction with the Contract Registry
@@ -29,23 +28,6 @@ export class ContractRegistry {
 
     this.rpcClient = new Client(endpoint, credentials, options)
     this.registry = new contractregistry.ContractRegistry(this.rpc.bind(this) as any)
-  }
-
-  /**
-   * Waits for a connection or time out
-   *
-   * @param timeout - time out value in milliseconds
-   */
-  public async connect(timeout: number): Promise<void> {
-    return new Promise((resolve, reject) => {
-      this.rpcClient.waitForReady(timeout, (error?: Error) => {
-        if (error) {
-          reject(error)
-        }
-
-        resolve()
-      })
-    })
   }
 
   /**
@@ -70,10 +52,11 @@ export class ContractRegistry {
   /**
    * Removes a contract from the contract registry
    *
-   * @param request - Contract details
+   * @param name - Contract name
+   * @param tag - Contract tag
    */
-  public async deregister(request: IContractRequest): Promise<void> {
-    await this.registry.deregisterContract(this.formatContractId(request))
+  public async deregister(name: string, tag?: string): Promise<void> {
+    await this.registry.deregisterContract(this.formatContractId(name, tag))
   }
 
   /**
@@ -100,55 +83,59 @@ export class ContractRegistry {
   /**
    * Gets a contract
    *
-   * @param request - Contract details
+   * @param name - Contract name
+   * @param tag - Contract tag
    * @returns the contract details
    */
-  public async get(request: IContractRequest): Promise<abi.IContract | null> {
-    const response = await this.registry.getContract(this.formatContractId(request))
-    return response.contract ? response.contract : null
+  public async get(name: string, tag?: string): Promise<IContract> {
+    const response = await this.registry.getContract(this.formatContractId(name, tag))
+    return this.parseContract(response.contract!)
   }
 
   /**
    * Gets a contract's ABI
    *
-   * @param request - Contract details
+   * @param name - Contract name
+   * @param tag - Contract tag
    * @returns the contract ABI
    */
-  public async getABI(request: IContractRequest): Promise<string | null> {
-    const response = await this.registry.getContractABI(this.formatContractId(request))
+  public async getABI(name: string, tag?: string): Promise<string | null> {
+    const response = await this.registry.getContractABI(this.formatContractId(name, tag))
     return response.abi ? JSON.parse(utils.toUtf8String(response.abi)) : null
   }
 
   /**
    * Gets a contract's bytecode
    *
-   * @param request - Contract details
+   * @param name - Contract name
+   * @param tag - Contract tag
    * @returns the contract bytecode
    */
-  public async getBytecode(request: IContractRequest): Promise<string | null> {
-    const response = await this.registry.getContractBytecode(this.formatContractId(request))
+  public async getBytecode(name: string, tag?: string): Promise<string | null> {
+    const response = await this.registry.getContractBytecode(this.formatContractId(name, tag))
     return response.bytecode ? utils.hexlify(response.bytecode) : null
   }
 
   /**
    * Gets a contract's deployed bytecode
    *
-   * @param request - Contract details
+   * @param name - Contract name
+   * @param tag - Contract tag
    * @returns the contract deployed bytecode
    */
-  public async getDeployedBytecode(request: IContractRequest): Promise<string | null> {
-    const response = await this.registry.getContractDeployedBytecode(this.formatContractId(request))
+  public async getDeployedBytecode(name: string, tag?: string): Promise<string | null> {
+    const response = await this.registry.getContractDeployedBytecode(this.formatContractId(name, tag))
     return response.deployedBytecode ? utils.hexlify(response.deployedBytecode) : null
   }
 
   /**
    * Gets all the tags of a contract by name
    *
-   * @param contractName - Contract name
+   * @param name - Contract name
    * @returns the tags of the contract
    */
-  public async getTags(contractName: string): Promise<string[]> {
-    const response = await this.registry.getTags({ name: contractName })
+  public async getTags(name: string): Promise<string[]> {
+    const response = await this.registry.getTags({ name })
     return response.tags
   }
 
@@ -208,12 +195,22 @@ export class ContractRegistry {
     )
   }
 
-  private formatContractId(request: IContractRequest) {
+  private formatContractId(name: string, tag?: string) {
     return {
       contractId: {
-        name: request.name,
-        tag: request.tag
+        name,
+        tag
       }
+    }
+  }
+
+  private parseContract(message: abi.IContract): IContract {
+    return {
+      name: message.id!.name!,
+      tag: message.id!.tag!,
+      abi: message.abi ? JSON.parse(utils.toUtf8String(message.abi)) : undefined,
+      bytecode: message.bytecode ? utils.hexlify(message.bytecode) : undefined,
+      deployedBytecode: message.deployedBytecode ? utils.hexlify(message.deployedBytecode) : undefined
     }
   }
 }
