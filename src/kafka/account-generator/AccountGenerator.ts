@@ -78,9 +78,9 @@ export class AccountGenerator {
       await this.connect()
     }
 
-    const addressList: string[] = []
-
     return new Promise(async (resolve, _) => {
+      const addressList: string[] = []
+
       this.consumer.on(EventType.Response, async (message: ResponseMessage) => {
         const { id, from } = message.content().value
 
@@ -99,11 +99,14 @@ export class AccountGenerator {
       })
 
       await this.consumer.consume()
-
-      for (let i = 0; i < amount; i++) {
-        const id = await this.producer.generateWallet({ authToken, extraData })
-        this.pendingIds.add(id)
-      }
+      await this.produceAccounts(amount, authToken, extraData)
     })
+  }
+
+  private async produceAccounts(amount: number, authToken?: string, extraData?: IExtraData) {
+    for (let i = 0; i < amount; i++) {
+      const id = await this.producer.generateAccount({ authToken, extraData })
+      this.pendingIds.add(id)
+    }
   }
 }

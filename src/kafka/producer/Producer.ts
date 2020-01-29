@@ -77,14 +77,14 @@ export class Producer extends KafkaClient {
   }
 
   /**
-   * Generates a new Ethereum wallet
+   * Generates a new Ethereum account
    *
    * @param topic - topic of the wallet generator if modified
    * @param requestId - id of the message
    * @param extraData - extra metadata of the message
    * @returns the ID of the message
    */
-  public async generateWallet(request?: IRequest, topic = DEFAULT_TOPIC_WALLET_GENERATOR): Promise<string> {
+  public async generateAccount(request?: IRequest, topic = DEFAULT_TOPIC_WALLET_GENERATOR): Promise<string> {
     this.checkReadiness()
 
     if (!request || !request.id) {
