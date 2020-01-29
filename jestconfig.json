@@ -9,13 +9,14 @@
     "!<rootDir>/node_modules/",
     "!src/**/index.{ts,js}",
     "!src/stubs/*",
-    "!src/kafka/helpers/unmarshallers.ts"
+    "!src/kafka/helpers/unmarshallers.ts",
+    "!src/cli/cli.ts"
   ],
   "coverageThreshold": {
     "global": {
       "statements": 90,
-      "branches": 80,
-      "functions": 85,
+      "branches": 90,
+      "functions": 90,
       "lines": 90
     }
   }
