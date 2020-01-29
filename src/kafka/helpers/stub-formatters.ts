@@ -80,12 +80,12 @@ export function formatAccount(address?: string) {
   return ethereum.Account.create({ raw: utils.arrayify(formattedAddress) })
 }
 
-export function formatChain(nodeId?: string, nodeName?: string) {
-  if (!nodeId && !nodeName) {
-    throw new Error('Either nodeId or nodeName must be specified')
+export function formatChain(chainUUID?: string, chainName?: string) {
+  if (!chainUUID && !chainName) {
+    throw new Error('Either chainUUID or chainName must be specified')
   }
 
-  return chain.Chain.create({ uuid: nodeId, name: nodeName })
+  return chain.Chain.create({ uuid: chainUUID, name: chainName })
 }
 
 export function formatTransaction(tx: ITransaction) {

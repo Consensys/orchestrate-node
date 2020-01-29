@@ -15,10 +15,6 @@ export function unmarshalEnvelope(data: Buffer): IResponseValue {
 function mapEnvelopeToResponse(envelopeMessage: envelope.IEnvelope): IResponseValue {
   return {
     id: envelopeMessage.metadata!.id!,
-    nodeId: parseNodeId(envelopeMessage.chain),
-    nodeName: parseNodeName(envelopeMessage.chain),
-    from: parseAccount(envelopeMessage.from),
-    protocol: parseProtocol(envelopeMessage.protocol),
     txContext: parseTxContext(envelopeMessage),
     receipt: parseReceipt(envelopeMessage.receipt),
     errors: parseErrors(envelopeMessage.errors),
@@ -26,11 +22,11 @@ function mapEnvelopeToResponse(envelopeMessage: envelope.IEnvelope): IResponseVa
   }
 }
 
-function parseNodeId(chainMessage?: chain.IChain | null) {
+function parseChainUUID(chainMessage?: chain.IChain | null) {
   return chainMessage && chainMessage.uuid ? chainMessage.uuid : undefined
 }
 
-function parseNodeName(chainMessage?: chain.IChain | null) {
+function parseChainName(chainMessage?: chain.IChain | null) {
   return chainMessage && chainMessage.name ? chainMessage.name : undefined
 }
 
@@ -60,6 +56,10 @@ function parseTxContext(envelopeMessage: envelope.IEnvelope) {
     const txContext: ITransactionContext = {
       contractName: argsV.call.contract.id.name,
       contractTag: argsV.call.contract.id.tag || undefined,
+      chainUUID: parseChainUUID(envelopeMessage.chain),
+      chainName: parseChainName(envelopeMessage.chain),
+      from: parseAccount(envelopeMessage.from),
+      protocol: parseProtocol(envelopeMessage.protocol),
       methodSignature: parseMethod(argsV.call.method),
       input: parseRawString(argsV.data),
       args: argsV.call.args ? argsV.call.args : undefined,

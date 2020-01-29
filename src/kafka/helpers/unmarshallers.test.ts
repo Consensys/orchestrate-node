@@ -33,8 +33,8 @@ export const mockEnvelope = {
     }
   },
   chain: {
-    uuid: 'nodeId',
-    name: 'nodeName'
+    uuid: 'chainUUID',
+    name: 'chainName'
   },
   from: { raw: Buffer.from(mockFrom, 'hex') },
   protocol: {
@@ -75,15 +75,12 @@ export const mockEnvelope = {
   }
 }
 
+// TODO: unmarshallers are not taken into account in the coverage until we have the new envelope format because of too many branches
 describe('unmarshallers', () => {
   describe('unmarshalEnvelope', () => {
     it('should unmarshall an envelope successfully', () => {
       const expectedValue: IResponseValue = {
         id: mockEnvelope.metadata.id,
-        nodeId: mockEnvelope.chain.uuid,
-        nodeName: mockEnvelope.chain.name,
-        from: `0x${mockFrom}`,
-        protocol: ProtocolType.BesuOrion,
         errors: mockEnvelope.errors,
         extraData: mockEnvelope.metadata.extra,
         receipt: {
@@ -102,6 +99,10 @@ describe('unmarshallers', () => {
         txContext: {
           contractName: mockEnvelope.args.call.contract.id.name,
           contractTag: mockEnvelope.args.call.contract.id.tag,
+          chainUUID: mockEnvelope.chain.uuid,
+          chainName: mockEnvelope.chain.name,
+          from: `0x${mockFrom}`,
+          protocol: ProtocolType.BesuOrion,
           gas: mockEnvelope.tx.txData.gas,
           gasPrice: '5000000',
           nonce: mockEnvelope.tx.txData.nonce,

@@ -1,7 +1,7 @@
 import { ProtocolType } from './ProtocolType'
 
 export interface IChain {
-  nodeId?: string
-  nodeName?: string
+  chainUUID?: string
+  chainName?: string
   protocol?: ProtocolType
 }
