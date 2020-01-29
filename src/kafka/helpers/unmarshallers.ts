@@ -131,12 +131,12 @@ function parseMethod(method?: abi.IMethod | null) {
 }
 
 function parseRawString(data: any) {
-  return data && data.raw ? utils.toUtf8String(data.raw) : undefined
+  return data && data.raw ? utils.hexlify(data.raw) : undefined
 }
 
 function parseRawStringArray(data?: any[] | null) {
   if (data && data.length !== 0) {
-    return data.map(el => utils.toUtf8String(el.raw))
+    return data.map(el => utils.hexlify(el.raw))
   }
 }
 
@@ -175,7 +175,7 @@ function parsePrivate(priv?: args.IPrivate | null) {
 }
 
 function parseBuffer(buffer?: Uint8Array | null) {
-  return buffer ? utils.toUtf8String(buffer) : undefined
+  return buffer ? utils.hexlify(buffer) : undefined
 }
 
 function parseNumber(value?: number | Long | null) {
