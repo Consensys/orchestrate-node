@@ -19,7 +19,8 @@
     "check-formatting": "prettier --list-different 'src/**/*.{ts,js,json}'",
     "generate:stubs": "pbjs -t static-module -o src/stubs/index.js proto/**/*.proto && pbts -o src/stubs/index.d.ts src/stubs/index.js",
     "generate:docs": "rimraf docs && typedoc",
-    "example:produce-and-consume": "ts-node examples/produce-and-consume"
+    "example:produce": "ts-node examples/produce",
+    "example:consume": "ts-node examples/consume"
   },
   "repository": {
     "type": "git",
