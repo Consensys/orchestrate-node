@@ -15,8 +15,8 @@ export function unmarshalEnvelope(data: Buffer): IResponseValue {
 function mapEnvelopeToResponse(envelopeMessage: envelope.IEnvelope): IResponseValue {
   return {
     id: envelopeMessage.metadata!.id!,
-    nodeId: parseNodeId(envelopeMessage.chain),
-    nodeName: parseNodeName(envelopeMessage.chain),
+    chainUUID: parseChainUUID(envelopeMessage.chain),
+    chainName: parseChainName(envelopeMessage.chain),
     from: parseAccount(envelopeMessage.from),
     protocol: parseProtocol(envelopeMessage.protocol),
     txContext: parseTxContext(envelopeMessage),
@@ -26,11 +26,11 @@ function mapEnvelopeToResponse(envelopeMessage: envelope.IEnvelope): IResponseVa
   }
 }
 
-function parseNodeId(chainMessage?: chain.IChain | null) {
+function parseChainUUID(chainMessage?: chain.IChain | null) {
   return chainMessage && chainMessage.uuid ? chainMessage.uuid : undefined
 }
 
-function parseNodeName(chainMessage?: chain.IChain | null) {
+function parseChainName(chainMessage?: chain.IChain | null) {
   return chainMessage && chainMessage.name ? chainMessage.name : undefined
 }
 

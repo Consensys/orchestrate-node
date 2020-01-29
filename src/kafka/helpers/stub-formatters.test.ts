@@ -105,19 +105,19 @@ describe('stub-formatters', () => {
   })
 
   describe('formatChain', () => {
-    const mockNodeId = 'nodeId'
-    const mockNodeName = 'nodeName'
+    const mockChainUUID = 'chainUUID'
+    const mockChainName = 'chainName'
 
     it('should create a valid Chain message', () => {
-      const message = formatters.formatChain(mockNodeId, mockNodeName)
+      const message = formatters.formatChain(mockChainUUID, mockChainName)
       expect(message).toEqual({
-        uuid: mockNodeId,
-        name: mockNodeName
+        uuid: mockChainUUID,
+        name: mockChainName
       })
     })
 
-    it('should fail if nodeId and nodeName are undefined', () => {
-      expect(() => formatters.formatChain()).toThrowError(new Error('Either nodeId or nodeName must be specified'))
+    it('should fail if chainUUID and chainName are undefined', () => {
+      expect(() => formatters.formatChain()).toThrowError(new Error('Either chainUUID or chainName must be specified'))
     })
   })
 
