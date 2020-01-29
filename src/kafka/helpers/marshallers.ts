@@ -22,7 +22,7 @@ export function marshalTransactionRequest(request: ITransactionRequest) {
     ),
     protocol: formatters.formatProtocol(request.protocol),
     from: formatters.formatAccount(request.from),
-    chain: formatters.formatChain(request.nodeId, request.nodeName),
+    chain: formatters.formatChain(request.chainUUID, request.chainName),
     tx: formatters.formatTransaction(request)
   }
 

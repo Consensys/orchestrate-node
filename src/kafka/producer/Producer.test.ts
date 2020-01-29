@@ -108,7 +108,7 @@ describe('Producer', () => {
         from: mockFrom,
         id: requestId,
         extraData,
-        nodeId: 'nodeId',
+        chainUUID: 'chainUUID',
         contractName: 'contract'
       }
 
@@ -123,7 +123,7 @@ describe('Producer', () => {
       const request = {
         from: mockFrom,
         contractName: 'contractName',
-        nodeId: 'nodeId'
+        chainUUID: 'chainUUID'
       }
 
       await producer.connect()

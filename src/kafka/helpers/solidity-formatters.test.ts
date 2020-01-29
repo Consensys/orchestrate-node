@@ -14,7 +14,7 @@ describe('solidity-formatters', () => {
       ])
 
       expect(argsList).toEqual([
-        '50',
+        '0x32',
         '0x000000ea',
         'myString',
         utils.getAddress('0xc1912fee45d61c87cc5ea59dae31190fffff232d'),
