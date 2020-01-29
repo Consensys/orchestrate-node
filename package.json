@@ -25,7 +25,8 @@
     "generate:docs": "rimraf docs && typedoc",
     "example:produce": "ts-node examples/produce",
     "example:consume": "ts-node examples/consume",
-    "example:register-contract": "ts-node examples/register-contract"
+    "example:register-contract": "ts-node examples/register-contract",
+    "example:generate-accounts": "ts-node examples/generate-accounts"
   },
   "repository": {
     "type": "git",
