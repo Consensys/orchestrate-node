@@ -81,10 +81,6 @@ describe('unmarshallers', () => {
     it('should unmarshall an envelope successfully', () => {
       const expectedValue: IResponseValue = {
         id: mockEnvelope.metadata.id,
-        chainUUID: mockEnvelope.chain.uuid,
-        chainName: mockEnvelope.chain.name,
-        from: `0x${mockFrom}`,
-        protocol: ProtocolType.BesuOrion,
         errors: mockEnvelope.errors,
         extraData: mockEnvelope.metadata.extra,
         receipt: {
@@ -103,6 +99,10 @@ describe('unmarshallers', () => {
         txContext: {
           contractName: mockEnvelope.args.call.contract.id.name,
           contractTag: mockEnvelope.args.call.contract.id.tag,
+          chainUUID: mockEnvelope.chain.uuid,
+          chainName: mockEnvelope.chain.name,
+          from: `0x${mockFrom}`,
+          protocol: ProtocolType.BesuOrion,
           gas: mockEnvelope.tx.txData.gas,
           gasPrice: '5000000',
           nonce: mockEnvelope.tx.txData.nonce,
