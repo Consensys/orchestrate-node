@@ -44,7 +44,7 @@ export function formatMethodArgs(methodSignature?: string, parameters?: any[]) {
           return numberToHex(value)
         }
 
-        return value
+        return value.toString()
       })
 
       return JSON.stringify(paramArray)
