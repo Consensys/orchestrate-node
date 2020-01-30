@@ -1,11 +1,11 @@
 import { utils } from 'ethers'
+import { toBN } from 'web3-utils'
 
-import { abi, args, chain, envelope, ethereum } from '../../../stubs'
-import { ICall } from '../../../types/ICall'
-import { IExtraData } from '../../../types/IExtraData'
-import { ITransaction } from '../../../types/ITransaction'
-import { ProtocolType } from '../../../types/ProtocolType'
-import { MAINNET_CHAIN_ID } from '../../constants'
+import { abi, args, chain, envelope, ethereum } from '../../stubs'
+import { ICall } from '../../types/ICall'
+import { IExtraData } from '../../types/IExtraData'
+import { ITransaction } from '../../types/ITransaction'
+import { ProtocolType } from '../../types/ProtocolType'
 
 import { formatMethodArgs } from './solidity-formatters'
 
@@ -16,10 +16,11 @@ export function formatMetadata(id?: string, extra?: IExtraData, authToken?: stri
   return envelope.Metadata.create({ id, extra })
 }
 
-export function formatEnvelopeArgs(call: ICall, privateFrom?: string, privateFor?: string[]) {
+export function formatEnvelopeArgs(call: ICall, data?: string, privateFrom?: string, privateFor?: string[]) {
   return envelope.Args.create({
     call: formatCall(call),
-    private: formatPrivate(privateFrom, privateFor)
+    private: formatPrivate(privateFrom, privateFor),
+    data: formatData(data)
   })
 }
 
@@ -44,7 +45,9 @@ export function formatMethod(signature?: string) {
 }
 
 export function formatPrivate(privateFrom?: string, privateFor?: string[]) {
-  return args.Private.create({ privateFrom, privateFor })
+  return privateFrom && privateFor && privateFor.length !== 0
+    ? args.Private.create({ privateFrom, privateFor })
+    : undefined
 }
 
 export function formatProtocol(type?: ProtocolType) {
@@ -77,9 +80,12 @@ export function formatAccount(address?: string) {
   return ethereum.Account.create({ raw: utils.arrayify(formattedAddress) })
 }
 
-export function formatChain(chainId?: string) {
-  const id = chainId ? chainId : MAINNET_CHAIN_ID
-  return chain.Chain.create({ id: Buffer.from(id) })
+export function formatChain(chainUUID?: string, chainName?: string) {
+  if (!chainUUID && !chainName) {
+    throw new Error('Either chainUUID or chainName must be specified')
+  }
+
+  return chain.Chain.create({ uuid: chainUUID, name: chainName })
 }
 
 export function formatTransaction(tx: ITransaction) {
@@ -102,5 +108,5 @@ export function formatData(data?: string) {
 }
 
 export function formatQuantity(data?: string) {
-  return data ? ethereum.Quantity.create({ raw: Buffer.from(data) }) : undefined
+  return data ? ethereum.Quantity.create({ raw: toBN(data).toBuffer() }) : undefined
 }

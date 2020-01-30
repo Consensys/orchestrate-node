@@ -1,7 +1,6 @@
-import { chain, ethereum } from '../../../stubs'
-import { ICall } from '../../../types/ICall'
-import { ProtocolType } from '../../../types/ProtocolType'
-import { MAINNET_CHAIN_ID } from '../../constants'
+import { chain, ethereum } from '../../stubs'
+import { ICall } from '../../types/ICall'
+import { ProtocolType } from '../../types/ProtocolType'
 
 import * as formatters from './stub-formatters'
 
@@ -40,18 +39,17 @@ describe('stub-formatters', () => {
     }
     const mockPrivateFrom = '0xconstellationAddress'
     const mockPrivateFor = ['0xconstellationFor']
+    const mockData = '0x43243fefe'
 
     it('should create a valid Args message', () => {
-      const message = formatters.formatEnvelopeArgs(mockCall, mockPrivateFrom, mockPrivateFor)
-      expect(message).toEqual({
+      const message = formatters.formatEnvelopeArgs(mockCall, mockData, mockPrivateFrom, mockPrivateFor)
+      expect(message).toMatchObject({
         call: {
           contract: {
             id: {
               name: mockCall.contractName,
               tag: mockCall.contractTag
-            },
-            events: [],
-            methods: []
+            }
           },
           method: { signature: mockCall.methodSignature },
           args: mockCall.args
@@ -107,20 +105,19 @@ describe('stub-formatters', () => {
   })
 
   describe('formatChain', () => {
-    const mockChainId = 'chainId'
+    const mockChainUUID = 'chainUUID'
+    const mockChainName = 'chainName'
 
     it('should create a valid Chain message', () => {
-      const message = formatters.formatChain(mockChainId)
+      const message = formatters.formatChain(mockChainUUID, mockChainName)
       expect(message).toEqual({
-        id: Buffer.from(mockChainId)
+        uuid: mockChainUUID,
+        name: mockChainName
       })
     })
 
-    it('should create a valid Chain message with Mainnet by default', () => {
-      const message = formatters.formatChain()
-      expect(message).toEqual({
-        id: Buffer.from(MAINNET_CHAIN_ID)
-      })
+    it('should fail if chainUUID and chainName are undefined', () => {
+      expect(() => formatters.formatChain()).toThrowError(new Error('Either chainUUID or chainName must be specified'))
     })
   })
 

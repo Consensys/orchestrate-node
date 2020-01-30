@@ -1,6 +1,5 @@
-import { DEFAULT_TOPIC_WALLET_GENERATOR, MAINNET_CHAIN_ID } from '../constants'
+import { marshalRequest, marshalTransactionRequest } from '../helpers'
 
-import { marshalRequest, marshalTransactionRequest } from './helpers'
 import { Producer } from './Producer'
 
 const mockKafkaProducer = {
@@ -109,7 +108,7 @@ describe('Producer', () => {
         from: mockFrom,
         id: requestId,
         extraData,
-        chainId: '1',
+        chainUUID: 'chainUUID',
         contractName: 'contract'
       }
 
@@ -123,7 +122,8 @@ describe('Producer', () => {
     it('should send a transaction request with default parameters', async () => {
       const request = {
         from: mockFrom,
-        contractName: 'contractName'
+        contractName: 'contractName',
+        chainUUID: 'chainUUID'
       }
 
       await producer.connect()

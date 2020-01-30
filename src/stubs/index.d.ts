@@ -631,8 +631,14 @@ export namespace chain {
     /** Properties of a Chain. */
     interface IChain {
 
-        /** Chain id */
-        id?: (Uint8Array|null);
+        /** Chain chainId */
+        chainId?: (Uint8Array|null);
+
+        /** Chain uuid */
+        uuid?: (string|null);
+
+        /** Chain name */
+        name?: (string|null);
     }
 
     /** Represents a Chain. */
@@ -644,8 +650,14 @@ export namespace chain {
          */
         constructor(properties?: chain.IChain);
 
-        /** Chain id. */
-        public id: Uint8Array;
+        /** Chain chainId. */
+        public chainId: Uint8Array;
+
+        /** Chain uuid. */
+        public uuid: string;
+
+        /** Chain name. */
+        public name: string;
 
         /**
          * Creates a new Chain instance using the specified properties.

@@ -1607,7 +1607,9 @@
              * Properties of a Chain.
              * @memberof chain
              * @interface IChain
-             * @property {Uint8Array|null} [id] Chain id
+             * @property {Uint8Array|null} [chainId] Chain chainId
+             * @property {string|null} [uuid] Chain uuid
+             * @property {string|null} [name] Chain name
              */
     
             /**
@@ -1626,12 +1628,28 @@
             }
     
             /**
-             * Chain id.
-             * @member {Uint8Array} id
+             * Chain chainId.
+             * @member {Uint8Array} chainId
              * @memberof chain.Chain
              * @instance
              */
-            Chain.prototype.id = $util.newBuffer([]);
+            Chain.prototype.chainId = $util.newBuffer([]);
+    
+            /**
+             * Chain uuid.
+             * @member {string} uuid
+             * @memberof chain.Chain
+             * @instance
+             */
+            Chain.prototype.uuid = "";
+    
+            /**
+             * Chain name.
+             * @member {string} name
+             * @memberof chain.Chain
+             * @instance
+             */
+            Chain.prototype.name = "";
     
             /**
              * Creates a new Chain instance using the specified properties.
@@ -1657,8 +1675,12 @@
             Chain.encode = function encode(message, writer) {
                 if (!writer)
                     writer = $Writer.create();
-                if (message.id != null && message.hasOwnProperty("id"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.id);
+                if (message.chainId != null && message.hasOwnProperty("chainId"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.chainId);
+                if (message.uuid != null && message.hasOwnProperty("uuid"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.uuid);
+                if (message.name != null && message.hasOwnProperty("name"))
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.name);
                 return writer;
             };
     
@@ -1694,7 +1716,13 @@
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1:
-                        message.id = reader.bytes();
+                        message.chainId = reader.bytes();
+                        break;
+                    case 2:
+                        message.uuid = reader.string();
+                        break;
+                    case 3:
+                        message.name = reader.string();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -1731,9 +1759,15 @@
             Chain.verify = function verify(message) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.id != null && message.hasOwnProperty("id"))
-                    if (!(message.id && typeof message.id.length === "number" || $util.isString(message.id)))
-                        return "id: buffer expected";
+                if (message.chainId != null && message.hasOwnProperty("chainId"))
+                    if (!(message.chainId && typeof message.chainId.length === "number" || $util.isString(message.chainId)))
+                        return "chainId: buffer expected";
+                if (message.uuid != null && message.hasOwnProperty("uuid"))
+                    if (!$util.isString(message.uuid))
+                        return "uuid: string expected";
+                if (message.name != null && message.hasOwnProperty("name"))
+                    if (!$util.isString(message.name))
+                        return "name: string expected";
                 return null;
             };
     
@@ -1749,11 +1783,15 @@
                 if (object instanceof $root.chain.Chain)
                     return object;
                 var message = new $root.chain.Chain();
-                if (object.id != null)
-                    if (typeof object.id === "string")
-                        $util.base64.decode(object.id, message.id = $util.newBuffer($util.base64.length(object.id)), 0);
-                    else if (object.id.length)
-                        message.id = object.id;
+                if (object.chainId != null)
+                    if (typeof object.chainId === "string")
+                        $util.base64.decode(object.chainId, message.chainId = $util.newBuffer($util.base64.length(object.chainId)), 0);
+                    else if (object.chainId.length)
+                        message.chainId = object.chainId;
+                if (object.uuid != null)
+                    message.uuid = String(object.uuid);
+                if (object.name != null)
+                    message.name = String(object.name);
                 return message;
             };
     
@@ -1770,16 +1808,23 @@
                 if (!options)
                     options = {};
                 var object = {};
-                if (options.defaults)
+                if (options.defaults) {
                     if (options.bytes === String)
-                        object.id = "";
+                        object.chainId = "";
                     else {
-                        object.id = [];
+                        object.chainId = [];
                         if (options.bytes !== Array)
-                            object.id = $util.newBuffer(object.id);
+                            object.chainId = $util.newBuffer(object.chainId);
                     }
-                if (message.id != null && message.hasOwnProperty("id"))
-                    object.id = options.bytes === String ? $util.base64.encode(message.id, 0, message.id.length) : options.bytes === Array ? Array.prototype.slice.call(message.id) : message.id;
+                    object.uuid = "";
+                    object.name = "";
+                }
+                if (message.chainId != null && message.hasOwnProperty("chainId"))
+                    object.chainId = options.bytes === String ? $util.base64.encode(message.chainId, 0, message.chainId.length) : options.bytes === Array ? Array.prototype.slice.call(message.chainId) : message.chainId;
+                if (message.uuid != null && message.hasOwnProperty("uuid"))
+                    object.uuid = message.uuid;
+                if (message.name != null && message.hasOwnProperty("name"))
+                    object.name = message.name;
                 return object;
             };
     

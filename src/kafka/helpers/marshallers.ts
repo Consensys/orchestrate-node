@@ -1,8 +1,8 @@
 import { Message } from 'kafkajs'
 
-import { envelope } from '../../../stubs'
-import { ITransactionRequest } from '../../../types'
-import { IRequest } from '../../../types/IRequest'
+import { envelope } from '../../stubs'
+import { ITransactionRequest } from '../../types'
+import { IRequest } from '../../types/IRequest'
 
 import * as formatters from './stub-formatters'
 
@@ -16,12 +16,13 @@ export function marshalTransactionRequest(request: ITransactionRequest) {
         methodSignature: request.methodSignature,
         args: request.args
       },
+      request.data,
       request.privateFrom,
       request.privateFor
     ),
     protocol: formatters.formatProtocol(request.protocol),
     from: formatters.formatAccount(request.from),
-    chain: formatters.formatChain(request.chainId),
+    chain: formatters.formatChain(request.chainUUID, request.chainName),
     tx: formatters.formatTransaction(request)
   }
 

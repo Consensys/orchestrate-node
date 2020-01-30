@@ -19,7 +19,8 @@
     "check-formatting": "prettier --list-different 'src/**/*.{ts,js,json}'",
     "generate:stubs": "pbjs -t static-module -o src/stubs/index.js proto/**/*.proto && pbts -o src/stubs/index.d.ts src/stubs/index.js",
     "generate:docs": "rimraf docs && typedoc",
-    "example:produce-and-consume": "ts-node examples/produce-and-consume"
+    "example:produce": "ts-node examples/produce",
+    "example:consume": "ts-node examples/consume"
   },
   "repository": {
     "type": "git",
@@ -49,6 +50,7 @@
   },
   "homepage": "https://github.com/PegaSysEng/orchestrate-node#readme",
   "devDependencies": {
+    "@types/bn.js": "^4.11.6",
     "@types/jest": "~24.0.25",
     "@types/uuid": "~3.4.6",
     "husky": "~4.0.1",
@@ -84,6 +86,7 @@
     "ethers": "~4.0.43",
     "kafkajs": "~1.11.0",
     "protobufjs": "~6.8.8",
-    "uuid": "~3.3.3"
+    "uuid": "~3.3.3",
+    "web3-utils": "~1.2.5"
   }
 }
