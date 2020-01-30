@@ -25,7 +25,7 @@ export class AccountGenerator {
   /**
    * Checks if the Account generator is connected
    */
-  public async ready() {
+  public ready() {
     return this.isReady
   }
 
@@ -41,7 +41,7 @@ export class AccountGenerator {
       await this.consumer.connect()
     }
 
-    this.isReady = false
+    this.isReady = true
   }
 
   /**

@@ -37,6 +37,11 @@ export function formatMethodArgs(methodSignature?: string, parameters?: any[]) {
     if (isBigNumber(param)) {
       return numberToHex(param)
     }
+
+    if (Array.isArray(param)) {
+      return JSON.stringify(param)
+    }
+
     return param.toString()
   })
 }
