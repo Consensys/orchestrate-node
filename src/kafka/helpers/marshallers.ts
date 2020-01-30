@@ -1,8 +1,8 @@
 import { Message } from 'kafkajs'
 
 import { envelope } from '../../stubs'
-import { ITransactionRequest } from '../../types'
-import { IRequest } from '../../types/IRequest'
+import { ITransactionRequest } from '../types'
+import { IRequest } from '../types/IRequest'
 
 import * as formatters from './stub-formatters'
 

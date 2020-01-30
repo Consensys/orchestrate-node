@@ -1,6 +1,6 @@
 import { chain, envelope } from '../../stubs'
-import { IResponseValue } from '../../types'
-import { ProtocolType } from '../../types/ProtocolType'
+import { IResponseValue } from '../types'
+import { ProtocolType } from '../types/ProtocolType'
 
 import { unmarshalEnvelope } from './unmarshallers'
 

@@ -1,6 +1,6 @@
 import { chain, ethereum } from '../../stubs'
-import { ICall } from '../../types/ICall'
-import { ProtocolType } from '../../types/ProtocolType'
+import { ICall } from '../types/ICall'
+import { ProtocolType } from '../types/ProtocolType'
 
 import * as formatters from './stub-formatters'
 

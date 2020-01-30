@@ -2,10 +2,10 @@ import { utils } from 'ethers'
 import { toBN } from 'web3-utils'
 
 import { abi, args, chain, envelope, ethereum } from '../../stubs'
-import { ICall } from '../../types/ICall'
-import { IExtraData } from '../../types/IExtraData'
-import { ITransaction } from '../../types/ITransaction'
-import { ProtocolType } from '../../types/ProtocolType'
+import { ICall } from '../types/ICall'
+import { IExtraData } from '../types/IExtraData'
+import { ITransaction } from '../types/ITransaction'
+import { ProtocolType } from '../types/ProtocolType'
 
 import { formatMethodArgs } from './solidity-formatters'
 

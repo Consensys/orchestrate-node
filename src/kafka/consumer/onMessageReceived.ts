@@ -1,7 +1,7 @@
 import * as KakfaJS from 'kafkajs'
 
-import { EventType } from '../../types'
 import { unmarshalEnvelope } from '../helpers'
+import { EventType } from '../types'
 
 import { Consumer } from './Consumer'
 import { ResponseMessage } from './ResponseMessage'

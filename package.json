@@ -4,7 +4,8 @@
   "description": "The PegaSys Orchestrate library provides convenient access to the PegaSys Orchestrate API from applications written in server-side JavaScript",
   "main": "lib/index.js",
   "files": [
-    "lib"
+    "lib",
+    "proto"
   ],
   "types": "lib/index.d.ts",
   "scripts": {
@@ -20,7 +21,8 @@
     "generate:stubs": "pbjs -t static-module -o src/stubs/index.js proto/**/*.proto && pbts -o src/stubs/index.d.ts src/stubs/index.js",
     "generate:docs": "rimraf docs && typedoc",
     "example:produce": "ts-node examples/produce",
-    "example:consume": "ts-node examples/consume"
+    "example:consume": "ts-node examples/consume",
+    "example:register-contract": "ts-node examples/register-contract"
   },
   "repository": {
     "type": "git",
@@ -49,6 +51,14 @@
     "url": "https://github.com/PegaSysEng/orchestrate-node/issues"
   },
   "homepage": "https://github.com/PegaSysEng/orchestrate-node#readme",
+  "dependencies": {
+    "@grpc/grpc-js": "~0.6.15",
+    "ethers": "~4.0.43",
+    "kafkajs": "~1.11.0",
+    "protobufjs": "~6.8.8",
+    "uuid": "~3.3.3",
+    "web3-utils": "~1.2.5"
+  },
   "devDependencies": {
     "@types/bn.js": "^4.11.6",
     "@types/jest": "~24.0.25",
@@ -81,12 +91,5 @@
       "tslint",
       "git add"
     ]
-  },
-  "dependencies": {
-    "ethers": "~4.0.43",
-    "kafkajs": "~1.11.0",
-    "protobufjs": "~6.8.8",
-    "uuid": "~3.3.3",
-    "web3-utils": "~1.2.5"
   }
 }
