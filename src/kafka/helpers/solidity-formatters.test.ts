@@ -5,14 +5,15 @@ import { formatMethodArgs } from './solidity-formatters'
 describe('solidity-formatters', () => {
   describe('formatMethodArgs', () => {
     it('should verify the validity and return the list of parameters', () => {
-      const argsList = formatMethodArgs(`myMethod(uint256,bytes,string,address,bool,string[],uint256[])`, [
+      const argsList = formatMethodArgs(`myMethod(uint256,bytes,string,address,bool,string[],uint256[],bool[])`, [
         50,
         utils.arrayify('0x000000ea'),
         'myString',
         '0xc1912fee45d61c87cc5ea59dae31190fffff232d',
         false,
         ['string1', 'string2'],
-        ['1', '2']
+        ['1', '2'],
+        [true, false]
       ])
 
       expect(argsList).toEqual([
@@ -22,7 +23,8 @@ describe('solidity-formatters', () => {
         utils.getAddress('0xc1912fee45d61c87cc5ea59dae31190fffff232d'),
         'false',
         JSON.stringify(['string1', 'string2']),
-        JSON.stringify(['0x1', '0x2'])
+        JSON.stringify(['0x1', '0x2']),
+        JSON.stringify(['true', 'false'])
       ])
     })
 
@@ -60,6 +62,10 @@ describe('solidity-formatters', () => {
 
     it('should fail if types are wrong: array of integers', () => {
       expect(() => formatMethodArgs(`myMethod(uint256[])`, [['hi', 'there']])).toThrow()
+    })
+
+    it('should fail if types are wrong: array of booleans', () => {
+      expect(() => formatMethodArgs(`myMethod(bool[])`, [['hi', 'there']])).toThrow()
     })
 
     it('should fail if number of types is not equal to number of params', () => {
