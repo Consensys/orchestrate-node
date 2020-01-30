@@ -1,3 +1,5 @@
+// tslint:disable: no-console
+
 import { ContractRegistry } from '../../lib'
 
 export const start = async () => {
@@ -28,15 +30,8 @@ export const start = async () => {
       deployedBytecode: '0xdede'
     })
 
-    // tslint:disable-next-line: no-console
-    console.log(await contractRegistry.get('myContract', 'v1'))
-
-    // tslint:disable-next-line: no-console
-    console.log(await contractRegistry.deregister('myContract', 'v1'))
-    // tslint:disable-next-line: no-console
     console.log(await contractRegistry.get('myContract', 'v1'))
   } catch (error) {
-    // tslint:disable-next-line: no-console
     console.error(error)
   }
 }
