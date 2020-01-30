@@ -1,8 +1,7 @@
 import { DEFAULT_TOPIC_WALLET_GENERATED } from '../constants'
 import { Consumer, ResponseMessage } from '../consumer'
 import { Producer } from '../producer'
-import { EventType } from '../types'
-import { IExtraData } from '../types/IExtraData'
+import { EventType, IGenerateAccountRequest } from '../types'
 
 /**
  * Utility class used to generate Ethereum accounts
@@ -63,34 +62,23 @@ export class AccountGenerator {
    * Generates a given amount of Ethereum accounts
    *
    * @param amount - number of addresses to create
-   * @param authToken - authorization token
-   * @param extraData - extra data
-   * @param commitMessages - Whether or not the messages should be committed
+   * @param request - Account generation request
    * @returns a list of Ethereum addresses
    */
-  public async generateAccounts(
-    amount: number,
-    authToken?: string,
-    extraData?: IExtraData,
-    commitMessages?: boolean
-  ): Promise<string[]> {
-    if (!this.isReady) {
-      await this.connect()
-    }
-
+  public async generateAccounts(amount: number = 1, request?: IGenerateAccountRequest): Promise<string[]> {
     return new Promise(async (resolve, _) => {
+      if (!this.isReady) {
+        await this.connect()
+      }
+
       const addressList: string[] = []
 
-      this.consumer.on(EventType.Response, async (message: ResponseMessage) => {
+      this.consumer.on(EventType.Response, (message: ResponseMessage) => {
         const { id, from } = message.content().value
 
         if (this.pendingIds.has(id) && from) {
           addressList.push(from)
           this.pendingIds.delete(id)
-
-          if (commitMessages) {
-            await message.commit()
-          }
 
           if (this.pendingIds.size === 0) {
             resolve(addressList)
@@ -99,14 +87,11 @@ export class AccountGenerator {
       })
 
       await this.consumer.consume()
-      await this.produceAccounts(amount, authToken, extraData)
-    })
-  }
 
-  private async produceAccounts(amount: number, authToken?: string, extraData?: IExtraData) {
-    for (let i = 0; i < amount; i++) {
-      const id = await this.producer.generateAccount({ authToken, extraData })
-      this.pendingIds.add(id)
-    }
+      for (let i = 0; i < amount; i++) {
+        const id = await this.producer.generateAccount(request)
+        this.pendingIds.add(id)
+      }
+    })
   }
 }

@@ -83,6 +83,7 @@ describe('unmarshallers', () => {
         id: mockEnvelope.metadata.id,
         errors: mockEnvelope.errors,
         extraData: mockEnvelope.metadata.extra,
+        from: `0x${mockFrom}`,
         receipt: {
           blockHash: `0x${mockHash}`,
           txHash: `0x${mockHash}`,

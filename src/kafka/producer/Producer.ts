@@ -2,10 +2,9 @@ import * as KakfaJS from 'kafkajs'
 import { v4 as uuidv4 } from 'uuid'
 
 import { DEFAULT_TOPIC_TX_CRAFTER, DEFAULT_TOPIC_WALLET_GENERATOR } from '../constants'
-import { marshalRequest, marshalTransactionRequest } from '../helpers'
+import { marshalGenerateAccountRequest, marshalTransactionRequest } from '../helpers'
 import { KafkaClient } from '../KafkaClient'
-import { ITransactionRequest } from '../types'
-import { IRequest } from '../types/IRequest'
+import { IGenerateAccountRequest, ITransactionRequest } from '../types'
 
 /**
  * Class used to send messages to Orchestrate
@@ -79,19 +78,21 @@ export class Producer extends KafkaClient {
   /**
    * Generates a new Ethereum account
    *
+   * @param request - Account generation request
    * @param topic - topic of the wallet generator if modified
-   * @param requestId - id of the message
-   * @param extraData - extra metadata of the message
    * @returns the ID of the message
    */
-  public async generateAccount(request?: IRequest, topic = DEFAULT_TOPIC_WALLET_GENERATOR): Promise<string> {
+  public async generateAccount(
+    request?: IGenerateAccountRequest,
+    topic = DEFAULT_TOPIC_WALLET_GENERATOR
+  ): Promise<string> {
     this.checkReadiness()
 
     if (!request || !request.id) {
       request = { id: uuidv4(), ...request }
     }
 
-    await this.produce(topic, marshalRequest(request))
+    await this.produce(topic, marshalGenerateAccountRequest(request))
 
     return request.id!
   }
