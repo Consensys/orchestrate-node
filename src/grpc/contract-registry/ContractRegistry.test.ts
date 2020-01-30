@@ -74,42 +74,6 @@ describe('ContractRegistry', () => {
     })
   })
 
-  describe('deregister', () => {
-    beforeEach(() => {
-      mockUnaryRequest(contractregistry.DeregisterContractResponse.encode({}).finish())
-    })
-
-    it('should deregister a contract successfully', async () => {
-      const expectedRequestData = contractregistry.DeregisterContractRequest.encode({
-        contractId: {
-          name: mockContractName,
-          tag: mockTag
-        }
-      }).finish()
-
-      await contractRegistry.deregister(mockContractName, mockTag)
-
-      expectUnaryRequest('DeregisterContract', expectedRequestData)
-    })
-  })
-
-  describe('deleteArtifact', () => {
-    beforeEach(() => {
-      mockUnaryRequest(contractregistry.DeleteArtifactResponse.encode({}).finish())
-    })
-
-    it('should delete artifacts of a contract successfully', async () => {
-      const mockBytecodeHash = '0xfefe'
-      const expectedRequestData = contractregistry.DeleteArtifactRequest.encode({
-        bytecodeHash: utils.arrayify(mockBytecodeHash)
-      }).finish()
-
-      await contractRegistry.deleteArtifact(mockBytecodeHash)
-
-      expectUnaryRequest('DeleteArtifact', expectedRequestData)
-    })
-  })
-
   describe('getCatalog', () => {
     const mockNames = ['contract1', 'contract2']
 
