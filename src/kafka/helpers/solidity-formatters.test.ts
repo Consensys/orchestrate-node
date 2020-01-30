@@ -65,7 +65,7 @@ describe('solidity-formatters', () => {
     })
 
     it('should fail if types are wrong: array of booleans', () => {
-      expect(() => formatMethodArgs(`myMethod(bool[])`, [['hi', 'there']])).toThrow()
+      expect(() => formatMethodArgs(`myMethod(bool[])`, ['notAnArray'])).toThrow()
     })
 
     it('should fail if number of types is not equal to number of params', () => {
