@@ -18,7 +18,7 @@ export abstract class KafkaClient extends EventEmitter {
     super()
 
     this.kafka = new KakfaJS.Kafka({
-      clientId: 'orchestrate-consumer',
+      clientId: 'orchestrate-sdk',
       ...kafkaConfig,
       brokers
     })

@@ -45,6 +45,7 @@ describe('AccountGenerator', () => {
 
       expect(mockProducer.connect).toHaveBeenCalled()
       expect(mockConsumer.connect).toHaveBeenCalled()
+      expect(mockConsumer.consume).toHaveBeenCalled()
       expect(accountGenerator.ready()).toEqual(true)
     })
 
@@ -54,6 +55,7 @@ describe('AccountGenerator', () => {
 
       expect(mockConsumer.connect).toHaveBeenCalledTimes(1)
       expect(mockProducer.connect).toHaveBeenCalledTimes(1)
+      expect(mockConsumer.consume).toHaveBeenCalledTimes(1)
       expect(accountGenerator.ready()).toEqual(true)
     })
   })
@@ -80,25 +82,28 @@ describe('AccountGenerator', () => {
   describe('generateAccount', () => {
     it('should generate an account successfully', async done => {
       mockProducer.generateAccount.mockResolvedValueOnce('id')
-      const request = { authToken: 'Bearer token', chain: 'chain', value: 'value' }
+      const request = { authToken: 'Bearer token', chain: 'chain', value: '5000' }
 
       await accountGenerator.connect()
 
       // tslint:disable-next-line: no-floating-promises
       accountGenerator.generateAccount(request).then(address => {
-        expect(address).toEqual('0xaddress')
-        expect(mockConsumer.connect).toHaveBeenCalled()
-        expect(mockProducer.connect).toHaveBeenCalled()
-        expect(mockConsumer.consume).toHaveBeenCalled()
+        expect(address).toEqual('0xaddress1')
         expect(mockProducer.generateAccount).toHaveBeenCalledWith(request)
-
         done()
       })
 
       // We need to await a bit for the account generator to register a listener
       setTimeout(() => {
+        // Will be ignored because the Id is not registered
         mockResponseMessage = {
-          content: jest.fn().mockReturnValueOnce({ value: { id: 'id', from: '0xaddress' } })
+          content: jest.fn().mockReturnValueOnce({ value: { id: 'unknownId', from: '0xaddress0' } })
+        }
+        mockConsumer.emit(EventType.Response, new ResponseMessage(mockConsumer, mockResponseMessage as any))
+
+        // Will be consumed and returned
+        mockResponseMessage = {
+          content: jest.fn().mockReturnValueOnce({ value: { id: 'id', from: '0xaddress1' } })
         }
         mockConsumer.emit(EventType.Response, new ResponseMessage(mockConsumer, mockResponseMessage as any))
       }, 100)

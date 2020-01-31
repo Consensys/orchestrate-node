@@ -21,7 +21,7 @@ export class Producer extends KafkaClient {
    */
 
   constructor(brokers: string[], kafkaConfig?: KakfaJS.KafkaConfig, producerConfig?: KakfaJS.ProducerConfig) {
-    super(brokers, kafkaConfig)
+    super(brokers, { clientId: 'orchestrate-sdk-producer', ...kafkaConfig, brokers })
     this.producer = this.kafka.producer(producerConfig)
   }
 

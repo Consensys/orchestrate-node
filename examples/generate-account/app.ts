@@ -7,10 +7,15 @@ export const start = async () => {
     const accountGenerator = new AccountGenerator(['localhost:9092'])
 
     await accountGenerator.connect()
-    const address = await accountGenerator.generateAccount()
+    const addresses = await Promise.all([
+      accountGenerator.generateAccount(),
+      accountGenerator.generateAccount(),
+      accountGenerator.generateAccount(),
+      accountGenerator.generateAccount()
+    ])
     await accountGenerator.disconnect()
 
-    console.log(address)
+    console.log(addresses)
   } catch (error) {
     console.error(error)
   }

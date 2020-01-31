@@ -223,9 +223,9 @@ describe('handlers', () => {
         endpoint: mockEndpoint
       })
 
-      expect(mockAccountGenerator.connect).toHaveBeenCalledWith()
+      expect(mockAccountGenerator.connect).toHaveBeenCalled()
       expect(mockAccountGenerator.generateAccount).toHaveBeenCalled()
-      expect(mockAccountGenerator.disconnect).toHaveBeenCalledWith()
+      expect(mockAccountGenerator.disconnect).toHaveBeenCalled()
     })
 
     it('should call the handler successfully', async () => {
@@ -237,12 +237,12 @@ describe('handlers', () => {
         value: mockValue
       })
 
-      expect(mockAccountGenerator.connect).toHaveBeenCalledWith()
+      expect(mockAccountGenerator.connect).toHaveBeenCalled()
       expect(mockAccountGenerator.generateAccount).toHaveBeenCalledWith({
         chain: mockChain,
         value: mockValue
       })
-      expect(mockAccountGenerator.disconnect).toHaveBeenCalledWith()
+      expect(mockAccountGenerator.disconnect).toHaveBeenCalled()
     })
   })
 })

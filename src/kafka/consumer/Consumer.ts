@@ -27,10 +27,10 @@ export class Consumer extends KafkaClient {
     kafkaConfig?: KakfaJS.KafkaConfig,
     consumerConfig?: KakfaJS.ConsumerConfig
   ) {
-    super(brokers, kafkaConfig)
+    super(brokers, { clientId: 'orchestrate-sdk-consumer', ...kafkaConfig, brokers })
     this.topics = topics
 
-    this.consumer = this.kafka.consumer({ groupId: 'orchestrate-sdk', ...consumerConfig })
+    this.consumer = this.kafka.consumer({ groupId: 'orchestrate-sdk-consumer', ...consumerConfig })
   }
 
   /**
@@ -63,6 +63,7 @@ export class Consumer extends KafkaClient {
   public async disconnect(): Promise<void> {
     this.checkReadiness()
     await this.consumer.disconnect()
+    this.removeAllListeners()
     this.isReady = false
   }
 
