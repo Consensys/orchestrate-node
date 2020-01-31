@@ -3,7 +3,7 @@
 import { readFileSync } from 'fs'
 
 import { ContractRegistry } from '../../grpc'
-import { AccountGenerator, Producer } from '../../kafka'
+import { AccountGenerator } from '../../kafka'
 
 import {
   IEndpointOptions,
