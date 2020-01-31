@@ -1,4 +1,10 @@
-import { getCatalogHandler, getContractHandler, getTagsHandler, registerContractHandler } from './handlers'
+import {
+  generateAccountHandler,
+  getCatalogHandler,
+  getContractHandler,
+  getTagsHandler,
+  registerContractHandler
+} from './handlers'
 
 const mockContractRegistry = {
   getCatalog: jest.fn(),
@@ -7,9 +13,21 @@ const mockContractRegistry = {
   register: jest.fn()
 }
 
+const mockAccountGenerator = {
+  connect: jest.fn(),
+  disconnect: jest.fn(),
+  generateAccount: jest.fn()
+}
+
+const mockProducer = {}
+
 jest.mock('fs')
 jest.mock('../../grpc', () => ({
   ContractRegistry: jest.fn().mockImplementation(() => mockContractRegistry)
+}))
+jest.mock('../../kafka', () => ({
+  Producer: jest.fn().mockImplementation(() => mockProducer),
+  AccountGenerator: jest.fn().mockImplementation(() => mockAccountGenerator)
 }))
 
 const mockEndpoint = 'endpoint:5000'
@@ -18,14 +36,6 @@ const mockTag = 'v1'
 
 describe('handlers', () => {
   describe('getCatalogHandler', () => {
-    it('should return if mandatory arguments are not specified', async () => {
-      await getCatalogHandler({
-        endpoint: undefined
-      } as any)
-
-      expect(mockContractRegistry.getCatalog).not.toHaveBeenCalled()
-    })
-
     it('should return and not fail if registry fails', async () => {
       mockContractRegistry.getCatalog.mockRejectedValueOnce(new Error())
 
@@ -48,15 +58,6 @@ describe('handlers', () => {
   })
 
   describe('getContractHandler', () => {
-    it('should return if mandatory arguments are not specified', async () => {
-      await getContractHandler({
-        endpoint: mockEndpoint,
-        name: undefined
-      } as any)
-
-      expect(mockContractRegistry.get).not.toHaveBeenCalled()
-    })
-
     it('should return and not fail if registry fails', async () => {
       mockContractRegistry.get.mockRejectedValueOnce(new Error())
 
@@ -82,15 +83,6 @@ describe('handlers', () => {
   })
 
   describe('getTagsHandler', () => {
-    it('should return if mandatory arguments are not specified', async () => {
-      await getTagsHandler({
-        endpoint: mockEndpoint,
-        name: undefined
-      } as any)
-
-      expect(mockContractRegistry.getTags).not.toHaveBeenCalled()
-    })
-
     it('should return and not fail if registry fails', async () => {
       mockContractRegistry.getTags.mockRejectedValueOnce(new Error())
 
@@ -142,16 +134,6 @@ describe('handlers', () => {
 
     beforeEach(async () => {
       fs = await require('fs')
-    })
-
-    it('should return if mandatory arguments are not specified', async () => {
-      await registerContractHandler({
-        endpoint: mockEndpoint,
-        name: mockName,
-        filePath: undefined
-      } as any)
-
-      expect(mockContractRegistry.register).not.toHaveBeenCalled()
     })
 
     it('should return and not fail if reading artifacts fails', async () => {
@@ -227,6 +209,40 @@ describe('handlers', () => {
         bytecode: mockArtifact.bytecode,
         deployedBytecode: mockArtifact.deployedBytecode
       })
+    })
+  })
+
+  describe('generateAccountHandler', () => {
+    const mockChain = 'chain'
+    const mockValue = '5000'
+
+    it('should return and not fail if account generator fails', async () => {
+      mockAccountGenerator.generateAccount.mockRejectedValueOnce(new Error())
+
+      await generateAccountHandler({
+        endpoint: mockEndpoint
+      })
+
+      expect(mockAccountGenerator.connect).toHaveBeenCalled()
+      expect(mockAccountGenerator.generateAccount).toHaveBeenCalled()
+      expect(mockAccountGenerator.disconnect).toHaveBeenCalled()
+    })
+
+    it('should call the handler successfully', async () => {
+      mockAccountGenerator.generateAccount.mockResolvedValueOnce('address')
+
+      await generateAccountHandler({
+        endpoint: mockEndpoint,
+        chain: mockChain,
+        value: mockValue
+      })
+
+      expect(mockAccountGenerator.connect).toHaveBeenCalled()
+      expect(mockAccountGenerator.generateAccount).toHaveBeenCalledWith({
+        chain: mockChain,
+        value: mockValue
+      })
+      expect(mockAccountGenerator.disconnect).toHaveBeenCalled()
     })
   })
 })

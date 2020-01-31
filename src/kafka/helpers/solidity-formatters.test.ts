@@ -23,7 +23,7 @@ describe('solidity-formatters', () => {
         utils.getAddress('0xc1912fee45d61c87cc5ea59dae31190fffff232d'),
         'false',
         JSON.stringify(['string1', 'string2']),
-        JSON.stringify(['0x1', '0x2']),
+        JSON.stringify(['0x01', '0x02']),
         JSON.stringify(['true', 'false'])
       ])
     })

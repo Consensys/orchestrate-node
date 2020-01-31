@@ -1,4 +1,4 @@
-import { marshalRequest, marshalTransactionRequest } from '../helpers'
+import { marshalGenerateAccountRequest, marshalTransactionRequest } from '../helpers'
 
 import { Producer } from './Producer'
 
@@ -135,31 +135,31 @@ describe('Producer', () => {
 
     it('should use default topic iand generate a random id if none is specified', async () => {
       await producer.connect()
-      const result = await producer.generateWallet()
+      const result = await producer.generateAccount()
 
       expect(result).toEqual(expect.any(String))
     })
   })
 
-  describe('generateWallet', () => {
+  describe('generateAccount', () => {
     it('should fail if the producer is not connected', async () => {
-      await expect(producer.generateWallet()).rejects.toThrowError(
+      await expect(producer.generateAccount()).rejects.toThrowError(
         new Error('Producer is not currently connected, did you forget to call connect()?')
       )
     })
 
     it('should generate message to create a wallet succesfully', async () => {
-      const request = { id: requestId, extraData }
+      const request = { id: requestId, authToken: 'Bearer: token', extraData, chain: 'chainId', value: '50000' }
       await producer.connect()
-      const result = await producer.generateWallet(request, topic)
+      const result = await producer.generateAccount(request, topic)
 
-      expect(mockKafkaProducer.send).toHaveBeenCalledWith({ topic, messages: [marshalRequest(request)] })
+      expect(mockKafkaProducer.send).toHaveBeenCalledWith({ topic, messages: [marshalGenerateAccountRequest(request)] })
       expect(result).toEqual(request.id)
     })
 
-    it('should use default topic iand generate a random id if none is specified', async () => {
+    it('should use default topic and generate a random id if none is specified', async () => {
       await producer.connect()
-      const result = await producer.generateWallet()
+      const result = await producer.generateAccount()
 
       expect(result).toEqual(expect.any(String))
     })

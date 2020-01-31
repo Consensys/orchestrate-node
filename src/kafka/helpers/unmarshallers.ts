@@ -1,5 +1,4 @@
 import { utils } from 'ethers'
-import { hexToNumberString } from 'web3-utils'
 
 import { abi, args, chain, envelope, error, ethereum } from '../../stubs'
 import { IResponseValue } from '../types'
@@ -15,6 +14,7 @@ export function unmarshalEnvelope(data: Buffer): IResponseValue {
 function mapEnvelopeToResponse(envelopeMessage: envelope.IEnvelope): IResponseValue {
   return {
     id: envelopeMessage.metadata!.id!,
+    from: parseAccount(envelopeMessage.from),
     txContext: parseTxContext(envelopeMessage),
     receipt: parseReceipt(envelopeMessage.receipt),
     errors: parseErrors(envelopeMessage.errors),
@@ -45,15 +45,15 @@ function parseProtocol(value?: chain.IProtocol | null) {
   }
 }
 
-function parseTxContext(envelopeMessage: envelope.IEnvelope) {
+function parseTxContext(envelopeMessage: envelope.IEnvelope): ITransactionContext | undefined {
   const { args: argsV, tx } = envelopeMessage
 
-  // A transaction context exists if we have a contractName
+  // A complete transaction context exists if we have a contract name
   if (argsV && argsV.call && argsV.call.contract && argsV.call.contract.id && argsV.call.contract.id.name) {
     const txParsed = parseTx(tx)
     const privateParsed = parsePrivate(argsV.private)
 
-    const txContext: ITransactionContext = {
+    return {
       contractName: argsV.call.contract.id.name,
       contractTag: argsV.call.contract.id.tag || undefined,
       chainUUID: parseChainUUID(envelopeMessage.chain),
@@ -71,8 +71,6 @@ function parseTxContext(envelopeMessage: envelope.IEnvelope) {
       privateFrom: privateParsed.privateFrom,
       privateFor: privateParsed.privateFor
     }
-
-    return txContext
   }
 }
 
@@ -183,7 +181,7 @@ function parseNumber(value?: number | Long | null) {
 }
 
 function parseQuantity(quantity?: ethereum.IQuantity | null) {
-  return quantity && quantity.raw ? hexToNumberString(utils.hexlify(quantity.raw)) : undefined
+  return quantity && quantity.raw ? utils.bigNumberify(quantity.raw).toString() : undefined
 }
 
 function parseAccount(account?: ethereum.IAccount | null) {
