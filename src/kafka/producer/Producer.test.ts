@@ -1,4 +1,4 @@
-import { marshalGenerateAccountRequest, marshalTransactionRequest } from '../helpers'
+import { marshalGenerateAccountRequest, marshalRawTransactionRequest, marshalTransactionRequest } from '../helpers'
 
 import { Producer } from './Producer'
 
@@ -132,11 +132,40 @@ describe('Producer', () => {
       expect(mockKafkaProducer.send).toHaveBeenCalledWith({ topic, messages: [marshalTransactionRequest(request)] })
       expect(result).toEqual(expect.any(String))
     })
+  })
 
-    it('should use default topic iand generate a random id if none is specified', async () => {
+  describe('sendRawTransaction', () => {
+    it('should fail if the producer is not connected', async () => {
+      await expect(producer.sendRawTransaction({} as any)).rejects.toThrowError(
+        new Error('Producer is not currently connected, did you forget to call connect()?')
+      )
+    })
+
+    it('should send a raw transaction successfully', async () => {
+      const request = {
+        id: requestId,
+        extraData,
+        chainUUID: 'chainUUID',
+        signedTransaction: '0xfefe'
+      }
+
       await producer.connect()
-      const result = await producer.generateAccount()
+      const result = await producer.sendRawTransaction(request, topic)
 
+      expect(mockKafkaProducer.send).toHaveBeenCalledWith({ topic, messages: [marshalRawTransactionRequest(request)] })
+      expect(result).toEqual(requestId)
+    })
+
+    it('should send a transaction request with default parameters', async () => {
+      const request = {
+        signedTransaction: '0xfefe',
+        chainUUID: 'chainUUID'
+      }
+
+      await producer.connect()
+      const result = await producer.sendRawTransaction(request, topic)
+
+      expect(mockKafkaProducer.send).toHaveBeenCalledWith({ topic, messages: [marshalRawTransactionRequest(request)] })
       expect(result).toEqual(expect.any(String))
     })
   })
