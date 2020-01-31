@@ -14,6 +14,8 @@ const mockContractRegistry = {
 }
 
 const mockAccountGenerator = {
+  connect: jest.fn(),
+  disconnect: jest.fn(),
   generateAccount: jest.fn()
 }
 
@@ -221,7 +223,9 @@ describe('handlers', () => {
         endpoint: mockEndpoint
       })
 
+      expect(mockAccountGenerator.connect).toHaveBeenCalledWith()
       expect(mockAccountGenerator.generateAccount).toHaveBeenCalled()
+      expect(mockAccountGenerator.disconnect).toHaveBeenCalledWith()
     })
 
     it('should call the handler successfully', async () => {
@@ -233,10 +237,12 @@ describe('handlers', () => {
         value: mockValue
       })
 
+      expect(mockAccountGenerator.connect).toHaveBeenCalledWith()
       expect(mockAccountGenerator.generateAccount).toHaveBeenCalledWith({
         chain: mockChain,
         value: mockValue
       })
+      expect(mockAccountGenerator.disconnect).toHaveBeenCalledWith()
     })
   })
 })

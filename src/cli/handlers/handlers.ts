@@ -89,6 +89,7 @@ export async function generateAccountHandler(options: IGenerateAccountsOptions) 
   const accountGenerator = new AccountGenerator([options.endpoint])
 
   try {
+    await accountGenerator.connect()
     const address = await accountGenerator.generateAccount({
       chain: options.chain,
       value: options.value
@@ -96,5 +97,7 @@ export async function generateAccountHandler(options: IGenerateAccountsOptions) 
     console.log(address)
   } catch (error) {
     console.log(`Failed to generate account: ${error}`)
+  } finally {
+    await accountGenerator.disconnect()
   }
 }
