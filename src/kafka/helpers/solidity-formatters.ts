@@ -1,5 +1,4 @@
 import { utils } from 'ethers'
-import { isBigNumber, numberToHex } from 'web3-utils'
 
 const signatureRegex = (() => {
   const nameRegex = '[a-zA-Z_][a-zA-Z0-9_]*'
@@ -35,13 +34,13 @@ export function formatMethodArgs(methodSignature?: string, parameters?: any[]) {
 
   return decodedParams.map((param: any) => {
     if (isBigNumber(param)) {
-      return numberToHex(param)
+      return param.toHexString()
     }
 
     if (Array.isArray(param)) {
       const paramArray = param.map(value => {
         if (isBigNumber(value)) {
-          return numberToHex(value)
+          return value.toHexString()
         }
 
         return value.toString()
@@ -61,4 +60,8 @@ function parseSignatureTypes(sig: string) {
   }
 
   return res[2].split(',')
+}
+
+function isBigNumber(value?: any) {
+  return value && value.constructor && value.constructor.name === 'BigNumber'
 }
