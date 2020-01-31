@@ -1,5 +1,5 @@
 export interface ICall {
-  contractName: string
+  contractName?: string
   contractTag?: string
   methodSignature?: string
   args?: any[]

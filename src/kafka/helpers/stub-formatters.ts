@@ -88,7 +88,7 @@ export function formatChain(chainUUID?: string, chainName?: string) {
 }
 
 export function formatTransaction(tx: ITransaction) {
-  return ethereum.Transaction.create({ txData: formatTxData(tx), raw: formatData(tx.raw) })
+  return ethereum.Transaction.create({ txData: formatTxData(tx) })
 }
 
 export function formatTxData(tx: ITransaction) {

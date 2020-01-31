@@ -24,10 +24,10 @@ export class Consumer extends KafkaClient {
   constructor(
     brokers: string[],
     topics = [DEFAULT_TOPIC_TX_DECODED, DEFAULT_TOPIC_TX_RECOVER],
-    kafkaConfig?: KakfaJS.KafkaConfig,
+    kafkaConfig?: Omit<KakfaJS.KafkaConfig, 'brokers'>,
     consumerConfig?: KakfaJS.ConsumerConfig
   ) {
-    super(brokers, { clientId: 'orchestrate-sdk-consumer', ...kafkaConfig, brokers })
+    super({ clientId: 'orchestrate-sdk-consumer', ...kafkaConfig, brokers })
     this.topics = topics
 
     this.consumer = this.kafka.consumer({ groupId: 'orchestrate-sdk-consumer', ...consumerConfig })

@@ -129,8 +129,7 @@ describe('stub-formatters', () => {
       nonce: 66,
       to: '0xc1912fee45d61c87cc5ea59dae31190fffff2333',
       value: '5555566',
-      data: '0x43',
-      raw: '0x53'
+      data: '0x43'
     }
 
     it('should create a valid Transaction message', () => {

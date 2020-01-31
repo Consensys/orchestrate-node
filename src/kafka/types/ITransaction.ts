@@ -1,6 +1,5 @@
 export interface ITransaction {
   data?: string
-  raw?: string
   gas?: number
   gasPrice?: string
   nonce?: number

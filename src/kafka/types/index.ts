@@ -1,5 +1,6 @@
 export * from './EventType'
 export * from './ITransactionRequest'
+export * from './IRawTransactionRequest'
 export * from './IResponse'
 export * from './IResponseValue'
 export * from './IGenerateAccountRequest'
