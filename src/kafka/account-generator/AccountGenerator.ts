@@ -1,6 +1,6 @@
 import { logLevel } from 'kafkajs'
 
-import { DEFAULT_TOPIC_WALLET_GENERATED } from '../constants'
+import { DEFAULT_TIMEOUT_ACCOUNT_GENERATOR, DEFAULT_TOPIC_WALLET_GENERATED } from '../constants'
 import { Consumer, ResponseMessage } from '../consumer'
 import { Producer } from '../producer'
 import { EventType, IGenerateAccountRequest } from '../types'
@@ -82,7 +82,10 @@ export class AccountGenerator {
    * @param timeout - time out in ms, 1min by default
    * @returns Ethereum address
    */
-  public async generateAccount(request?: IGenerateAccountRequest, timeout?: number): Promise<string> {
+  public async generateAccount(
+    request?: IGenerateAccountRequest,
+    timeout: number = DEFAULT_TIMEOUT_ACCOUNT_GENERATOR
+  ): Promise<string> {
     if (!this.isReady) {
       throw new Error('AccountGenerator is not currently connected, did you forget to call connect()?')
     }
@@ -91,10 +94,10 @@ export class AccountGenerator {
       const id = setTimeout(() => {
         clearTimeout(id)
         reject('Request timed out')
-      }, timeout || 60000)
+      }, timeout)
     })
 
-    const callPromise = new Promise<string>(async (resolve, reject) => {
+    const callPromise = new Promise<string>(async (resolve, _) => {
       const messageId = await this.producer.generateAccount(request)
       this.resolveFuncs.set(messageId, resolve)
     })
