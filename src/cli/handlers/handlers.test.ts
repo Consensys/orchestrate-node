@@ -1,5 +1,5 @@
 import {
-  generateAccountsHandler,
+  generateAccountHandler,
   getCatalogHandler,
   getContractHandler,
   getTagsHandler,
@@ -14,7 +14,7 @@ const mockContractRegistry = {
 }
 
 const mockAccountGenerator = {
-  generateAccounts: jest.fn()
+  generateAccount: jest.fn()
 }
 
 const mockProducer = {}
@@ -210,32 +210,30 @@ describe('handlers', () => {
     })
   })
 
-  describe('generateAccountsHandler', () => {
-    const mockAmount = 5
+  describe('generateAccountHandler', () => {
     const mockChain = 'chain'
     const mockValue = '5000'
 
     it('should return and not fail if account generator fails', async () => {
-      mockAccountGenerator.generateAccounts.mockRejectedValueOnce(new Error())
+      mockAccountGenerator.generateAccount.mockRejectedValueOnce(new Error())
 
-      await generateAccountsHandler({
+      await generateAccountHandler({
         endpoint: mockEndpoint
       })
 
-      expect(mockAccountGenerator.generateAccounts).toHaveBeenCalled()
+      expect(mockAccountGenerator.generateAccount).toHaveBeenCalled()
     })
 
     it('should call the handler successfully', async () => {
-      mockAccountGenerator.generateAccounts.mockResolvedValueOnce(['address'])
+      mockAccountGenerator.generateAccount.mockResolvedValueOnce('address')
 
-      await generateAccountsHandler({
+      await generateAccountHandler({
         endpoint: mockEndpoint,
-        amount: mockAmount,
         chain: mockChain,
         value: mockValue
       })
 
-      expect(mockAccountGenerator.generateAccounts).toHaveBeenCalledWith(mockAmount, {
+      expect(mockAccountGenerator.generateAccount).toHaveBeenCalledWith({
         chain: mockChain,
         value: mockValue
       })

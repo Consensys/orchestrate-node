@@ -30,7 +30,7 @@ export class Consumer extends KafkaClient {
     super(brokers, kafkaConfig)
     this.topics = topics
 
-    this.consumer = this.kafka.consumer({ groupId: 'orchestrate-consumer-group', ...consumerConfig })
+    this.consumer = this.kafka.consumer({ groupId: 'orchestrate-sdk', ...consumerConfig })
   }
 
   /**

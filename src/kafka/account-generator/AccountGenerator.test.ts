@@ -1,13 +1,16 @@
 import { EventEmitter } from 'events'
-import createMockInstance from 'jest-create-mock-instance'
 
 import { ResponseMessage } from '../consumer'
-import { Producer } from '../producer'
 import { EventType } from '../types'
 
 import { AccountGenerator } from './AccountGenerator'
 
 const mockConsumer: any = new EventEmitter()
+const mockProducer = {
+  connect: jest.fn(),
+  disconnect: jest.fn(),
+  generateAccount: jest.fn()
+}
 let mockResponseMessage = {
   content: jest.fn()
 }
@@ -17,98 +20,99 @@ jest.mock('../consumer', () => ({
   ResponseMessage: jest.fn().mockImplementation(() => mockResponseMessage)
 }))
 
+jest.mock('../producer', () => ({
+  Producer: jest.fn().mockImplementation(() => mockProducer)
+}))
+
 describe('AccountGenerator', () => {
   let accountGenerator: AccountGenerator
-  let mockProducer: jest.Mocked<Producer>
 
   beforeEach(async () => {
-    mockProducer = createMockInstance(Producer)
     mockConsumer.connect = jest.fn()
     mockConsumer.disconnect = jest.fn()
     mockConsumer.ready = jest.fn()
     mockConsumer.consume = jest.fn()
+    mockProducer.connect = jest.fn()
+    mockProducer.disconnect = jest.fn()
+    mockProducer.generateAccount = jest.fn()
 
-    accountGenerator = new AccountGenerator(mockProducer)
+    accountGenerator = new AccountGenerator(['endpoint:port'])
   })
 
   describe('connect', () => {
-    it('should connect successfully if producer is disconnected', async () => {
-      mockConsumer.ready.mockReturnValueOnce(true)
-      mockProducer.ready.mockReturnValueOnce(false)
-
+    it('should connect successfully if not connected', async () => {
       await accountGenerator.connect()
 
       expect(mockProducer.connect).toHaveBeenCalled()
-      expect(mockConsumer.connect).not.toHaveBeenCalled()
+      expect(mockConsumer.connect).toHaveBeenCalled()
       expect(accountGenerator.ready()).toEqual(true)
     })
 
-    it('should connect successfully if consumer is disconnected', async () => {
-      mockProducer.ready.mockReturnValueOnce(true)
-      mockConsumer.ready.mockReturnValueOnce(false)
-
+    it('should not connect if already connected', async () => {
+      await accountGenerator.connect()
       await accountGenerator.connect()
 
-      expect(mockConsumer.connect).toHaveBeenCalled()
-      expect(mockProducer.connect).not.toHaveBeenCalled()
+      expect(mockConsumer.connect).toHaveBeenCalledTimes(1)
+      expect(mockProducer.connect).toHaveBeenCalledTimes(1)
       expect(accountGenerator.ready()).toEqual(true)
     })
   })
 
   describe('disconnect', () => {
-    it('should disconnect successfully if producer is connected', async () => {
-      mockProducer.ready.mockReturnValueOnce(true)
-      mockConsumer.ready.mockReturnValueOnce(false)
-
+    it('should disconnect successfully if connected', async () => {
+      await accountGenerator.connect()
       await accountGenerator.disconnect()
 
       expect(mockProducer.disconnect).toHaveBeenCalled()
-      expect(mockConsumer.disconnect).not.toHaveBeenCalled()
+      expect(mockConsumer.disconnect).toHaveBeenCalled()
       expect(accountGenerator.ready()).toEqual(false)
     })
 
-    it('should connect successfully if producer is disconnected', async () => {
-      mockConsumer.ready.mockReturnValueOnce(true)
-      mockProducer.ready.mockReturnValueOnce(false)
-
+    it('should not disconnect if already disconnected', async () => {
       await accountGenerator.disconnect()
 
-      expect(mockConsumer.disconnect).toHaveBeenCalled()
+      expect(mockConsumer.disconnect).not.toHaveBeenCalled()
       expect(mockProducer.disconnect).not.toHaveBeenCalled()
       expect(accountGenerator.ready()).toEqual(false)
     })
   })
 
-  describe('generateAccounts', () => {
-    it('should generate 3 accounts successfully', async done => {
-      mockProducer.generateAccount
-        .mockResolvedValueOnce('1')
-        .mockResolvedValueOnce('2')
-        .mockResolvedValueOnce('3')
+  describe('generateAccount', () => {
+    it('should generate an account successfully', async done => {
+      mockProducer.generateAccount.mockResolvedValueOnce('id')
+      const request = { authToken: 'Bearer token', chain: 'chain', value: 'value' }
 
-      const amount = 3
+      await accountGenerator.connect()
 
       // tslint:disable-next-line: no-floating-promises
-      accountGenerator.generateAccounts(amount).then(addresses => {
-        expect(addresses).toEqual(['0xaddress1', '0xaddress2', '0xaddress3'])
+      accountGenerator.generateAccount(request).then(address => {
+        expect(address).toEqual('0xaddress')
         expect(mockConsumer.connect).toHaveBeenCalled()
         expect(mockProducer.connect).toHaveBeenCalled()
         expect(mockConsumer.consume).toHaveBeenCalled()
-        expect(mockProducer.generateAccount).toHaveBeenCalledTimes(amount)
+        expect(mockProducer.generateAccount).toHaveBeenCalledWith(request)
 
         done()
       })
 
       // We need to await a bit for the account generator to register a listener
       setTimeout(() => {
-        // ID 0 is discarded because not returned by generateAccounts
-        for (let i = 0; i < amount + 1; i++) {
-          mockResponseMessage = {
-            content: jest.fn().mockReturnValueOnce({ value: { id: i.toString(), from: `0xaddress${i}` } })
-          }
-          mockConsumer.emit(EventType.Response, new ResponseMessage(mockConsumer, mockResponseMessage as any))
+        mockResponseMessage = {
+          content: jest.fn().mockReturnValueOnce({ value: { id: 'id', from: '0xaddress' } })
         }
+        mockConsumer.emit(EventType.Response, new ResponseMessage(mockConsumer, mockResponseMessage as any))
       }, 100)
+    })
+
+    it('should fail if not connected', async () => {
+      await expect(accountGenerator.generateAccount()).rejects.toThrowError(
+        new Error('AccountGenerator is not currently connected, did you forget to call connect()?')
+      )
+    })
+
+    it('should fail if timeout is reached', async () => {
+      await accountGenerator.connect()
+      await expect(accountGenerator.generateAccount(undefined, 1)).rejects.toEqual('Request timed out')
     })
   })
 })

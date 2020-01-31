@@ -85,16 +85,16 @@ const checkArtifact = (artifact: any) => {
   return true
 }
 
-export async function generateAccountsHandler(options: IGenerateAccountsOptions) {
-  const accountGenerator = new AccountGenerator(new Producer([options.endpoint]))
+export async function generateAccountHandler(options: IGenerateAccountsOptions) {
+  const accountGenerator = new AccountGenerator([options.endpoint])
 
   try {
-    const addresses = await accountGenerator.generateAccounts(options.amount, {
+    const address = await accountGenerator.generateAccount({
       chain: options.chain,
       value: options.value
     })
-    console.log(addresses)
+    console.log(address)
   } catch (error) {
-    console.log(`Failed to generate accounts: ${error}`)
+    console.log(`Failed to generate account: ${error}`)
   }
 }
