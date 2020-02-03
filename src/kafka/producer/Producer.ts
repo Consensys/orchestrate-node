@@ -1,7 +1,7 @@
 import * as KakfaJS from 'kafkajs'
 import { v4 as uuidv4 } from 'uuid'
 
-import { DEFAULT_TOPIC_TX_CRAFTER, DEFAULT_TOPIC_WALLET_GENERATOR } from '../constants'
+import { DEFAULT_TOPIC_TX_CRAFTER, DEFAULT_TOPIC_TX_SENDER, DEFAULT_TOPIC_WALLET_GENERATOR } from '../constants'
 import { marshalGenerateAccountRequest, marshalRawTransactionRequest, marshalTransactionRequest } from '../helpers'
 import { KafkaClient } from '../KafkaClient'
 import { IGenerateAccountRequest, IRawTransactionRequest, ITransactionRequest } from '../types'
@@ -86,7 +86,7 @@ export class Producer extends KafkaClient {
    * @param topic - Topic name. Sends to Transaction Crafter by default
    * @returns The ID of the message
    */
-  public async sendRawTransaction(request: IRawTransactionRequest, topic = DEFAULT_TOPIC_TX_CRAFTER): Promise<string> {
+  public async sendRawTransaction(request: IRawTransactionRequest, topic = DEFAULT_TOPIC_TX_SENDER): Promise<string> {
     this.checkReadiness()
 
     request.id = request.id ? request.id : uuidv4()

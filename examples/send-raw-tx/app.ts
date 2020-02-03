@@ -42,13 +42,10 @@ export const start = async () => {
     }
     const signedTransaction = await wallet.sign(transaction)
 
-    await producer.sendRawTransaction(
-      {
-        chainName: 'geth',
-        signedTransaction
-      },
-      'topic-tx-sender'
-    )
+    await producer.sendRawTransaction({
+      chainName: 'geth',
+      signedTransaction
+    })
   } catch (error) {
     console.error(error)
   }
