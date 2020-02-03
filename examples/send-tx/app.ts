@@ -9,10 +9,10 @@ export const start = async () => {
 
     // Deploy a new SimpleToken contract
     await producer.sendTransaction({
-      chainName: 'geth',
+      chainName: 'besu',
       contractName: 'SimpleToken',
       methodSignature: 'constructor()',
-      from: '0x7e654d251da770a068413677967f6d3ea2fea9e4',
+      from: '0x7e654d251da770a068413677967f6d3ea2fea9e4', // Default Orchestrate account in development mode
       gas: 2000000
     })
   } catch (error) {
