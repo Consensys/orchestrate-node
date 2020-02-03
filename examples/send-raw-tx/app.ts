@@ -24,7 +24,7 @@ export const start = async () => {
 
     // Funding the newly created account to be able to send a raw transaction
     await producer.sendTransaction({
-      chainName: 'geth',
+      chainName: 'besu',
       from: '0x7e654d251da770a068413677967f6d3ea2fea9e4',
       value: utils.parseEther('1.0').toString(),
       to: wallet.address
