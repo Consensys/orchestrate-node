@@ -92,7 +92,7 @@ export class Consumer extends KafkaClient {
 
     await this.consumer.commitOffsets([
       {
-        offset: message.offset,
+        offset: (parseInt(message.offset, 10) + 1).toString(),
         topic: message.topic,
         partition: message.partition
       }

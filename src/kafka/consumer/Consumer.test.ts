@@ -118,7 +118,7 @@ describe('Consumer', () => {
 
       expect(mockKafkaConsumer.commitOffsets).toHaveBeenCalledWith([
         {
-          offset: mockMessage.offset,
+          offset: '1',
           topic: mockMessage.topic,
           partition: mockMessage.partition
         }
