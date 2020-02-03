@@ -8,7 +8,11 @@ Complete rewrite of the SDK in pure TypeScript and redefinition of the interface
 
 ### 🆕 Features
 
+- Support version 2.0+ of Orchestrate
 - Complete rewrite of the SDK in TypeScript
+- Usage of [kafkajs](https://kafka.js.org/) instead of [kafka-node](https://www.npmjs.com/package/kafka-node)
+- Usage of [grpc-js](https://www.npmjs.com/package/@grpc/grpc-js) instead of [grpc](https://www.npmjs.com/package/grpc)
+- Switch from an auto-commit mode to a manual commit which prevents to inadvertently commit non-processed messages and lose them.
 - `Consumer`, `Producer`, `ContractRegistry` and `AccountGenerator` exposed as standalone classes
 - **`Producer`**:
   - Accepts Options to increase flexibility of usage with Kafka
@@ -16,12 +20,9 @@ Complete rewrite of the SDK in pure TypeScript and redefinition of the interface
   - Functions default to correct topics
 - **`Consumer`**:
   - Accepts Options to increase flexibility of usage with Kafka
-  - Does not lose messages. Implements a `commit` function to commit the message offsets manually
+  - Implements a `commit` function to commit the message offsets manually
   - Returns output messages of the type `ResponseMessage`
-
-### ⚠ Bug fixes:
-
-- `Consumer` does not lose messages anymore if a client-side error occurs but the user must commit messages manually.
+- Rename `Wallet` into `Account`
 
 ## 1.0.0 (Unreleased)
 
