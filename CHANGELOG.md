@@ -6,9 +6,9 @@ _Unreleased_
 
 - TODO
 
-### Version 1.0.0
+### Version 1.0.0-rc3
 
-_Unreleased_
+_Released on January 24th 2019_
 
 - [FEAT] Add the `GetContract` gRPC function call
 - [FEAT] Add the `nonce` field

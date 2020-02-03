@@ -83,7 +83,7 @@ export class Producer extends KafkaClient {
    * Sends a raw Ethereum transaction
    *
    * @param request - Raw transaction request
-   * @param topic - Topic name. Sends to Transaction Crafter by default
+   * @param topic - Topic name. Sends to Transaction Sender by default
    * @returns The ID of the message
    */
   public async sendRawTransaction(request: IRawTransactionRequest, topic = DEFAULT_TOPIC_TX_SENDER): Promise<string> {
