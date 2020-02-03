@@ -1,10 +1,10 @@
 import * as KakfaJS from 'kafkajs'
 import { v4 as uuidv4 } from 'uuid'
 
-import { DEFAULT_TOPIC_TX_CRAFTER, DEFAULT_TOPIC_WALLET_GENERATOR } from '../constants'
-import { marshalGenerateAccountRequest, marshalTransactionRequest } from '../helpers'
+import { DEFAULT_TOPIC_TX_CRAFTER, DEFAULT_TOPIC_TX_SENDER, DEFAULT_TOPIC_WALLET_GENERATOR } from '../constants'
+import { marshalGenerateAccountRequest, marshalRawTransactionRequest, marshalTransactionRequest } from '../helpers'
 import { KafkaClient } from '../KafkaClient'
-import { IGenerateAccountRequest, ITransactionRequest } from '../types'
+import { IGenerateAccountRequest, IRawTransactionRequest, ITransactionRequest } from '../types'
 
 /**
  * Class used to send messages to Orchestrate
@@ -20,8 +20,12 @@ export class Producer extends KafkaClient {
    * @param producerConfig - Producer configuration
    */
 
-  constructor(brokers: string[], kafkaConfig?: KakfaJS.KafkaConfig, producerConfig?: KakfaJS.ProducerConfig) {
-    super(brokers, { clientId: 'orchestrate-sdk-producer', ...kafkaConfig, brokers })
+  constructor(
+    brokers: string[],
+    kafkaConfig?: Omit<KakfaJS.KafkaConfig, 'brokers'>,
+    producerConfig?: KakfaJS.ProducerConfig
+  ) {
+    super({ clientId: 'orchestrate-sdk-producer', ...kafkaConfig, brokers })
     this.producer = this.kafka.producer(producerConfig)
   }
 
@@ -71,6 +75,22 @@ export class Producer extends KafkaClient {
 
     request.id = request.id ? request.id : uuidv4()
     await this.produce(topic, marshalTransactionRequest(request))
+
+    return request.id
+  }
+
+  /**
+   * Sends a raw Ethereum transaction
+   *
+   * @param request - Raw transaction request
+   * @param topic - Topic name. Sends to Transaction Sender by default
+   * @returns The ID of the message
+   */
+  public async sendRawTransaction(request: IRawTransactionRequest, topic = DEFAULT_TOPIC_TX_SENDER): Promise<string> {
+    this.checkReadiness()
+
+    request.id = request.id ? request.id : uuidv4()
+    await this.produce(topic, marshalRawTransactionRequest(request))
 
     return request.id
   }

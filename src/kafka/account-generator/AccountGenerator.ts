@@ -23,7 +23,6 @@ export class AccountGenerator {
    */
   constructor(brokers: string[]) {
     this.producer = new Producer(brokers, {
-      brokers,
       logLevel: logLevel.ERROR,
       clientId: 'wallet-generator-sdk-producer'
     })
@@ -31,7 +30,7 @@ export class AccountGenerator {
     this.consumer = new Consumer(
       brokers,
       [DEFAULT_TOPIC_WALLET_GENERATED],
-      { brokers, logLevel: logLevel.ERROR },
+      { logLevel: logLevel.ERROR },
       { groupId: 'wallet-generator-sdk-consumer' }
     )
 

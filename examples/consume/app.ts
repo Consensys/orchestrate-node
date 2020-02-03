@@ -18,7 +18,7 @@ const consume = async (consumer: Consumer) => {
 
     // We commit every messgage
     await message.commit()
-    console.log('Message committed at offset: ', offset)
+    console.log('Message committed')
   })
 
   await consumer.consume()

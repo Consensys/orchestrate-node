@@ -1,7 +1,8 @@
+import { utils } from 'ethers'
 import { Message } from 'kafkajs'
 
 import { envelope } from '../../stubs'
-import { IGenerateAccountRequest, ITransactionRequest } from '../types'
+import { IGenerateAccountRequest, IRawTransactionRequest, ITransactionRequest } from '../types'
 
 import * as formatters from './stub-formatters'
 
@@ -23,6 +24,20 @@ export function marshalTransactionRequest(request: ITransactionRequest) {
     from: formatters.formatAccount(request.from),
     chain: formatters.formatChain(request.chainUUID, request.chainName),
     tx: formatters.formatTransaction(request)
+  }
+
+  return marshalEnvelope(envelopeMessage)
+}
+
+export function marshalRawTransactionRequest(request: IRawTransactionRequest) {
+  const envelopeMessage: envelope.IEnvelope = {
+    metadata: formatters.formatMetadata(request.id!, request.extraData, request.authToken),
+    tx: {
+      hash: formatters.formatData(utils.keccak256(request.signedTransaction)),
+      raw: formatters.formatData(request.signedTransaction)
+    },
+    protocol: formatters.formatProtocol(request.protocol),
+    chain: formatters.formatChain(request.chainUUID, request.chainName)
   }
 
   return marshalEnvelope(envelopeMessage)
