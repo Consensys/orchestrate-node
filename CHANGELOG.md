@@ -1,141 +1,98 @@
 # CHANGELOG
 
-### Version 2.0.0
+All notable changes to this project will be documented in this file.
 
-_Unreleased_
+## 2.0.0 (2020-02-03)
 
-- TODO
+Complete rewrite of the SDK in pure TypeScript and redefinition of the interfaces
 
-### Version 1.0.0-rc3
+### 🆕 Features
 
-_Released on January 24th 2019_
+- Complete rewrite of the SDK in TypeScript
+- `Consumer`, `Producer`, `ContractRegistry` and `AccountGenerator` exposed as standalone classes
+- **`Producer`**:
+  - Accepts Options to increase flexibility of usage with Kafka
+  - Specific functions for specific actions such as `sendTransaction`, `sendRawTransaction` and `generateAccount`.
+  - Functions default to correct topics
+- **`Consumer`**:
+  - Accepts Options to increase flexibility of usage with Kafka
+  - Does not lose messages. Implements a `commit` function to commit the message offsets manually
+  - Returns output messages of the type `ResponseMessage`
 
-- [FEAT] Add the `GetContract` gRPC function call
-- [FEAT] Add the `nonce` field
-- [FEAT] Export the marshal and unmarshal methods in the consumer and producer
-- [FIX] Rename `geNetworks` in `getNetworks`
-- [FIX] Correct typo to make ConsumerGroup extending from the correct class
-- [FIX] Add types in the package.json
+### ⚠ Bug fixes:
 
-### Version 0.5.0
+- `Consumer` does not lose messages anymore if a client-side error occurs but the user must commit messages manually.
 
-_Released on October 30th 2019_
+## 1.0.0 (Unreleased)
 
-- [FEAT] Make cli installable
-- [FEAT] Support for TLS gRPC servers
-- [REFACTOR] Rename to PegaSys Orchestrate
+Version 1.0.0 not released as the SDK has been rewritten completely as version 2.0.0
 
-### Version 0.4.8
+## 1.0.0-rc1 to 1.0.0-rc3 (2020-01-24)
 
-_Released on September 24th 2019_
+### 🆕 Features
 
-- [FIX]: Update type definition file - add class attributes
+- Add the `GetContract` gRPC function call
+- Add the `nonce` field
+- Export the marshal and unmarshal methods in the consumer and producer
 
-### Version 0.4.7
+### 🛠 Bug fixes
 
-_Released on September 24th 2019_
+- Rename `geNetworks` in `getNetworks`
+- Correct typo to make ConsumerGroup extending from the correct class
+- Add types in the package.json
 
-- [FIX]: Update ProducerOutput type with 'id' field as a string
+## 0.5.0 (2019-10-30)
 
-### Version 0.4.6
+### 🆕 Features
 
-_Released on September 24th 2019_
+- Make cli installable
+- Support for TLS gRPC servers
+- Rename to PegaSys Orchestrate
 
-- [FIX]: Update types for methods with Promises
+## 0.4.0 to 0.4.8 (2019-09-24)
 
-### Version 0.4.5
+### 🆕 Features
 
-_Released on September 13th 2019_
+- Update `ProducerOutput` type with 'id' field as a string
+- Update Readme - redirect to documentation website
+- Update `web3` to v1.2.0
+- Update `pkg` to v0.7.0
+- Update docstring
 
-- [FIX]: Update types options for producer, consumer, consumerGroup
+### 🛠 Bug fixes
 
-### Version 0.4.4
+- Update type definition file - add class attributes
+- Update types for methods with Promises
+- Update types options for producer, consumer, consumerGroup
+- Update type definition path in `package.json`
+- Use webpack instead of babel to build
+- Use regenerator-runtime in main file
 
-_Released on August 5th 2019_
+## 0.3.0 to 0.3.1 (2019-07-11)
 
-- [FEAT]: Update Readme - redirect to documentation website
+### 🆕 Features
 
-### Version 0.4.3
+- Add typescript definitions
+- Clean code and naming
+- Update `pkg` to v0.6.1
+- Check signature, input arguments, arguments
 
-_Released on July 25th 2019_
+## 0.2.0 to 0.2.1 (2019-06-28)
 
-- [FEAT]: Update web3 to v1.2.0
-- [FIX]: Use regenerator-runtime in main file
+### 🆕 Features
 
-### Version 0.4.2
+- Update `pkg` to v0.5.7
+- Create wallet asynchronously
+- Add web3 wrapper
 
-_Released on July 23th 2019_
+## 0.1.0 to 0.1.8
 
-- [FIX]: Use webpack instead of babel to build
+### 🆕 Features
 
-### Version 0.4.1
-
-_Released on July 23th 2019_
-
-- [FIX]: Update type definition path in `package.json`
-
-### Version 0.4.0
-
-_Released on July 23th 2019_
-
-- [FEAT]: Update `pkg` to v0.7.0
-- [DOCS]: Update docstring
-
-### Version 0.3.1
-
-_Released on July 11th 2019_
-
-- [FEAT]: Add typescript definitions
-- [FIX]: Clean code and naming
-
-### Version 0.3.0
-
-_Released on July 5th 2019_
-
-- [FEAT]: Update `pkg` to v0.6.1
-- [FEAT]: Check signature, input arguments, arguments
-
-### Version 0.2.1
-
-_Released on June 28th 2019_
-
-- [FEAT]: Update `pkg` to v0.5.7
-- [FEAT]: Create wallet asynchronously
-- [FEAT]: Add web3 wrapper
-
-### Version 0.2.0
-
-_Released on May 20th 2019_
-
-- [FEAT]: Update protobuf types (v0.5.2 of pkg)
-
-### Version 0.1.8
-
-_Released on April 2nd 2019_
-
-- [FEAT]: Unmarshal extra metadata into Object instead of Array
-
-### Version 0.1.7
-
-_Released on March 26th 2019_
-
-- [FIX]: Marshal Metadata string without error
-
-### Version 0.1.6
-
-_Released on March 25th 2019_
-
-- [FEAT]: Unmarshal DecodedData into an Object instead of an Array
-- [DOCS]: Update README
-
-### Version 0.1.5
-
-_Released on March 24th 2019_
-
-- [FEAT]: Update protobuf messages (v0.2.0-alpha.8 of pkg) including Quorum
-- [FEAT]: Handling error message type
-
-### Versions 0.1.0 to 0.1.4
-
-- [FEAT]: Create Producer, Consumer, ConsumerGroup
-- [FEAT]: Marshal message in protobuf
+- Unmarshal extra metadata into Object instead of Array
+- Unmarshal DecodedData into an Object instead of an Array
+- Update README
+- Update protobuf messages (v0.2.0-alpha.8 of pkg) including Quorum
+- Handling error message type
+- Create Producer, Consumer, ConsumerGroup
+- Marshal message in protobuf
