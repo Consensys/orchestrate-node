@@ -59,7 +59,6 @@ workflows:
                 - /^feature\/[a-zA-Z0-9\/\-.]*$/
                 - /^fix\/[a-zA-Z0-9\/\-.]*$/
                 - /^maintenance\/[a-zA-Z0-9\/\-.]*$/
-                - /^release\/[a-zA-Z0-9\/\-.]*$/
                 - master
             tags:
               only: /.*/
