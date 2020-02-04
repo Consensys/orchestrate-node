@@ -6,7 +6,7 @@ import {
   getContractHandler,
   getTagsHandler,
   registerContractHandler
-} from './handlers'
+} from './helpers'
 
 const program = new Command()
 

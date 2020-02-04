@@ -4,7 +4,7 @@ import { DEFAULT_TOPIC_TX_DECODED, DEFAULT_TOPIC_TX_RECOVER } from '../constants
 import { KafkaClient } from '../KafkaClient'
 import { IResponse } from '../types'
 
-import { onMessageReceived } from './onMessageReceived'
+import { onMessageReceived } from './helpers'
 
 /**
  * Consumes and decodes Orchestrate messages

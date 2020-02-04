@@ -1,13 +1,13 @@
 import { createMockInstance } from 'jest-create-mock-instance'
 
-import { envelope } from '../../stubs'
-import { unmarshalEnvelope } from '../helpers'
-import { mockEnvelope } from '../helpers/unmarshallers.test'
-import { EventType } from '../types'
+import { envelope } from '../../../stubs'
+import { unmarshalEnvelope } from '../../helpers'
+import { mockEnvelope } from '../../helpers/unmarshallers.test'
+import { EventType } from '../../types'
+import { Consumer } from '../Consumer'
+import { ResponseMessage } from '../ResponseMessage'
 
-import { Consumer } from './Consumer'
 import { onMessageReceived } from './onMessageReceived'
-import { ResponseMessage } from './ResponseMessage'
 
 const mockKey = '1-0xc1912fee45d61c87cc5ea59dae31190fffff232d'
 

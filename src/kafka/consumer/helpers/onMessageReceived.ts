@@ -1,10 +1,9 @@
 import * as KakfaJS from 'kafkajs'
 
-import { unmarshalEnvelope } from '../helpers'
-import { EventType } from '../types'
-
-import { Consumer } from './Consumer'
-import { ResponseMessage } from './ResponseMessage'
+import { unmarshalEnvelope } from '../../helpers'
+import { EventType } from '../../types'
+import { Consumer } from '../Consumer'
+import { ResponseMessage } from '../ResponseMessage'
 
 /**
  * Unmarshalls the message value and emit an enriched message event

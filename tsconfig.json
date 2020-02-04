@@ -7,7 +7,8 @@
     "strict": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "allowJs": true
+    "allowJs": true,
+    "stripInternal": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/*.test.ts"]
