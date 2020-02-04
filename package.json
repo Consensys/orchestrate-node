@@ -21,7 +21,9 @@
     "format": "prettier --write 'src/**/*.{ts,js,json}'",
     "check-formatting": "prettier --list-different 'src/**/*.{ts,js,json}'",
     "generate:stubs": "pbjs -t static-module -o src/stubs/index.js proto/**/*.proto && pbts -o src/stubs/index.d.ts src/stubs/index.js",
-    "generate:docs": "rimraf docs && typedoc",
+    "help": "typedoc --help",
+    "generate:docs:html": "rimraf docs && typedoc --plugin none",
+    "generate:docs:md": "rimraf docs && typedoc --plugin typedoc-plugin-markdown",
     "example:send-tx": "ts-node examples/send-tx",
     "example:send-raw-tx": "ts-node examples/send-raw-tx",
     "example:consume": "ts-node examples/consume",
@@ -77,7 +79,8 @@
     "ts-node": "~8.6.2",
     "tslint": "~5.20.1",
     "tslint-config-prettier": "~1.18.0",
-    "typedoc": "~0.16.6",
+    "typedoc": "~0.16.9",
+    "typedoc-plugin-markdown": "~2.2.16",
     "typescript": "~3.7.4"
   },
   "husky": {

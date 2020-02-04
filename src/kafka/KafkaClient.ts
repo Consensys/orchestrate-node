@@ -2,6 +2,7 @@ import { EventEmitter } from 'events'
 import * as KakfaJS from 'kafkajs'
 
 /**
+ * @hidden
  * Kafka client abstract class
  */
 export abstract class KafkaClient extends EventEmitter {

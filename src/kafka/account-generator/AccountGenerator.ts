@@ -5,6 +5,9 @@ import { Consumer, ResponseMessage } from '../consumer'
 import { Producer } from '../producer'
 import { EventType, IGenerateAccountRequest } from '../types'
 
+/**
+ * @hidden
+ */
 type ResolveFunction = (address: string) => void
 
 /**
