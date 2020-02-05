@@ -199,7 +199,7 @@ describe('handlers', () => {
         endpoint: mockEndpoint,
         name: mockName,
         tag: mockTag,
-        filePath: mockFilepath
+        filepath: mockFilepath
       })
 
       expect(mockContractRegistry.register).toHaveBeenCalledWith({
