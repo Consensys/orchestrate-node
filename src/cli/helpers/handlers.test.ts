@@ -107,7 +107,7 @@ describe('handlers', () => {
   })
 
   describe('registerContractHandler', () => {
-    const mockFilePath = 'path'
+    const mockFilepath = 'path'
     const mockArtifact = {
       abi: [
         {
@@ -144,10 +144,10 @@ describe('handlers', () => {
       await registerContractHandler({
         endpoint: mockEndpoint,
         name: mockName,
-        filePath: mockFilePath
+        filepath: mockFilepath
       })
 
-      expect(fs.readFileSync).toHaveBeenCalledWith(mockFilePath)
+      expect(fs.readFileSync).toHaveBeenCalledWith(mockFilepath)
       expect(mockContractRegistry.register).not.toHaveBeenCalled()
     })
 
@@ -158,7 +158,7 @@ describe('handlers', () => {
         endpoint: mockEndpoint,
         name: mockName,
         tag: mockTag,
-        filePath: mockFilePath
+        filepath: mockFilepath
       })
 
       expect(mockContractRegistry.register).not.toHaveBeenCalled()
@@ -171,7 +171,7 @@ describe('handlers', () => {
         endpoint: mockEndpoint,
         name: mockName,
         tag: mockTag,
-        filePath: mockFilePath
+        filepath: mockFilepath
       })
 
       expect(mockContractRegistry.register).not.toHaveBeenCalled()
@@ -186,7 +186,7 @@ describe('handlers', () => {
         endpoint: mockEndpoint,
         name: mockName,
         tag: mockTag,
-        filePath: mockFilePath
+        filepath: mockFilepath
       })
 
       expect(mockContractRegistry.register).not.toHaveBeenCalled()
@@ -199,7 +199,7 @@ describe('handlers', () => {
         endpoint: mockEndpoint,
         name: mockName,
         tag: mockTag,
-        filePath: mockFilePath
+        filePath: mockFilepath
       })
 
       expect(mockContractRegistry.register).toHaveBeenCalledWith({
