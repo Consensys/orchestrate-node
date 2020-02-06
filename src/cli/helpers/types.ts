@@ -4,8 +4,8 @@ export interface IEndpointOptions {
 
 export interface IRegisterContractOptions extends IEndpointOptions {
   name: string
+  filepath: string
   tag?: string
-  filePath: string
 }
 
 export interface IGetContractOptions extends IEndpointOptions {
@@ -18,7 +18,6 @@ export interface IGetTagsOptions extends IEndpointOptions {
 }
 
 export interface IGenerateAccountsOptions extends IEndpointOptions {
-  amount?: number
   chain?: string
   value?: string
 }

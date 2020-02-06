@@ -52,7 +52,7 @@ export async function registerContractHandler(options: IRegisterContractOptions)
   let artifact
 
   try {
-    artifact = JSON.parse(readFileSync(options.filePath).toString())
+    artifact = JSON.parse(readFileSync(options.filepath).toString())
     checkArtifact(artifact)
 
     await registry.register({
