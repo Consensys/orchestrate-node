@@ -24,6 +24,8 @@ const mockResult = { field: 'myResult' }
 const extraData = { extraDataField: 'extraDataField' }
 const requestId = 'requestId'
 const mockFrom = '0xc1912fee45d61c87cc5ea59dae31190fffff2333'
+const mockSignedTx =
+  '0xf86780808252089488a5c2d9919e46f883eb62f7b8dd9d0cc45bc2908806f05b59d3b20000801ba0cf1f0ee7b02637e3d9c334ae5689c3e1fe102faf6c21486976b271c811098ef9a06b0bd4227f2d4fe4e59c09a47ec3770c63c165c4dce40d076bae22f780bebc50'
 
 describe('Producer', () => {
   let producer: Producer
@@ -146,7 +148,7 @@ describe('Producer', () => {
         id: requestId,
         extraData,
         chainUUID: 'chainUUID',
-        signedTransaction: '0xfefe'
+        signedTransaction: mockSignedTx
       }
 
       await producer.connect()
@@ -158,7 +160,7 @@ describe('Producer', () => {
 
     it('should send a transaction request with default parameters', async () => {
       const request = {
-        signedTransaction: '0xfefe',
+        signedTransaction: mockSignedTx,
         chainUUID: 'chainUUID'
       }
 
