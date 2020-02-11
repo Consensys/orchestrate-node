@@ -42,8 +42,6 @@ export const start = async () => {
       value: utils.parseEther('0.5')
     })
 
-    console.log(signedTransaction)
-
     await producer.sendRawTransaction({
       chainName: 'besu',
       signedTransaction
