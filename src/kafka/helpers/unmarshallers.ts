@@ -1,5 +1,3 @@
-import { utils } from 'ethers'
-
 import { abi, args, chain, envelope, error, ethereum } from '../../stubs'
 import { IResponseValue } from '../types'
 import { IReceipt } from '../types/IReceipt'
@@ -14,7 +12,7 @@ export function unmarshalEnvelope(data: Buffer): IResponseValue {
 function mapEnvelopeToResponse(envelopeMessage: envelope.IEnvelope): IResponseValue {
   return {
     id: envelopeMessage.metadata!.id!,
-    from: parseAccount(envelopeMessage.from),
+    from: parseString(envelopeMessage.from),
     txContext: parseTxContext(envelopeMessage),
     receipt: parseReceipt(envelopeMessage.receipt),
     errors: parseErrors(envelopeMessage.errors),
@@ -50,26 +48,18 @@ function parseTxContext(envelopeMessage: envelope.IEnvelope): ITransactionContex
 
   // A complete transaction context exists if we have a contract name
   if (argsV && argsV.call && argsV.call.contract && argsV.call.contract.id && argsV.call.contract.id.name) {
-    const txParsed = parseTx(tx)
-    const privateParsed = parsePrivate(argsV.private)
-
     return {
       contractName: argsV.call.contract.id.name,
-      contractTag: argsV.call.contract.id.tag || undefined,
+      contractTag: parseString(argsV.call.contract.id.tag),
       chainUUID: parseChainUUID(envelopeMessage.chain),
       chainName: parseChainName(envelopeMessage.chain),
-      from: parseAccount(envelopeMessage.from),
+      from: parseString(envelopeMessage.from),
       protocol: parseProtocol(envelopeMessage.protocol),
       methodSignature: parseMethod(argsV.call.method),
-      input: parseRawString(argsV.data),
-      args: argsV.call.args ? argsV.call.args : undefined,
-      value: txParsed.value,
-      gas: txParsed.gas,
-      gasPrice: txParsed.gasPrice,
-      nonce: txParsed.nonce,
-      to: txParsed.to,
-      privateFrom: privateParsed.privateFrom,
-      privateFor: privateParsed.privateFor
+      input: parseString(argsV.data),
+      args: parseStringArray(argsV.call.args),
+      ...parseTx(tx),
+      ...parsePrivate(argsV.private)
     }
   }
 }
@@ -77,16 +67,16 @@ function parseTxContext(envelopeMessage: envelope.IEnvelope): ITransactionContex
 function parseReceipt(receipt?: ethereum.IReceipt | null): IReceipt | undefined {
   if (receipt) {
     return {
-      blockHash: parseRawString(receipt.blockHash),
+      blockHash: parseString(receipt.blockHash),
       blockNumber: parseNumber(receipt.blockNumber),
       txIndex: receipt.txIndex ? Number(receipt.txIndex) : undefined,
-      txHash: parseRawString(receipt.txHash),
+      txHash: parseString(receipt.txHash),
       status: receipt.status ? Boolean(receipt.status) : undefined,
-      contractAddress: parseAccount(receipt.contractAddress),
+      contractAddress: parseString(receipt.contractAddress),
       gasUsed: receipt.gasUsed ? Number(receipt.gasUsed) : undefined,
       cumulativeGasUsed: receipt.cumulativeGasUsed ? Number(receipt.cumulativeGasUsed) : undefined,
-      postState: parseBuffer(receipt.postState),
-      bloom: parseBuffer(receipt.bloom),
+      postState: parseString(receipt.postState),
+      bloom: parseString(receipt.bloom),
       logs: parseLogs(receipt.logs)
     }
   }
@@ -105,15 +95,15 @@ function parseErrors(errors?: error.IError[] | null) {
 function parseLogs(logs?: ethereum.ILog[] | null) {
   if (logs && logs.length !== 0) {
     return logs.map(log => ({
-      address: parseAccount(log.address),
-      topics: parseRawStringArray(log.topics),
-      data: parseBuffer(log.data),
+      address: parseString(log.address),
+      topics: parseStringArray(log.topics),
+      data: parseString(log.data),
       event: log.event ? log.event : undefined,
       decodedData: log.decodedData ? log.decodedData : undefined,
       blockNumber: parseNumber(log.blockNumber),
-      txHash: parseRawString(log.txHash),
+      txHash: parseString(log.txHash),
       txIndex: parseNumber(log.txIndex),
-      blockHash: parseRawString(log.blockHash),
+      blockHash: parseString(log.blockHash),
       index: parseNumber(log.index),
       removed: Boolean(log.removed)
     }))
@@ -128,23 +118,23 @@ function parseMethod(method?: abi.IMethod | null) {
   return method && method.signature ? method.signature : undefined
 }
 
-function parseRawString(data: any) {
-  return data && data.raw ? utils.hexlify(data.raw) : undefined
+function parseString(value?: string | null) {
+  return value ? value : undefined
 }
 
-function parseRawStringArray(data?: any[] | null) {
-  if (data && data.length !== 0) {
-    return data.map(el => utils.hexlify(el.raw))
+function parseStringArray(arr?: string[] | null) {
+  if (arr && arr.length !== 0) {
+    return arr.map(el => el)
   }
 }
 
 function parseTx(tx?: ethereum.ITransaction | null) {
   if (tx && tx.txData) {
-    const value = tx.txData.value ? parseQuantity(tx.txData.value) : undefined
-    const gas = tx.txData.gas ? Number(tx.txData.gas) : undefined
-    const gasPrice = tx.txData.gasPrice ? parseQuantity(tx.txData.gasPrice) : undefined
-    const nonce = tx.txData.nonce ? Number(tx.txData.nonce) : undefined
-    const to = parseAccount(tx.txData.to)
+    const value = parseString(tx.txData.value)
+    const gas = parseNumber(tx.txData.gas)
+    const gasPrice = parseString(tx.txData.gasPrice)
+    const nonce = parseNumber(tx.txData.nonce)
+    const to = parseString(tx.txData.to)
 
     return {
       value,
@@ -154,36 +144,20 @@ function parseTx(tx?: ethereum.ITransaction | null) {
       to
     }
   }
-
-  return {}
 }
 
 function parsePrivate(priv?: args.IPrivate | null) {
   if (priv) {
-    const privateFrom = priv.privateFrom ? priv.privateFrom : undefined
-    const privateFor = priv.privateFor && priv.privateFor.length !== 0 ? priv.privateFor : undefined
+    const privateFrom = parseString(priv.privateFrom)
+    const privateFor = parseStringArray(priv.privateFor)
 
     return {
       privateFrom,
       privateFor
     }
   }
-
-  return {}
-}
-
-function parseBuffer(buffer?: Uint8Array | null) {
-  return buffer ? utils.hexlify(buffer) : undefined
 }
 
 function parseNumber(value?: number | Long | null) {
   return value ? Number(value) : undefined
-}
-
-function parseQuantity(quantity?: ethereum.IQuantity | null) {
-  return quantity && quantity.raw ? utils.bigNumberify(quantity.raw).toString() : undefined
-}
-
-function parseAccount(account?: ethereum.IAccount | null) {
-  return account && account.raw ? utils.hexlify(account.raw) : undefined
 }

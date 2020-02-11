@@ -1,6 +1,6 @@
 // tslint:disable: no-console
 
-import { ContractRegistry } from '../../lib'
+import { ContractRegistry } from '../../src'
 
 export const start = async () => {
   try {

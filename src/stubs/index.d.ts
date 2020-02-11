@@ -111,10 +111,10 @@ export namespace abi {
         id?: (abi.IContractId|null);
 
         /** Contract abi */
-        abi?: (Uint8Array|null);
+        abi?: (string|null);
 
         /** Contract bytecode */
-        bytecode?: (Uint8Array|null);
+        bytecode?: (string|null);
 
         /** Contract methods */
         methods?: (abi.IMethod[]|null);
@@ -123,7 +123,7 @@ export namespace abi {
         events?: (abi.IEvent[]|null);
 
         /** Contract deployedBytecode */
-        deployedBytecode?: (Uint8Array|null);
+        deployedBytecode?: (string|null);
     }
 
     /** Represents a Contract. */
@@ -139,10 +139,10 @@ export namespace abi {
         public id?: (abi.IContractId|null);
 
         /** Contract abi. */
-        public abi: Uint8Array;
+        public abi: string;
 
         /** Contract bytecode. */
-        public bytecode: Uint8Array;
+        public bytecode: string;
 
         /** Contract methods. */
         public methods: abi.IMethod[];
@@ -151,7 +151,7 @@ export namespace abi {
         public events: abi.IEvent[];
 
         /** Contract deployedBytecode. */
-        public deployedBytecode: Uint8Array;
+        public deployedBytecode: string;
 
         /**
          * Creates a new Contract instance using the specified properties.
@@ -231,7 +231,7 @@ export namespace abi {
         signature?: (string|null);
 
         /** Method abi */
-        abi?: (Uint8Array|null);
+        abi?: (string|null);
     }
 
     /** Represents a Method. */
@@ -247,7 +247,7 @@ export namespace abi {
         public signature: string;
 
         /** Method abi. */
-        public abi: Uint8Array;
+        public abi: string;
 
         /**
          * Creates a new Method instance using the specified properties.
@@ -327,7 +327,7 @@ export namespace abi {
         signature?: (string|null);
 
         /** Event abi */
-        abi?: (Uint8Array|null);
+        abi?: (string|null);
     }
 
     /** Represents an Event. */
@@ -343,7 +343,7 @@ export namespace abi {
         public signature: string;
 
         /** Event abi. */
-        public abi: Uint8Array;
+        public abi: string;
 
         /**
          * Creates a new Event instance using the specified properties.
@@ -632,7 +632,7 @@ export namespace chain {
     interface IChain {
 
         /** Chain chainId */
-        chainId?: (Uint8Array|null);
+        chainId?: (string|null);
 
         /** Chain uuid */
         uuid?: (string|null);
@@ -651,7 +651,7 @@ export namespace chain {
         constructor(properties?: chain.IChain);
 
         /** Chain chainId. */
-        public chainId: Uint8Array;
+        public chainId: string;
 
         /** Chain uuid. */
         public uuid: string;
@@ -845,7 +845,7 @@ export namespace common {
         chain?: (chain.IChain|null);
 
         /** AccountInstance account */
-        account?: (ethereum.IAccount|null);
+        account?: (string|null);
     }
 
     /** Represents an AccountInstance. */
@@ -861,7 +861,7 @@ export namespace common {
         public chain?: (chain.IChain|null);
 
         /** AccountInstance account. */
-        public account?: (ethereum.IAccount|null);
+        public account: string;
 
         /**
          * Creates a new AccountInstance instance using the specified properties.
@@ -1566,7 +1566,7 @@ export namespace contractregistry {
     interface IDeleteArtifactRequest {
 
         /** DeleteArtifactRequest bytecodeHash */
-        bytecodeHash?: (Uint8Array|null);
+        bytecodeHash?: (string|null);
     }
 
     /** Represents a DeleteArtifactRequest. */
@@ -1579,7 +1579,7 @@ export namespace contractregistry {
         constructor(properties?: contractregistry.IDeleteArtifactRequest);
 
         /** DeleteArtifactRequest bytecodeHash. */
-        public bytecodeHash: Uint8Array;
+        public bytecodeHash: string;
 
         /**
          * Creates a new DeleteArtifactRequest instance using the specified properties.
@@ -1920,7 +1920,7 @@ export namespace contractregistry {
     interface IGetContractABIResponse {
 
         /** GetContractABIResponse abi */
-        abi?: (Uint8Array|null);
+        abi?: (string|null);
     }
 
     /** Represents a GetContractABIResponse. */
@@ -1933,7 +1933,7 @@ export namespace contractregistry {
         constructor(properties?: contractregistry.IGetContractABIResponse);
 
         /** GetContractABIResponse abi. */
-        public abi: Uint8Array;
+        public abi: string;
 
         /**
          * Creates a new GetContractABIResponse instance using the specified properties.
@@ -2010,7 +2010,7 @@ export namespace contractregistry {
     interface IGetContractBytecodeResponse {
 
         /** GetContractBytecodeResponse bytecode */
-        bytecode?: (Uint8Array|null);
+        bytecode?: (string|null);
     }
 
     /** Represents a GetContractBytecodeResponse. */
@@ -2023,7 +2023,7 @@ export namespace contractregistry {
         constructor(properties?: contractregistry.IGetContractBytecodeResponse);
 
         /** GetContractBytecodeResponse bytecode. */
-        public bytecode: Uint8Array;
+        public bytecode: string;
 
         /**
          * Creates a new GetContractBytecodeResponse instance using the specified properties.
@@ -2100,7 +2100,7 @@ export namespace contractregistry {
     interface IGetContractDeployedBytecodeResponse {
 
         /** GetContractDeployedBytecodeResponse deployedBytecode */
-        deployedBytecode?: (Uint8Array|null);
+        deployedBytecode?: (string|null);
     }
 
     /** Represents a GetContractDeployedBytecodeResponse. */
@@ -2113,7 +2113,7 @@ export namespace contractregistry {
         constructor(properties?: contractregistry.IGetContractDeployedBytecodeResponse);
 
         /** GetContractDeployedBytecodeResponse deployedBytecode. */
-        public deployedBytecode: Uint8Array;
+        public deployedBytecode: string;
 
         /**
          * Creates a new GetContractDeployedBytecodeResponse instance using the specified properties.
@@ -2640,10 +2640,10 @@ export namespace contractregistry {
     interface IGetMethodsBySelectorResponse {
 
         /** GetMethodsBySelectorResponse method */
-        method?: (Uint8Array|null);
+        method?: (string|null);
 
         /** GetMethodsBySelectorResponse defaultMethods */
-        defaultMethods?: (Uint8Array[]|null);
+        defaultMethods?: (string[]|null);
     }
 
     /** Represents a GetMethodsBySelectorResponse. */
@@ -2656,10 +2656,10 @@ export namespace contractregistry {
         constructor(properties?: contractregistry.IGetMethodsBySelectorResponse);
 
         /** GetMethodsBySelectorResponse method. */
-        public method: Uint8Array;
+        public method: string;
 
         /** GetMethodsBySelectorResponse defaultMethods. */
-        public defaultMethods: Uint8Array[];
+        public defaultMethods: string[];
 
         /**
          * Creates a new GetMethodsBySelectorResponse instance using the specified properties.
@@ -2736,7 +2736,7 @@ export namespace contractregistry {
     interface IGetEventsBySigHashRequest {
 
         /** GetEventsBySigHashRequest sigHash */
-        sigHash?: (Uint8Array|null);
+        sigHash?: (string|null);
 
         /** GetEventsBySigHashRequest accountInstance */
         accountInstance?: (common.IAccountInstance|null);
@@ -2755,7 +2755,7 @@ export namespace contractregistry {
         constructor(properties?: contractregistry.IGetEventsBySigHashRequest);
 
         /** GetEventsBySigHashRequest sigHash. */
-        public sigHash: Uint8Array;
+        public sigHash: string;
 
         /** GetEventsBySigHashRequest accountInstance. */
         public accountInstance?: (common.IAccountInstance|null);
@@ -2838,10 +2838,10 @@ export namespace contractregistry {
     interface IGetEventsBySigHashResponse {
 
         /** GetEventsBySigHashResponse event */
-        event?: (Uint8Array|null);
+        event?: (string|null);
 
         /** GetEventsBySigHashResponse defaultEvents */
-        defaultEvents?: (Uint8Array[]|null);
+        defaultEvents?: (string[]|null);
     }
 
     /** Represents a GetEventsBySigHashResponse. */
@@ -2854,10 +2854,10 @@ export namespace contractregistry {
         constructor(properties?: contractregistry.IGetEventsBySigHashResponse);
 
         /** GetEventsBySigHashResponse event. */
-        public event: Uint8Array;
+        public event: string;
 
         /** GetEventsBySigHashResponse defaultEvents. */
-        public defaultEvents: Uint8Array[];
+        public defaultEvents: string[];
 
         /**
          * Creates a new GetEventsBySigHashResponse instance using the specified properties.
@@ -2937,7 +2937,7 @@ export namespace contractregistry {
         accountInstance?: (common.IAccountInstance|null);
 
         /** SetAccountCodeHashRequest codeHash */
-        codeHash?: (Uint8Array|null);
+        codeHash?: (string|null);
     }
 
     /** Represents a SetAccountCodeHashRequest. */
@@ -2953,7 +2953,7 @@ export namespace contractregistry {
         public accountInstance?: (common.IAccountInstance|null);
 
         /** SetAccountCodeHashRequest codeHash. */
-        public codeHash: Uint8Array;
+        public codeHash: string;
 
         /**
          * Creates a new SetAccountCodeHashRequest instance using the specified properties.
@@ -3105,999 +3105,6 @@ export namespace contractregistry {
 
         /**
          * Converts this SetAccountCodeHashResponse to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-}
-
-/** Namespace envelopestore. */
-export namespace envelopestore {
-
-    /** Status enum. */
-    enum Status {
-        STORED = 0,
-        PENDING = 1,
-        MINED = 2,
-        ERROR = 3
-    }
-
-    /** Represents an EnvelopeStore */
-    class EnvelopeStore extends $protobuf.rpc.Service {
-
-        /**
-         * Constructs a new EnvelopeStore service.
-         * @param rpcImpl RPC implementation
-         * @param [requestDelimited=false] Whether requests are length-delimited
-         * @param [responseDelimited=false] Whether responses are length-delimited
-         */
-        constructor(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean);
-
-        /**
-         * Creates new EnvelopeStore service using the specified rpc implementation.
-         * @param rpcImpl RPC implementation
-         * @param [requestDelimited=false] Whether requests are length-delimited
-         * @param [responseDelimited=false] Whether responses are length-delimited
-         * @returns RPC service. Useful where requests and/or responses are streamed.
-         */
-        public static create(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean): EnvelopeStore;
-
-        /**
-         * Calls Store.
-         * @param request StoreRequest message or plain object
-         * @param callback Node-style callback called with the error, if any, and StoreResponse
-         */
-        public store(request: envelopestore.IStoreRequest, callback: envelopestore.EnvelopeStore.StoreCallback): void;
-
-        /**
-         * Calls Store.
-         * @param request StoreRequest message or plain object
-         * @returns Promise
-         */
-        public store(request: envelopestore.IStoreRequest): Promise<envelopestore.StoreResponse>;
-
-        /**
-         * Calls LoadByID.
-         * @param request LoadByIDRequest message or plain object
-         * @param callback Node-style callback called with the error, if any, and StoreResponse
-         */
-        public loadByID(request: envelopestore.ILoadByIDRequest, callback: envelopestore.EnvelopeStore.LoadByIDCallback): void;
-
-        /**
-         * Calls LoadByID.
-         * @param request LoadByIDRequest message or plain object
-         * @returns Promise
-         */
-        public loadByID(request: envelopestore.ILoadByIDRequest): Promise<envelopestore.StoreResponse>;
-
-        /**
-         * Calls LoadByTxHash.
-         * @param request LoadByTxHashRequest message or plain object
-         * @param callback Node-style callback called with the error, if any, and StoreResponse
-         */
-        public loadByTxHash(request: envelopestore.ILoadByTxHashRequest, callback: envelopestore.EnvelopeStore.LoadByTxHashCallback): void;
-
-        /**
-         * Calls LoadByTxHash.
-         * @param request LoadByTxHashRequest message or plain object
-         * @returns Promise
-         */
-        public loadByTxHash(request: envelopestore.ILoadByTxHashRequest): Promise<envelopestore.StoreResponse>;
-
-        /**
-         * Calls SetStatus.
-         * @param request SetStatusRequest message or plain object
-         * @param callback Node-style callback called with the error, if any, and StatusResponse
-         */
-        public setStatus(request: envelopestore.ISetStatusRequest, callback: envelopestore.EnvelopeStore.SetStatusCallback): void;
-
-        /**
-         * Calls SetStatus.
-         * @param request SetStatusRequest message or plain object
-         * @returns Promise
-         */
-        public setStatus(request: envelopestore.ISetStatusRequest): Promise<envelopestore.StatusResponse>;
-
-        /**
-         * Calls LoadPending.
-         * @param request LoadPendingRequest message or plain object
-         * @param callback Node-style callback called with the error, if any, and LoadPendingResponse
-         */
-        public loadPending(request: envelopestore.ILoadPendingRequest, callback: envelopestore.EnvelopeStore.LoadPendingCallback): void;
-
-        /**
-         * Calls LoadPending.
-         * @param request LoadPendingRequest message or plain object
-         * @returns Promise
-         */
-        public loadPending(request: envelopestore.ILoadPendingRequest): Promise<envelopestore.LoadPendingResponse>;
-    }
-
-    namespace EnvelopeStore {
-
-        /**
-         * Callback as used by {@link envelopestore.EnvelopeStore#store}.
-         * @param error Error, if any
-         * @param [response] StoreResponse
-         */
-        type StoreCallback = (error: (Error|null), response?: envelopestore.StoreResponse) => void;
-
-        /**
-         * Callback as used by {@link envelopestore.EnvelopeStore#loadByID}.
-         * @param error Error, if any
-         * @param [response] StoreResponse
-         */
-        type LoadByIDCallback = (error: (Error|null), response?: envelopestore.StoreResponse) => void;
-
-        /**
-         * Callback as used by {@link envelopestore.EnvelopeStore#loadByTxHash}.
-         * @param error Error, if any
-         * @param [response] StoreResponse
-         */
-        type LoadByTxHashCallback = (error: (Error|null), response?: envelopestore.StoreResponse) => void;
-
-        /**
-         * Callback as used by {@link envelopestore.EnvelopeStore#setStatus}.
-         * @param error Error, if any
-         * @param [response] StatusResponse
-         */
-        type SetStatusCallback = (error: (Error|null), response?: envelopestore.StatusResponse) => void;
-
-        /**
-         * Callback as used by {@link envelopestore.EnvelopeStore#loadPending}.
-         * @param error Error, if any
-         * @param [response] LoadPendingResponse
-         */
-        type LoadPendingCallback = (error: (Error|null), response?: envelopestore.LoadPendingResponse) => void;
-    }
-
-    /** Properties of a StatusInfo. */
-    interface IStatusInfo {
-
-        /** StatusInfo status */
-        status?: (envelopestore.Status|null);
-
-        /** StatusInfo storedAt */
-        storedAt?: (google.protobuf.ITimestamp|null);
-
-        /** StatusInfo sentAt */
-        sentAt?: (google.protobuf.ITimestamp|null);
-
-        /** StatusInfo minedAt */
-        minedAt?: (google.protobuf.ITimestamp|null);
-
-        /** StatusInfo errorAt */
-        errorAt?: (google.protobuf.ITimestamp|null);
-    }
-
-    /** Represents a StatusInfo. */
-    class StatusInfo implements IStatusInfo {
-
-        /**
-         * Constructs a new StatusInfo.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: envelopestore.IStatusInfo);
-
-        /** StatusInfo status. */
-        public status: envelopestore.Status;
-
-        /** StatusInfo storedAt. */
-        public storedAt?: (google.protobuf.ITimestamp|null);
-
-        /** StatusInfo sentAt. */
-        public sentAt?: (google.protobuf.ITimestamp|null);
-
-        /** StatusInfo minedAt. */
-        public minedAt?: (google.protobuf.ITimestamp|null);
-
-        /** StatusInfo errorAt. */
-        public errorAt?: (google.protobuf.ITimestamp|null);
-
-        /**
-         * Creates a new StatusInfo instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns StatusInfo instance
-         */
-        public static create(properties?: envelopestore.IStatusInfo): envelopestore.StatusInfo;
-
-        /**
-         * Encodes the specified StatusInfo message. Does not implicitly {@link envelopestore.StatusInfo.verify|verify} messages.
-         * @param message StatusInfo message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: envelopestore.IStatusInfo, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified StatusInfo message, length delimited. Does not implicitly {@link envelopestore.StatusInfo.verify|verify} messages.
-         * @param message StatusInfo message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: envelopestore.IStatusInfo, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a StatusInfo message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns StatusInfo
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): envelopestore.StatusInfo;
-
-        /**
-         * Decodes a StatusInfo message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns StatusInfo
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): envelopestore.StatusInfo;
-
-        /**
-         * Verifies a StatusInfo message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a StatusInfo message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns StatusInfo
-         */
-        public static fromObject(object: { [k: string]: any }): envelopestore.StatusInfo;
-
-        /**
-         * Creates a plain object from a StatusInfo message. Also converts values to other types if specified.
-         * @param message StatusInfo
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: envelopestore.StatusInfo, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this StatusInfo to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-
-    /** Properties of a StoreRequest. */
-    interface IStoreRequest {
-
-        /** StoreRequest envelope */
-        envelope?: (envelope.IEnvelope|null);
-    }
-
-    /** Represents a StoreRequest. */
-    class StoreRequest implements IStoreRequest {
-
-        /**
-         * Constructs a new StoreRequest.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: envelopestore.IStoreRequest);
-
-        /** StoreRequest envelope. */
-        public envelope?: (envelope.IEnvelope|null);
-
-        /**
-         * Creates a new StoreRequest instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns StoreRequest instance
-         */
-        public static create(properties?: envelopestore.IStoreRequest): envelopestore.StoreRequest;
-
-        /**
-         * Encodes the specified StoreRequest message. Does not implicitly {@link envelopestore.StoreRequest.verify|verify} messages.
-         * @param message StoreRequest message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: envelopestore.IStoreRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified StoreRequest message, length delimited. Does not implicitly {@link envelopestore.StoreRequest.verify|verify} messages.
-         * @param message StoreRequest message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: envelopestore.IStoreRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a StoreRequest message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns StoreRequest
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): envelopestore.StoreRequest;
-
-        /**
-         * Decodes a StoreRequest message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns StoreRequest
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): envelopestore.StoreRequest;
-
-        /**
-         * Verifies a StoreRequest message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a StoreRequest message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns StoreRequest
-         */
-        public static fromObject(object: { [k: string]: any }): envelopestore.StoreRequest;
-
-        /**
-         * Creates a plain object from a StoreRequest message. Also converts values to other types if specified.
-         * @param message StoreRequest
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: envelopestore.StoreRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this StoreRequest to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-
-    /** Properties of a StoreResponse. */
-    interface IStoreResponse {
-
-        /** StoreResponse envelope */
-        envelope?: (envelope.IEnvelope|null);
-
-        /** StoreResponse statusInfo */
-        statusInfo?: (envelopestore.IStatusInfo|null);
-    }
-
-    /** Represents a StoreResponse. */
-    class StoreResponse implements IStoreResponse {
-
-        /**
-         * Constructs a new StoreResponse.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: envelopestore.IStoreResponse);
-
-        /** StoreResponse envelope. */
-        public envelope?: (envelope.IEnvelope|null);
-
-        /** StoreResponse statusInfo. */
-        public statusInfo?: (envelopestore.IStatusInfo|null);
-
-        /**
-         * Creates a new StoreResponse instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns StoreResponse instance
-         */
-        public static create(properties?: envelopestore.IStoreResponse): envelopestore.StoreResponse;
-
-        /**
-         * Encodes the specified StoreResponse message. Does not implicitly {@link envelopestore.StoreResponse.verify|verify} messages.
-         * @param message StoreResponse message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: envelopestore.IStoreResponse, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified StoreResponse message, length delimited. Does not implicitly {@link envelopestore.StoreResponse.verify|verify} messages.
-         * @param message StoreResponse message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: envelopestore.IStoreResponse, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a StoreResponse message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns StoreResponse
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): envelopestore.StoreResponse;
-
-        /**
-         * Decodes a StoreResponse message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns StoreResponse
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): envelopestore.StoreResponse;
-
-        /**
-         * Verifies a StoreResponse message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a StoreResponse message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns StoreResponse
-         */
-        public static fromObject(object: { [k: string]: any }): envelopestore.StoreResponse;
-
-        /**
-         * Creates a plain object from a StoreResponse message. Also converts values to other types if specified.
-         * @param message StoreResponse
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: envelopestore.StoreResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this StoreResponse to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-
-    /** Properties of a LoadByIDRequest. */
-    interface ILoadByIDRequest {
-
-        /** LoadByIDRequest id */
-        id?: (string|null);
-    }
-
-    /** Represents a LoadByIDRequest. */
-    class LoadByIDRequest implements ILoadByIDRequest {
-
-        /**
-         * Constructs a new LoadByIDRequest.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: envelopestore.ILoadByIDRequest);
-
-        /** LoadByIDRequest id. */
-        public id: string;
-
-        /**
-         * Creates a new LoadByIDRequest instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns LoadByIDRequest instance
-         */
-        public static create(properties?: envelopestore.ILoadByIDRequest): envelopestore.LoadByIDRequest;
-
-        /**
-         * Encodes the specified LoadByIDRequest message. Does not implicitly {@link envelopestore.LoadByIDRequest.verify|verify} messages.
-         * @param message LoadByIDRequest message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: envelopestore.ILoadByIDRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified LoadByIDRequest message, length delimited. Does not implicitly {@link envelopestore.LoadByIDRequest.verify|verify} messages.
-         * @param message LoadByIDRequest message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: envelopestore.ILoadByIDRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a LoadByIDRequest message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns LoadByIDRequest
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): envelopestore.LoadByIDRequest;
-
-        /**
-         * Decodes a LoadByIDRequest message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns LoadByIDRequest
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): envelopestore.LoadByIDRequest;
-
-        /**
-         * Verifies a LoadByIDRequest message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a LoadByIDRequest message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns LoadByIDRequest
-         */
-        public static fromObject(object: { [k: string]: any }): envelopestore.LoadByIDRequest;
-
-        /**
-         * Creates a plain object from a LoadByIDRequest message. Also converts values to other types if specified.
-         * @param message LoadByIDRequest
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: envelopestore.LoadByIDRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this LoadByIDRequest to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-
-    /** Properties of a LoadByTxHashRequest. */
-    interface ILoadByTxHashRequest {
-
-        /** LoadByTxHashRequest chain */
-        chain?: (chain.IChain|null);
-
-        /** LoadByTxHashRequest txHash */
-        txHash?: (ethereum.IHash|null);
-    }
-
-    /** Represents a LoadByTxHashRequest. */
-    class LoadByTxHashRequest implements ILoadByTxHashRequest {
-
-        /**
-         * Constructs a new LoadByTxHashRequest.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: envelopestore.ILoadByTxHashRequest);
-
-        /** LoadByTxHashRequest chain. */
-        public chain?: (chain.IChain|null);
-
-        /** LoadByTxHashRequest txHash. */
-        public txHash?: (ethereum.IHash|null);
-
-        /**
-         * Creates a new LoadByTxHashRequest instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns LoadByTxHashRequest instance
-         */
-        public static create(properties?: envelopestore.ILoadByTxHashRequest): envelopestore.LoadByTxHashRequest;
-
-        /**
-         * Encodes the specified LoadByTxHashRequest message. Does not implicitly {@link envelopestore.LoadByTxHashRequest.verify|verify} messages.
-         * @param message LoadByTxHashRequest message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: envelopestore.ILoadByTxHashRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified LoadByTxHashRequest message, length delimited. Does not implicitly {@link envelopestore.LoadByTxHashRequest.verify|verify} messages.
-         * @param message LoadByTxHashRequest message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: envelopestore.ILoadByTxHashRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a LoadByTxHashRequest message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns LoadByTxHashRequest
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): envelopestore.LoadByTxHashRequest;
-
-        /**
-         * Decodes a LoadByTxHashRequest message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns LoadByTxHashRequest
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): envelopestore.LoadByTxHashRequest;
-
-        /**
-         * Verifies a LoadByTxHashRequest message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a LoadByTxHashRequest message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns LoadByTxHashRequest
-         */
-        public static fromObject(object: { [k: string]: any }): envelopestore.LoadByTxHashRequest;
-
-        /**
-         * Creates a plain object from a LoadByTxHashRequest message. Also converts values to other types if specified.
-         * @param message LoadByTxHashRequest
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: envelopestore.LoadByTxHashRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this LoadByTxHashRequest to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-
-    /** Properties of a SetStatusRequest. */
-    interface ISetStatusRequest {
-
-        /** SetStatusRequest id */
-        id?: (string|null);
-
-        /** SetStatusRequest status */
-        status?: (envelopestore.Status|null);
-    }
-
-    /** Represents a SetStatusRequest. */
-    class SetStatusRequest implements ISetStatusRequest {
-
-        /**
-         * Constructs a new SetStatusRequest.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: envelopestore.ISetStatusRequest);
-
-        /** SetStatusRequest id. */
-        public id: string;
-
-        /** SetStatusRequest status. */
-        public status: envelopestore.Status;
-
-        /**
-         * Creates a new SetStatusRequest instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns SetStatusRequest instance
-         */
-        public static create(properties?: envelopestore.ISetStatusRequest): envelopestore.SetStatusRequest;
-
-        /**
-         * Encodes the specified SetStatusRequest message. Does not implicitly {@link envelopestore.SetStatusRequest.verify|verify} messages.
-         * @param message SetStatusRequest message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: envelopestore.ISetStatusRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified SetStatusRequest message, length delimited. Does not implicitly {@link envelopestore.SetStatusRequest.verify|verify} messages.
-         * @param message SetStatusRequest message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: envelopestore.ISetStatusRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a SetStatusRequest message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns SetStatusRequest
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): envelopestore.SetStatusRequest;
-
-        /**
-         * Decodes a SetStatusRequest message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns SetStatusRequest
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): envelopestore.SetStatusRequest;
-
-        /**
-         * Verifies a SetStatusRequest message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a SetStatusRequest message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns SetStatusRequest
-         */
-        public static fromObject(object: { [k: string]: any }): envelopestore.SetStatusRequest;
-
-        /**
-         * Creates a plain object from a SetStatusRequest message. Also converts values to other types if specified.
-         * @param message SetStatusRequest
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: envelopestore.SetStatusRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this SetStatusRequest to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-
-    /** Properties of a StatusResponse. */
-    interface IStatusResponse {
-
-        /** StatusResponse statusInfo */
-        statusInfo?: (envelopestore.IStatusInfo|null);
-    }
-
-    /** Represents a StatusResponse. */
-    class StatusResponse implements IStatusResponse {
-
-        /**
-         * Constructs a new StatusResponse.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: envelopestore.IStatusResponse);
-
-        /** StatusResponse statusInfo. */
-        public statusInfo?: (envelopestore.IStatusInfo|null);
-
-        /**
-         * Creates a new StatusResponse instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns StatusResponse instance
-         */
-        public static create(properties?: envelopestore.IStatusResponse): envelopestore.StatusResponse;
-
-        /**
-         * Encodes the specified StatusResponse message. Does not implicitly {@link envelopestore.StatusResponse.verify|verify} messages.
-         * @param message StatusResponse message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: envelopestore.IStatusResponse, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified StatusResponse message, length delimited. Does not implicitly {@link envelopestore.StatusResponse.verify|verify} messages.
-         * @param message StatusResponse message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: envelopestore.IStatusResponse, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a StatusResponse message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns StatusResponse
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): envelopestore.StatusResponse;
-
-        /**
-         * Decodes a StatusResponse message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns StatusResponse
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): envelopestore.StatusResponse;
-
-        /**
-         * Verifies a StatusResponse message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a StatusResponse message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns StatusResponse
-         */
-        public static fromObject(object: { [k: string]: any }): envelopestore.StatusResponse;
-
-        /**
-         * Creates a plain object from a StatusResponse message. Also converts values to other types if specified.
-         * @param message StatusResponse
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: envelopestore.StatusResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this StatusResponse to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-
-    /** Properties of a LoadPendingRequest. */
-    interface ILoadPendingRequest {
-
-        /** LoadPendingRequest duration */
-        duration?: (google.protobuf.IDuration|null);
-    }
-
-    /** Represents a LoadPendingRequest. */
-    class LoadPendingRequest implements ILoadPendingRequest {
-
-        /**
-         * Constructs a new LoadPendingRequest.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: envelopestore.ILoadPendingRequest);
-
-        /** LoadPendingRequest duration. */
-        public duration?: (google.protobuf.IDuration|null);
-
-        /**
-         * Creates a new LoadPendingRequest instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns LoadPendingRequest instance
-         */
-        public static create(properties?: envelopestore.ILoadPendingRequest): envelopestore.LoadPendingRequest;
-
-        /**
-         * Encodes the specified LoadPendingRequest message. Does not implicitly {@link envelopestore.LoadPendingRequest.verify|verify} messages.
-         * @param message LoadPendingRequest message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: envelopestore.ILoadPendingRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified LoadPendingRequest message, length delimited. Does not implicitly {@link envelopestore.LoadPendingRequest.verify|verify} messages.
-         * @param message LoadPendingRequest message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: envelopestore.ILoadPendingRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a LoadPendingRequest message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns LoadPendingRequest
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): envelopestore.LoadPendingRequest;
-
-        /**
-         * Decodes a LoadPendingRequest message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns LoadPendingRequest
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): envelopestore.LoadPendingRequest;
-
-        /**
-         * Verifies a LoadPendingRequest message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a LoadPendingRequest message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns LoadPendingRequest
-         */
-        public static fromObject(object: { [k: string]: any }): envelopestore.LoadPendingRequest;
-
-        /**
-         * Creates a plain object from a LoadPendingRequest message. Also converts values to other types if specified.
-         * @param message LoadPendingRequest
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: envelopestore.LoadPendingRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this LoadPendingRequest to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-
-    /** Properties of a LoadPendingResponse. */
-    interface ILoadPendingResponse {
-
-        /** LoadPendingResponse responses */
-        responses?: (envelopestore.IStoreResponse[]|null);
-    }
-
-    /** Represents a LoadPendingResponse. */
-    class LoadPendingResponse implements ILoadPendingResponse {
-
-        /**
-         * Constructs a new LoadPendingResponse.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: envelopestore.ILoadPendingResponse);
-
-        /** LoadPendingResponse responses. */
-        public responses: envelopestore.IStoreResponse[];
-
-        /**
-         * Creates a new LoadPendingResponse instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns LoadPendingResponse instance
-         */
-        public static create(properties?: envelopestore.ILoadPendingResponse): envelopestore.LoadPendingResponse;
-
-        /**
-         * Encodes the specified LoadPendingResponse message. Does not implicitly {@link envelopestore.LoadPendingResponse.verify|verify} messages.
-         * @param message LoadPendingResponse message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: envelopestore.ILoadPendingResponse, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified LoadPendingResponse message, length delimited. Does not implicitly {@link envelopestore.LoadPendingResponse.verify|verify} messages.
-         * @param message LoadPendingResponse message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: envelopestore.ILoadPendingResponse, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a LoadPendingResponse message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns LoadPendingResponse
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): envelopestore.LoadPendingResponse;
-
-        /**
-         * Decodes a LoadPendingResponse message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns LoadPendingResponse
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): envelopestore.LoadPendingResponse;
-
-        /**
-         * Verifies a LoadPendingResponse message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a LoadPendingResponse message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns LoadPendingResponse
-         */
-        public static fromObject(object: { [k: string]: any }): envelopestore.LoadPendingResponse;
-
-        /**
-         * Creates a plain object from a LoadPendingResponse message. Also converts values to other types if specified.
-         * @param message LoadPendingResponse
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: envelopestore.LoadPendingResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this LoadPendingResponse to JSON.
          * @returns JSON object
          */
         public toJSON(): { [k: string]: any };
@@ -7280,198 +6287,6 @@ export namespace google {
                 public toJSON(): { [k: string]: any };
             }
         }
-
-        /** Properties of a Duration. */
-        interface IDuration {
-
-            /** Duration seconds */
-            seconds?: (number|Long|null);
-
-            /** Duration nanos */
-            nanos?: (number|null);
-        }
-
-        /** Represents a Duration. */
-        class Duration implements IDuration {
-
-            /**
-             * Constructs a new Duration.
-             * @param [properties] Properties to set
-             */
-            constructor(properties?: google.protobuf.IDuration);
-
-            /** Duration seconds. */
-            public seconds: (number|Long);
-
-            /** Duration nanos. */
-            public nanos: number;
-
-            /**
-             * Creates a new Duration instance using the specified properties.
-             * @param [properties] Properties to set
-             * @returns Duration instance
-             */
-            public static create(properties?: google.protobuf.IDuration): google.protobuf.Duration;
-
-            /**
-             * Encodes the specified Duration message. Does not implicitly {@link google.protobuf.Duration.verify|verify} messages.
-             * @param message Duration message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            public static encode(message: google.protobuf.IDuration, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Encodes the specified Duration message, length delimited. Does not implicitly {@link google.protobuf.Duration.verify|verify} messages.
-             * @param message Duration message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            public static encodeDelimited(message: google.protobuf.IDuration, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Decodes a Duration message from the specified reader or buffer.
-             * @param reader Reader or buffer to decode from
-             * @param [length] Message length if known beforehand
-             * @returns Duration
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.protobuf.Duration;
-
-            /**
-             * Decodes a Duration message from the specified reader or buffer, length delimited.
-             * @param reader Reader or buffer to decode from
-             * @returns Duration
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.protobuf.Duration;
-
-            /**
-             * Verifies a Duration message.
-             * @param message Plain object to verify
-             * @returns `null` if valid, otherwise the reason why it is not
-             */
-            public static verify(message: { [k: string]: any }): (string|null);
-
-            /**
-             * Creates a Duration message from a plain object. Also converts values to their respective internal types.
-             * @param object Plain object
-             * @returns Duration
-             */
-            public static fromObject(object: { [k: string]: any }): google.protobuf.Duration;
-
-            /**
-             * Creates a plain object from a Duration message. Also converts values to other types if specified.
-             * @param message Duration
-             * @param [options] Conversion options
-             * @returns Plain object
-             */
-            public static toObject(message: google.protobuf.Duration, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-            /**
-             * Converts this Duration to JSON.
-             * @returns JSON object
-             */
-            public toJSON(): { [k: string]: any };
-        }
-
-        /** Properties of a Timestamp. */
-        interface ITimestamp {
-
-            /** Timestamp seconds */
-            seconds?: (number|Long|null);
-
-            /** Timestamp nanos */
-            nanos?: (number|null);
-        }
-
-        /** Represents a Timestamp. */
-        class Timestamp implements ITimestamp {
-
-            /**
-             * Constructs a new Timestamp.
-             * @param [properties] Properties to set
-             */
-            constructor(properties?: google.protobuf.ITimestamp);
-
-            /** Timestamp seconds. */
-            public seconds: (number|Long);
-
-            /** Timestamp nanos. */
-            public nanos: number;
-
-            /**
-             * Creates a new Timestamp instance using the specified properties.
-             * @param [properties] Properties to set
-             * @returns Timestamp instance
-             */
-            public static create(properties?: google.protobuf.ITimestamp): google.protobuf.Timestamp;
-
-            /**
-             * Encodes the specified Timestamp message. Does not implicitly {@link google.protobuf.Timestamp.verify|verify} messages.
-             * @param message Timestamp message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            public static encode(message: google.protobuf.ITimestamp, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Encodes the specified Timestamp message, length delimited. Does not implicitly {@link google.protobuf.Timestamp.verify|verify} messages.
-             * @param message Timestamp message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            public static encodeDelimited(message: google.protobuf.ITimestamp, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Decodes a Timestamp message from the specified reader or buffer.
-             * @param reader Reader or buffer to decode from
-             * @param [length] Message length if known beforehand
-             * @returns Timestamp
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.protobuf.Timestamp;
-
-            /**
-             * Decodes a Timestamp message from the specified reader or buffer, length delimited.
-             * @param reader Reader or buffer to decode from
-             * @returns Timestamp
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.protobuf.Timestamp;
-
-            /**
-             * Verifies a Timestamp message.
-             * @param message Plain object to verify
-             * @returns `null` if valid, otherwise the reason why it is not
-             */
-            public static verify(message: { [k: string]: any }): (string|null);
-
-            /**
-             * Creates a Timestamp message from a plain object. Also converts values to their respective internal types.
-             * @param object Plain object
-             * @returns Timestamp
-             */
-            public static fromObject(object: { [k: string]: any }): google.protobuf.Timestamp;
-
-            /**
-             * Creates a plain object from a Timestamp message. Also converts values to other types if specified.
-             * @param message Timestamp
-             * @param [options] Conversion options
-             * @returns Plain object
-             */
-            public static toObject(message: google.protobuf.Timestamp, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-            /**
-             * Converts this Timestamp to JSON.
-             * @returns JSON object
-             */
-            public toJSON(): { [k: string]: any };
-        }
     }
 }
 
@@ -7584,7 +6399,7 @@ export namespace envelope {
         "private"?: (args.IPrivate|null);
 
         /** Args data */
-        data?: (ethereum.IData|null);
+        data?: (string|null);
     }
 
     /** Represents an Args. */
@@ -7603,7 +6418,7 @@ export namespace envelope {
         public private?: (args.IPrivate|null);
 
         /** Args data. */
-        public data?: (ethereum.IData|null);
+        public data: string;
 
         /**
          * Creates a new Args instance using the specified properties.
@@ -7686,7 +6501,7 @@ export namespace envelope {
         protocol?: (chain.IProtocol|null);
 
         /** Envelope from */
-        from?: (ethereum.IAccount|null);
+        from?: (string|null);
 
         /** Envelope tx */
         tx?: (ethereum.ITransaction|null);
@@ -7720,7 +6535,7 @@ export namespace envelope {
         public protocol?: (chain.IProtocol|null);
 
         /** Envelope from. */
-        public from?: (ethereum.IAccount|null);
+        public from: string;
 
         /** Envelope tx. */
         public tx?: (ethereum.ITransaction|null);
@@ -7924,377 +6739,17 @@ export namespace error {
 /** Namespace ethereum. */
 export namespace ethereum {
 
-    /** Properties of an Account. */
-    interface IAccount {
-
-        /** Account raw */
-        raw?: (Uint8Array|null);
-    }
-
-    /** Represents an Account. */
-    class Account implements IAccount {
-
-        /**
-         * Constructs a new Account.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: ethereum.IAccount);
-
-        /** Account raw. */
-        public raw: Uint8Array;
-
-        /**
-         * Creates a new Account instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns Account instance
-         */
-        public static create(properties?: ethereum.IAccount): ethereum.Account;
-
-        /**
-         * Encodes the specified Account message. Does not implicitly {@link ethereum.Account.verify|verify} messages.
-         * @param message Account message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: ethereum.IAccount, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified Account message, length delimited. Does not implicitly {@link ethereum.Account.verify|verify} messages.
-         * @param message Account message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: ethereum.IAccount, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes an Account message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns Account
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): ethereum.Account;
-
-        /**
-         * Decodes an Account message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns Account
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): ethereum.Account;
-
-        /**
-         * Verifies an Account message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates an Account message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns Account
-         */
-        public static fromObject(object: { [k: string]: any }): ethereum.Account;
-
-        /**
-         * Creates a plain object from an Account message. Also converts values to other types if specified.
-         * @param message Account
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: ethereum.Account, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this Account to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-
-    /** Properties of a Hash. */
-    interface IHash {
-
-        /** Hash raw */
-        raw?: (Uint8Array|null);
-    }
-
-    /** Represents a Hash. */
-    class Hash implements IHash {
-
-        /**
-         * Constructs a new Hash.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: ethereum.IHash);
-
-        /** Hash raw. */
-        public raw: Uint8Array;
-
-        /**
-         * Creates a new Hash instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns Hash instance
-         */
-        public static create(properties?: ethereum.IHash): ethereum.Hash;
-
-        /**
-         * Encodes the specified Hash message. Does not implicitly {@link ethereum.Hash.verify|verify} messages.
-         * @param message Hash message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: ethereum.IHash, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified Hash message, length delimited. Does not implicitly {@link ethereum.Hash.verify|verify} messages.
-         * @param message Hash message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: ethereum.IHash, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a Hash message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns Hash
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): ethereum.Hash;
-
-        /**
-         * Decodes a Hash message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns Hash
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): ethereum.Hash;
-
-        /**
-         * Verifies a Hash message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a Hash message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns Hash
-         */
-        public static fromObject(object: { [k: string]: any }): ethereum.Hash;
-
-        /**
-         * Creates a plain object from a Hash message. Also converts values to other types if specified.
-         * @param message Hash
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: ethereum.Hash, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this Hash to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-
-    /** Properties of a Quantity. */
-    interface IQuantity {
-
-        /** Quantity raw */
-        raw?: (Uint8Array|null);
-    }
-
-    /** Represents a Quantity. */
-    class Quantity implements IQuantity {
-
-        /**
-         * Constructs a new Quantity.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: ethereum.IQuantity);
-
-        /** Quantity raw. */
-        public raw: Uint8Array;
-
-        /**
-         * Creates a new Quantity instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns Quantity instance
-         */
-        public static create(properties?: ethereum.IQuantity): ethereum.Quantity;
-
-        /**
-         * Encodes the specified Quantity message. Does not implicitly {@link ethereum.Quantity.verify|verify} messages.
-         * @param message Quantity message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: ethereum.IQuantity, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified Quantity message, length delimited. Does not implicitly {@link ethereum.Quantity.verify|verify} messages.
-         * @param message Quantity message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: ethereum.IQuantity, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a Quantity message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns Quantity
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): ethereum.Quantity;
-
-        /**
-         * Decodes a Quantity message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns Quantity
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): ethereum.Quantity;
-
-        /**
-         * Verifies a Quantity message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a Quantity message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns Quantity
-         */
-        public static fromObject(object: { [k: string]: any }): ethereum.Quantity;
-
-        /**
-         * Creates a plain object from a Quantity message. Also converts values to other types if specified.
-         * @param message Quantity
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: ethereum.Quantity, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this Quantity to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-
-    /** Properties of a Data. */
-    interface IData {
-
-        /** Data raw */
-        raw?: (Uint8Array|null);
-    }
-
-    /** Represents a Data. */
-    class Data implements IData {
-
-        /**
-         * Constructs a new Data.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: ethereum.IData);
-
-        /** Data raw. */
-        public raw: Uint8Array;
-
-        /**
-         * Creates a new Data instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns Data instance
-         */
-        public static create(properties?: ethereum.IData): ethereum.Data;
-
-        /**
-         * Encodes the specified Data message. Does not implicitly {@link ethereum.Data.verify|verify} messages.
-         * @param message Data message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: ethereum.IData, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified Data message, length delimited. Does not implicitly {@link ethereum.Data.verify|verify} messages.
-         * @param message Data message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: ethereum.IData, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a Data message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns Data
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): ethereum.Data;
-
-        /**
-         * Decodes a Data message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns Data
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): ethereum.Data;
-
-        /**
-         * Verifies a Data message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a Data message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns Data
-         */
-        public static fromObject(object: { [k: string]: any }): ethereum.Data;
-
-        /**
-         * Creates a plain object from a Data message. Also converts values to other types if specified.
-         * @param message Data
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: ethereum.Data, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this Data to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-
     /** Properties of a Log. */
     interface ILog {
 
         /** Log address */
-        address?: (ethereum.IAccount|null);
+        address?: (string|null);
 
         /** Log topics */
-        topics?: (ethereum.IHash[]|null);
+        topics?: (string[]|null);
 
         /** Log data */
-        data?: (Uint8Array|null);
+        data?: (string|null);
 
         /** Log event */
         event?: (string|null);
@@ -8306,13 +6761,13 @@ export namespace ethereum {
         blockNumber?: (number|Long|null);
 
         /** Log txHash */
-        txHash?: (ethereum.IHash|null);
+        txHash?: (string|null);
 
         /** Log txIndex */
         txIndex?: (number|Long|null);
 
         /** Log blockHash */
-        blockHash?: (ethereum.IHash|null);
+        blockHash?: (string|null);
 
         /** Log index */
         index?: (number|Long|null);
@@ -8331,13 +6786,13 @@ export namespace ethereum {
         constructor(properties?: ethereum.ILog);
 
         /** Log address. */
-        public address?: (ethereum.IAccount|null);
+        public address: string;
 
         /** Log topics. */
-        public topics: ethereum.IHash[];
+        public topics: string[];
 
         /** Log data. */
-        public data: Uint8Array;
+        public data: string;
 
         /** Log event. */
         public event: string;
@@ -8349,13 +6804,13 @@ export namespace ethereum {
         public blockNumber: (number|Long);
 
         /** Log txHash. */
-        public txHash?: (ethereum.IHash|null);
+        public txHash: string;
 
         /** Log txIndex. */
         public txIndex: (number|Long);
 
         /** Log blockHash. */
-        public blockHash?: (ethereum.IHash|null);
+        public blockHash: string;
 
         /** Log index. */
         public index: (number|Long);
@@ -8438,10 +6893,10 @@ export namespace ethereum {
     interface IReceipt {
 
         /** Receipt txHash */
-        txHash?: (ethereum.IHash|null);
+        txHash?: (string|null);
 
         /** Receipt blockHash */
-        blockHash?: (ethereum.IHash|null);
+        blockHash?: (string|null);
 
         /** Receipt blockNumber */
         blockNumber?: (number|Long|null);
@@ -8450,16 +6905,16 @@ export namespace ethereum {
         txIndex?: (number|Long|null);
 
         /** Receipt contractAddress */
-        contractAddress?: (ethereum.IAccount|null);
+        contractAddress?: (string|null);
 
         /** Receipt postState */
-        postState?: (Uint8Array|null);
+        postState?: (string|null);
 
         /** Receipt status */
         status?: (number|Long|null);
 
         /** Receipt bloom */
-        bloom?: (Uint8Array|null);
+        bloom?: (string|null);
 
         /** Receipt logs */
         logs?: (ethereum.ILog[]|null);
@@ -8481,10 +6936,10 @@ export namespace ethereum {
         constructor(properties?: ethereum.IReceipt);
 
         /** Receipt txHash. */
-        public txHash?: (ethereum.IHash|null);
+        public txHash: string;
 
         /** Receipt blockHash. */
-        public blockHash?: (ethereum.IHash|null);
+        public blockHash: string;
 
         /** Receipt blockNumber. */
         public blockNumber: (number|Long);
@@ -8493,16 +6948,16 @@ export namespace ethereum {
         public txIndex: (number|Long);
 
         /** Receipt contractAddress. */
-        public contractAddress?: (ethereum.IAccount|null);
+        public contractAddress: string;
 
         /** Receipt postState. */
-        public postState: Uint8Array;
+        public postState: string;
 
         /** Receipt status. */
         public status: (number|Long);
 
         /** Receipt bloom. */
-        public bloom: Uint8Array;
+        public bloom: string;
 
         /** Receipt logs. */
         public logs: ethereum.ILog[];
@@ -8591,19 +7046,19 @@ export namespace ethereum {
         nonce?: (number|Long|null);
 
         /** TxData to */
-        to?: (ethereum.IAccount|null);
+        to?: (string|null);
 
         /** TxData value */
-        value?: (ethereum.IQuantity|null);
+        value?: (string|null);
 
         /** TxData gas */
         gas?: (number|Long|null);
 
         /** TxData gasPrice */
-        gasPrice?: (ethereum.IQuantity|null);
+        gasPrice?: (string|null);
 
         /** TxData data */
-        data?: (ethereum.IData|null);
+        data?: (string|null);
     }
 
     /** Represents a TxData. */
@@ -8619,19 +7074,19 @@ export namespace ethereum {
         public nonce: (number|Long);
 
         /** TxData to. */
-        public to?: (ethereum.IAccount|null);
+        public to: string;
 
         /** TxData value. */
-        public value?: (ethereum.IQuantity|null);
+        public value: string;
 
         /** TxData gas. */
         public gas: (number|Long);
 
         /** TxData gasPrice. */
-        public gasPrice?: (ethereum.IQuantity|null);
+        public gasPrice: string;
 
         /** TxData data. */
-        public data?: (ethereum.IData|null);
+        public data: string;
 
         /**
          * Creates a new TxData instance using the specified properties.
@@ -8711,10 +7166,10 @@ export namespace ethereum {
         txData?: (ethereum.ITxData|null);
 
         /** Transaction raw */
-        raw?: (ethereum.IData|null);
+        raw?: (string|null);
 
         /** Transaction hash */
-        hash?: (ethereum.IHash|null);
+        hash?: (string|null);
     }
 
     /** Represents a Transaction. */
@@ -8730,10 +7185,10 @@ export namespace ethereum {
         public txData?: (ethereum.ITxData|null);
 
         /** Transaction raw. */
-        public raw?: (ethereum.IData|null);
+        public raw: string;
 
         /** Transaction hash. */
-        public hash?: (ethereum.IHash|null);
+        public hash: string;
 
         /**
          * Creates a new Transaction instance using the specified properties.
@@ -8801,265 +7256,6 @@ export namespace ethereum {
 
         /**
          * Converts this Transaction to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-}
-
-/** Namespace faucet. */
-export namespace faucet {
-
-    /** Represents a Faucet */
-    class Faucet extends $protobuf.rpc.Service {
-
-        /**
-         * Constructs a new Faucet service.
-         * @param rpcImpl RPC implementation
-         * @param [requestDelimited=false] Whether requests are length-delimited
-         * @param [responseDelimited=false] Whether responses are length-delimited
-         */
-        constructor(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean);
-
-        /**
-         * Creates new Faucet service using the specified rpc implementation.
-         * @param rpcImpl RPC implementation
-         * @param [requestDelimited=false] Whether requests are length-delimited
-         * @param [responseDelimited=false] Whether responses are length-delimited
-         * @returns RPC service. Useful where requests and/or responses are streamed.
-         */
-        public static create(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean): Faucet;
-
-        /**
-         * Calls Credit.
-         * @param request CreditRequest message or plain object
-         * @param callback Node-style callback called with the error, if any, and CreditResponse
-         */
-        public credit(request: faucet.ICreditRequest, callback: faucet.Faucet.CreditCallback): void;
-
-        /**
-         * Calls Credit.
-         * @param request CreditRequest message or plain object
-         * @returns Promise
-         */
-        public credit(request: faucet.ICreditRequest): Promise<faucet.CreditResponse>;
-    }
-
-    namespace Faucet {
-
-        /**
-         * Callback as used by {@link faucet.Faucet#credit}.
-         * @param error Error, if any
-         * @param [response] CreditResponse
-         */
-        type CreditCallback = (error: (Error|null), response?: faucet.CreditResponse) => void;
-    }
-
-    /** Properties of a CreditRequest. */
-    interface ICreditRequest {
-
-        /** CreditRequest chain */
-        chain?: (chain.IChain|null);
-
-        /** CreditRequest beneficiary */
-        beneficiary?: (ethereum.IAccount|null);
-
-        /** CreditRequest creditor */
-        creditor?: (ethereum.IAccount|null);
-
-        /** CreditRequest amount */
-        amount?: (ethereum.IQuantity|null);
-    }
-
-    /** Represents a CreditRequest. */
-    class CreditRequest implements ICreditRequest {
-
-        /**
-         * Constructs a new CreditRequest.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: faucet.ICreditRequest);
-
-        /** CreditRequest chain. */
-        public chain?: (chain.IChain|null);
-
-        /** CreditRequest beneficiary. */
-        public beneficiary?: (ethereum.IAccount|null);
-
-        /** CreditRequest creditor. */
-        public creditor?: (ethereum.IAccount|null);
-
-        /** CreditRequest amount. */
-        public amount?: (ethereum.IQuantity|null);
-
-        /**
-         * Creates a new CreditRequest instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns CreditRequest instance
-         */
-        public static create(properties?: faucet.ICreditRequest): faucet.CreditRequest;
-
-        /**
-         * Encodes the specified CreditRequest message. Does not implicitly {@link faucet.CreditRequest.verify|verify} messages.
-         * @param message CreditRequest message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: faucet.ICreditRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified CreditRequest message, length delimited. Does not implicitly {@link faucet.CreditRequest.verify|verify} messages.
-         * @param message CreditRequest message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: faucet.ICreditRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a CreditRequest message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns CreditRequest
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): faucet.CreditRequest;
-
-        /**
-         * Decodes a CreditRequest message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns CreditRequest
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): faucet.CreditRequest;
-
-        /**
-         * Verifies a CreditRequest message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a CreditRequest message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns CreditRequest
-         */
-        public static fromObject(object: { [k: string]: any }): faucet.CreditRequest;
-
-        /**
-         * Creates a plain object from a CreditRequest message. Also converts values to other types if specified.
-         * @param message CreditRequest
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: faucet.CreditRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this CreditRequest to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-
-    /** Properties of a CreditResponse. */
-    interface ICreditResponse {
-
-        /** CreditResponse creditor */
-        creditor?: (ethereum.IAccount|null);
-
-        /** CreditResponse amount */
-        amount?: (ethereum.IQuantity|null);
-
-        /** CreditResponse error */
-        error?: (error.IError|null);
-    }
-
-    /** Represents a CreditResponse. */
-    class CreditResponse implements ICreditResponse {
-
-        /**
-         * Constructs a new CreditResponse.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: faucet.ICreditResponse);
-
-        /** CreditResponse creditor. */
-        public creditor?: (ethereum.IAccount|null);
-
-        /** CreditResponse amount. */
-        public amount?: (ethereum.IQuantity|null);
-
-        /** CreditResponse error. */
-        public error?: (error.IError|null);
-
-        /**
-         * Creates a new CreditResponse instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns CreditResponse instance
-         */
-        public static create(properties?: faucet.ICreditResponse): faucet.CreditResponse;
-
-        /**
-         * Encodes the specified CreditResponse message. Does not implicitly {@link faucet.CreditResponse.verify|verify} messages.
-         * @param message CreditResponse message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: faucet.ICreditResponse, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified CreditResponse message, length delimited. Does not implicitly {@link faucet.CreditResponse.verify|verify} messages.
-         * @param message CreditResponse message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: faucet.ICreditResponse, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a CreditResponse message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns CreditResponse
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): faucet.CreditResponse;
-
-        /**
-         * Decodes a CreditResponse message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns CreditResponse
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): faucet.CreditResponse;
-
-        /**
-         * Verifies a CreditResponse message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a CreditResponse message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns CreditResponse
-         */
-        public static fromObject(object: { [k: string]: any }): faucet.CreditResponse;
-
-        /**
-         * Creates a plain object from a CreditResponse message. Also converts values to other types if specified.
-         * @param message CreditResponse
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: faucet.CreditResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this CreditResponse to JSON.
          * @returns JSON object
          */
         public toJSON(): { [k: string]: any };

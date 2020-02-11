@@ -35,16 +35,15 @@ export const start = async () => {
     await wait(5000)
 
     // We send 1 ETH to some other account
-    const transaction = {
+    const signedTransaction = await wallet.sign({
       nonce: 0,
       gasLimit: 21000,
       to: '0x88a5C2d9919e46F883EB62F7b8Dd9d0CC45bc290',
-      value: utils.parseEther('1.0')
-    }
-    const signedTransaction = await wallet.sign(transaction)
+      value: utils.parseEther('0.5')
+    })
 
     await producer.sendRawTransaction({
-      chainName: 'geth',
+      chainName: 'besu',
       signedTransaction
     })
   } catch (error) {

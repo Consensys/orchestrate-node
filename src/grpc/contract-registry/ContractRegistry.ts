@@ -3,7 +3,6 @@ import { Client, credentials as grpcCredentials } from '@grpc/grpc-js'
 import { ChannelOptions } from '@grpc/grpc-js/build/src/channel-options'
 // tslint:disable-next-line: no-submodule-imports
 import { UnaryCallback } from '@grpc/grpc-js/build/src/client'
-import { utils } from 'ethers'
 import { Method } from 'protobufjs'
 
 import { abi, contractregistry } from '../../stubs'
@@ -40,9 +39,9 @@ export class ContractRegistry {
           name: request.name,
           tag: request.tag
         },
-        abi: utils.toUtf8Bytes(JSON.stringify(request.abi)),
-        bytecode: utils.arrayify(request.bytecode),
-        deployedBytecode: utils.arrayify(request.deployedBytecode)
+        abi: JSON.stringify(request.abi),
+        bytecode: request.bytecode,
+        deployedBytecode: request.deployedBytecode
       }
     })
   }
@@ -76,9 +75,9 @@ export class ContractRegistry {
    * @param tag - Contract tag
    * @returns the contract ABI
    */
-  public async getABI(name: string, tag?: string): Promise<string | null> {
+  public async getABI(name: string, tag?: string): Promise<string> {
     const response = await this.registry.getContractABI(this.formatContractId(name, tag))
-    return response.abi ? JSON.parse(utils.toUtf8String(response.abi)) : null
+    return JSON.parse(response.abi)
   }
 
   /**
@@ -88,9 +87,9 @@ export class ContractRegistry {
    * @param tag - Contract tag
    * @returns the contract bytecode
    */
-  public async getBytecode(name: string, tag?: string): Promise<string | null> {
+  public async getBytecode(name: string, tag?: string): Promise<string> {
     const response = await this.registry.getContractBytecode(this.formatContractId(name, tag))
-    return response.bytecode ? utils.hexlify(response.bytecode) : null
+    return response.bytecode
   }
 
   /**
@@ -100,9 +99,9 @@ export class ContractRegistry {
    * @param tag - Contract tag
    * @returns the contract deployed bytecode
    */
-  public async getDeployedBytecode(name: string, tag?: string): Promise<string | null> {
+  public async getDeployedBytecode(name: string, tag?: string): Promise<string> {
     const response = await this.registry.getContractDeployedBytecode(this.formatContractId(name, tag))
-    return response.deployedBytecode ? utils.hexlify(response.deployedBytecode) : null
+    return response.deployedBytecode
   }
 
   /**
@@ -142,9 +141,9 @@ export class ContractRegistry {
     return {
       name: message.id!.name!,
       tag: message.id!.tag!,
-      abi: message.abi ? JSON.parse(utils.toUtf8String(message.abi)) : undefined,
-      bytecode: message.bytecode ? utils.hexlify(message.bytecode) : undefined,
-      deployedBytecode: message.deployedBytecode ? utils.hexlify(message.deployedBytecode) : undefined
+      abi: message.abi ? JSON.parse(message.abi) : undefined,
+      bytecode: message.bytecode ? message.bytecode : undefined,
+      deployedBytecode: message.deployedBytecode ? message.deployedBytecode : undefined
     }
   }
 }

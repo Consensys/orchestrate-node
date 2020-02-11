@@ -19,7 +19,7 @@ export function formatEnvelopeArgs(call: ICall, data?: string, privateFrom?: str
   return envelope.Args.create({
     call: formatCall(call),
     private: formatPrivate(privateFrom, privateFor),
-    data: formatData(data)
+    data
   })
 }
 
@@ -75,8 +75,7 @@ export function formatAccount(address?: string) {
     return
   }
 
-  const formattedAddress = utils.getAddress(address)
-  return ethereum.Account.create({ raw: utils.arrayify(formattedAddress) })
+  return utils.getAddress(address)
 }
 
 export function formatChain(chainUUID?: string, chainName?: string) {
@@ -93,19 +92,11 @@ export function formatTransaction(tx: ITransaction) {
 
 export function formatTxData(tx: ITransaction) {
   return ethereum.TxData.create({
-    data: formatData(tx.data),
+    data: tx.data,
     gas: tx.gas,
-    gasPrice: formatQuantity(tx.gasPrice),
+    gasPrice: tx.gasPrice,
     nonce: tx.nonce,
     to: formatAccount(tx.to),
-    value: formatQuantity(tx.value)
+    value: tx.value
   })
-}
-
-export function formatData(data?: string) {
-  return data ? ethereum.Data.create({ raw: utils.arrayify(data) }) : undefined
-}
-
-export function formatQuantity(data?: string) {
-  return data ? ethereum.Quantity.create({ raw: utils.arrayify(utils.bigNumberify(data)) }) : undefined
 }

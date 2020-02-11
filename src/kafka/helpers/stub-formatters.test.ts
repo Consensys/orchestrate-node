@@ -129,7 +129,7 @@ describe('stub-formatters', () => {
       nonce: 66,
       to: '0xc1912fee45d61c87cc5ea59dae31190fffff2333',
       value: '5555566',
-      data: '0x43'
+      data: '0xdata'
     }
 
     it('should create a valid Transaction message', () => {
@@ -139,17 +139,17 @@ describe('stub-formatters', () => {
 
     it('should create a valid Transaction message with no "to" value', () => {
       const message = formatters.formatTransaction({ ...mockTransaction, to: undefined })
-      expect(message.txData!.to).toBeNull()
+      expect(message.txData!.to).toEqual('')
     })
 
     it('should create a valid Transaction message with no "data" value', () => {
       const message = formatters.formatTransaction({ ...mockTransaction, data: undefined })
-      expect(message.txData!.data).toBeNull()
+      expect(message.txData!.data).toEqual('')
     })
 
     it('should create a valid Transaction message with no "value" value', () => {
       const message = formatters.formatTransaction({ ...mockTransaction, value: undefined })
-      expect(message.txData!.value).toBeNull()
+      expect(message.txData!.value).toEqual('')
     })
   })
 })
