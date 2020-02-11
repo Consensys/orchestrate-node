@@ -37,6 +37,7 @@ export const start = async () => {
     // We send 1 ETH to some other account
     const signedTransaction = await wallet.sign({
       nonce: 0,
+      gasLimit: 21000,
       to: '0x88a5C2d9919e46F883EB62F7b8Dd9d0CC45bc290',
       value: utils.parseEther('0.5')
     })
