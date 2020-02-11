@@ -33,8 +33,8 @@ export function marshalRawTransactionRequest(request: IRawTransactionRequest) {
   const envelopeMessage: envelope.IEnvelope = {
     metadata: formatters.formatMetadata(request.id!, request.extraData, request.authToken),
     tx: {
-      hash: formatters.formatData(utils.keccak256(request.signedTransaction)),
-      raw: formatters.formatData(request.signedTransaction)
+      hash: utils.keccak256(request.signedTransaction), // TODO: To be removed when implemented in the Orchestrate
+      raw: request.signedTransaction
     },
     protocol: formatters.formatProtocol(request.protocol),
     chain: formatters.formatChain(request.chainUUID, request.chainName)
@@ -50,14 +50,14 @@ export function marshalGenerateAccountRequest(request: IGenerateAccountRequest) 
 
   if (request.chain) {
     envelopeMessage.chain = {
-      chainId: Buffer.from(request.chain)
+      chainId: request.chain
     }
   }
 
   if (request.value) {
     envelopeMessage.tx = {
       txData: {
-        value: formatters.formatQuantity(request.value)
+        value: request.value
       }
     }
   }

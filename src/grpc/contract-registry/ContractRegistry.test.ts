@@ -1,5 +1,3 @@
-import { utils } from 'ethers'
-
 import { contractregistry } from '../../stubs'
 
 import { ContractRegistry } from './ContractRegistry'
@@ -62,9 +60,9 @@ describe('ContractRegistry', () => {
             name: request.name,
             tag: request.tag
           },
-          abi: utils.toUtf8Bytes(JSON.stringify(request.abi)),
-          bytecode: utils.arrayify(request.bytecode),
-          deployedBytecode: utils.arrayify(request.deployedBytecode)
+          abi: JSON.stringify(request.abi),
+          bytecode: request.bytecode,
+          deployedBytecode: request.deployedBytecode
         }
       }).finish()
 
@@ -96,9 +94,9 @@ describe('ContractRegistry', () => {
       mockUnaryRequest(
         contractregistry.GetContractResponse.encode({
           contract: {
-            abi: Buffer.from(JSON.stringify(mockABI)),
-            bytecode: utils.arrayify(mockBytecode),
-            deployedBytecode: utils.arrayify(mockDeployedBytecode),
+            abi: JSON.stringify(mockABI),
+            bytecode: mockBytecode,
+            deployedBytecode: mockDeployedBytecode,
             id: {
               name: mockContractName,
               tag: mockTag
@@ -133,7 +131,7 @@ describe('ContractRegistry', () => {
     beforeEach(() => {
       mockUnaryRequest(
         contractregistry.GetContractABIResponse.encode({
-          abi: Buffer.from(JSON.stringify(mockABI))
+          abi: JSON.stringify(mockABI)
         }).finish()
       )
     })
@@ -157,7 +155,7 @@ describe('ContractRegistry', () => {
     beforeEach(() => {
       mockUnaryRequest(
         contractregistry.GetContractBytecodeResponse.encode({
-          bytecode: utils.arrayify(mockBytecode)
+          bytecode: mockBytecode
         }).finish()
       )
     })
@@ -181,7 +179,7 @@ describe('ContractRegistry', () => {
     beforeEach(() => {
       mockUnaryRequest(
         contractregistry.GetContractDeployedBytecodeResponse.encode({
-          deployedBytecode: utils.arrayify(mockDeployedBytecode)
+          deployedBytecode: mockDeployedBytecode
         }).finish()
       )
     })

@@ -21,7 +21,6 @@
     "format": "prettier --write 'src/**/*.{ts,js,json}'",
     "check-formatting": "prettier --list-different 'src/**/*.{ts,js,json}'",
     "generate:stubs": "pbjs -t static-module -o src/stubs/index.js proto/**/*.proto && pbts -o src/stubs/index.d.ts src/stubs/index.js",
-    "help": "typedoc --help",
     "generate:docs:html": "rimraf docs && typedoc --plugin none",
     "generate:docs:md": "rimraf docs && typedoc --plugin typedoc-plugin-markdown",
     "example:send-tx": "ts-node examples/send-tx",

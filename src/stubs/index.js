@@ -264,11 +264,11 @@
              * @memberof abi
              * @interface IContract
              * @property {abi.IContractId|null} [id] Contract id
-             * @property {Uint8Array|null} [abi] Contract abi
-             * @property {Uint8Array|null} [bytecode] Contract bytecode
+             * @property {string|null} [abi] Contract abi
+             * @property {string|null} [bytecode] Contract bytecode
              * @property {Array.<abi.IMethod>|null} [methods] Contract methods
              * @property {Array.<abi.IEvent>|null} [events] Contract events
-             * @property {Uint8Array|null} [deployedBytecode] Contract deployedBytecode
+             * @property {string|null} [deployedBytecode] Contract deployedBytecode
              */
     
             /**
@@ -298,19 +298,19 @@
     
             /**
              * Contract abi.
-             * @member {Uint8Array} abi
+             * @member {string} abi
              * @memberof abi.Contract
              * @instance
              */
-            Contract.prototype.abi = $util.newBuffer([]);
+            Contract.prototype.abi = "";
     
             /**
              * Contract bytecode.
-             * @member {Uint8Array} bytecode
+             * @member {string} bytecode
              * @memberof abi.Contract
              * @instance
              */
-            Contract.prototype.bytecode = $util.newBuffer([]);
+            Contract.prototype.bytecode = "";
     
             /**
              * Contract methods.
@@ -330,11 +330,11 @@
     
             /**
              * Contract deployedBytecode.
-             * @member {Uint8Array} deployedBytecode
+             * @member {string} deployedBytecode
              * @memberof abi.Contract
              * @instance
              */
-            Contract.prototype.deployedBytecode = $util.newBuffer([]);
+            Contract.prototype.deployedBytecode = "";
     
             /**
              * Creates a new Contract instance using the specified properties.
@@ -363,9 +363,9 @@
                 if (message.id != null && message.hasOwnProperty("id"))
                     $root.abi.ContractId.encode(message.id, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
                 if (message.abi != null && message.hasOwnProperty("abi"))
-                    writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.abi);
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.abi);
                 if (message.bytecode != null && message.hasOwnProperty("bytecode"))
-                    writer.uint32(/* id 3, wireType 2 =*/26).bytes(message.bytecode);
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.bytecode);
                 if (message.methods != null && message.methods.length)
                     for (var i = 0; i < message.methods.length; ++i)
                         $root.abi.Method.encode(message.methods[i], writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
@@ -373,7 +373,7 @@
                     for (var i = 0; i < message.events.length; ++i)
                         $root.abi.Event.encode(message.events[i], writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
                 if (message.deployedBytecode != null && message.hasOwnProperty("deployedBytecode"))
-                    writer.uint32(/* id 6, wireType 2 =*/50).bytes(message.deployedBytecode);
+                    writer.uint32(/* id 6, wireType 2 =*/50).string(message.deployedBytecode);
                 return writer;
             };
     
@@ -412,10 +412,10 @@
                         message.id = $root.abi.ContractId.decode(reader, reader.uint32());
                         break;
                     case 2:
-                        message.abi = reader.bytes();
+                        message.abi = reader.string();
                         break;
                     case 3:
-                        message.bytecode = reader.bytes();
+                        message.bytecode = reader.string();
                         break;
                     case 4:
                         if (!(message.methods && message.methods.length))
@@ -428,7 +428,7 @@
                         message.events.push($root.abi.Event.decode(reader, reader.uint32()));
                         break;
                     case 6:
-                        message.deployedBytecode = reader.bytes();
+                        message.deployedBytecode = reader.string();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -471,11 +471,11 @@
                         return "id." + error;
                 }
                 if (message.abi != null && message.hasOwnProperty("abi"))
-                    if (!(message.abi && typeof message.abi.length === "number" || $util.isString(message.abi)))
-                        return "abi: buffer expected";
+                    if (!$util.isString(message.abi))
+                        return "abi: string expected";
                 if (message.bytecode != null && message.hasOwnProperty("bytecode"))
-                    if (!(message.bytecode && typeof message.bytecode.length === "number" || $util.isString(message.bytecode)))
-                        return "bytecode: buffer expected";
+                    if (!$util.isString(message.bytecode))
+                        return "bytecode: string expected";
                 if (message.methods != null && message.hasOwnProperty("methods")) {
                     if (!Array.isArray(message.methods))
                         return "methods: array expected";
@@ -495,8 +495,8 @@
                     }
                 }
                 if (message.deployedBytecode != null && message.hasOwnProperty("deployedBytecode"))
-                    if (!(message.deployedBytecode && typeof message.deployedBytecode.length === "number" || $util.isString(message.deployedBytecode)))
-                        return "deployedBytecode: buffer expected";
+                    if (!$util.isString(message.deployedBytecode))
+                        return "deployedBytecode: string expected";
                 return null;
             };
     
@@ -518,15 +518,9 @@
                     message.id = $root.abi.ContractId.fromObject(object.id);
                 }
                 if (object.abi != null)
-                    if (typeof object.abi === "string")
-                        $util.base64.decode(object.abi, message.abi = $util.newBuffer($util.base64.length(object.abi)), 0);
-                    else if (object.abi.length)
-                        message.abi = object.abi;
+                    message.abi = String(object.abi);
                 if (object.bytecode != null)
-                    if (typeof object.bytecode === "string")
-                        $util.base64.decode(object.bytecode, message.bytecode = $util.newBuffer($util.base64.length(object.bytecode)), 0);
-                    else if (object.bytecode.length)
-                        message.bytecode = object.bytecode;
+                    message.bytecode = String(object.bytecode);
                 if (object.methods) {
                     if (!Array.isArray(object.methods))
                         throw TypeError(".abi.Contract.methods: array expected");
@@ -548,10 +542,7 @@
                     }
                 }
                 if (object.deployedBytecode != null)
-                    if (typeof object.deployedBytecode === "string")
-                        $util.base64.decode(object.deployedBytecode, message.deployedBytecode = $util.newBuffer($util.base64.length(object.deployedBytecode)), 0);
-                    else if (object.deployedBytecode.length)
-                        message.deployedBytecode = object.deployedBytecode;
+                    message.deployedBytecode = String(object.deployedBytecode);
                 return message;
             };
     
@@ -574,34 +565,16 @@
                 }
                 if (options.defaults) {
                     object.id = null;
-                    if (options.bytes === String)
-                        object.abi = "";
-                    else {
-                        object.abi = [];
-                        if (options.bytes !== Array)
-                            object.abi = $util.newBuffer(object.abi);
-                    }
-                    if (options.bytes === String)
-                        object.bytecode = "";
-                    else {
-                        object.bytecode = [];
-                        if (options.bytes !== Array)
-                            object.bytecode = $util.newBuffer(object.bytecode);
-                    }
-                    if (options.bytes === String)
-                        object.deployedBytecode = "";
-                    else {
-                        object.deployedBytecode = [];
-                        if (options.bytes !== Array)
-                            object.deployedBytecode = $util.newBuffer(object.deployedBytecode);
-                    }
+                    object.abi = "";
+                    object.bytecode = "";
+                    object.deployedBytecode = "";
                 }
                 if (message.id != null && message.hasOwnProperty("id"))
                     object.id = $root.abi.ContractId.toObject(message.id, options);
                 if (message.abi != null && message.hasOwnProperty("abi"))
-                    object.abi = options.bytes === String ? $util.base64.encode(message.abi, 0, message.abi.length) : options.bytes === Array ? Array.prototype.slice.call(message.abi) : message.abi;
+                    object.abi = message.abi;
                 if (message.bytecode != null && message.hasOwnProperty("bytecode"))
-                    object.bytecode = options.bytes === String ? $util.base64.encode(message.bytecode, 0, message.bytecode.length) : options.bytes === Array ? Array.prototype.slice.call(message.bytecode) : message.bytecode;
+                    object.bytecode = message.bytecode;
                 if (message.methods && message.methods.length) {
                     object.methods = [];
                     for (var j = 0; j < message.methods.length; ++j)
@@ -613,7 +586,7 @@
                         object.events[j] = $root.abi.Event.toObject(message.events[j], options);
                 }
                 if (message.deployedBytecode != null && message.hasOwnProperty("deployedBytecode"))
-                    object.deployedBytecode = options.bytes === String ? $util.base64.encode(message.deployedBytecode, 0, message.deployedBytecode.length) : options.bytes === Array ? Array.prototype.slice.call(message.deployedBytecode) : message.deployedBytecode;
+                    object.deployedBytecode = message.deployedBytecode;
                 return object;
             };
     
@@ -638,7 +611,7 @@
              * @memberof abi
              * @interface IMethod
              * @property {string|null} [signature] Method signature
-             * @property {Uint8Array|null} [abi] Method abi
+             * @property {string|null} [abi] Method abi
              */
     
             /**
@@ -666,11 +639,11 @@
     
             /**
              * Method abi.
-             * @member {Uint8Array} abi
+             * @member {string} abi
              * @memberof abi.Method
              * @instance
              */
-            Method.prototype.abi = $util.newBuffer([]);
+            Method.prototype.abi = "";
     
             /**
              * Creates a new Method instance using the specified properties.
@@ -699,7 +672,7 @@
                 if (message.signature != null && message.hasOwnProperty("signature"))
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.signature);
                 if (message.abi != null && message.hasOwnProperty("abi"))
-                    writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.abi);
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.abi);
                 return writer;
             };
     
@@ -738,7 +711,7 @@
                         message.signature = reader.string();
                         break;
                     case 2:
-                        message.abi = reader.bytes();
+                        message.abi = reader.string();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -779,8 +752,8 @@
                     if (!$util.isString(message.signature))
                         return "signature: string expected";
                 if (message.abi != null && message.hasOwnProperty("abi"))
-                    if (!(message.abi && typeof message.abi.length === "number" || $util.isString(message.abi)))
-                        return "abi: buffer expected";
+                    if (!$util.isString(message.abi))
+                        return "abi: string expected";
                 return null;
             };
     
@@ -799,10 +772,7 @@
                 if (object.signature != null)
                     message.signature = String(object.signature);
                 if (object.abi != null)
-                    if (typeof object.abi === "string")
-                        $util.base64.decode(object.abi, message.abi = $util.newBuffer($util.base64.length(object.abi)), 0);
-                    else if (object.abi.length)
-                        message.abi = object.abi;
+                    message.abi = String(object.abi);
                 return message;
             };
     
@@ -821,18 +791,12 @@
                 var object = {};
                 if (options.defaults) {
                     object.signature = "";
-                    if (options.bytes === String)
-                        object.abi = "";
-                    else {
-                        object.abi = [];
-                        if (options.bytes !== Array)
-                            object.abi = $util.newBuffer(object.abi);
-                    }
+                    object.abi = "";
                 }
                 if (message.signature != null && message.hasOwnProperty("signature"))
                     object.signature = message.signature;
                 if (message.abi != null && message.hasOwnProperty("abi"))
-                    object.abi = options.bytes === String ? $util.base64.encode(message.abi, 0, message.abi.length) : options.bytes === Array ? Array.prototype.slice.call(message.abi) : message.abi;
+                    object.abi = message.abi;
                 return object;
             };
     
@@ -857,7 +821,7 @@
              * @memberof abi
              * @interface IEvent
              * @property {string|null} [signature] Event signature
-             * @property {Uint8Array|null} [abi] Event abi
+             * @property {string|null} [abi] Event abi
              */
     
             /**
@@ -885,11 +849,11 @@
     
             /**
              * Event abi.
-             * @member {Uint8Array} abi
+             * @member {string} abi
              * @memberof abi.Event
              * @instance
              */
-            Event.prototype.abi = $util.newBuffer([]);
+            Event.prototype.abi = "";
     
             /**
              * Creates a new Event instance using the specified properties.
@@ -918,7 +882,7 @@
                 if (message.signature != null && message.hasOwnProperty("signature"))
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.signature);
                 if (message.abi != null && message.hasOwnProperty("abi"))
-                    writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.abi);
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.abi);
                 return writer;
             };
     
@@ -957,7 +921,7 @@
                         message.signature = reader.string();
                         break;
                     case 2:
-                        message.abi = reader.bytes();
+                        message.abi = reader.string();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -998,8 +962,8 @@
                     if (!$util.isString(message.signature))
                         return "signature: string expected";
                 if (message.abi != null && message.hasOwnProperty("abi"))
-                    if (!(message.abi && typeof message.abi.length === "number" || $util.isString(message.abi)))
-                        return "abi: buffer expected";
+                    if (!$util.isString(message.abi))
+                        return "abi: string expected";
                 return null;
             };
     
@@ -1018,10 +982,7 @@
                 if (object.signature != null)
                     message.signature = String(object.signature);
                 if (object.abi != null)
-                    if (typeof object.abi === "string")
-                        $util.base64.decode(object.abi, message.abi = $util.newBuffer($util.base64.length(object.abi)), 0);
-                    else if (object.abi.length)
-                        message.abi = object.abi;
+                    message.abi = String(object.abi);
                 return message;
             };
     
@@ -1040,18 +1001,12 @@
                 var object = {};
                 if (options.defaults) {
                     object.signature = "";
-                    if (options.bytes === String)
-                        object.abi = "";
-                    else {
-                        object.abi = [];
-                        if (options.bytes !== Array)
-                            object.abi = $util.newBuffer(object.abi);
-                    }
+                    object.abi = "";
                 }
                 if (message.signature != null && message.hasOwnProperty("signature"))
                     object.signature = message.signature;
                 if (message.abi != null && message.hasOwnProperty("abi"))
-                    object.abi = options.bytes === String ? $util.base64.encode(message.abi, 0, message.abi.length) : options.bytes === Array ? Array.prototype.slice.call(message.abi) : message.abi;
+                    object.abi = message.abi;
                 return object;
             };
     
@@ -1607,7 +1562,7 @@
              * Properties of a Chain.
              * @memberof chain
              * @interface IChain
-             * @property {Uint8Array|null} [chainId] Chain chainId
+             * @property {string|null} [chainId] Chain chainId
              * @property {string|null} [uuid] Chain uuid
              * @property {string|null} [name] Chain name
              */
@@ -1629,11 +1584,11 @@
     
             /**
              * Chain chainId.
-             * @member {Uint8Array} chainId
+             * @member {string} chainId
              * @memberof chain.Chain
              * @instance
              */
-            Chain.prototype.chainId = $util.newBuffer([]);
+            Chain.prototype.chainId = "";
     
             /**
              * Chain uuid.
@@ -1676,7 +1631,7 @@
                 if (!writer)
                     writer = $Writer.create();
                 if (message.chainId != null && message.hasOwnProperty("chainId"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.chainId);
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.chainId);
                 if (message.uuid != null && message.hasOwnProperty("uuid"))
                     writer.uint32(/* id 2, wireType 2 =*/18).string(message.uuid);
                 if (message.name != null && message.hasOwnProperty("name"))
@@ -1716,7 +1671,7 @@
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1:
-                        message.chainId = reader.bytes();
+                        message.chainId = reader.string();
                         break;
                     case 2:
                         message.uuid = reader.string();
@@ -1760,8 +1715,8 @@
                 if (typeof message !== "object" || message === null)
                     return "object expected";
                 if (message.chainId != null && message.hasOwnProperty("chainId"))
-                    if (!(message.chainId && typeof message.chainId.length === "number" || $util.isString(message.chainId)))
-                        return "chainId: buffer expected";
+                    if (!$util.isString(message.chainId))
+                        return "chainId: string expected";
                 if (message.uuid != null && message.hasOwnProperty("uuid"))
                     if (!$util.isString(message.uuid))
                         return "uuid: string expected";
@@ -1784,10 +1739,7 @@
                     return object;
                 var message = new $root.chain.Chain();
                 if (object.chainId != null)
-                    if (typeof object.chainId === "string")
-                        $util.base64.decode(object.chainId, message.chainId = $util.newBuffer($util.base64.length(object.chainId)), 0);
-                    else if (object.chainId.length)
-                        message.chainId = object.chainId;
+                    message.chainId = String(object.chainId);
                 if (object.uuid != null)
                     message.uuid = String(object.uuid);
                 if (object.name != null)
@@ -1809,18 +1761,12 @@
                     options = {};
                 var object = {};
                 if (options.defaults) {
-                    if (options.bytes === String)
-                        object.chainId = "";
-                    else {
-                        object.chainId = [];
-                        if (options.bytes !== Array)
-                            object.chainId = $util.newBuffer(object.chainId);
-                    }
+                    object.chainId = "";
                     object.uuid = "";
                     object.name = "";
                 }
                 if (message.chainId != null && message.hasOwnProperty("chainId"))
-                    object.chainId = options.bytes === String ? $util.base64.encode(message.chainId, 0, message.chainId.length) : options.bytes === Array ? Array.prototype.slice.call(message.chainId) : message.chainId;
+                    object.chainId = message.chainId;
                 if (message.uuid != null && message.hasOwnProperty("uuid"))
                     object.uuid = message.uuid;
                 if (message.name != null && message.hasOwnProperty("name"))
@@ -2133,7 +2079,7 @@
              * @memberof common
              * @interface IAccountInstance
              * @property {chain.IChain|null} [chain] AccountInstance chain
-             * @property {ethereum.IAccount|null} [account] AccountInstance account
+             * @property {string|null} [account] AccountInstance account
              */
     
             /**
@@ -2161,11 +2107,11 @@
     
             /**
              * AccountInstance account.
-             * @member {ethereum.IAccount|null|undefined} account
+             * @member {string} account
              * @memberof common.AccountInstance
              * @instance
              */
-            AccountInstance.prototype.account = null;
+            AccountInstance.prototype.account = "";
     
             /**
              * Creates a new AccountInstance instance using the specified properties.
@@ -2194,7 +2140,7 @@
                 if (message.chain != null && message.hasOwnProperty("chain"))
                     $root.chain.Chain.encode(message.chain, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
                 if (message.account != null && message.hasOwnProperty("account"))
-                    $root.ethereum.Account.encode(message.account, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.account);
                 return writer;
             };
     
@@ -2233,7 +2179,7 @@
                         message.chain = $root.chain.Chain.decode(reader, reader.uint32());
                         break;
                     case 2:
-                        message.account = $root.ethereum.Account.decode(reader, reader.uint32());
+                        message.account = reader.string();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -2275,11 +2221,9 @@
                     if (error)
                         return "chain." + error;
                 }
-                if (message.account != null && message.hasOwnProperty("account")) {
-                    var error = $root.ethereum.Account.verify(message.account);
-                    if (error)
-                        return "account." + error;
-                }
+                if (message.account != null && message.hasOwnProperty("account"))
+                    if (!$util.isString(message.account))
+                        return "account: string expected";
                 return null;
             };
     
@@ -2300,11 +2244,8 @@
                         throw TypeError(".common.AccountInstance.chain: object expected");
                     message.chain = $root.chain.Chain.fromObject(object.chain);
                 }
-                if (object.account != null) {
-                    if (typeof object.account !== "object")
-                        throw TypeError(".common.AccountInstance.account: object expected");
-                    message.account = $root.ethereum.Account.fromObject(object.account);
-                }
+                if (object.account != null)
+                    message.account = String(object.account);
                 return message;
             };
     
@@ -2323,12 +2264,12 @@
                 var object = {};
                 if (options.defaults) {
                     object.chain = null;
-                    object.account = null;
+                    object.account = "";
                 }
                 if (message.chain != null && message.hasOwnProperty("chain"))
                     object.chain = $root.chain.Chain.toObject(message.chain, options);
                 if (message.account != null && message.hasOwnProperty("account"))
-                    object.account = $root.ethereum.Account.toObject(message.account, options);
+                    object.account = message.account;
                 return object;
             };
     
@@ -3499,7 +3440,7 @@
              * Properties of a DeleteArtifactRequest.
              * @memberof contractregistry
              * @interface IDeleteArtifactRequest
-             * @property {Uint8Array|null} [bytecodeHash] DeleteArtifactRequest bytecodeHash
+             * @property {string|null} [bytecodeHash] DeleteArtifactRequest bytecodeHash
              */
     
             /**
@@ -3519,11 +3460,11 @@
     
             /**
              * DeleteArtifactRequest bytecodeHash.
-             * @member {Uint8Array} bytecodeHash
+             * @member {string} bytecodeHash
              * @memberof contractregistry.DeleteArtifactRequest
              * @instance
              */
-            DeleteArtifactRequest.prototype.bytecodeHash = $util.newBuffer([]);
+            DeleteArtifactRequest.prototype.bytecodeHash = "";
     
             /**
              * Creates a new DeleteArtifactRequest instance using the specified properties.
@@ -3550,7 +3491,7 @@
                 if (!writer)
                     writer = $Writer.create();
                 if (message.bytecodeHash != null && message.hasOwnProperty("bytecodeHash"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.bytecodeHash);
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.bytecodeHash);
                 return writer;
             };
     
@@ -3586,7 +3527,7 @@
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1:
-                        message.bytecodeHash = reader.bytes();
+                        message.bytecodeHash = reader.string();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -3624,8 +3565,8 @@
                 if (typeof message !== "object" || message === null)
                     return "object expected";
                 if (message.bytecodeHash != null && message.hasOwnProperty("bytecodeHash"))
-                    if (!(message.bytecodeHash && typeof message.bytecodeHash.length === "number" || $util.isString(message.bytecodeHash)))
-                        return "bytecodeHash: buffer expected";
+                    if (!$util.isString(message.bytecodeHash))
+                        return "bytecodeHash: string expected";
                 return null;
             };
     
@@ -3642,10 +3583,7 @@
                     return object;
                 var message = new $root.contractregistry.DeleteArtifactRequest();
                 if (object.bytecodeHash != null)
-                    if (typeof object.bytecodeHash === "string")
-                        $util.base64.decode(object.bytecodeHash, message.bytecodeHash = $util.newBuffer($util.base64.length(object.bytecodeHash)), 0);
-                    else if (object.bytecodeHash.length)
-                        message.bytecodeHash = object.bytecodeHash;
+                    message.bytecodeHash = String(object.bytecodeHash);
                 return message;
             };
     
@@ -3663,15 +3601,9 @@
                     options = {};
                 var object = {};
                 if (options.defaults)
-                    if (options.bytes === String)
-                        object.bytecodeHash = "";
-                    else {
-                        object.bytecodeHash = [];
-                        if (options.bytes !== Array)
-                            object.bytecodeHash = $util.newBuffer(object.bytecodeHash);
-                    }
+                    object.bytecodeHash = "";
                 if (message.bytecodeHash != null && message.hasOwnProperty("bytecodeHash"))
-                    object.bytecodeHash = options.bytes === String ? $util.base64.encode(message.bytecodeHash, 0, message.bytecodeHash.length) : options.bytes === Array ? Array.prototype.slice.call(message.bytecodeHash) : message.bytecodeHash;
+                    object.bytecodeHash = message.bytecodeHash;
                 return object;
             };
     
@@ -4239,7 +4171,7 @@
              * Properties of a GetContractABIResponse.
              * @memberof contractregistry
              * @interface IGetContractABIResponse
-             * @property {Uint8Array|null} [abi] GetContractABIResponse abi
+             * @property {string|null} [abi] GetContractABIResponse abi
              */
     
             /**
@@ -4259,11 +4191,11 @@
     
             /**
              * GetContractABIResponse abi.
-             * @member {Uint8Array} abi
+             * @member {string} abi
              * @memberof contractregistry.GetContractABIResponse
              * @instance
              */
-            GetContractABIResponse.prototype.abi = $util.newBuffer([]);
+            GetContractABIResponse.prototype.abi = "";
     
             /**
              * Creates a new GetContractABIResponse instance using the specified properties.
@@ -4290,7 +4222,7 @@
                 if (!writer)
                     writer = $Writer.create();
                 if (message.abi != null && message.hasOwnProperty("abi"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.abi);
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.abi);
                 return writer;
             };
     
@@ -4326,7 +4258,7 @@
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1:
-                        message.abi = reader.bytes();
+                        message.abi = reader.string();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -4364,8 +4296,8 @@
                 if (typeof message !== "object" || message === null)
                     return "object expected";
                 if (message.abi != null && message.hasOwnProperty("abi"))
-                    if (!(message.abi && typeof message.abi.length === "number" || $util.isString(message.abi)))
-                        return "abi: buffer expected";
+                    if (!$util.isString(message.abi))
+                        return "abi: string expected";
                 return null;
             };
     
@@ -4382,10 +4314,7 @@
                     return object;
                 var message = new $root.contractregistry.GetContractABIResponse();
                 if (object.abi != null)
-                    if (typeof object.abi === "string")
-                        $util.base64.decode(object.abi, message.abi = $util.newBuffer($util.base64.length(object.abi)), 0);
-                    else if (object.abi.length)
-                        message.abi = object.abi;
+                    message.abi = String(object.abi);
                 return message;
             };
     
@@ -4403,15 +4332,9 @@
                     options = {};
                 var object = {};
                 if (options.defaults)
-                    if (options.bytes === String)
-                        object.abi = "";
-                    else {
-                        object.abi = [];
-                        if (options.bytes !== Array)
-                            object.abi = $util.newBuffer(object.abi);
-                    }
+                    object.abi = "";
                 if (message.abi != null && message.hasOwnProperty("abi"))
-                    object.abi = options.bytes === String ? $util.base64.encode(message.abi, 0, message.abi.length) : options.bytes === Array ? Array.prototype.slice.call(message.abi) : message.abi;
+                    object.abi = message.abi;
                 return object;
             };
     
@@ -4435,7 +4358,7 @@
              * Properties of a GetContractBytecodeResponse.
              * @memberof contractregistry
              * @interface IGetContractBytecodeResponse
-             * @property {Uint8Array|null} [bytecode] GetContractBytecodeResponse bytecode
+             * @property {string|null} [bytecode] GetContractBytecodeResponse bytecode
              */
     
             /**
@@ -4455,11 +4378,11 @@
     
             /**
              * GetContractBytecodeResponse bytecode.
-             * @member {Uint8Array} bytecode
+             * @member {string} bytecode
              * @memberof contractregistry.GetContractBytecodeResponse
              * @instance
              */
-            GetContractBytecodeResponse.prototype.bytecode = $util.newBuffer([]);
+            GetContractBytecodeResponse.prototype.bytecode = "";
     
             /**
              * Creates a new GetContractBytecodeResponse instance using the specified properties.
@@ -4486,7 +4409,7 @@
                 if (!writer)
                     writer = $Writer.create();
                 if (message.bytecode != null && message.hasOwnProperty("bytecode"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.bytecode);
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.bytecode);
                 return writer;
             };
     
@@ -4522,7 +4445,7 @@
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1:
-                        message.bytecode = reader.bytes();
+                        message.bytecode = reader.string();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -4560,8 +4483,8 @@
                 if (typeof message !== "object" || message === null)
                     return "object expected";
                 if (message.bytecode != null && message.hasOwnProperty("bytecode"))
-                    if (!(message.bytecode && typeof message.bytecode.length === "number" || $util.isString(message.bytecode)))
-                        return "bytecode: buffer expected";
+                    if (!$util.isString(message.bytecode))
+                        return "bytecode: string expected";
                 return null;
             };
     
@@ -4578,10 +4501,7 @@
                     return object;
                 var message = new $root.contractregistry.GetContractBytecodeResponse();
                 if (object.bytecode != null)
-                    if (typeof object.bytecode === "string")
-                        $util.base64.decode(object.bytecode, message.bytecode = $util.newBuffer($util.base64.length(object.bytecode)), 0);
-                    else if (object.bytecode.length)
-                        message.bytecode = object.bytecode;
+                    message.bytecode = String(object.bytecode);
                 return message;
             };
     
@@ -4599,15 +4519,9 @@
                     options = {};
                 var object = {};
                 if (options.defaults)
-                    if (options.bytes === String)
-                        object.bytecode = "";
-                    else {
-                        object.bytecode = [];
-                        if (options.bytes !== Array)
-                            object.bytecode = $util.newBuffer(object.bytecode);
-                    }
+                    object.bytecode = "";
                 if (message.bytecode != null && message.hasOwnProperty("bytecode"))
-                    object.bytecode = options.bytes === String ? $util.base64.encode(message.bytecode, 0, message.bytecode.length) : options.bytes === Array ? Array.prototype.slice.call(message.bytecode) : message.bytecode;
+                    object.bytecode = message.bytecode;
                 return object;
             };
     
@@ -4631,7 +4545,7 @@
              * Properties of a GetContractDeployedBytecodeResponse.
              * @memberof contractregistry
              * @interface IGetContractDeployedBytecodeResponse
-             * @property {Uint8Array|null} [deployedBytecode] GetContractDeployedBytecodeResponse deployedBytecode
+             * @property {string|null} [deployedBytecode] GetContractDeployedBytecodeResponse deployedBytecode
              */
     
             /**
@@ -4651,11 +4565,11 @@
     
             /**
              * GetContractDeployedBytecodeResponse deployedBytecode.
-             * @member {Uint8Array} deployedBytecode
+             * @member {string} deployedBytecode
              * @memberof contractregistry.GetContractDeployedBytecodeResponse
              * @instance
              */
-            GetContractDeployedBytecodeResponse.prototype.deployedBytecode = $util.newBuffer([]);
+            GetContractDeployedBytecodeResponse.prototype.deployedBytecode = "";
     
             /**
              * Creates a new GetContractDeployedBytecodeResponse instance using the specified properties.
@@ -4682,7 +4596,7 @@
                 if (!writer)
                     writer = $Writer.create();
                 if (message.deployedBytecode != null && message.hasOwnProperty("deployedBytecode"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.deployedBytecode);
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.deployedBytecode);
                 return writer;
             };
     
@@ -4718,7 +4632,7 @@
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1:
-                        message.deployedBytecode = reader.bytes();
+                        message.deployedBytecode = reader.string();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -4756,8 +4670,8 @@
                 if (typeof message !== "object" || message === null)
                     return "object expected";
                 if (message.deployedBytecode != null && message.hasOwnProperty("deployedBytecode"))
-                    if (!(message.deployedBytecode && typeof message.deployedBytecode.length === "number" || $util.isString(message.deployedBytecode)))
-                        return "deployedBytecode: buffer expected";
+                    if (!$util.isString(message.deployedBytecode))
+                        return "deployedBytecode: string expected";
                 return null;
             };
     
@@ -4774,10 +4688,7 @@
                     return object;
                 var message = new $root.contractregistry.GetContractDeployedBytecodeResponse();
                 if (object.deployedBytecode != null)
-                    if (typeof object.deployedBytecode === "string")
-                        $util.base64.decode(object.deployedBytecode, message.deployedBytecode = $util.newBuffer($util.base64.length(object.deployedBytecode)), 0);
-                    else if (object.deployedBytecode.length)
-                        message.deployedBytecode = object.deployedBytecode;
+                    message.deployedBytecode = String(object.deployedBytecode);
                 return message;
             };
     
@@ -4795,15 +4706,9 @@
                     options = {};
                 var object = {};
                 if (options.defaults)
-                    if (options.bytes === String)
-                        object.deployedBytecode = "";
-                    else {
-                        object.deployedBytecode = [];
-                        if (options.bytes !== Array)
-                            object.deployedBytecode = $util.newBuffer(object.deployedBytecode);
-                    }
+                    object.deployedBytecode = "";
                 if (message.deployedBytecode != null && message.hasOwnProperty("deployedBytecode"))
-                    object.deployedBytecode = options.bytes === String ? $util.base64.encode(message.deployedBytecode, 0, message.deployedBytecode.length) : options.bytes === Array ? Array.prototype.slice.call(message.deployedBytecode) : message.deployedBytecode;
+                    object.deployedBytecode = message.deployedBytecode;
                 return object;
             };
     
@@ -5804,8 +5709,8 @@
              * Properties of a GetMethodsBySelectorResponse.
              * @memberof contractregistry
              * @interface IGetMethodsBySelectorResponse
-             * @property {Uint8Array|null} [method] GetMethodsBySelectorResponse method
-             * @property {Array.<Uint8Array>|null} [defaultMethods] GetMethodsBySelectorResponse defaultMethods
+             * @property {string|null} [method] GetMethodsBySelectorResponse method
+             * @property {Array.<string>|null} [defaultMethods] GetMethodsBySelectorResponse defaultMethods
              */
     
             /**
@@ -5826,15 +5731,15 @@
     
             /**
              * GetMethodsBySelectorResponse method.
-             * @member {Uint8Array} method
+             * @member {string} method
              * @memberof contractregistry.GetMethodsBySelectorResponse
              * @instance
              */
-            GetMethodsBySelectorResponse.prototype.method = $util.newBuffer([]);
+            GetMethodsBySelectorResponse.prototype.method = "";
     
             /**
              * GetMethodsBySelectorResponse defaultMethods.
-             * @member {Array.<Uint8Array>} defaultMethods
+             * @member {Array.<string>} defaultMethods
              * @memberof contractregistry.GetMethodsBySelectorResponse
              * @instance
              */
@@ -5865,10 +5770,10 @@
                 if (!writer)
                     writer = $Writer.create();
                 if (message.method != null && message.hasOwnProperty("method"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.method);
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.method);
                 if (message.defaultMethods != null && message.defaultMethods.length)
                     for (var i = 0; i < message.defaultMethods.length; ++i)
-                        writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.defaultMethods[i]);
+                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.defaultMethods[i]);
                 return writer;
             };
     
@@ -5904,12 +5809,12 @@
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1:
-                        message.method = reader.bytes();
+                        message.method = reader.string();
                         break;
                     case 2:
                         if (!(message.defaultMethods && message.defaultMethods.length))
                             message.defaultMethods = [];
-                        message.defaultMethods.push(reader.bytes());
+                        message.defaultMethods.push(reader.string());
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -5947,14 +5852,14 @@
                 if (typeof message !== "object" || message === null)
                     return "object expected";
                 if (message.method != null && message.hasOwnProperty("method"))
-                    if (!(message.method && typeof message.method.length === "number" || $util.isString(message.method)))
-                        return "method: buffer expected";
+                    if (!$util.isString(message.method))
+                        return "method: string expected";
                 if (message.defaultMethods != null && message.hasOwnProperty("defaultMethods")) {
                     if (!Array.isArray(message.defaultMethods))
                         return "defaultMethods: array expected";
                     for (var i = 0; i < message.defaultMethods.length; ++i)
-                        if (!(message.defaultMethods[i] && typeof message.defaultMethods[i].length === "number" || $util.isString(message.defaultMethods[i])))
-                            return "defaultMethods: buffer[] expected";
+                        if (!$util.isString(message.defaultMethods[i]))
+                            return "defaultMethods: string[] expected";
                 }
                 return null;
             };
@@ -5972,19 +5877,13 @@
                     return object;
                 var message = new $root.contractregistry.GetMethodsBySelectorResponse();
                 if (object.method != null)
-                    if (typeof object.method === "string")
-                        $util.base64.decode(object.method, message.method = $util.newBuffer($util.base64.length(object.method)), 0);
-                    else if (object.method.length)
-                        message.method = object.method;
+                    message.method = String(object.method);
                 if (object.defaultMethods) {
                     if (!Array.isArray(object.defaultMethods))
                         throw TypeError(".contractregistry.GetMethodsBySelectorResponse.defaultMethods: array expected");
                     message.defaultMethods = [];
                     for (var i = 0; i < object.defaultMethods.length; ++i)
-                        if (typeof object.defaultMethods[i] === "string")
-                            $util.base64.decode(object.defaultMethods[i], message.defaultMethods[i] = $util.newBuffer($util.base64.length(object.defaultMethods[i])), 0);
-                        else if (object.defaultMethods[i].length)
-                            message.defaultMethods[i] = object.defaultMethods[i];
+                        message.defaultMethods[i] = String(object.defaultMethods[i]);
                 }
                 return message;
             };
@@ -6005,19 +5904,13 @@
                 if (options.arrays || options.defaults)
                     object.defaultMethods = [];
                 if (options.defaults)
-                    if (options.bytes === String)
-                        object.method = "";
-                    else {
-                        object.method = [];
-                        if (options.bytes !== Array)
-                            object.method = $util.newBuffer(object.method);
-                    }
+                    object.method = "";
                 if (message.method != null && message.hasOwnProperty("method"))
-                    object.method = options.bytes === String ? $util.base64.encode(message.method, 0, message.method.length) : options.bytes === Array ? Array.prototype.slice.call(message.method) : message.method;
+                    object.method = message.method;
                 if (message.defaultMethods && message.defaultMethods.length) {
                     object.defaultMethods = [];
                     for (var j = 0; j < message.defaultMethods.length; ++j)
-                        object.defaultMethods[j] = options.bytes === String ? $util.base64.encode(message.defaultMethods[j], 0, message.defaultMethods[j].length) : options.bytes === Array ? Array.prototype.slice.call(message.defaultMethods[j]) : message.defaultMethods[j];
+                        object.defaultMethods[j] = message.defaultMethods[j];
                 }
                 return object;
             };
@@ -6042,7 +5935,7 @@
              * Properties of a GetEventsBySigHashRequest.
              * @memberof contractregistry
              * @interface IGetEventsBySigHashRequest
-             * @property {Uint8Array|null} [sigHash] GetEventsBySigHashRequest sigHash
+             * @property {string|null} [sigHash] GetEventsBySigHashRequest sigHash
              * @property {common.IAccountInstance|null} [accountInstance] GetEventsBySigHashRequest accountInstance
              * @property {number|null} [indexedInputCount] GetEventsBySigHashRequest indexedInputCount
              */
@@ -6064,11 +5957,11 @@
     
             /**
              * GetEventsBySigHashRequest sigHash.
-             * @member {Uint8Array} sigHash
+             * @member {string} sigHash
              * @memberof contractregistry.GetEventsBySigHashRequest
              * @instance
              */
-            GetEventsBySigHashRequest.prototype.sigHash = $util.newBuffer([]);
+            GetEventsBySigHashRequest.prototype.sigHash = "";
     
             /**
              * GetEventsBySigHashRequest accountInstance.
@@ -6111,7 +6004,7 @@
                 if (!writer)
                     writer = $Writer.create();
                 if (message.sigHash != null && message.hasOwnProperty("sigHash"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.sigHash);
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.sigHash);
                 if (message.accountInstance != null && message.hasOwnProperty("accountInstance"))
                     $root.common.AccountInstance.encode(message.accountInstance, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
                 if (message.indexedInputCount != null && message.hasOwnProperty("indexedInputCount"))
@@ -6151,7 +6044,7 @@
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1:
-                        message.sigHash = reader.bytes();
+                        message.sigHash = reader.string();
                         break;
                     case 2:
                         message.accountInstance = $root.common.AccountInstance.decode(reader, reader.uint32());
@@ -6195,8 +6088,8 @@
                 if (typeof message !== "object" || message === null)
                     return "object expected";
                 if (message.sigHash != null && message.hasOwnProperty("sigHash"))
-                    if (!(message.sigHash && typeof message.sigHash.length === "number" || $util.isString(message.sigHash)))
-                        return "sigHash: buffer expected";
+                    if (!$util.isString(message.sigHash))
+                        return "sigHash: string expected";
                 if (message.accountInstance != null && message.hasOwnProperty("accountInstance")) {
                     var error = $root.common.AccountInstance.verify(message.accountInstance);
                     if (error)
@@ -6221,10 +6114,7 @@
                     return object;
                 var message = new $root.contractregistry.GetEventsBySigHashRequest();
                 if (object.sigHash != null)
-                    if (typeof object.sigHash === "string")
-                        $util.base64.decode(object.sigHash, message.sigHash = $util.newBuffer($util.base64.length(object.sigHash)), 0);
-                    else if (object.sigHash.length)
-                        message.sigHash = object.sigHash;
+                    message.sigHash = String(object.sigHash);
                 if (object.accountInstance != null) {
                     if (typeof object.accountInstance !== "object")
                         throw TypeError(".contractregistry.GetEventsBySigHashRequest.accountInstance: object expected");
@@ -6249,18 +6139,12 @@
                     options = {};
                 var object = {};
                 if (options.defaults) {
-                    if (options.bytes === String)
-                        object.sigHash = "";
-                    else {
-                        object.sigHash = [];
-                        if (options.bytes !== Array)
-                            object.sigHash = $util.newBuffer(object.sigHash);
-                    }
+                    object.sigHash = "";
                     object.accountInstance = null;
                     object.indexedInputCount = 0;
                 }
                 if (message.sigHash != null && message.hasOwnProperty("sigHash"))
-                    object.sigHash = options.bytes === String ? $util.base64.encode(message.sigHash, 0, message.sigHash.length) : options.bytes === Array ? Array.prototype.slice.call(message.sigHash) : message.sigHash;
+                    object.sigHash = message.sigHash;
                 if (message.accountInstance != null && message.hasOwnProperty("accountInstance"))
                     object.accountInstance = $root.common.AccountInstance.toObject(message.accountInstance, options);
                 if (message.indexedInputCount != null && message.hasOwnProperty("indexedInputCount"))
@@ -6288,8 +6172,8 @@
              * Properties of a GetEventsBySigHashResponse.
              * @memberof contractregistry
              * @interface IGetEventsBySigHashResponse
-             * @property {Uint8Array|null} [event] GetEventsBySigHashResponse event
-             * @property {Array.<Uint8Array>|null} [defaultEvents] GetEventsBySigHashResponse defaultEvents
+             * @property {string|null} [event] GetEventsBySigHashResponse event
+             * @property {Array.<string>|null} [defaultEvents] GetEventsBySigHashResponse defaultEvents
              */
     
             /**
@@ -6310,15 +6194,15 @@
     
             /**
              * GetEventsBySigHashResponse event.
-             * @member {Uint8Array} event
+             * @member {string} event
              * @memberof contractregistry.GetEventsBySigHashResponse
              * @instance
              */
-            GetEventsBySigHashResponse.prototype.event = $util.newBuffer([]);
+            GetEventsBySigHashResponse.prototype.event = "";
     
             /**
              * GetEventsBySigHashResponse defaultEvents.
-             * @member {Array.<Uint8Array>} defaultEvents
+             * @member {Array.<string>} defaultEvents
              * @memberof contractregistry.GetEventsBySigHashResponse
              * @instance
              */
@@ -6349,10 +6233,10 @@
                 if (!writer)
                     writer = $Writer.create();
                 if (message.event != null && message.hasOwnProperty("event"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.event);
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.event);
                 if (message.defaultEvents != null && message.defaultEvents.length)
                     for (var i = 0; i < message.defaultEvents.length; ++i)
-                        writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.defaultEvents[i]);
+                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.defaultEvents[i]);
                 return writer;
             };
     
@@ -6388,12 +6272,12 @@
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1:
-                        message.event = reader.bytes();
+                        message.event = reader.string();
                         break;
                     case 2:
                         if (!(message.defaultEvents && message.defaultEvents.length))
                             message.defaultEvents = [];
-                        message.defaultEvents.push(reader.bytes());
+                        message.defaultEvents.push(reader.string());
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -6431,14 +6315,14 @@
                 if (typeof message !== "object" || message === null)
                     return "object expected";
                 if (message.event != null && message.hasOwnProperty("event"))
-                    if (!(message.event && typeof message.event.length === "number" || $util.isString(message.event)))
-                        return "event: buffer expected";
+                    if (!$util.isString(message.event))
+                        return "event: string expected";
                 if (message.defaultEvents != null && message.hasOwnProperty("defaultEvents")) {
                     if (!Array.isArray(message.defaultEvents))
                         return "defaultEvents: array expected";
                     for (var i = 0; i < message.defaultEvents.length; ++i)
-                        if (!(message.defaultEvents[i] && typeof message.defaultEvents[i].length === "number" || $util.isString(message.defaultEvents[i])))
-                            return "defaultEvents: buffer[] expected";
+                        if (!$util.isString(message.defaultEvents[i]))
+                            return "defaultEvents: string[] expected";
                 }
                 return null;
             };
@@ -6456,19 +6340,13 @@
                     return object;
                 var message = new $root.contractregistry.GetEventsBySigHashResponse();
                 if (object.event != null)
-                    if (typeof object.event === "string")
-                        $util.base64.decode(object.event, message.event = $util.newBuffer($util.base64.length(object.event)), 0);
-                    else if (object.event.length)
-                        message.event = object.event;
+                    message.event = String(object.event);
                 if (object.defaultEvents) {
                     if (!Array.isArray(object.defaultEvents))
                         throw TypeError(".contractregistry.GetEventsBySigHashResponse.defaultEvents: array expected");
                     message.defaultEvents = [];
                     for (var i = 0; i < object.defaultEvents.length; ++i)
-                        if (typeof object.defaultEvents[i] === "string")
-                            $util.base64.decode(object.defaultEvents[i], message.defaultEvents[i] = $util.newBuffer($util.base64.length(object.defaultEvents[i])), 0);
-                        else if (object.defaultEvents[i].length)
-                            message.defaultEvents[i] = object.defaultEvents[i];
+                        message.defaultEvents[i] = String(object.defaultEvents[i]);
                 }
                 return message;
             };
@@ -6489,19 +6367,13 @@
                 if (options.arrays || options.defaults)
                     object.defaultEvents = [];
                 if (options.defaults)
-                    if (options.bytes === String)
-                        object.event = "";
-                    else {
-                        object.event = [];
-                        if (options.bytes !== Array)
-                            object.event = $util.newBuffer(object.event);
-                    }
+                    object.event = "";
                 if (message.event != null && message.hasOwnProperty("event"))
-                    object.event = options.bytes === String ? $util.base64.encode(message.event, 0, message.event.length) : options.bytes === Array ? Array.prototype.slice.call(message.event) : message.event;
+                    object.event = message.event;
                 if (message.defaultEvents && message.defaultEvents.length) {
                     object.defaultEvents = [];
                     for (var j = 0; j < message.defaultEvents.length; ++j)
-                        object.defaultEvents[j] = options.bytes === String ? $util.base64.encode(message.defaultEvents[j], 0, message.defaultEvents[j].length) : options.bytes === Array ? Array.prototype.slice.call(message.defaultEvents[j]) : message.defaultEvents[j];
+                        object.defaultEvents[j] = message.defaultEvents[j];
                 }
                 return object;
             };
@@ -6527,7 +6399,7 @@
              * @memberof contractregistry
              * @interface ISetAccountCodeHashRequest
              * @property {common.IAccountInstance|null} [accountInstance] SetAccountCodeHashRequest accountInstance
-             * @property {Uint8Array|null} [codeHash] SetAccountCodeHashRequest codeHash
+             * @property {string|null} [codeHash] SetAccountCodeHashRequest codeHash
              */
     
             /**
@@ -6555,11 +6427,11 @@
     
             /**
              * SetAccountCodeHashRequest codeHash.
-             * @member {Uint8Array} codeHash
+             * @member {string} codeHash
              * @memberof contractregistry.SetAccountCodeHashRequest
              * @instance
              */
-            SetAccountCodeHashRequest.prototype.codeHash = $util.newBuffer([]);
+            SetAccountCodeHashRequest.prototype.codeHash = "";
     
             /**
              * Creates a new SetAccountCodeHashRequest instance using the specified properties.
@@ -6588,7 +6460,7 @@
                 if (message.accountInstance != null && message.hasOwnProperty("accountInstance"))
                     $root.common.AccountInstance.encode(message.accountInstance, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
                 if (message.codeHash != null && message.hasOwnProperty("codeHash"))
-                    writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.codeHash);
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.codeHash);
                 return writer;
             };
     
@@ -6627,7 +6499,7 @@
                         message.accountInstance = $root.common.AccountInstance.decode(reader, reader.uint32());
                         break;
                     case 2:
-                        message.codeHash = reader.bytes();
+                        message.codeHash = reader.string();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -6670,8 +6542,8 @@
                         return "accountInstance." + error;
                 }
                 if (message.codeHash != null && message.hasOwnProperty("codeHash"))
-                    if (!(message.codeHash && typeof message.codeHash.length === "number" || $util.isString(message.codeHash)))
-                        return "codeHash: buffer expected";
+                    if (!$util.isString(message.codeHash))
+                        return "codeHash: string expected";
                 return null;
             };
     
@@ -6693,10 +6565,7 @@
                     message.accountInstance = $root.common.AccountInstance.fromObject(object.accountInstance);
                 }
                 if (object.codeHash != null)
-                    if (typeof object.codeHash === "string")
-                        $util.base64.decode(object.codeHash, message.codeHash = $util.newBuffer($util.base64.length(object.codeHash)), 0);
-                    else if (object.codeHash.length)
-                        message.codeHash = object.codeHash;
+                    message.codeHash = String(object.codeHash);
                 return message;
             };
     
@@ -6715,18 +6584,12 @@
                 var object = {};
                 if (options.defaults) {
                     object.accountInstance = null;
-                    if (options.bytes === String)
-                        object.codeHash = "";
-                    else {
-                        object.codeHash = [];
-                        if (options.bytes !== Array)
-                            object.codeHash = $util.newBuffer(object.codeHash);
-                    }
+                    object.codeHash = "";
                 }
                 if (message.accountInstance != null && message.hasOwnProperty("accountInstance"))
                     object.accountInstance = $root.common.AccountInstance.toObject(message.accountInstance, options);
                 if (message.codeHash != null && message.hasOwnProperty("codeHash"))
-                    object.codeHash = options.bytes === String ? $util.base64.encode(message.codeHash, 0, message.codeHash.length) : options.bytes === Array ? Array.prototype.slice.call(message.codeHash) : message.codeHash;
+                    object.codeHash = message.codeHash;
                 return object;
             };
     
@@ -6905,2199 +6768,6 @@
         })();
     
         return contractregistry;
-    })();
-    
-    $root.envelopestore = (function() {
-    
-        /**
-         * Namespace envelopestore.
-         * @exports envelopestore
-         * @namespace
-         */
-        var envelopestore = {};
-    
-        /**
-         * Status enum.
-         * @name envelopestore.Status
-         * @enum {string}
-         * @property {number} STORED=0 STORED value
-         * @property {number} PENDING=1 PENDING value
-         * @property {number} MINED=2 MINED value
-         * @property {number} ERROR=3 ERROR value
-         */
-        envelopestore.Status = (function() {
-            var valuesById = {}, values = Object.create(valuesById);
-            values[valuesById[0] = "STORED"] = 0;
-            values[valuesById[1] = "PENDING"] = 1;
-            values[valuesById[2] = "MINED"] = 2;
-            values[valuesById[3] = "ERROR"] = 3;
-            return values;
-        })();
-    
-        envelopestore.EnvelopeStore = (function() {
-    
-            /**
-             * Constructs a new EnvelopeStore service.
-             * @memberof envelopestore
-             * @classdesc Represents an EnvelopeStore
-             * @extends $protobuf.rpc.Service
-             * @constructor
-             * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
-             * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
-             * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
-             */
-            function EnvelopeStore(rpcImpl, requestDelimited, responseDelimited) {
-                $protobuf.rpc.Service.call(this, rpcImpl, requestDelimited, responseDelimited);
-            }
-    
-            (EnvelopeStore.prototype = Object.create($protobuf.rpc.Service.prototype)).constructor = EnvelopeStore;
-    
-            /**
-             * Creates new EnvelopeStore service using the specified rpc implementation.
-             * @function create
-             * @memberof envelopestore.EnvelopeStore
-             * @static
-             * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
-             * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
-             * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
-             * @returns {EnvelopeStore} RPC service. Useful where requests and/or responses are streamed.
-             */
-            EnvelopeStore.create = function create(rpcImpl, requestDelimited, responseDelimited) {
-                return new this(rpcImpl, requestDelimited, responseDelimited);
-            };
-    
-            /**
-             * Callback as used by {@link envelopestore.EnvelopeStore#store}.
-             * @memberof envelopestore.EnvelopeStore
-             * @typedef StoreCallback
-             * @type {function}
-             * @param {Error|null} error Error, if any
-             * @param {envelopestore.StoreResponse} [response] StoreResponse
-             */
-    
-            /**
-             * Calls Store.
-             * @function store
-             * @memberof envelopestore.EnvelopeStore
-             * @instance
-             * @param {envelopestore.IStoreRequest} request StoreRequest message or plain object
-             * @param {envelopestore.EnvelopeStore.StoreCallback} callback Node-style callback called with the error, if any, and StoreResponse
-             * @returns {undefined}
-             * @variation 1
-             */
-            Object.defineProperty(EnvelopeStore.prototype.store = function store(request, callback) {
-                return this.rpcCall(store, $root.envelopestore.StoreRequest, $root.envelopestore.StoreResponse, request, callback);
-            }, "name", { value: "Store" });
-    
-            /**
-             * Calls Store.
-             * @function store
-             * @memberof envelopestore.EnvelopeStore
-             * @instance
-             * @param {envelopestore.IStoreRequest} request StoreRequest message or plain object
-             * @returns {Promise<envelopestore.StoreResponse>} Promise
-             * @variation 2
-             */
-    
-            /**
-             * Callback as used by {@link envelopestore.EnvelopeStore#loadByID}.
-             * @memberof envelopestore.EnvelopeStore
-             * @typedef LoadByIDCallback
-             * @type {function}
-             * @param {Error|null} error Error, if any
-             * @param {envelopestore.StoreResponse} [response] StoreResponse
-             */
-    
-            /**
-             * Calls LoadByID.
-             * @function loadByID
-             * @memberof envelopestore.EnvelopeStore
-             * @instance
-             * @param {envelopestore.ILoadByIDRequest} request LoadByIDRequest message or plain object
-             * @param {envelopestore.EnvelopeStore.LoadByIDCallback} callback Node-style callback called with the error, if any, and StoreResponse
-             * @returns {undefined}
-             * @variation 1
-             */
-            Object.defineProperty(EnvelopeStore.prototype.loadByID = function loadByID(request, callback) {
-                return this.rpcCall(loadByID, $root.envelopestore.LoadByIDRequest, $root.envelopestore.StoreResponse, request, callback);
-            }, "name", { value: "LoadByID" });
-    
-            /**
-             * Calls LoadByID.
-             * @function loadByID
-             * @memberof envelopestore.EnvelopeStore
-             * @instance
-             * @param {envelopestore.ILoadByIDRequest} request LoadByIDRequest message or plain object
-             * @returns {Promise<envelopestore.StoreResponse>} Promise
-             * @variation 2
-             */
-    
-            /**
-             * Callback as used by {@link envelopestore.EnvelopeStore#loadByTxHash}.
-             * @memberof envelopestore.EnvelopeStore
-             * @typedef LoadByTxHashCallback
-             * @type {function}
-             * @param {Error|null} error Error, if any
-             * @param {envelopestore.StoreResponse} [response] StoreResponse
-             */
-    
-            /**
-             * Calls LoadByTxHash.
-             * @function loadByTxHash
-             * @memberof envelopestore.EnvelopeStore
-             * @instance
-             * @param {envelopestore.ILoadByTxHashRequest} request LoadByTxHashRequest message or plain object
-             * @param {envelopestore.EnvelopeStore.LoadByTxHashCallback} callback Node-style callback called with the error, if any, and StoreResponse
-             * @returns {undefined}
-             * @variation 1
-             */
-            Object.defineProperty(EnvelopeStore.prototype.loadByTxHash = function loadByTxHash(request, callback) {
-                return this.rpcCall(loadByTxHash, $root.envelopestore.LoadByTxHashRequest, $root.envelopestore.StoreResponse, request, callback);
-            }, "name", { value: "LoadByTxHash" });
-    
-            /**
-             * Calls LoadByTxHash.
-             * @function loadByTxHash
-             * @memberof envelopestore.EnvelopeStore
-             * @instance
-             * @param {envelopestore.ILoadByTxHashRequest} request LoadByTxHashRequest message or plain object
-             * @returns {Promise<envelopestore.StoreResponse>} Promise
-             * @variation 2
-             */
-    
-            /**
-             * Callback as used by {@link envelopestore.EnvelopeStore#setStatus}.
-             * @memberof envelopestore.EnvelopeStore
-             * @typedef SetStatusCallback
-             * @type {function}
-             * @param {Error|null} error Error, if any
-             * @param {envelopestore.StatusResponse} [response] StatusResponse
-             */
-    
-            /**
-             * Calls SetStatus.
-             * @function setStatus
-             * @memberof envelopestore.EnvelopeStore
-             * @instance
-             * @param {envelopestore.ISetStatusRequest} request SetStatusRequest message or plain object
-             * @param {envelopestore.EnvelopeStore.SetStatusCallback} callback Node-style callback called with the error, if any, and StatusResponse
-             * @returns {undefined}
-             * @variation 1
-             */
-            Object.defineProperty(EnvelopeStore.prototype.setStatus = function setStatus(request, callback) {
-                return this.rpcCall(setStatus, $root.envelopestore.SetStatusRequest, $root.envelopestore.StatusResponse, request, callback);
-            }, "name", { value: "SetStatus" });
-    
-            /**
-             * Calls SetStatus.
-             * @function setStatus
-             * @memberof envelopestore.EnvelopeStore
-             * @instance
-             * @param {envelopestore.ISetStatusRequest} request SetStatusRequest message or plain object
-             * @returns {Promise<envelopestore.StatusResponse>} Promise
-             * @variation 2
-             */
-    
-            /**
-             * Callback as used by {@link envelopestore.EnvelopeStore#loadPending}.
-             * @memberof envelopestore.EnvelopeStore
-             * @typedef LoadPendingCallback
-             * @type {function}
-             * @param {Error|null} error Error, if any
-             * @param {envelopestore.LoadPendingResponse} [response] LoadPendingResponse
-             */
-    
-            /**
-             * Calls LoadPending.
-             * @function loadPending
-             * @memberof envelopestore.EnvelopeStore
-             * @instance
-             * @param {envelopestore.ILoadPendingRequest} request LoadPendingRequest message or plain object
-             * @param {envelopestore.EnvelopeStore.LoadPendingCallback} callback Node-style callback called with the error, if any, and LoadPendingResponse
-             * @returns {undefined}
-             * @variation 1
-             */
-            Object.defineProperty(EnvelopeStore.prototype.loadPending = function loadPending(request, callback) {
-                return this.rpcCall(loadPending, $root.envelopestore.LoadPendingRequest, $root.envelopestore.LoadPendingResponse, request, callback);
-            }, "name", { value: "LoadPending" });
-    
-            /**
-             * Calls LoadPending.
-             * @function loadPending
-             * @memberof envelopestore.EnvelopeStore
-             * @instance
-             * @param {envelopestore.ILoadPendingRequest} request LoadPendingRequest message or plain object
-             * @returns {Promise<envelopestore.LoadPendingResponse>} Promise
-             * @variation 2
-             */
-    
-            return EnvelopeStore;
-        })();
-    
-        envelopestore.StatusInfo = (function() {
-    
-            /**
-             * Properties of a StatusInfo.
-             * @memberof envelopestore
-             * @interface IStatusInfo
-             * @property {envelopestore.Status|null} [status] StatusInfo status
-             * @property {google.protobuf.ITimestamp|null} [storedAt] StatusInfo storedAt
-             * @property {google.protobuf.ITimestamp|null} [sentAt] StatusInfo sentAt
-             * @property {google.protobuf.ITimestamp|null} [minedAt] StatusInfo minedAt
-             * @property {google.protobuf.ITimestamp|null} [errorAt] StatusInfo errorAt
-             */
-    
-            /**
-             * Constructs a new StatusInfo.
-             * @memberof envelopestore
-             * @classdesc Represents a StatusInfo.
-             * @implements IStatusInfo
-             * @constructor
-             * @param {envelopestore.IStatusInfo=} [properties] Properties to set
-             */
-            function StatusInfo(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * StatusInfo status.
-             * @member {envelopestore.Status} status
-             * @memberof envelopestore.StatusInfo
-             * @instance
-             */
-            StatusInfo.prototype.status = 0;
-    
-            /**
-             * StatusInfo storedAt.
-             * @member {google.protobuf.ITimestamp|null|undefined} storedAt
-             * @memberof envelopestore.StatusInfo
-             * @instance
-             */
-            StatusInfo.prototype.storedAt = null;
-    
-            /**
-             * StatusInfo sentAt.
-             * @member {google.protobuf.ITimestamp|null|undefined} sentAt
-             * @memberof envelopestore.StatusInfo
-             * @instance
-             */
-            StatusInfo.prototype.sentAt = null;
-    
-            /**
-             * StatusInfo minedAt.
-             * @member {google.protobuf.ITimestamp|null|undefined} minedAt
-             * @memberof envelopestore.StatusInfo
-             * @instance
-             */
-            StatusInfo.prototype.minedAt = null;
-    
-            /**
-             * StatusInfo errorAt.
-             * @member {google.protobuf.ITimestamp|null|undefined} errorAt
-             * @memberof envelopestore.StatusInfo
-             * @instance
-             */
-            StatusInfo.prototype.errorAt = null;
-    
-            /**
-             * Creates a new StatusInfo instance using the specified properties.
-             * @function create
-             * @memberof envelopestore.StatusInfo
-             * @static
-             * @param {envelopestore.IStatusInfo=} [properties] Properties to set
-             * @returns {envelopestore.StatusInfo} StatusInfo instance
-             */
-            StatusInfo.create = function create(properties) {
-                return new StatusInfo(properties);
-            };
-    
-            /**
-             * Encodes the specified StatusInfo message. Does not implicitly {@link envelopestore.StatusInfo.verify|verify} messages.
-             * @function encode
-             * @memberof envelopestore.StatusInfo
-             * @static
-             * @param {envelopestore.IStatusInfo} message StatusInfo message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            StatusInfo.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.status != null && message.hasOwnProperty("status"))
-                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.status);
-                if (message.storedAt != null && message.hasOwnProperty("storedAt"))
-                    $root.google.protobuf.Timestamp.encode(message.storedAt, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                if (message.sentAt != null && message.hasOwnProperty("sentAt"))
-                    $root.google.protobuf.Timestamp.encode(message.sentAt, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-                if (message.minedAt != null && message.hasOwnProperty("minedAt"))
-                    $root.google.protobuf.Timestamp.encode(message.minedAt, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
-                if (message.errorAt != null && message.hasOwnProperty("errorAt"))
-                    $root.google.protobuf.Timestamp.encode(message.errorAt, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified StatusInfo message, length delimited. Does not implicitly {@link envelopestore.StatusInfo.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof envelopestore.StatusInfo
-             * @static
-             * @param {envelopestore.IStatusInfo} message StatusInfo message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            StatusInfo.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a StatusInfo message from the specified reader or buffer.
-             * @function decode
-             * @memberof envelopestore.StatusInfo
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {envelopestore.StatusInfo} StatusInfo
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            StatusInfo.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.envelopestore.StatusInfo();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.status = reader.int32();
-                        break;
-                    case 2:
-                        message.storedAt = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
-                        break;
-                    case 3:
-                        message.sentAt = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
-                        break;
-                    case 4:
-                        message.minedAt = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
-                        break;
-                    case 5:
-                        message.errorAt = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a StatusInfo message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof envelopestore.StatusInfo
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {envelopestore.StatusInfo} StatusInfo
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            StatusInfo.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a StatusInfo message.
-             * @function verify
-             * @memberof envelopestore.StatusInfo
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            StatusInfo.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.status != null && message.hasOwnProperty("status"))
-                    switch (message.status) {
-                    default:
-                        return "status: enum value expected";
-                    case 0:
-                    case 1:
-                    case 2:
-                    case 3:
-                        break;
-                    }
-                if (message.storedAt != null && message.hasOwnProperty("storedAt")) {
-                    var error = $root.google.protobuf.Timestamp.verify(message.storedAt);
-                    if (error)
-                        return "storedAt." + error;
-                }
-                if (message.sentAt != null && message.hasOwnProperty("sentAt")) {
-                    var error = $root.google.protobuf.Timestamp.verify(message.sentAt);
-                    if (error)
-                        return "sentAt." + error;
-                }
-                if (message.minedAt != null && message.hasOwnProperty("minedAt")) {
-                    var error = $root.google.protobuf.Timestamp.verify(message.minedAt);
-                    if (error)
-                        return "minedAt." + error;
-                }
-                if (message.errorAt != null && message.hasOwnProperty("errorAt")) {
-                    var error = $root.google.protobuf.Timestamp.verify(message.errorAt);
-                    if (error)
-                        return "errorAt." + error;
-                }
-                return null;
-            };
-    
-            /**
-             * Creates a StatusInfo message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof envelopestore.StatusInfo
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {envelopestore.StatusInfo} StatusInfo
-             */
-            StatusInfo.fromObject = function fromObject(object) {
-                if (object instanceof $root.envelopestore.StatusInfo)
-                    return object;
-                var message = new $root.envelopestore.StatusInfo();
-                switch (object.status) {
-                case "STORED":
-                case 0:
-                    message.status = 0;
-                    break;
-                case "PENDING":
-                case 1:
-                    message.status = 1;
-                    break;
-                case "MINED":
-                case 2:
-                    message.status = 2;
-                    break;
-                case "ERROR":
-                case 3:
-                    message.status = 3;
-                    break;
-                }
-                if (object.storedAt != null) {
-                    if (typeof object.storedAt !== "object")
-                        throw TypeError(".envelopestore.StatusInfo.storedAt: object expected");
-                    message.storedAt = $root.google.protobuf.Timestamp.fromObject(object.storedAt);
-                }
-                if (object.sentAt != null) {
-                    if (typeof object.sentAt !== "object")
-                        throw TypeError(".envelopestore.StatusInfo.sentAt: object expected");
-                    message.sentAt = $root.google.protobuf.Timestamp.fromObject(object.sentAt);
-                }
-                if (object.minedAt != null) {
-                    if (typeof object.minedAt !== "object")
-                        throw TypeError(".envelopestore.StatusInfo.minedAt: object expected");
-                    message.minedAt = $root.google.protobuf.Timestamp.fromObject(object.minedAt);
-                }
-                if (object.errorAt != null) {
-                    if (typeof object.errorAt !== "object")
-                        throw TypeError(".envelopestore.StatusInfo.errorAt: object expected");
-                    message.errorAt = $root.google.protobuf.Timestamp.fromObject(object.errorAt);
-                }
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a StatusInfo message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof envelopestore.StatusInfo
-             * @static
-             * @param {envelopestore.StatusInfo} message StatusInfo
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            StatusInfo.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    object.status = options.enums === String ? "STORED" : 0;
-                    object.storedAt = null;
-                    object.sentAt = null;
-                    object.minedAt = null;
-                    object.errorAt = null;
-                }
-                if (message.status != null && message.hasOwnProperty("status"))
-                    object.status = options.enums === String ? $root.envelopestore.Status[message.status] : message.status;
-                if (message.storedAt != null && message.hasOwnProperty("storedAt"))
-                    object.storedAt = $root.google.protobuf.Timestamp.toObject(message.storedAt, options);
-                if (message.sentAt != null && message.hasOwnProperty("sentAt"))
-                    object.sentAt = $root.google.protobuf.Timestamp.toObject(message.sentAt, options);
-                if (message.minedAt != null && message.hasOwnProperty("minedAt"))
-                    object.minedAt = $root.google.protobuf.Timestamp.toObject(message.minedAt, options);
-                if (message.errorAt != null && message.hasOwnProperty("errorAt"))
-                    object.errorAt = $root.google.protobuf.Timestamp.toObject(message.errorAt, options);
-                return object;
-            };
-    
-            /**
-             * Converts this StatusInfo to JSON.
-             * @function toJSON
-             * @memberof envelopestore.StatusInfo
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            StatusInfo.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return StatusInfo;
-        })();
-    
-        envelopestore.StoreRequest = (function() {
-    
-            /**
-             * Properties of a StoreRequest.
-             * @memberof envelopestore
-             * @interface IStoreRequest
-             * @property {envelope.IEnvelope|null} [envelope] StoreRequest envelope
-             */
-    
-            /**
-             * Constructs a new StoreRequest.
-             * @memberof envelopestore
-             * @classdesc Represents a StoreRequest.
-             * @implements IStoreRequest
-             * @constructor
-             * @param {envelopestore.IStoreRequest=} [properties] Properties to set
-             */
-            function StoreRequest(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * StoreRequest envelope.
-             * @member {envelope.IEnvelope|null|undefined} envelope
-             * @memberof envelopestore.StoreRequest
-             * @instance
-             */
-            StoreRequest.prototype.envelope = null;
-    
-            /**
-             * Creates a new StoreRequest instance using the specified properties.
-             * @function create
-             * @memberof envelopestore.StoreRequest
-             * @static
-             * @param {envelopestore.IStoreRequest=} [properties] Properties to set
-             * @returns {envelopestore.StoreRequest} StoreRequest instance
-             */
-            StoreRequest.create = function create(properties) {
-                return new StoreRequest(properties);
-            };
-    
-            /**
-             * Encodes the specified StoreRequest message. Does not implicitly {@link envelopestore.StoreRequest.verify|verify} messages.
-             * @function encode
-             * @memberof envelopestore.StoreRequest
-             * @static
-             * @param {envelopestore.IStoreRequest} message StoreRequest message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            StoreRequest.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.envelope != null && message.hasOwnProperty("envelope"))
-                    $root.envelope.Envelope.encode(message.envelope, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified StoreRequest message, length delimited. Does not implicitly {@link envelopestore.StoreRequest.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof envelopestore.StoreRequest
-             * @static
-             * @param {envelopestore.IStoreRequest} message StoreRequest message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            StoreRequest.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a StoreRequest message from the specified reader or buffer.
-             * @function decode
-             * @memberof envelopestore.StoreRequest
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {envelopestore.StoreRequest} StoreRequest
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            StoreRequest.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.envelopestore.StoreRequest();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.envelope = $root.envelope.Envelope.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a StoreRequest message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof envelopestore.StoreRequest
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {envelopestore.StoreRequest} StoreRequest
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            StoreRequest.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a StoreRequest message.
-             * @function verify
-             * @memberof envelopestore.StoreRequest
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            StoreRequest.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.envelope != null && message.hasOwnProperty("envelope")) {
-                    var error = $root.envelope.Envelope.verify(message.envelope);
-                    if (error)
-                        return "envelope." + error;
-                }
-                return null;
-            };
-    
-            /**
-             * Creates a StoreRequest message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof envelopestore.StoreRequest
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {envelopestore.StoreRequest} StoreRequest
-             */
-            StoreRequest.fromObject = function fromObject(object) {
-                if (object instanceof $root.envelopestore.StoreRequest)
-                    return object;
-                var message = new $root.envelopestore.StoreRequest();
-                if (object.envelope != null) {
-                    if (typeof object.envelope !== "object")
-                        throw TypeError(".envelopestore.StoreRequest.envelope: object expected");
-                    message.envelope = $root.envelope.Envelope.fromObject(object.envelope);
-                }
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a StoreRequest message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof envelopestore.StoreRequest
-             * @static
-             * @param {envelopestore.StoreRequest} message StoreRequest
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            StoreRequest.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults)
-                    object.envelope = null;
-                if (message.envelope != null && message.hasOwnProperty("envelope"))
-                    object.envelope = $root.envelope.Envelope.toObject(message.envelope, options);
-                return object;
-            };
-    
-            /**
-             * Converts this StoreRequest to JSON.
-             * @function toJSON
-             * @memberof envelopestore.StoreRequest
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            StoreRequest.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return StoreRequest;
-        })();
-    
-        envelopestore.StoreResponse = (function() {
-    
-            /**
-             * Properties of a StoreResponse.
-             * @memberof envelopestore
-             * @interface IStoreResponse
-             * @property {envelope.IEnvelope|null} [envelope] StoreResponse envelope
-             * @property {envelopestore.IStatusInfo|null} [statusInfo] StoreResponse statusInfo
-             */
-    
-            /**
-             * Constructs a new StoreResponse.
-             * @memberof envelopestore
-             * @classdesc Represents a StoreResponse.
-             * @implements IStoreResponse
-             * @constructor
-             * @param {envelopestore.IStoreResponse=} [properties] Properties to set
-             */
-            function StoreResponse(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * StoreResponse envelope.
-             * @member {envelope.IEnvelope|null|undefined} envelope
-             * @memberof envelopestore.StoreResponse
-             * @instance
-             */
-            StoreResponse.prototype.envelope = null;
-    
-            /**
-             * StoreResponse statusInfo.
-             * @member {envelopestore.IStatusInfo|null|undefined} statusInfo
-             * @memberof envelopestore.StoreResponse
-             * @instance
-             */
-            StoreResponse.prototype.statusInfo = null;
-    
-            /**
-             * Creates a new StoreResponse instance using the specified properties.
-             * @function create
-             * @memberof envelopestore.StoreResponse
-             * @static
-             * @param {envelopestore.IStoreResponse=} [properties] Properties to set
-             * @returns {envelopestore.StoreResponse} StoreResponse instance
-             */
-            StoreResponse.create = function create(properties) {
-                return new StoreResponse(properties);
-            };
-    
-            /**
-             * Encodes the specified StoreResponse message. Does not implicitly {@link envelopestore.StoreResponse.verify|verify} messages.
-             * @function encode
-             * @memberof envelopestore.StoreResponse
-             * @static
-             * @param {envelopestore.IStoreResponse} message StoreResponse message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            StoreResponse.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.envelope != null && message.hasOwnProperty("envelope"))
-                    $root.envelope.Envelope.encode(message.envelope, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                if (message.statusInfo != null && message.hasOwnProperty("statusInfo"))
-                    $root.envelopestore.StatusInfo.encode(message.statusInfo, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified StoreResponse message, length delimited. Does not implicitly {@link envelopestore.StoreResponse.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof envelopestore.StoreResponse
-             * @static
-             * @param {envelopestore.IStoreResponse} message StoreResponse message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            StoreResponse.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a StoreResponse message from the specified reader or buffer.
-             * @function decode
-             * @memberof envelopestore.StoreResponse
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {envelopestore.StoreResponse} StoreResponse
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            StoreResponse.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.envelopestore.StoreResponse();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.envelope = $root.envelope.Envelope.decode(reader, reader.uint32());
-                        break;
-                    case 2:
-                        message.statusInfo = $root.envelopestore.StatusInfo.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a StoreResponse message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof envelopestore.StoreResponse
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {envelopestore.StoreResponse} StoreResponse
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            StoreResponse.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a StoreResponse message.
-             * @function verify
-             * @memberof envelopestore.StoreResponse
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            StoreResponse.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.envelope != null && message.hasOwnProperty("envelope")) {
-                    var error = $root.envelope.Envelope.verify(message.envelope);
-                    if (error)
-                        return "envelope." + error;
-                }
-                if (message.statusInfo != null && message.hasOwnProperty("statusInfo")) {
-                    var error = $root.envelopestore.StatusInfo.verify(message.statusInfo);
-                    if (error)
-                        return "statusInfo." + error;
-                }
-                return null;
-            };
-    
-            /**
-             * Creates a StoreResponse message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof envelopestore.StoreResponse
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {envelopestore.StoreResponse} StoreResponse
-             */
-            StoreResponse.fromObject = function fromObject(object) {
-                if (object instanceof $root.envelopestore.StoreResponse)
-                    return object;
-                var message = new $root.envelopestore.StoreResponse();
-                if (object.envelope != null) {
-                    if (typeof object.envelope !== "object")
-                        throw TypeError(".envelopestore.StoreResponse.envelope: object expected");
-                    message.envelope = $root.envelope.Envelope.fromObject(object.envelope);
-                }
-                if (object.statusInfo != null) {
-                    if (typeof object.statusInfo !== "object")
-                        throw TypeError(".envelopestore.StoreResponse.statusInfo: object expected");
-                    message.statusInfo = $root.envelopestore.StatusInfo.fromObject(object.statusInfo);
-                }
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a StoreResponse message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof envelopestore.StoreResponse
-             * @static
-             * @param {envelopestore.StoreResponse} message StoreResponse
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            StoreResponse.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    object.envelope = null;
-                    object.statusInfo = null;
-                }
-                if (message.envelope != null && message.hasOwnProperty("envelope"))
-                    object.envelope = $root.envelope.Envelope.toObject(message.envelope, options);
-                if (message.statusInfo != null && message.hasOwnProperty("statusInfo"))
-                    object.statusInfo = $root.envelopestore.StatusInfo.toObject(message.statusInfo, options);
-                return object;
-            };
-    
-            /**
-             * Converts this StoreResponse to JSON.
-             * @function toJSON
-             * @memberof envelopestore.StoreResponse
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            StoreResponse.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return StoreResponse;
-        })();
-    
-        envelopestore.LoadByIDRequest = (function() {
-    
-            /**
-             * Properties of a LoadByIDRequest.
-             * @memberof envelopestore
-             * @interface ILoadByIDRequest
-             * @property {string|null} [id] LoadByIDRequest id
-             */
-    
-            /**
-             * Constructs a new LoadByIDRequest.
-             * @memberof envelopestore
-             * @classdesc Represents a LoadByIDRequest.
-             * @implements ILoadByIDRequest
-             * @constructor
-             * @param {envelopestore.ILoadByIDRequest=} [properties] Properties to set
-             */
-            function LoadByIDRequest(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * LoadByIDRequest id.
-             * @member {string} id
-             * @memberof envelopestore.LoadByIDRequest
-             * @instance
-             */
-            LoadByIDRequest.prototype.id = "";
-    
-            /**
-             * Creates a new LoadByIDRequest instance using the specified properties.
-             * @function create
-             * @memberof envelopestore.LoadByIDRequest
-             * @static
-             * @param {envelopestore.ILoadByIDRequest=} [properties] Properties to set
-             * @returns {envelopestore.LoadByIDRequest} LoadByIDRequest instance
-             */
-            LoadByIDRequest.create = function create(properties) {
-                return new LoadByIDRequest(properties);
-            };
-    
-            /**
-             * Encodes the specified LoadByIDRequest message. Does not implicitly {@link envelopestore.LoadByIDRequest.verify|verify} messages.
-             * @function encode
-             * @memberof envelopestore.LoadByIDRequest
-             * @static
-             * @param {envelopestore.ILoadByIDRequest} message LoadByIDRequest message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            LoadByIDRequest.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.id != null && message.hasOwnProperty("id"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified LoadByIDRequest message, length delimited. Does not implicitly {@link envelopestore.LoadByIDRequest.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof envelopestore.LoadByIDRequest
-             * @static
-             * @param {envelopestore.ILoadByIDRequest} message LoadByIDRequest message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            LoadByIDRequest.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a LoadByIDRequest message from the specified reader or buffer.
-             * @function decode
-             * @memberof envelopestore.LoadByIDRequest
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {envelopestore.LoadByIDRequest} LoadByIDRequest
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            LoadByIDRequest.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.envelopestore.LoadByIDRequest();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.id = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a LoadByIDRequest message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof envelopestore.LoadByIDRequest
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {envelopestore.LoadByIDRequest} LoadByIDRequest
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            LoadByIDRequest.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a LoadByIDRequest message.
-             * @function verify
-             * @memberof envelopestore.LoadByIDRequest
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            LoadByIDRequest.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.id != null && message.hasOwnProperty("id"))
-                    if (!$util.isString(message.id))
-                        return "id: string expected";
-                return null;
-            };
-    
-            /**
-             * Creates a LoadByIDRequest message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof envelopestore.LoadByIDRequest
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {envelopestore.LoadByIDRequest} LoadByIDRequest
-             */
-            LoadByIDRequest.fromObject = function fromObject(object) {
-                if (object instanceof $root.envelopestore.LoadByIDRequest)
-                    return object;
-                var message = new $root.envelopestore.LoadByIDRequest();
-                if (object.id != null)
-                    message.id = String(object.id);
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a LoadByIDRequest message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof envelopestore.LoadByIDRequest
-             * @static
-             * @param {envelopestore.LoadByIDRequest} message LoadByIDRequest
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            LoadByIDRequest.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults)
-                    object.id = "";
-                if (message.id != null && message.hasOwnProperty("id"))
-                    object.id = message.id;
-                return object;
-            };
-    
-            /**
-             * Converts this LoadByIDRequest to JSON.
-             * @function toJSON
-             * @memberof envelopestore.LoadByIDRequest
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            LoadByIDRequest.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return LoadByIDRequest;
-        })();
-    
-        envelopestore.LoadByTxHashRequest = (function() {
-    
-            /**
-             * Properties of a LoadByTxHashRequest.
-             * @memberof envelopestore
-             * @interface ILoadByTxHashRequest
-             * @property {chain.IChain|null} [chain] LoadByTxHashRequest chain
-             * @property {ethereum.IHash|null} [txHash] LoadByTxHashRequest txHash
-             */
-    
-            /**
-             * Constructs a new LoadByTxHashRequest.
-             * @memberof envelopestore
-             * @classdesc Represents a LoadByTxHashRequest.
-             * @implements ILoadByTxHashRequest
-             * @constructor
-             * @param {envelopestore.ILoadByTxHashRequest=} [properties] Properties to set
-             */
-            function LoadByTxHashRequest(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * LoadByTxHashRequest chain.
-             * @member {chain.IChain|null|undefined} chain
-             * @memberof envelopestore.LoadByTxHashRequest
-             * @instance
-             */
-            LoadByTxHashRequest.prototype.chain = null;
-    
-            /**
-             * LoadByTxHashRequest txHash.
-             * @member {ethereum.IHash|null|undefined} txHash
-             * @memberof envelopestore.LoadByTxHashRequest
-             * @instance
-             */
-            LoadByTxHashRequest.prototype.txHash = null;
-    
-            /**
-             * Creates a new LoadByTxHashRequest instance using the specified properties.
-             * @function create
-             * @memberof envelopestore.LoadByTxHashRequest
-             * @static
-             * @param {envelopestore.ILoadByTxHashRequest=} [properties] Properties to set
-             * @returns {envelopestore.LoadByTxHashRequest} LoadByTxHashRequest instance
-             */
-            LoadByTxHashRequest.create = function create(properties) {
-                return new LoadByTxHashRequest(properties);
-            };
-    
-            /**
-             * Encodes the specified LoadByTxHashRequest message. Does not implicitly {@link envelopestore.LoadByTxHashRequest.verify|verify} messages.
-             * @function encode
-             * @memberof envelopestore.LoadByTxHashRequest
-             * @static
-             * @param {envelopestore.ILoadByTxHashRequest} message LoadByTxHashRequest message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            LoadByTxHashRequest.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.chain != null && message.hasOwnProperty("chain"))
-                    $root.chain.Chain.encode(message.chain, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                if (message.txHash != null && message.hasOwnProperty("txHash"))
-                    $root.ethereum.Hash.encode(message.txHash, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified LoadByTxHashRequest message, length delimited. Does not implicitly {@link envelopestore.LoadByTxHashRequest.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof envelopestore.LoadByTxHashRequest
-             * @static
-             * @param {envelopestore.ILoadByTxHashRequest} message LoadByTxHashRequest message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            LoadByTxHashRequest.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a LoadByTxHashRequest message from the specified reader or buffer.
-             * @function decode
-             * @memberof envelopestore.LoadByTxHashRequest
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {envelopestore.LoadByTxHashRequest} LoadByTxHashRequest
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            LoadByTxHashRequest.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.envelopestore.LoadByTxHashRequest();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 2:
-                        message.chain = $root.chain.Chain.decode(reader, reader.uint32());
-                        break;
-                    case 3:
-                        message.txHash = $root.ethereum.Hash.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a LoadByTxHashRequest message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof envelopestore.LoadByTxHashRequest
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {envelopestore.LoadByTxHashRequest} LoadByTxHashRequest
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            LoadByTxHashRequest.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a LoadByTxHashRequest message.
-             * @function verify
-             * @memberof envelopestore.LoadByTxHashRequest
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            LoadByTxHashRequest.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.chain != null && message.hasOwnProperty("chain")) {
-                    var error = $root.chain.Chain.verify(message.chain);
-                    if (error)
-                        return "chain." + error;
-                }
-                if (message.txHash != null && message.hasOwnProperty("txHash")) {
-                    var error = $root.ethereum.Hash.verify(message.txHash);
-                    if (error)
-                        return "txHash." + error;
-                }
-                return null;
-            };
-    
-            /**
-             * Creates a LoadByTxHashRequest message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof envelopestore.LoadByTxHashRequest
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {envelopestore.LoadByTxHashRequest} LoadByTxHashRequest
-             */
-            LoadByTxHashRequest.fromObject = function fromObject(object) {
-                if (object instanceof $root.envelopestore.LoadByTxHashRequest)
-                    return object;
-                var message = new $root.envelopestore.LoadByTxHashRequest();
-                if (object.chain != null) {
-                    if (typeof object.chain !== "object")
-                        throw TypeError(".envelopestore.LoadByTxHashRequest.chain: object expected");
-                    message.chain = $root.chain.Chain.fromObject(object.chain);
-                }
-                if (object.txHash != null) {
-                    if (typeof object.txHash !== "object")
-                        throw TypeError(".envelopestore.LoadByTxHashRequest.txHash: object expected");
-                    message.txHash = $root.ethereum.Hash.fromObject(object.txHash);
-                }
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a LoadByTxHashRequest message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof envelopestore.LoadByTxHashRequest
-             * @static
-             * @param {envelopestore.LoadByTxHashRequest} message LoadByTxHashRequest
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            LoadByTxHashRequest.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    object.chain = null;
-                    object.txHash = null;
-                }
-                if (message.chain != null && message.hasOwnProperty("chain"))
-                    object.chain = $root.chain.Chain.toObject(message.chain, options);
-                if (message.txHash != null && message.hasOwnProperty("txHash"))
-                    object.txHash = $root.ethereum.Hash.toObject(message.txHash, options);
-                return object;
-            };
-    
-            /**
-             * Converts this LoadByTxHashRequest to JSON.
-             * @function toJSON
-             * @memberof envelopestore.LoadByTxHashRequest
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            LoadByTxHashRequest.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return LoadByTxHashRequest;
-        })();
-    
-        envelopestore.SetStatusRequest = (function() {
-    
-            /**
-             * Properties of a SetStatusRequest.
-             * @memberof envelopestore
-             * @interface ISetStatusRequest
-             * @property {string|null} [id] SetStatusRequest id
-             * @property {envelopestore.Status|null} [status] SetStatusRequest status
-             */
-    
-            /**
-             * Constructs a new SetStatusRequest.
-             * @memberof envelopestore
-             * @classdesc Represents a SetStatusRequest.
-             * @implements ISetStatusRequest
-             * @constructor
-             * @param {envelopestore.ISetStatusRequest=} [properties] Properties to set
-             */
-            function SetStatusRequest(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * SetStatusRequest id.
-             * @member {string} id
-             * @memberof envelopestore.SetStatusRequest
-             * @instance
-             */
-            SetStatusRequest.prototype.id = "";
-    
-            /**
-             * SetStatusRequest status.
-             * @member {envelopestore.Status} status
-             * @memberof envelopestore.SetStatusRequest
-             * @instance
-             */
-            SetStatusRequest.prototype.status = 0;
-    
-            /**
-             * Creates a new SetStatusRequest instance using the specified properties.
-             * @function create
-             * @memberof envelopestore.SetStatusRequest
-             * @static
-             * @param {envelopestore.ISetStatusRequest=} [properties] Properties to set
-             * @returns {envelopestore.SetStatusRequest} SetStatusRequest instance
-             */
-            SetStatusRequest.create = function create(properties) {
-                return new SetStatusRequest(properties);
-            };
-    
-            /**
-             * Encodes the specified SetStatusRequest message. Does not implicitly {@link envelopestore.SetStatusRequest.verify|verify} messages.
-             * @function encode
-             * @memberof envelopestore.SetStatusRequest
-             * @static
-             * @param {envelopestore.ISetStatusRequest} message SetStatusRequest message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            SetStatusRequest.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.id != null && message.hasOwnProperty("id"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-                if (message.status != null && message.hasOwnProperty("status"))
-                    writer.uint32(/* id 2, wireType 0 =*/16).int32(message.status);
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified SetStatusRequest message, length delimited. Does not implicitly {@link envelopestore.SetStatusRequest.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof envelopestore.SetStatusRequest
-             * @static
-             * @param {envelopestore.ISetStatusRequest} message SetStatusRequest message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            SetStatusRequest.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a SetStatusRequest message from the specified reader or buffer.
-             * @function decode
-             * @memberof envelopestore.SetStatusRequest
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {envelopestore.SetStatusRequest} SetStatusRequest
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            SetStatusRequest.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.envelopestore.SetStatusRequest();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.id = reader.string();
-                        break;
-                    case 2:
-                        message.status = reader.int32();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a SetStatusRequest message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof envelopestore.SetStatusRequest
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {envelopestore.SetStatusRequest} SetStatusRequest
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            SetStatusRequest.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a SetStatusRequest message.
-             * @function verify
-             * @memberof envelopestore.SetStatusRequest
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            SetStatusRequest.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.id != null && message.hasOwnProperty("id"))
-                    if (!$util.isString(message.id))
-                        return "id: string expected";
-                if (message.status != null && message.hasOwnProperty("status"))
-                    switch (message.status) {
-                    default:
-                        return "status: enum value expected";
-                    case 0:
-                    case 1:
-                    case 2:
-                    case 3:
-                        break;
-                    }
-                return null;
-            };
-    
-            /**
-             * Creates a SetStatusRequest message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof envelopestore.SetStatusRequest
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {envelopestore.SetStatusRequest} SetStatusRequest
-             */
-            SetStatusRequest.fromObject = function fromObject(object) {
-                if (object instanceof $root.envelopestore.SetStatusRequest)
-                    return object;
-                var message = new $root.envelopestore.SetStatusRequest();
-                if (object.id != null)
-                    message.id = String(object.id);
-                switch (object.status) {
-                case "STORED":
-                case 0:
-                    message.status = 0;
-                    break;
-                case "PENDING":
-                case 1:
-                    message.status = 1;
-                    break;
-                case "MINED":
-                case 2:
-                    message.status = 2;
-                    break;
-                case "ERROR":
-                case 3:
-                    message.status = 3;
-                    break;
-                }
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a SetStatusRequest message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof envelopestore.SetStatusRequest
-             * @static
-             * @param {envelopestore.SetStatusRequest} message SetStatusRequest
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            SetStatusRequest.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    object.id = "";
-                    object.status = options.enums === String ? "STORED" : 0;
-                }
-                if (message.id != null && message.hasOwnProperty("id"))
-                    object.id = message.id;
-                if (message.status != null && message.hasOwnProperty("status"))
-                    object.status = options.enums === String ? $root.envelopestore.Status[message.status] : message.status;
-                return object;
-            };
-    
-            /**
-             * Converts this SetStatusRequest to JSON.
-             * @function toJSON
-             * @memberof envelopestore.SetStatusRequest
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            SetStatusRequest.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return SetStatusRequest;
-        })();
-    
-        envelopestore.StatusResponse = (function() {
-    
-            /**
-             * Properties of a StatusResponse.
-             * @memberof envelopestore
-             * @interface IStatusResponse
-             * @property {envelopestore.IStatusInfo|null} [statusInfo] StatusResponse statusInfo
-             */
-    
-            /**
-             * Constructs a new StatusResponse.
-             * @memberof envelopestore
-             * @classdesc Represents a StatusResponse.
-             * @implements IStatusResponse
-             * @constructor
-             * @param {envelopestore.IStatusResponse=} [properties] Properties to set
-             */
-            function StatusResponse(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * StatusResponse statusInfo.
-             * @member {envelopestore.IStatusInfo|null|undefined} statusInfo
-             * @memberof envelopestore.StatusResponse
-             * @instance
-             */
-            StatusResponse.prototype.statusInfo = null;
-    
-            /**
-             * Creates a new StatusResponse instance using the specified properties.
-             * @function create
-             * @memberof envelopestore.StatusResponse
-             * @static
-             * @param {envelopestore.IStatusResponse=} [properties] Properties to set
-             * @returns {envelopestore.StatusResponse} StatusResponse instance
-             */
-            StatusResponse.create = function create(properties) {
-                return new StatusResponse(properties);
-            };
-    
-            /**
-             * Encodes the specified StatusResponse message. Does not implicitly {@link envelopestore.StatusResponse.verify|verify} messages.
-             * @function encode
-             * @memberof envelopestore.StatusResponse
-             * @static
-             * @param {envelopestore.IStatusResponse} message StatusResponse message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            StatusResponse.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.statusInfo != null && message.hasOwnProperty("statusInfo"))
-                    $root.envelopestore.StatusInfo.encode(message.statusInfo, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified StatusResponse message, length delimited. Does not implicitly {@link envelopestore.StatusResponse.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof envelopestore.StatusResponse
-             * @static
-             * @param {envelopestore.IStatusResponse} message StatusResponse message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            StatusResponse.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a StatusResponse message from the specified reader or buffer.
-             * @function decode
-             * @memberof envelopestore.StatusResponse
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {envelopestore.StatusResponse} StatusResponse
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            StatusResponse.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.envelopestore.StatusResponse();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.statusInfo = $root.envelopestore.StatusInfo.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a StatusResponse message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof envelopestore.StatusResponse
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {envelopestore.StatusResponse} StatusResponse
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            StatusResponse.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a StatusResponse message.
-             * @function verify
-             * @memberof envelopestore.StatusResponse
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            StatusResponse.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.statusInfo != null && message.hasOwnProperty("statusInfo")) {
-                    var error = $root.envelopestore.StatusInfo.verify(message.statusInfo);
-                    if (error)
-                        return "statusInfo." + error;
-                }
-                return null;
-            };
-    
-            /**
-             * Creates a StatusResponse message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof envelopestore.StatusResponse
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {envelopestore.StatusResponse} StatusResponse
-             */
-            StatusResponse.fromObject = function fromObject(object) {
-                if (object instanceof $root.envelopestore.StatusResponse)
-                    return object;
-                var message = new $root.envelopestore.StatusResponse();
-                if (object.statusInfo != null) {
-                    if (typeof object.statusInfo !== "object")
-                        throw TypeError(".envelopestore.StatusResponse.statusInfo: object expected");
-                    message.statusInfo = $root.envelopestore.StatusInfo.fromObject(object.statusInfo);
-                }
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a StatusResponse message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof envelopestore.StatusResponse
-             * @static
-             * @param {envelopestore.StatusResponse} message StatusResponse
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            StatusResponse.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults)
-                    object.statusInfo = null;
-                if (message.statusInfo != null && message.hasOwnProperty("statusInfo"))
-                    object.statusInfo = $root.envelopestore.StatusInfo.toObject(message.statusInfo, options);
-                return object;
-            };
-    
-            /**
-             * Converts this StatusResponse to JSON.
-             * @function toJSON
-             * @memberof envelopestore.StatusResponse
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            StatusResponse.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return StatusResponse;
-        })();
-    
-        envelopestore.LoadPendingRequest = (function() {
-    
-            /**
-             * Properties of a LoadPendingRequest.
-             * @memberof envelopestore
-             * @interface ILoadPendingRequest
-             * @property {google.protobuf.IDuration|null} [duration] LoadPendingRequest duration
-             */
-    
-            /**
-             * Constructs a new LoadPendingRequest.
-             * @memberof envelopestore
-             * @classdesc Represents a LoadPendingRequest.
-             * @implements ILoadPendingRequest
-             * @constructor
-             * @param {envelopestore.ILoadPendingRequest=} [properties] Properties to set
-             */
-            function LoadPendingRequest(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * LoadPendingRequest duration.
-             * @member {google.protobuf.IDuration|null|undefined} duration
-             * @memberof envelopestore.LoadPendingRequest
-             * @instance
-             */
-            LoadPendingRequest.prototype.duration = null;
-    
-            /**
-             * Creates a new LoadPendingRequest instance using the specified properties.
-             * @function create
-             * @memberof envelopestore.LoadPendingRequest
-             * @static
-             * @param {envelopestore.ILoadPendingRequest=} [properties] Properties to set
-             * @returns {envelopestore.LoadPendingRequest} LoadPendingRequest instance
-             */
-            LoadPendingRequest.create = function create(properties) {
-                return new LoadPendingRequest(properties);
-            };
-    
-            /**
-             * Encodes the specified LoadPendingRequest message. Does not implicitly {@link envelopestore.LoadPendingRequest.verify|verify} messages.
-             * @function encode
-             * @memberof envelopestore.LoadPendingRequest
-             * @static
-             * @param {envelopestore.ILoadPendingRequest} message LoadPendingRequest message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            LoadPendingRequest.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.duration != null && message.hasOwnProperty("duration"))
-                    $root.google.protobuf.Duration.encode(message.duration, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified LoadPendingRequest message, length delimited. Does not implicitly {@link envelopestore.LoadPendingRequest.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof envelopestore.LoadPendingRequest
-             * @static
-             * @param {envelopestore.ILoadPendingRequest} message LoadPendingRequest message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            LoadPendingRequest.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a LoadPendingRequest message from the specified reader or buffer.
-             * @function decode
-             * @memberof envelopestore.LoadPendingRequest
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {envelopestore.LoadPendingRequest} LoadPendingRequest
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            LoadPendingRequest.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.envelopestore.LoadPendingRequest();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.duration = $root.google.protobuf.Duration.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a LoadPendingRequest message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof envelopestore.LoadPendingRequest
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {envelopestore.LoadPendingRequest} LoadPendingRequest
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            LoadPendingRequest.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a LoadPendingRequest message.
-             * @function verify
-             * @memberof envelopestore.LoadPendingRequest
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            LoadPendingRequest.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.duration != null && message.hasOwnProperty("duration")) {
-                    var error = $root.google.protobuf.Duration.verify(message.duration);
-                    if (error)
-                        return "duration." + error;
-                }
-                return null;
-            };
-    
-            /**
-             * Creates a LoadPendingRequest message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof envelopestore.LoadPendingRequest
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {envelopestore.LoadPendingRequest} LoadPendingRequest
-             */
-            LoadPendingRequest.fromObject = function fromObject(object) {
-                if (object instanceof $root.envelopestore.LoadPendingRequest)
-                    return object;
-                var message = new $root.envelopestore.LoadPendingRequest();
-                if (object.duration != null) {
-                    if (typeof object.duration !== "object")
-                        throw TypeError(".envelopestore.LoadPendingRequest.duration: object expected");
-                    message.duration = $root.google.protobuf.Duration.fromObject(object.duration);
-                }
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a LoadPendingRequest message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof envelopestore.LoadPendingRequest
-             * @static
-             * @param {envelopestore.LoadPendingRequest} message LoadPendingRequest
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            LoadPendingRequest.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults)
-                    object.duration = null;
-                if (message.duration != null && message.hasOwnProperty("duration"))
-                    object.duration = $root.google.protobuf.Duration.toObject(message.duration, options);
-                return object;
-            };
-    
-            /**
-             * Converts this LoadPendingRequest to JSON.
-             * @function toJSON
-             * @memberof envelopestore.LoadPendingRequest
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            LoadPendingRequest.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return LoadPendingRequest;
-        })();
-    
-        envelopestore.LoadPendingResponse = (function() {
-    
-            /**
-             * Properties of a LoadPendingResponse.
-             * @memberof envelopestore
-             * @interface ILoadPendingResponse
-             * @property {Array.<envelopestore.IStoreResponse>|null} [responses] LoadPendingResponse responses
-             */
-    
-            /**
-             * Constructs a new LoadPendingResponse.
-             * @memberof envelopestore
-             * @classdesc Represents a LoadPendingResponse.
-             * @implements ILoadPendingResponse
-             * @constructor
-             * @param {envelopestore.ILoadPendingResponse=} [properties] Properties to set
-             */
-            function LoadPendingResponse(properties) {
-                this.responses = [];
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * LoadPendingResponse responses.
-             * @member {Array.<envelopestore.IStoreResponse>} responses
-             * @memberof envelopestore.LoadPendingResponse
-             * @instance
-             */
-            LoadPendingResponse.prototype.responses = $util.emptyArray;
-    
-            /**
-             * Creates a new LoadPendingResponse instance using the specified properties.
-             * @function create
-             * @memberof envelopestore.LoadPendingResponse
-             * @static
-             * @param {envelopestore.ILoadPendingResponse=} [properties] Properties to set
-             * @returns {envelopestore.LoadPendingResponse} LoadPendingResponse instance
-             */
-            LoadPendingResponse.create = function create(properties) {
-                return new LoadPendingResponse(properties);
-            };
-    
-            /**
-             * Encodes the specified LoadPendingResponse message. Does not implicitly {@link envelopestore.LoadPendingResponse.verify|verify} messages.
-             * @function encode
-             * @memberof envelopestore.LoadPendingResponse
-             * @static
-             * @param {envelopestore.ILoadPendingResponse} message LoadPendingResponse message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            LoadPendingResponse.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.responses != null && message.responses.length)
-                    for (var i = 0; i < message.responses.length; ++i)
-                        $root.envelopestore.StoreResponse.encode(message.responses[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified LoadPendingResponse message, length delimited. Does not implicitly {@link envelopestore.LoadPendingResponse.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof envelopestore.LoadPendingResponse
-             * @static
-             * @param {envelopestore.ILoadPendingResponse} message LoadPendingResponse message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            LoadPendingResponse.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a LoadPendingResponse message from the specified reader or buffer.
-             * @function decode
-             * @memberof envelopestore.LoadPendingResponse
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {envelopestore.LoadPendingResponse} LoadPendingResponse
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            LoadPendingResponse.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.envelopestore.LoadPendingResponse();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        if (!(message.responses && message.responses.length))
-                            message.responses = [];
-                        message.responses.push($root.envelopestore.StoreResponse.decode(reader, reader.uint32()));
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a LoadPendingResponse message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof envelopestore.LoadPendingResponse
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {envelopestore.LoadPendingResponse} LoadPendingResponse
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            LoadPendingResponse.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a LoadPendingResponse message.
-             * @function verify
-             * @memberof envelopestore.LoadPendingResponse
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            LoadPendingResponse.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.responses != null && message.hasOwnProperty("responses")) {
-                    if (!Array.isArray(message.responses))
-                        return "responses: array expected";
-                    for (var i = 0; i < message.responses.length; ++i) {
-                        var error = $root.envelopestore.StoreResponse.verify(message.responses[i]);
-                        if (error)
-                            return "responses." + error;
-                    }
-                }
-                return null;
-            };
-    
-            /**
-             * Creates a LoadPendingResponse message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof envelopestore.LoadPendingResponse
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {envelopestore.LoadPendingResponse} LoadPendingResponse
-             */
-            LoadPendingResponse.fromObject = function fromObject(object) {
-                if (object instanceof $root.envelopestore.LoadPendingResponse)
-                    return object;
-                var message = new $root.envelopestore.LoadPendingResponse();
-                if (object.responses) {
-                    if (!Array.isArray(object.responses))
-                        throw TypeError(".envelopestore.LoadPendingResponse.responses: array expected");
-                    message.responses = [];
-                    for (var i = 0; i < object.responses.length; ++i) {
-                        if (typeof object.responses[i] !== "object")
-                            throw TypeError(".envelopestore.LoadPendingResponse.responses: object expected");
-                        message.responses[i] = $root.envelopestore.StoreResponse.fromObject(object.responses[i]);
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a LoadPendingResponse message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof envelopestore.LoadPendingResponse
-             * @static
-             * @param {envelopestore.LoadPendingResponse} message LoadPendingResponse
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            LoadPendingResponse.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.arrays || options.defaults)
-                    object.responses = [];
-                if (message.responses && message.responses.length) {
-                    object.responses = [];
-                    for (var j = 0; j < message.responses.length; ++j)
-                        object.responses[j] = $root.envelopestore.StoreResponse.toObject(message.responses[j], options);
-                }
-                return object;
-            };
-    
-            /**
-             * Converts this LoadPendingResponse to JSON.
-             * @function toJSON
-             * @memberof envelopestore.LoadPendingResponse
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            LoadPendingResponse.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return LoadPendingResponse;
-        })();
-    
-        return envelopestore;
     })();
     
     $root.google = (function() {
@@ -17663,458 +15333,22 @@
                 return GeneratedCodeInfo;
             })();
     
-            protobuf.Duration = (function() {
-    
-                /**
-                 * Properties of a Duration.
-                 * @memberof google.protobuf
-                 * @interface IDuration
-                 * @property {number|Long|null} [seconds] Duration seconds
-                 * @property {number|null} [nanos] Duration nanos
-                 */
-    
-                /**
-                 * Constructs a new Duration.
-                 * @memberof google.protobuf
-                 * @classdesc Represents a Duration.
-                 * @implements IDuration
-                 * @constructor
-                 * @param {google.protobuf.IDuration=} [properties] Properties to set
-                 */
-                function Duration(properties) {
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-    
-                /**
-                 * Duration seconds.
-                 * @member {number|Long} seconds
-                 * @memberof google.protobuf.Duration
-                 * @instance
-                 */
-                Duration.prototype.seconds = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
-    
-                /**
-                 * Duration nanos.
-                 * @member {number} nanos
-                 * @memberof google.protobuf.Duration
-                 * @instance
-                 */
-                Duration.prototype.nanos = 0;
-    
-                /**
-                 * Creates a new Duration instance using the specified properties.
-                 * @function create
-                 * @memberof google.protobuf.Duration
-                 * @static
-                 * @param {google.protobuf.IDuration=} [properties] Properties to set
-                 * @returns {google.protobuf.Duration} Duration instance
-                 */
-                Duration.create = function create(properties) {
-                    return new Duration(properties);
-                };
-    
-                /**
-                 * Encodes the specified Duration message. Does not implicitly {@link google.protobuf.Duration.verify|verify} messages.
-                 * @function encode
-                 * @memberof google.protobuf.Duration
-                 * @static
-                 * @param {google.protobuf.IDuration} message Duration message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                Duration.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.seconds != null && message.hasOwnProperty("seconds"))
-                        writer.uint32(/* id 1, wireType 0 =*/8).int64(message.seconds);
-                    if (message.nanos != null && message.hasOwnProperty("nanos"))
-                        writer.uint32(/* id 2, wireType 0 =*/16).int32(message.nanos);
-                    return writer;
-                };
-    
-                /**
-                 * Encodes the specified Duration message, length delimited. Does not implicitly {@link google.protobuf.Duration.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof google.protobuf.Duration
-                 * @static
-                 * @param {google.protobuf.IDuration} message Duration message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                Duration.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-    
-                /**
-                 * Decodes a Duration message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof google.protobuf.Duration
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {google.protobuf.Duration} Duration
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                Duration.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.Duration();
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1:
-                            message.seconds = reader.int64();
-                            break;
-                        case 2:
-                            message.nanos = reader.int32();
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-    
-                /**
-                 * Decodes a Duration message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof google.protobuf.Duration
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {google.protobuf.Duration} Duration
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                Duration.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-    
-                /**
-                 * Verifies a Duration message.
-                 * @function verify
-                 * @memberof google.protobuf.Duration
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                Duration.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.seconds != null && message.hasOwnProperty("seconds"))
-                        if (!$util.isInteger(message.seconds) && !(message.seconds && $util.isInteger(message.seconds.low) && $util.isInteger(message.seconds.high)))
-                            return "seconds: integer|Long expected";
-                    if (message.nanos != null && message.hasOwnProperty("nanos"))
-                        if (!$util.isInteger(message.nanos))
-                            return "nanos: integer expected";
-                    return null;
-                };
-    
-                /**
-                 * Creates a Duration message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof google.protobuf.Duration
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {google.protobuf.Duration} Duration
-                 */
-                Duration.fromObject = function fromObject(object) {
-                    if (object instanceof $root.google.protobuf.Duration)
-                        return object;
-                    var message = new $root.google.protobuf.Duration();
-                    if (object.seconds != null)
-                        if ($util.Long)
-                            (message.seconds = $util.Long.fromValue(object.seconds)).unsigned = false;
-                        else if (typeof object.seconds === "string")
-                            message.seconds = parseInt(object.seconds, 10);
-                        else if (typeof object.seconds === "number")
-                            message.seconds = object.seconds;
-                        else if (typeof object.seconds === "object")
-                            message.seconds = new $util.LongBits(object.seconds.low >>> 0, object.seconds.high >>> 0).toNumber();
-                    if (object.nanos != null)
-                        message.nanos = object.nanos | 0;
-                    return message;
-                };
-    
-                /**
-                 * Creates a plain object from a Duration message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof google.protobuf.Duration
-                 * @static
-                 * @param {google.protobuf.Duration} message Duration
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                Duration.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.defaults) {
-                        if ($util.Long) {
-                            var long = new $util.Long(0, 0, false);
-                            object.seconds = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                        } else
-                            object.seconds = options.longs === String ? "0" : 0;
-                        object.nanos = 0;
-                    }
-                    if (message.seconds != null && message.hasOwnProperty("seconds"))
-                        if (typeof message.seconds === "number")
-                            object.seconds = options.longs === String ? String(message.seconds) : message.seconds;
-                        else
-                            object.seconds = options.longs === String ? $util.Long.prototype.toString.call(message.seconds) : options.longs === Number ? new $util.LongBits(message.seconds.low >>> 0, message.seconds.high >>> 0).toNumber() : message.seconds;
-                    if (message.nanos != null && message.hasOwnProperty("nanos"))
-                        object.nanos = message.nanos;
-                    return object;
-                };
-    
-                /**
-                 * Converts this Duration to JSON.
-                 * @function toJSON
-                 * @memberof google.protobuf.Duration
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                Duration.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-    
-                return Duration;
-            })();
-    
-            protobuf.Timestamp = (function() {
-    
-                /**
-                 * Properties of a Timestamp.
-                 * @memberof google.protobuf
-                 * @interface ITimestamp
-                 * @property {number|Long|null} [seconds] Timestamp seconds
-                 * @property {number|null} [nanos] Timestamp nanos
-                 */
-    
-                /**
-                 * Constructs a new Timestamp.
-                 * @memberof google.protobuf
-                 * @classdesc Represents a Timestamp.
-                 * @implements ITimestamp
-                 * @constructor
-                 * @param {google.protobuf.ITimestamp=} [properties] Properties to set
-                 */
-                function Timestamp(properties) {
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-    
-                /**
-                 * Timestamp seconds.
-                 * @member {number|Long} seconds
-                 * @memberof google.protobuf.Timestamp
-                 * @instance
-                 */
-                Timestamp.prototype.seconds = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
-    
-                /**
-                 * Timestamp nanos.
-                 * @member {number} nanos
-                 * @memberof google.protobuf.Timestamp
-                 * @instance
-                 */
-                Timestamp.prototype.nanos = 0;
-    
-                /**
-                 * Creates a new Timestamp instance using the specified properties.
-                 * @function create
-                 * @memberof google.protobuf.Timestamp
-                 * @static
-                 * @param {google.protobuf.ITimestamp=} [properties] Properties to set
-                 * @returns {google.protobuf.Timestamp} Timestamp instance
-                 */
-                Timestamp.create = function create(properties) {
-                    return new Timestamp(properties);
-                };
-    
-                /**
-                 * Encodes the specified Timestamp message. Does not implicitly {@link google.protobuf.Timestamp.verify|verify} messages.
-                 * @function encode
-                 * @memberof google.protobuf.Timestamp
-                 * @static
-                 * @param {google.protobuf.ITimestamp} message Timestamp message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                Timestamp.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.seconds != null && message.hasOwnProperty("seconds"))
-                        writer.uint32(/* id 1, wireType 0 =*/8).int64(message.seconds);
-                    if (message.nanos != null && message.hasOwnProperty("nanos"))
-                        writer.uint32(/* id 2, wireType 0 =*/16).int32(message.nanos);
-                    return writer;
-                };
-    
-                /**
-                 * Encodes the specified Timestamp message, length delimited. Does not implicitly {@link google.protobuf.Timestamp.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof google.protobuf.Timestamp
-                 * @static
-                 * @param {google.protobuf.ITimestamp} message Timestamp message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                Timestamp.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-    
-                /**
-                 * Decodes a Timestamp message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof google.protobuf.Timestamp
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {google.protobuf.Timestamp} Timestamp
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                Timestamp.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.Timestamp();
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1:
-                            message.seconds = reader.int64();
-                            break;
-                        case 2:
-                            message.nanos = reader.int32();
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-    
-                /**
-                 * Decodes a Timestamp message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof google.protobuf.Timestamp
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {google.protobuf.Timestamp} Timestamp
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                Timestamp.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-    
-                /**
-                 * Verifies a Timestamp message.
-                 * @function verify
-                 * @memberof google.protobuf.Timestamp
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                Timestamp.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.seconds != null && message.hasOwnProperty("seconds"))
-                        if (!$util.isInteger(message.seconds) && !(message.seconds && $util.isInteger(message.seconds.low) && $util.isInteger(message.seconds.high)))
-                            return "seconds: integer|Long expected";
-                    if (message.nanos != null && message.hasOwnProperty("nanos"))
-                        if (!$util.isInteger(message.nanos))
-                            return "nanos: integer expected";
-                    return null;
-                };
-    
-                /**
-                 * Creates a Timestamp message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof google.protobuf.Timestamp
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {google.protobuf.Timestamp} Timestamp
-                 */
-                Timestamp.fromObject = function fromObject(object) {
-                    if (object instanceof $root.google.protobuf.Timestamp)
-                        return object;
-                    var message = new $root.google.protobuf.Timestamp();
-                    if (object.seconds != null)
-                        if ($util.Long)
-                            (message.seconds = $util.Long.fromValue(object.seconds)).unsigned = false;
-                        else if (typeof object.seconds === "string")
-                            message.seconds = parseInt(object.seconds, 10);
-                        else if (typeof object.seconds === "number")
-                            message.seconds = object.seconds;
-                        else if (typeof object.seconds === "object")
-                            message.seconds = new $util.LongBits(object.seconds.low >>> 0, object.seconds.high >>> 0).toNumber();
-                    if (object.nanos != null)
-                        message.nanos = object.nanos | 0;
-                    return message;
-                };
-    
-                /**
-                 * Creates a plain object from a Timestamp message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof google.protobuf.Timestamp
-                 * @static
-                 * @param {google.protobuf.Timestamp} message Timestamp
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                Timestamp.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.defaults) {
-                        if ($util.Long) {
-                            var long = new $util.Long(0, 0, false);
-                            object.seconds = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                        } else
-                            object.seconds = options.longs === String ? "0" : 0;
-                        object.nanos = 0;
-                    }
-                    if (message.seconds != null && message.hasOwnProperty("seconds"))
-                        if (typeof message.seconds === "number")
-                            object.seconds = options.longs === String ? String(message.seconds) : message.seconds;
-                        else
-                            object.seconds = options.longs === String ? $util.Long.prototype.toString.call(message.seconds) : options.longs === Number ? new $util.LongBits(message.seconds.low >>> 0, message.seconds.high >>> 0).toNumber() : message.seconds;
-                    if (message.nanos != null && message.hasOwnProperty("nanos"))
-                        object.nanos = message.nanos;
-                    return object;
-                };
-    
-                /**
-                 * Converts this Timestamp to JSON.
-                 * @function toJSON
-                 * @memberof google.protobuf.Timestamp
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                Timestamp.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-    
-                return Timestamp;
-            })();
-    
             return protobuf;
         })();
     
         return google;
+    })();
+    
+    $root.envelopestore = (function() {
+    
+        /**
+         * Namespace envelopestore.
+         * @exports envelopestore
+         * @namespace
+         */
+        var envelopestore = {};
+    
+        return envelopestore;
     })();
     
     $root.envelope = (function() {
@@ -18365,7 +15599,7 @@
              * @interface IArgs
              * @property {args.ICall|null} [call] Args call
              * @property {args.IPrivate|null} ["private"] Args private
-             * @property {ethereum.IData|null} [data] Args data
+             * @property {string|null} [data] Args data
              */
     
             /**
@@ -18401,11 +15635,11 @@
     
             /**
              * Args data.
-             * @member {ethereum.IData|null|undefined} data
+             * @member {string} data
              * @memberof envelope.Args
              * @instance
              */
-            Args.prototype.data = null;
+            Args.prototype.data = "";
     
             /**
              * Creates a new Args instance using the specified properties.
@@ -18436,7 +15670,7 @@
                 if (message["private"] != null && message.hasOwnProperty("private"))
                     $root.args.Private.encode(message["private"], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
                 if (message.data != null && message.hasOwnProperty("data"))
-                    $root.ethereum.Data.encode(message.data, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.data);
                 return writer;
             };
     
@@ -18478,7 +15712,7 @@
                         message["private"] = $root.args.Private.decode(reader, reader.uint32());
                         break;
                     case 3:
-                        message.data = $root.ethereum.Data.decode(reader, reader.uint32());
+                        message.data = reader.string();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -18525,11 +15759,9 @@
                     if (error)
                         return "private." + error;
                 }
-                if (message.data != null && message.hasOwnProperty("data")) {
-                    var error = $root.ethereum.Data.verify(message.data);
-                    if (error)
-                        return "data." + error;
-                }
+                if (message.data != null && message.hasOwnProperty("data"))
+                    if (!$util.isString(message.data))
+                        return "data: string expected";
                 return null;
             };
     
@@ -18555,11 +15787,8 @@
                         throw TypeError(".envelope.Args.private: object expected");
                     message["private"] = $root.args.Private.fromObject(object["private"]);
                 }
-                if (object.data != null) {
-                    if (typeof object.data !== "object")
-                        throw TypeError(".envelope.Args.data: object expected");
-                    message.data = $root.ethereum.Data.fromObject(object.data);
-                }
+                if (object.data != null)
+                    message.data = String(object.data);
                 return message;
             };
     
@@ -18579,14 +15808,14 @@
                 if (options.defaults) {
                     object.call = null;
                     object["private"] = null;
-                    object.data = null;
+                    object.data = "";
                 }
                 if (message.call != null && message.hasOwnProperty("call"))
                     object.call = $root.args.Call.toObject(message.call, options);
                 if (message["private"] != null && message.hasOwnProperty("private"))
                     object["private"] = $root.args.Private.toObject(message["private"], options);
                 if (message.data != null && message.hasOwnProperty("data"))
-                    object.data = $root.ethereum.Data.toObject(message.data, options);
+                    object.data = message.data;
                 return object;
             };
     
@@ -18612,7 +15841,7 @@
              * @interface IEnvelope
              * @property {chain.IChain|null} [chain] Envelope chain
              * @property {chain.IProtocol|null} [protocol] Envelope protocol
-             * @property {ethereum.IAccount|null} [from] Envelope from
+             * @property {string|null} [from] Envelope from
              * @property {ethereum.ITransaction|null} [tx] Envelope tx
              * @property {ethereum.IReceipt|null} [receipt] Envelope receipt
              * @property {Array.<error.IError>|null} [errors] Envelope errors
@@ -18654,11 +15883,11 @@
     
             /**
              * Envelope from.
-             * @member {ethereum.IAccount|null|undefined} from
+             * @member {string} from
              * @memberof envelope.Envelope
              * @instance
              */
-            Envelope.prototype.from = null;
+            Envelope.prototype.from = "";
     
             /**
              * Envelope tx.
@@ -18729,7 +15958,7 @@
                 if (message.protocol != null && message.hasOwnProperty("protocol"))
                     $root.chain.Protocol.encode(message.protocol, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
                 if (message.from != null && message.hasOwnProperty("from"))
-                    $root.ethereum.Account.encode(message.from, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.from);
                 if (message.tx != null && message.hasOwnProperty("tx"))
                     $root.ethereum.Transaction.encode(message.tx, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
                 if (message.receipt != null && message.hasOwnProperty("receipt"))
@@ -18782,7 +16011,7 @@
                         message.protocol = $root.chain.Protocol.decode(reader, reader.uint32());
                         break;
                     case 3:
-                        message.from = $root.ethereum.Account.decode(reader, reader.uint32());
+                        message.from = reader.string();
                         break;
                     case 4:
                         message.tx = $root.ethereum.Transaction.decode(reader, reader.uint32());
@@ -18846,11 +16075,9 @@
                     if (error)
                         return "protocol." + error;
                 }
-                if (message.from != null && message.hasOwnProperty("from")) {
-                    var error = $root.ethereum.Account.verify(message.from);
-                    if (error)
-                        return "from." + error;
-                }
+                if (message.from != null && message.hasOwnProperty("from"))
+                    if (!$util.isString(message.from))
+                        return "from: string expected";
                 if (message.tx != null && message.hasOwnProperty("tx")) {
                     var error = $root.ethereum.Transaction.verify(message.tx);
                     if (error)
@@ -18905,11 +16132,8 @@
                         throw TypeError(".envelope.Envelope.protocol: object expected");
                     message.protocol = $root.chain.Protocol.fromObject(object.protocol);
                 }
-                if (object.from != null) {
-                    if (typeof object.from !== "object")
-                        throw TypeError(".envelope.Envelope.from: object expected");
-                    message.from = $root.ethereum.Account.fromObject(object.from);
-                }
+                if (object.from != null)
+                    message.from = String(object.from);
                 if (object.tx != null) {
                     if (typeof object.tx !== "object")
                         throw TypeError(".envelope.Envelope.tx: object expected");
@@ -18961,7 +16185,7 @@
                 if (options.defaults) {
                     object.chain = null;
                     object.protocol = null;
-                    object.from = null;
+                    object.from = "";
                     object.tx = null;
                     object.receipt = null;
                     object.args = null;
@@ -18972,7 +16196,7 @@
                 if (message.protocol != null && message.hasOwnProperty("protocol"))
                     object.protocol = $root.chain.Protocol.toObject(message.protocol, options);
                 if (message.from != null && message.hasOwnProperty("from"))
-                    object.from = $root.ethereum.Account.toObject(message.from, options);
+                    object.from = message.from;
                 if (message.tx != null && message.hasOwnProperty("tx"))
                     object.tx = $root.ethereum.Transaction.toObject(message.tx, options);
                 if (message.receipt != null && message.hasOwnProperty("receipt"))
@@ -19317,805 +16541,21 @@
          */
         var ethereum = {};
     
-        ethereum.Account = (function() {
-    
-            /**
-             * Properties of an Account.
-             * @memberof ethereum
-             * @interface IAccount
-             * @property {Uint8Array|null} [raw] Account raw
-             */
-    
-            /**
-             * Constructs a new Account.
-             * @memberof ethereum
-             * @classdesc Represents an Account.
-             * @implements IAccount
-             * @constructor
-             * @param {ethereum.IAccount=} [properties] Properties to set
-             */
-            function Account(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * Account raw.
-             * @member {Uint8Array} raw
-             * @memberof ethereum.Account
-             * @instance
-             */
-            Account.prototype.raw = $util.newBuffer([]);
-    
-            /**
-             * Creates a new Account instance using the specified properties.
-             * @function create
-             * @memberof ethereum.Account
-             * @static
-             * @param {ethereum.IAccount=} [properties] Properties to set
-             * @returns {ethereum.Account} Account instance
-             */
-            Account.create = function create(properties) {
-                return new Account(properties);
-            };
-    
-            /**
-             * Encodes the specified Account message. Does not implicitly {@link ethereum.Account.verify|verify} messages.
-             * @function encode
-             * @memberof ethereum.Account
-             * @static
-             * @param {ethereum.IAccount} message Account message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Account.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.raw != null && message.hasOwnProperty("raw"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.raw);
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified Account message, length delimited. Does not implicitly {@link ethereum.Account.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof ethereum.Account
-             * @static
-             * @param {ethereum.IAccount} message Account message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Account.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes an Account message from the specified reader or buffer.
-             * @function decode
-             * @memberof ethereum.Account
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {ethereum.Account} Account
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Account.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ethereum.Account();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.raw = reader.bytes();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes an Account message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof ethereum.Account
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {ethereum.Account} Account
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Account.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies an Account message.
-             * @function verify
-             * @memberof ethereum.Account
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            Account.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.raw != null && message.hasOwnProperty("raw"))
-                    if (!(message.raw && typeof message.raw.length === "number" || $util.isString(message.raw)))
-                        return "raw: buffer expected";
-                return null;
-            };
-    
-            /**
-             * Creates an Account message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof ethereum.Account
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {ethereum.Account} Account
-             */
-            Account.fromObject = function fromObject(object) {
-                if (object instanceof $root.ethereum.Account)
-                    return object;
-                var message = new $root.ethereum.Account();
-                if (object.raw != null)
-                    if (typeof object.raw === "string")
-                        $util.base64.decode(object.raw, message.raw = $util.newBuffer($util.base64.length(object.raw)), 0);
-                    else if (object.raw.length)
-                        message.raw = object.raw;
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from an Account message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof ethereum.Account
-             * @static
-             * @param {ethereum.Account} message Account
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            Account.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults)
-                    if (options.bytes === String)
-                        object.raw = "";
-                    else {
-                        object.raw = [];
-                        if (options.bytes !== Array)
-                            object.raw = $util.newBuffer(object.raw);
-                    }
-                if (message.raw != null && message.hasOwnProperty("raw"))
-                    object.raw = options.bytes === String ? $util.base64.encode(message.raw, 0, message.raw.length) : options.bytes === Array ? Array.prototype.slice.call(message.raw) : message.raw;
-                return object;
-            };
-    
-            /**
-             * Converts this Account to JSON.
-             * @function toJSON
-             * @memberof ethereum.Account
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            Account.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return Account;
-        })();
-    
-        ethereum.Hash = (function() {
-    
-            /**
-             * Properties of a Hash.
-             * @memberof ethereum
-             * @interface IHash
-             * @property {Uint8Array|null} [raw] Hash raw
-             */
-    
-            /**
-             * Constructs a new Hash.
-             * @memberof ethereum
-             * @classdesc Represents a Hash.
-             * @implements IHash
-             * @constructor
-             * @param {ethereum.IHash=} [properties] Properties to set
-             */
-            function Hash(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * Hash raw.
-             * @member {Uint8Array} raw
-             * @memberof ethereum.Hash
-             * @instance
-             */
-            Hash.prototype.raw = $util.newBuffer([]);
-    
-            /**
-             * Creates a new Hash instance using the specified properties.
-             * @function create
-             * @memberof ethereum.Hash
-             * @static
-             * @param {ethereum.IHash=} [properties] Properties to set
-             * @returns {ethereum.Hash} Hash instance
-             */
-            Hash.create = function create(properties) {
-                return new Hash(properties);
-            };
-    
-            /**
-             * Encodes the specified Hash message. Does not implicitly {@link ethereum.Hash.verify|verify} messages.
-             * @function encode
-             * @memberof ethereum.Hash
-             * @static
-             * @param {ethereum.IHash} message Hash message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Hash.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.raw != null && message.hasOwnProperty("raw"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.raw);
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified Hash message, length delimited. Does not implicitly {@link ethereum.Hash.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof ethereum.Hash
-             * @static
-             * @param {ethereum.IHash} message Hash message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Hash.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a Hash message from the specified reader or buffer.
-             * @function decode
-             * @memberof ethereum.Hash
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {ethereum.Hash} Hash
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Hash.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ethereum.Hash();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.raw = reader.bytes();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a Hash message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof ethereum.Hash
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {ethereum.Hash} Hash
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Hash.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a Hash message.
-             * @function verify
-             * @memberof ethereum.Hash
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            Hash.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.raw != null && message.hasOwnProperty("raw"))
-                    if (!(message.raw && typeof message.raw.length === "number" || $util.isString(message.raw)))
-                        return "raw: buffer expected";
-                return null;
-            };
-    
-            /**
-             * Creates a Hash message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof ethereum.Hash
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {ethereum.Hash} Hash
-             */
-            Hash.fromObject = function fromObject(object) {
-                if (object instanceof $root.ethereum.Hash)
-                    return object;
-                var message = new $root.ethereum.Hash();
-                if (object.raw != null)
-                    if (typeof object.raw === "string")
-                        $util.base64.decode(object.raw, message.raw = $util.newBuffer($util.base64.length(object.raw)), 0);
-                    else if (object.raw.length)
-                        message.raw = object.raw;
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a Hash message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof ethereum.Hash
-             * @static
-             * @param {ethereum.Hash} message Hash
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            Hash.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults)
-                    if (options.bytes === String)
-                        object.raw = "";
-                    else {
-                        object.raw = [];
-                        if (options.bytes !== Array)
-                            object.raw = $util.newBuffer(object.raw);
-                    }
-                if (message.raw != null && message.hasOwnProperty("raw"))
-                    object.raw = options.bytes === String ? $util.base64.encode(message.raw, 0, message.raw.length) : options.bytes === Array ? Array.prototype.slice.call(message.raw) : message.raw;
-                return object;
-            };
-    
-            /**
-             * Converts this Hash to JSON.
-             * @function toJSON
-             * @memberof ethereum.Hash
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            Hash.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return Hash;
-        })();
-    
-        ethereum.Quantity = (function() {
-    
-            /**
-             * Properties of a Quantity.
-             * @memberof ethereum
-             * @interface IQuantity
-             * @property {Uint8Array|null} [raw] Quantity raw
-             */
-    
-            /**
-             * Constructs a new Quantity.
-             * @memberof ethereum
-             * @classdesc Represents a Quantity.
-             * @implements IQuantity
-             * @constructor
-             * @param {ethereum.IQuantity=} [properties] Properties to set
-             */
-            function Quantity(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * Quantity raw.
-             * @member {Uint8Array} raw
-             * @memberof ethereum.Quantity
-             * @instance
-             */
-            Quantity.prototype.raw = $util.newBuffer([]);
-    
-            /**
-             * Creates a new Quantity instance using the specified properties.
-             * @function create
-             * @memberof ethereum.Quantity
-             * @static
-             * @param {ethereum.IQuantity=} [properties] Properties to set
-             * @returns {ethereum.Quantity} Quantity instance
-             */
-            Quantity.create = function create(properties) {
-                return new Quantity(properties);
-            };
-    
-            /**
-             * Encodes the specified Quantity message. Does not implicitly {@link ethereum.Quantity.verify|verify} messages.
-             * @function encode
-             * @memberof ethereum.Quantity
-             * @static
-             * @param {ethereum.IQuantity} message Quantity message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Quantity.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.raw != null && message.hasOwnProperty("raw"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.raw);
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified Quantity message, length delimited. Does not implicitly {@link ethereum.Quantity.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof ethereum.Quantity
-             * @static
-             * @param {ethereum.IQuantity} message Quantity message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Quantity.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a Quantity message from the specified reader or buffer.
-             * @function decode
-             * @memberof ethereum.Quantity
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {ethereum.Quantity} Quantity
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Quantity.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ethereum.Quantity();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.raw = reader.bytes();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a Quantity message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof ethereum.Quantity
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {ethereum.Quantity} Quantity
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Quantity.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a Quantity message.
-             * @function verify
-             * @memberof ethereum.Quantity
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            Quantity.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.raw != null && message.hasOwnProperty("raw"))
-                    if (!(message.raw && typeof message.raw.length === "number" || $util.isString(message.raw)))
-                        return "raw: buffer expected";
-                return null;
-            };
-    
-            /**
-             * Creates a Quantity message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof ethereum.Quantity
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {ethereum.Quantity} Quantity
-             */
-            Quantity.fromObject = function fromObject(object) {
-                if (object instanceof $root.ethereum.Quantity)
-                    return object;
-                var message = new $root.ethereum.Quantity();
-                if (object.raw != null)
-                    if (typeof object.raw === "string")
-                        $util.base64.decode(object.raw, message.raw = $util.newBuffer($util.base64.length(object.raw)), 0);
-                    else if (object.raw.length)
-                        message.raw = object.raw;
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a Quantity message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof ethereum.Quantity
-             * @static
-             * @param {ethereum.Quantity} message Quantity
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            Quantity.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults)
-                    if (options.bytes === String)
-                        object.raw = "";
-                    else {
-                        object.raw = [];
-                        if (options.bytes !== Array)
-                            object.raw = $util.newBuffer(object.raw);
-                    }
-                if (message.raw != null && message.hasOwnProperty("raw"))
-                    object.raw = options.bytes === String ? $util.base64.encode(message.raw, 0, message.raw.length) : options.bytes === Array ? Array.prototype.slice.call(message.raw) : message.raw;
-                return object;
-            };
-    
-            /**
-             * Converts this Quantity to JSON.
-             * @function toJSON
-             * @memberof ethereum.Quantity
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            Quantity.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return Quantity;
-        })();
-    
-        ethereum.Data = (function() {
-    
-            /**
-             * Properties of a Data.
-             * @memberof ethereum
-             * @interface IData
-             * @property {Uint8Array|null} [raw] Data raw
-             */
-    
-            /**
-             * Constructs a new Data.
-             * @memberof ethereum
-             * @classdesc Represents a Data.
-             * @implements IData
-             * @constructor
-             * @param {ethereum.IData=} [properties] Properties to set
-             */
-            function Data(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * Data raw.
-             * @member {Uint8Array} raw
-             * @memberof ethereum.Data
-             * @instance
-             */
-            Data.prototype.raw = $util.newBuffer([]);
-    
-            /**
-             * Creates a new Data instance using the specified properties.
-             * @function create
-             * @memberof ethereum.Data
-             * @static
-             * @param {ethereum.IData=} [properties] Properties to set
-             * @returns {ethereum.Data} Data instance
-             */
-            Data.create = function create(properties) {
-                return new Data(properties);
-            };
-    
-            /**
-             * Encodes the specified Data message. Does not implicitly {@link ethereum.Data.verify|verify} messages.
-             * @function encode
-             * @memberof ethereum.Data
-             * @static
-             * @param {ethereum.IData} message Data message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Data.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.raw != null && message.hasOwnProperty("raw"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.raw);
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified Data message, length delimited. Does not implicitly {@link ethereum.Data.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof ethereum.Data
-             * @static
-             * @param {ethereum.IData} message Data message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Data.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a Data message from the specified reader or buffer.
-             * @function decode
-             * @memberof ethereum.Data
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {ethereum.Data} Data
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Data.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ethereum.Data();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.raw = reader.bytes();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a Data message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof ethereum.Data
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {ethereum.Data} Data
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Data.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a Data message.
-             * @function verify
-             * @memberof ethereum.Data
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            Data.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.raw != null && message.hasOwnProperty("raw"))
-                    if (!(message.raw && typeof message.raw.length === "number" || $util.isString(message.raw)))
-                        return "raw: buffer expected";
-                return null;
-            };
-    
-            /**
-             * Creates a Data message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof ethereum.Data
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {ethereum.Data} Data
-             */
-            Data.fromObject = function fromObject(object) {
-                if (object instanceof $root.ethereum.Data)
-                    return object;
-                var message = new $root.ethereum.Data();
-                if (object.raw != null)
-                    if (typeof object.raw === "string")
-                        $util.base64.decode(object.raw, message.raw = $util.newBuffer($util.base64.length(object.raw)), 0);
-                    else if (object.raw.length)
-                        message.raw = object.raw;
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a Data message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof ethereum.Data
-             * @static
-             * @param {ethereum.Data} message Data
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            Data.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults)
-                    if (options.bytes === String)
-                        object.raw = "";
-                    else {
-                        object.raw = [];
-                        if (options.bytes !== Array)
-                            object.raw = $util.newBuffer(object.raw);
-                    }
-                if (message.raw != null && message.hasOwnProperty("raw"))
-                    object.raw = options.bytes === String ? $util.base64.encode(message.raw, 0, message.raw.length) : options.bytes === Array ? Array.prototype.slice.call(message.raw) : message.raw;
-                return object;
-            };
-    
-            /**
-             * Converts this Data to JSON.
-             * @function toJSON
-             * @memberof ethereum.Data
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            Data.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return Data;
-        })();
-    
         ethereum.Log = (function() {
     
             /**
              * Properties of a Log.
              * @memberof ethereum
              * @interface ILog
-             * @property {ethereum.IAccount|null} [address] Log address
-             * @property {Array.<ethereum.IHash>|null} [topics] Log topics
-             * @property {Uint8Array|null} [data] Log data
+             * @property {string|null} [address] Log address
+             * @property {Array.<string>|null} [topics] Log topics
+             * @property {string|null} [data] Log data
              * @property {string|null} [event] Log event
              * @property {Object.<string,string>|null} [decodedData] Log decodedData
              * @property {number|Long|null} [blockNumber] Log blockNumber
-             * @property {ethereum.IHash|null} [txHash] Log txHash
+             * @property {string|null} [txHash] Log txHash
              * @property {number|Long|null} [txIndex] Log txIndex
-             * @property {ethereum.IHash|null} [blockHash] Log blockHash
+             * @property {string|null} [blockHash] Log blockHash
              * @property {number|Long|null} [index] Log index
              * @property {boolean|null} [removed] Log removed
              */
@@ -20139,15 +16579,15 @@
     
             /**
              * Log address.
-             * @member {ethereum.IAccount|null|undefined} address
+             * @member {string} address
              * @memberof ethereum.Log
              * @instance
              */
-            Log.prototype.address = null;
+            Log.prototype.address = "";
     
             /**
              * Log topics.
-             * @member {Array.<ethereum.IHash>} topics
+             * @member {Array.<string>} topics
              * @memberof ethereum.Log
              * @instance
              */
@@ -20155,11 +16595,11 @@
     
             /**
              * Log data.
-             * @member {Uint8Array} data
+             * @member {string} data
              * @memberof ethereum.Log
              * @instance
              */
-            Log.prototype.data = $util.newBuffer([]);
+            Log.prototype.data = "";
     
             /**
              * Log event.
@@ -20187,11 +16627,11 @@
     
             /**
              * Log txHash.
-             * @member {ethereum.IHash|null|undefined} txHash
+             * @member {string} txHash
              * @memberof ethereum.Log
              * @instance
              */
-            Log.prototype.txHash = null;
+            Log.prototype.txHash = "";
     
             /**
              * Log txIndex.
@@ -20203,11 +16643,11 @@
     
             /**
              * Log blockHash.
-             * @member {ethereum.IHash|null|undefined} blockHash
+             * @member {string} blockHash
              * @memberof ethereum.Log
              * @instance
              */
-            Log.prototype.blockHash = null;
+            Log.prototype.blockHash = "";
     
             /**
              * Log index.
@@ -20250,12 +16690,12 @@
                 if (!writer)
                     writer = $Writer.create();
                 if (message.address != null && message.hasOwnProperty("address"))
-                    $root.ethereum.Account.encode(message.address, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.address);
                 if (message.topics != null && message.topics.length)
                     for (var i = 0; i < message.topics.length; ++i)
-                        $root.ethereum.Hash.encode(message.topics[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.topics[i]);
                 if (message.data != null && message.hasOwnProperty("data"))
-                    writer.uint32(/* id 3, wireType 2 =*/26).bytes(message.data);
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.data);
                 if (message.event != null && message.hasOwnProperty("event"))
                     writer.uint32(/* id 4, wireType 2 =*/34).string(message.event);
                 if (message.decodedData != null && message.hasOwnProperty("decodedData"))
@@ -20264,11 +16704,11 @@
                 if (message.blockNumber != null && message.hasOwnProperty("blockNumber"))
                     writer.uint32(/* id 6, wireType 0 =*/48).uint64(message.blockNumber);
                 if (message.txHash != null && message.hasOwnProperty("txHash"))
-                    $root.ethereum.Hash.encode(message.txHash, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
+                    writer.uint32(/* id 7, wireType 2 =*/58).string(message.txHash);
                 if (message.txIndex != null && message.hasOwnProperty("txIndex"))
                     writer.uint32(/* id 8, wireType 0 =*/64).uint64(message.txIndex);
                 if (message.blockHash != null && message.hasOwnProperty("blockHash"))
-                    $root.ethereum.Hash.encode(message.blockHash, writer.uint32(/* id 9, wireType 2 =*/74).fork()).ldelim();
+                    writer.uint32(/* id 9, wireType 2 =*/74).string(message.blockHash);
                 if (message.index != null && message.hasOwnProperty("index"))
                     writer.uint32(/* id 10, wireType 0 =*/80).uint64(message.index);
                 if (message.removed != null && message.hasOwnProperty("removed"))
@@ -20308,15 +16748,15 @@
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1:
-                        message.address = $root.ethereum.Account.decode(reader, reader.uint32());
+                        message.address = reader.string();
                         break;
                     case 2:
                         if (!(message.topics && message.topics.length))
                             message.topics = [];
-                        message.topics.push($root.ethereum.Hash.decode(reader, reader.uint32()));
+                        message.topics.push(reader.string());
                         break;
                     case 3:
-                        message.data = reader.bytes();
+                        message.data = reader.string();
                         break;
                     case 4:
                         message.event = reader.string();
@@ -20333,13 +16773,13 @@
                         message.blockNumber = reader.uint64();
                         break;
                     case 7:
-                        message.txHash = $root.ethereum.Hash.decode(reader, reader.uint32());
+                        message.txHash = reader.string();
                         break;
                     case 8:
                         message.txIndex = reader.uint64();
                         break;
                     case 9:
-                        message.blockHash = $root.ethereum.Hash.decode(reader, reader.uint32());
+                        message.blockHash = reader.string();
                         break;
                     case 10:
                         message.index = reader.uint64();
@@ -20382,23 +16822,19 @@
             Log.verify = function verify(message) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.address != null && message.hasOwnProperty("address")) {
-                    var error = $root.ethereum.Account.verify(message.address);
-                    if (error)
-                        return "address." + error;
-                }
+                if (message.address != null && message.hasOwnProperty("address"))
+                    if (!$util.isString(message.address))
+                        return "address: string expected";
                 if (message.topics != null && message.hasOwnProperty("topics")) {
                     if (!Array.isArray(message.topics))
                         return "topics: array expected";
-                    for (var i = 0; i < message.topics.length; ++i) {
-                        var error = $root.ethereum.Hash.verify(message.topics[i]);
-                        if (error)
-                            return "topics." + error;
-                    }
+                    for (var i = 0; i < message.topics.length; ++i)
+                        if (!$util.isString(message.topics[i]))
+                            return "topics: string[] expected";
                 }
                 if (message.data != null && message.hasOwnProperty("data"))
-                    if (!(message.data && typeof message.data.length === "number" || $util.isString(message.data)))
-                        return "data: buffer expected";
+                    if (!$util.isString(message.data))
+                        return "data: string expected";
                 if (message.event != null && message.hasOwnProperty("event"))
                     if (!$util.isString(message.event))
                         return "event: string expected";
@@ -20413,19 +16849,15 @@
                 if (message.blockNumber != null && message.hasOwnProperty("blockNumber"))
                     if (!$util.isInteger(message.blockNumber) && !(message.blockNumber && $util.isInteger(message.blockNumber.low) && $util.isInteger(message.blockNumber.high)))
                         return "blockNumber: integer|Long expected";
-                if (message.txHash != null && message.hasOwnProperty("txHash")) {
-                    var error = $root.ethereum.Hash.verify(message.txHash);
-                    if (error)
-                        return "txHash." + error;
-                }
+                if (message.txHash != null && message.hasOwnProperty("txHash"))
+                    if (!$util.isString(message.txHash))
+                        return "txHash: string expected";
                 if (message.txIndex != null && message.hasOwnProperty("txIndex"))
                     if (!$util.isInteger(message.txIndex) && !(message.txIndex && $util.isInteger(message.txIndex.low) && $util.isInteger(message.txIndex.high)))
                         return "txIndex: integer|Long expected";
-                if (message.blockHash != null && message.hasOwnProperty("blockHash")) {
-                    var error = $root.ethereum.Hash.verify(message.blockHash);
-                    if (error)
-                        return "blockHash." + error;
-                }
+                if (message.blockHash != null && message.hasOwnProperty("blockHash"))
+                    if (!$util.isString(message.blockHash))
+                        return "blockHash: string expected";
                 if (message.index != null && message.hasOwnProperty("index"))
                     if (!$util.isInteger(message.index) && !(message.index && $util.isInteger(message.index.low) && $util.isInteger(message.index.high)))
                         return "index: integer|Long expected";
@@ -20447,26 +16879,17 @@
                 if (object instanceof $root.ethereum.Log)
                     return object;
                 var message = new $root.ethereum.Log();
-                if (object.address != null) {
-                    if (typeof object.address !== "object")
-                        throw TypeError(".ethereum.Log.address: object expected");
-                    message.address = $root.ethereum.Account.fromObject(object.address);
-                }
+                if (object.address != null)
+                    message.address = String(object.address);
                 if (object.topics) {
                     if (!Array.isArray(object.topics))
                         throw TypeError(".ethereum.Log.topics: array expected");
                     message.topics = [];
-                    for (var i = 0; i < object.topics.length; ++i) {
-                        if (typeof object.topics[i] !== "object")
-                            throw TypeError(".ethereum.Log.topics: object expected");
-                        message.topics[i] = $root.ethereum.Hash.fromObject(object.topics[i]);
-                    }
+                    for (var i = 0; i < object.topics.length; ++i)
+                        message.topics[i] = String(object.topics[i]);
                 }
                 if (object.data != null)
-                    if (typeof object.data === "string")
-                        $util.base64.decode(object.data, message.data = $util.newBuffer($util.base64.length(object.data)), 0);
-                    else if (object.data.length)
-                        message.data = object.data;
+                    message.data = String(object.data);
                 if (object.event != null)
                     message.event = String(object.event);
                 if (object.decodedData) {
@@ -20485,11 +16908,8 @@
                         message.blockNumber = object.blockNumber;
                     else if (typeof object.blockNumber === "object")
                         message.blockNumber = new $util.LongBits(object.blockNumber.low >>> 0, object.blockNumber.high >>> 0).toNumber(true);
-                if (object.txHash != null) {
-                    if (typeof object.txHash !== "object")
-                        throw TypeError(".ethereum.Log.txHash: object expected");
-                    message.txHash = $root.ethereum.Hash.fromObject(object.txHash);
-                }
+                if (object.txHash != null)
+                    message.txHash = String(object.txHash);
                 if (object.txIndex != null)
                     if ($util.Long)
                         (message.txIndex = $util.Long.fromValue(object.txIndex)).unsigned = true;
@@ -20499,11 +16919,8 @@
                         message.txIndex = object.txIndex;
                     else if (typeof object.txIndex === "object")
                         message.txIndex = new $util.LongBits(object.txIndex.low >>> 0, object.txIndex.high >>> 0).toNumber(true);
-                if (object.blockHash != null) {
-                    if (typeof object.blockHash !== "object")
-                        throw TypeError(".ethereum.Log.blockHash: object expected");
-                    message.blockHash = $root.ethereum.Hash.fromObject(object.blockHash);
-                }
+                if (object.blockHash != null)
+                    message.blockHash = String(object.blockHash);
                 if (object.index != null)
                     if ($util.Long)
                         (message.index = $util.Long.fromValue(object.index)).unsigned = true;
@@ -20536,27 +16953,21 @@
                 if (options.objects || options.defaults)
                     object.decodedData = {};
                 if (options.defaults) {
-                    object.address = null;
-                    if (options.bytes === String)
-                        object.data = "";
-                    else {
-                        object.data = [];
-                        if (options.bytes !== Array)
-                            object.data = $util.newBuffer(object.data);
-                    }
+                    object.address = "";
+                    object.data = "";
                     object.event = "";
                     if ($util.Long) {
                         var long = new $util.Long(0, 0, true);
                         object.blockNumber = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                     } else
                         object.blockNumber = options.longs === String ? "0" : 0;
-                    object.txHash = null;
+                    object.txHash = "";
                     if ($util.Long) {
                         var long = new $util.Long(0, 0, true);
                         object.txIndex = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                     } else
                         object.txIndex = options.longs === String ? "0" : 0;
-                    object.blockHash = null;
+                    object.blockHash = "";
                     if ($util.Long) {
                         var long = new $util.Long(0, 0, true);
                         object.index = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
@@ -20565,14 +16976,14 @@
                     object.removed = false;
                 }
                 if (message.address != null && message.hasOwnProperty("address"))
-                    object.address = $root.ethereum.Account.toObject(message.address, options);
+                    object.address = message.address;
                 if (message.topics && message.topics.length) {
                     object.topics = [];
                     for (var j = 0; j < message.topics.length; ++j)
-                        object.topics[j] = $root.ethereum.Hash.toObject(message.topics[j], options);
+                        object.topics[j] = message.topics[j];
                 }
                 if (message.data != null && message.hasOwnProperty("data"))
-                    object.data = options.bytes === String ? $util.base64.encode(message.data, 0, message.data.length) : options.bytes === Array ? Array.prototype.slice.call(message.data) : message.data;
+                    object.data = message.data;
                 if (message.event != null && message.hasOwnProperty("event"))
                     object.event = message.event;
                 var keys2;
@@ -20587,14 +16998,14 @@
                     else
                         object.blockNumber = options.longs === String ? $util.Long.prototype.toString.call(message.blockNumber) : options.longs === Number ? new $util.LongBits(message.blockNumber.low >>> 0, message.blockNumber.high >>> 0).toNumber(true) : message.blockNumber;
                 if (message.txHash != null && message.hasOwnProperty("txHash"))
-                    object.txHash = $root.ethereum.Hash.toObject(message.txHash, options);
+                    object.txHash = message.txHash;
                 if (message.txIndex != null && message.hasOwnProperty("txIndex"))
                     if (typeof message.txIndex === "number")
                         object.txIndex = options.longs === String ? String(message.txIndex) : message.txIndex;
                     else
                         object.txIndex = options.longs === String ? $util.Long.prototype.toString.call(message.txIndex) : options.longs === Number ? new $util.LongBits(message.txIndex.low >>> 0, message.txIndex.high >>> 0).toNumber(true) : message.txIndex;
                 if (message.blockHash != null && message.hasOwnProperty("blockHash"))
-                    object.blockHash = $root.ethereum.Hash.toObject(message.blockHash, options);
+                    object.blockHash = message.blockHash;
                 if (message.index != null && message.hasOwnProperty("index"))
                     if (typeof message.index === "number")
                         object.index = options.longs === String ? String(message.index) : message.index;
@@ -20625,14 +17036,14 @@
              * Properties of a Receipt.
              * @memberof ethereum
              * @interface IReceipt
-             * @property {ethereum.IHash|null} [txHash] Receipt txHash
-             * @property {ethereum.IHash|null} [blockHash] Receipt blockHash
+             * @property {string|null} [txHash] Receipt txHash
+             * @property {string|null} [blockHash] Receipt blockHash
              * @property {number|Long|null} [blockNumber] Receipt blockNumber
              * @property {number|Long|null} [txIndex] Receipt txIndex
-             * @property {ethereum.IAccount|null} [contractAddress] Receipt contractAddress
-             * @property {Uint8Array|null} [postState] Receipt postState
+             * @property {string|null} [contractAddress] Receipt contractAddress
+             * @property {string|null} [postState] Receipt postState
              * @property {number|Long|null} [status] Receipt status
-             * @property {Uint8Array|null} [bloom] Receipt bloom
+             * @property {string|null} [bloom] Receipt bloom
              * @property {Array.<ethereum.ILog>|null} [logs] Receipt logs
              * @property {number|Long|null} [gasUsed] Receipt gasUsed
              * @property {number|Long|null} [cumulativeGasUsed] Receipt cumulativeGasUsed
@@ -20656,19 +17067,19 @@
     
             /**
              * Receipt txHash.
-             * @member {ethereum.IHash|null|undefined} txHash
+             * @member {string} txHash
              * @memberof ethereum.Receipt
              * @instance
              */
-            Receipt.prototype.txHash = null;
+            Receipt.prototype.txHash = "";
     
             /**
              * Receipt blockHash.
-             * @member {ethereum.IHash|null|undefined} blockHash
+             * @member {string} blockHash
              * @memberof ethereum.Receipt
              * @instance
              */
-            Receipt.prototype.blockHash = null;
+            Receipt.prototype.blockHash = "";
     
             /**
              * Receipt blockNumber.
@@ -20688,19 +17099,19 @@
     
             /**
              * Receipt contractAddress.
-             * @member {ethereum.IAccount|null|undefined} contractAddress
+             * @member {string} contractAddress
              * @memberof ethereum.Receipt
              * @instance
              */
-            Receipt.prototype.contractAddress = null;
+            Receipt.prototype.contractAddress = "";
     
             /**
              * Receipt postState.
-             * @member {Uint8Array} postState
+             * @member {string} postState
              * @memberof ethereum.Receipt
              * @instance
              */
-            Receipt.prototype.postState = $util.newBuffer([]);
+            Receipt.prototype.postState = "";
     
             /**
              * Receipt status.
@@ -20712,11 +17123,11 @@
     
             /**
              * Receipt bloom.
-             * @member {Uint8Array} bloom
+             * @member {string} bloom
              * @memberof ethereum.Receipt
              * @instance
              */
-            Receipt.prototype.bloom = $util.newBuffer([]);
+            Receipt.prototype.bloom = "";
     
             /**
              * Receipt logs.
@@ -20767,21 +17178,21 @@
                 if (!writer)
                     writer = $Writer.create();
                 if (message.txHash != null && message.hasOwnProperty("txHash"))
-                    $root.ethereum.Hash.encode(message.txHash, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.txHash);
                 if (message.blockHash != null && message.hasOwnProperty("blockHash"))
-                    $root.ethereum.Hash.encode(message.blockHash, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.blockHash);
                 if (message.blockNumber != null && message.hasOwnProperty("blockNumber"))
                     writer.uint32(/* id 3, wireType 0 =*/24).uint64(message.blockNumber);
                 if (message.txIndex != null && message.hasOwnProperty("txIndex"))
                     writer.uint32(/* id 4, wireType 0 =*/32).uint64(message.txIndex);
                 if (message.contractAddress != null && message.hasOwnProperty("contractAddress"))
-                    $root.ethereum.Account.encode(message.contractAddress, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
+                    writer.uint32(/* id 6, wireType 2 =*/50).string(message.contractAddress);
                 if (message.postState != null && message.hasOwnProperty("postState"))
-                    writer.uint32(/* id 7, wireType 2 =*/58).bytes(message.postState);
+                    writer.uint32(/* id 7, wireType 2 =*/58).string(message.postState);
                 if (message.status != null && message.hasOwnProperty("status"))
                     writer.uint32(/* id 8, wireType 0 =*/64).uint64(message.status);
                 if (message.bloom != null && message.hasOwnProperty("bloom"))
-                    writer.uint32(/* id 10, wireType 2 =*/82).bytes(message.bloom);
+                    writer.uint32(/* id 10, wireType 2 =*/82).string(message.bloom);
                 if (message.logs != null && message.logs.length)
                     for (var i = 0; i < message.logs.length; ++i)
                         $root.ethereum.Log.encode(message.logs[i], writer.uint32(/* id 11, wireType 2 =*/90).fork()).ldelim();
@@ -20824,10 +17235,10 @@
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1:
-                        message.txHash = $root.ethereum.Hash.decode(reader, reader.uint32());
+                        message.txHash = reader.string();
                         break;
                     case 2:
-                        message.blockHash = $root.ethereum.Hash.decode(reader, reader.uint32());
+                        message.blockHash = reader.string();
                         break;
                     case 3:
                         message.blockNumber = reader.uint64();
@@ -20836,16 +17247,16 @@
                         message.txIndex = reader.uint64();
                         break;
                     case 6:
-                        message.contractAddress = $root.ethereum.Account.decode(reader, reader.uint32());
+                        message.contractAddress = reader.string();
                         break;
                     case 7:
-                        message.postState = reader.bytes();
+                        message.postState = reader.string();
                         break;
                     case 8:
                         message.status = reader.uint64();
                         break;
                     case 10:
-                        message.bloom = reader.bytes();
+                        message.bloom = reader.string();
                         break;
                     case 11:
                         if (!(message.logs && message.logs.length))
@@ -20893,36 +17304,30 @@
             Receipt.verify = function verify(message) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.txHash != null && message.hasOwnProperty("txHash")) {
-                    var error = $root.ethereum.Hash.verify(message.txHash);
-                    if (error)
-                        return "txHash." + error;
-                }
-                if (message.blockHash != null && message.hasOwnProperty("blockHash")) {
-                    var error = $root.ethereum.Hash.verify(message.blockHash);
-                    if (error)
-                        return "blockHash." + error;
-                }
+                if (message.txHash != null && message.hasOwnProperty("txHash"))
+                    if (!$util.isString(message.txHash))
+                        return "txHash: string expected";
+                if (message.blockHash != null && message.hasOwnProperty("blockHash"))
+                    if (!$util.isString(message.blockHash))
+                        return "blockHash: string expected";
                 if (message.blockNumber != null && message.hasOwnProperty("blockNumber"))
                     if (!$util.isInteger(message.blockNumber) && !(message.blockNumber && $util.isInteger(message.blockNumber.low) && $util.isInteger(message.blockNumber.high)))
                         return "blockNumber: integer|Long expected";
                 if (message.txIndex != null && message.hasOwnProperty("txIndex"))
                     if (!$util.isInteger(message.txIndex) && !(message.txIndex && $util.isInteger(message.txIndex.low) && $util.isInteger(message.txIndex.high)))
                         return "txIndex: integer|Long expected";
-                if (message.contractAddress != null && message.hasOwnProperty("contractAddress")) {
-                    var error = $root.ethereum.Account.verify(message.contractAddress);
-                    if (error)
-                        return "contractAddress." + error;
-                }
+                if (message.contractAddress != null && message.hasOwnProperty("contractAddress"))
+                    if (!$util.isString(message.contractAddress))
+                        return "contractAddress: string expected";
                 if (message.postState != null && message.hasOwnProperty("postState"))
-                    if (!(message.postState && typeof message.postState.length === "number" || $util.isString(message.postState)))
-                        return "postState: buffer expected";
+                    if (!$util.isString(message.postState))
+                        return "postState: string expected";
                 if (message.status != null && message.hasOwnProperty("status"))
                     if (!$util.isInteger(message.status) && !(message.status && $util.isInteger(message.status.low) && $util.isInteger(message.status.high)))
                         return "status: integer|Long expected";
                 if (message.bloom != null && message.hasOwnProperty("bloom"))
-                    if (!(message.bloom && typeof message.bloom.length === "number" || $util.isString(message.bloom)))
-                        return "bloom: buffer expected";
+                    if (!$util.isString(message.bloom))
+                        return "bloom: string expected";
                 if (message.logs != null && message.hasOwnProperty("logs")) {
                     if (!Array.isArray(message.logs))
                         return "logs: array expected";
@@ -20953,16 +17358,10 @@
                 if (object instanceof $root.ethereum.Receipt)
                     return object;
                 var message = new $root.ethereum.Receipt();
-                if (object.txHash != null) {
-                    if (typeof object.txHash !== "object")
-                        throw TypeError(".ethereum.Receipt.txHash: object expected");
-                    message.txHash = $root.ethereum.Hash.fromObject(object.txHash);
-                }
-                if (object.blockHash != null) {
-                    if (typeof object.blockHash !== "object")
-                        throw TypeError(".ethereum.Receipt.blockHash: object expected");
-                    message.blockHash = $root.ethereum.Hash.fromObject(object.blockHash);
-                }
+                if (object.txHash != null)
+                    message.txHash = String(object.txHash);
+                if (object.blockHash != null)
+                    message.blockHash = String(object.blockHash);
                 if (object.blockNumber != null)
                     if ($util.Long)
                         (message.blockNumber = $util.Long.fromValue(object.blockNumber)).unsigned = true;
@@ -20981,16 +17380,10 @@
                         message.txIndex = object.txIndex;
                     else if (typeof object.txIndex === "object")
                         message.txIndex = new $util.LongBits(object.txIndex.low >>> 0, object.txIndex.high >>> 0).toNumber(true);
-                if (object.contractAddress != null) {
-                    if (typeof object.contractAddress !== "object")
-                        throw TypeError(".ethereum.Receipt.contractAddress: object expected");
-                    message.contractAddress = $root.ethereum.Account.fromObject(object.contractAddress);
-                }
+                if (object.contractAddress != null)
+                    message.contractAddress = String(object.contractAddress);
                 if (object.postState != null)
-                    if (typeof object.postState === "string")
-                        $util.base64.decode(object.postState, message.postState = $util.newBuffer($util.base64.length(object.postState)), 0);
-                    else if (object.postState.length)
-                        message.postState = object.postState;
+                    message.postState = String(object.postState);
                 if (object.status != null)
                     if ($util.Long)
                         (message.status = $util.Long.fromValue(object.status)).unsigned = true;
@@ -21001,10 +17394,7 @@
                     else if (typeof object.status === "object")
                         message.status = new $util.LongBits(object.status.low >>> 0, object.status.high >>> 0).toNumber(true);
                 if (object.bloom != null)
-                    if (typeof object.bloom === "string")
-                        $util.base64.decode(object.bloom, message.bloom = $util.newBuffer($util.base64.length(object.bloom)), 0);
-                    else if (object.bloom.length)
-                        message.bloom = object.bloom;
+                    message.bloom = String(object.bloom);
                 if (object.logs) {
                     if (!Array.isArray(object.logs))
                         throw TypeError(".ethereum.Receipt.logs: array expected");
@@ -21052,8 +17442,8 @@
                 if (options.arrays || options.defaults)
                     object.logs = [];
                 if (options.defaults) {
-                    object.txHash = null;
-                    object.blockHash = null;
+                    object.txHash = "";
+                    object.blockHash = "";
                     if ($util.Long) {
                         var long = new $util.Long(0, 0, true);
                         object.blockNumber = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
@@ -21064,26 +17454,14 @@
                         object.txIndex = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                     } else
                         object.txIndex = options.longs === String ? "0" : 0;
-                    object.contractAddress = null;
-                    if (options.bytes === String)
-                        object.postState = "";
-                    else {
-                        object.postState = [];
-                        if (options.bytes !== Array)
-                            object.postState = $util.newBuffer(object.postState);
-                    }
+                    object.contractAddress = "";
+                    object.postState = "";
                     if ($util.Long) {
                         var long = new $util.Long(0, 0, true);
                         object.status = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                     } else
                         object.status = options.longs === String ? "0" : 0;
-                    if (options.bytes === String)
-                        object.bloom = "";
-                    else {
-                        object.bloom = [];
-                        if (options.bytes !== Array)
-                            object.bloom = $util.newBuffer(object.bloom);
-                    }
+                    object.bloom = "";
                     if ($util.Long) {
                         var long = new $util.Long(0, 0, true);
                         object.gasUsed = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
@@ -21096,9 +17474,9 @@
                         object.cumulativeGasUsed = options.longs === String ? "0" : 0;
                 }
                 if (message.txHash != null && message.hasOwnProperty("txHash"))
-                    object.txHash = $root.ethereum.Hash.toObject(message.txHash, options);
+                    object.txHash = message.txHash;
                 if (message.blockHash != null && message.hasOwnProperty("blockHash"))
-                    object.blockHash = $root.ethereum.Hash.toObject(message.blockHash, options);
+                    object.blockHash = message.blockHash;
                 if (message.blockNumber != null && message.hasOwnProperty("blockNumber"))
                     if (typeof message.blockNumber === "number")
                         object.blockNumber = options.longs === String ? String(message.blockNumber) : message.blockNumber;
@@ -21110,16 +17488,16 @@
                     else
                         object.txIndex = options.longs === String ? $util.Long.prototype.toString.call(message.txIndex) : options.longs === Number ? new $util.LongBits(message.txIndex.low >>> 0, message.txIndex.high >>> 0).toNumber(true) : message.txIndex;
                 if (message.contractAddress != null && message.hasOwnProperty("contractAddress"))
-                    object.contractAddress = $root.ethereum.Account.toObject(message.contractAddress, options);
+                    object.contractAddress = message.contractAddress;
                 if (message.postState != null && message.hasOwnProperty("postState"))
-                    object.postState = options.bytes === String ? $util.base64.encode(message.postState, 0, message.postState.length) : options.bytes === Array ? Array.prototype.slice.call(message.postState) : message.postState;
+                    object.postState = message.postState;
                 if (message.status != null && message.hasOwnProperty("status"))
                     if (typeof message.status === "number")
                         object.status = options.longs === String ? String(message.status) : message.status;
                     else
                         object.status = options.longs === String ? $util.Long.prototype.toString.call(message.status) : options.longs === Number ? new $util.LongBits(message.status.low >>> 0, message.status.high >>> 0).toNumber(true) : message.status;
                 if (message.bloom != null && message.hasOwnProperty("bloom"))
-                    object.bloom = options.bytes === String ? $util.base64.encode(message.bloom, 0, message.bloom.length) : options.bytes === Array ? Array.prototype.slice.call(message.bloom) : message.bloom;
+                    object.bloom = message.bloom;
                 if (message.logs && message.logs.length) {
                     object.logs = [];
                     for (var j = 0; j < message.logs.length; ++j)
@@ -21159,11 +17537,11 @@
              * @memberof ethereum
              * @interface ITxData
              * @property {number|Long|null} [nonce] TxData nonce
-             * @property {ethereum.IAccount|null} [to] TxData to
-             * @property {ethereum.IQuantity|null} [value] TxData value
+             * @property {string|null} [to] TxData to
+             * @property {string|null} [value] TxData value
              * @property {number|Long|null} [gas] TxData gas
-             * @property {ethereum.IQuantity|null} [gasPrice] TxData gasPrice
-             * @property {ethereum.IData|null} [data] TxData data
+             * @property {string|null} [gasPrice] TxData gasPrice
+             * @property {string|null} [data] TxData data
              */
     
             /**
@@ -21191,19 +17569,19 @@
     
             /**
              * TxData to.
-             * @member {ethereum.IAccount|null|undefined} to
+             * @member {string} to
              * @memberof ethereum.TxData
              * @instance
              */
-            TxData.prototype.to = null;
+            TxData.prototype.to = "";
     
             /**
              * TxData value.
-             * @member {ethereum.IQuantity|null|undefined} value
+             * @member {string} value
              * @memberof ethereum.TxData
              * @instance
              */
-            TxData.prototype.value = null;
+            TxData.prototype.value = "";
     
             /**
              * TxData gas.
@@ -21215,19 +17593,19 @@
     
             /**
              * TxData gasPrice.
-             * @member {ethereum.IQuantity|null|undefined} gasPrice
+             * @member {string} gasPrice
              * @memberof ethereum.TxData
              * @instance
              */
-            TxData.prototype.gasPrice = null;
+            TxData.prototype.gasPrice = "";
     
             /**
              * TxData data.
-             * @member {ethereum.IData|null|undefined} data
+             * @member {string} data
              * @memberof ethereum.TxData
              * @instance
              */
-            TxData.prototype.data = null;
+            TxData.prototype.data = "";
     
             /**
              * Creates a new TxData instance using the specified properties.
@@ -21256,15 +17634,15 @@
                 if (message.nonce != null && message.hasOwnProperty("nonce"))
                     writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.nonce);
                 if (message.to != null && message.hasOwnProperty("to"))
-                    $root.ethereum.Account.encode(message.to, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.to);
                 if (message.value != null && message.hasOwnProperty("value"))
-                    $root.ethereum.Quantity.encode(message.value, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.value);
                 if (message.gas != null && message.hasOwnProperty("gas"))
                     writer.uint32(/* id 4, wireType 0 =*/32).uint64(message.gas);
                 if (message.gasPrice != null && message.hasOwnProperty("gasPrice"))
-                    $root.ethereum.Quantity.encode(message.gasPrice, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+                    writer.uint32(/* id 5, wireType 2 =*/42).string(message.gasPrice);
                 if (message.data != null && message.hasOwnProperty("data"))
-                    $root.ethereum.Data.encode(message.data, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
+                    writer.uint32(/* id 6, wireType 2 =*/50).string(message.data);
                 return writer;
             };
     
@@ -21303,19 +17681,19 @@
                         message.nonce = reader.uint64();
                         break;
                     case 2:
-                        message.to = $root.ethereum.Account.decode(reader, reader.uint32());
+                        message.to = reader.string();
                         break;
                     case 3:
-                        message.value = $root.ethereum.Quantity.decode(reader, reader.uint32());
+                        message.value = reader.string();
                         break;
                     case 4:
                         message.gas = reader.uint64();
                         break;
                     case 5:
-                        message.gasPrice = $root.ethereum.Quantity.decode(reader, reader.uint32());
+                        message.gasPrice = reader.string();
                         break;
                     case 6:
-                        message.data = $root.ethereum.Data.decode(reader, reader.uint32());
+                        message.data = reader.string();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -21355,29 +17733,21 @@
                 if (message.nonce != null && message.hasOwnProperty("nonce"))
                     if (!$util.isInteger(message.nonce) && !(message.nonce && $util.isInteger(message.nonce.low) && $util.isInteger(message.nonce.high)))
                         return "nonce: integer|Long expected";
-                if (message.to != null && message.hasOwnProperty("to")) {
-                    var error = $root.ethereum.Account.verify(message.to);
-                    if (error)
-                        return "to." + error;
-                }
-                if (message.value != null && message.hasOwnProperty("value")) {
-                    var error = $root.ethereum.Quantity.verify(message.value);
-                    if (error)
-                        return "value." + error;
-                }
+                if (message.to != null && message.hasOwnProperty("to"))
+                    if (!$util.isString(message.to))
+                        return "to: string expected";
+                if (message.value != null && message.hasOwnProperty("value"))
+                    if (!$util.isString(message.value))
+                        return "value: string expected";
                 if (message.gas != null && message.hasOwnProperty("gas"))
                     if (!$util.isInteger(message.gas) && !(message.gas && $util.isInteger(message.gas.low) && $util.isInteger(message.gas.high)))
                         return "gas: integer|Long expected";
-                if (message.gasPrice != null && message.hasOwnProperty("gasPrice")) {
-                    var error = $root.ethereum.Quantity.verify(message.gasPrice);
-                    if (error)
-                        return "gasPrice." + error;
-                }
-                if (message.data != null && message.hasOwnProperty("data")) {
-                    var error = $root.ethereum.Data.verify(message.data);
-                    if (error)
-                        return "data." + error;
-                }
+                if (message.gasPrice != null && message.hasOwnProperty("gasPrice"))
+                    if (!$util.isString(message.gasPrice))
+                        return "gasPrice: string expected";
+                if (message.data != null && message.hasOwnProperty("data"))
+                    if (!$util.isString(message.data))
+                        return "data: string expected";
                 return null;
             };
     
@@ -21402,16 +17772,10 @@
                         message.nonce = object.nonce;
                     else if (typeof object.nonce === "object")
                         message.nonce = new $util.LongBits(object.nonce.low >>> 0, object.nonce.high >>> 0).toNumber(true);
-                if (object.to != null) {
-                    if (typeof object.to !== "object")
-                        throw TypeError(".ethereum.TxData.to: object expected");
-                    message.to = $root.ethereum.Account.fromObject(object.to);
-                }
-                if (object.value != null) {
-                    if (typeof object.value !== "object")
-                        throw TypeError(".ethereum.TxData.value: object expected");
-                    message.value = $root.ethereum.Quantity.fromObject(object.value);
-                }
+                if (object.to != null)
+                    message.to = String(object.to);
+                if (object.value != null)
+                    message.value = String(object.value);
                 if (object.gas != null)
                     if ($util.Long)
                         (message.gas = $util.Long.fromValue(object.gas)).unsigned = true;
@@ -21421,16 +17785,10 @@
                         message.gas = object.gas;
                     else if (typeof object.gas === "object")
                         message.gas = new $util.LongBits(object.gas.low >>> 0, object.gas.high >>> 0).toNumber(true);
-                if (object.gasPrice != null) {
-                    if (typeof object.gasPrice !== "object")
-                        throw TypeError(".ethereum.TxData.gasPrice: object expected");
-                    message.gasPrice = $root.ethereum.Quantity.fromObject(object.gasPrice);
-                }
-                if (object.data != null) {
-                    if (typeof object.data !== "object")
-                        throw TypeError(".ethereum.TxData.data: object expected");
-                    message.data = $root.ethereum.Data.fromObject(object.data);
-                }
+                if (object.gasPrice != null)
+                    message.gasPrice = String(object.gasPrice);
+                if (object.data != null)
+                    message.data = String(object.data);
                 return message;
             };
     
@@ -21453,15 +17811,15 @@
                         object.nonce = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                     } else
                         object.nonce = options.longs === String ? "0" : 0;
-                    object.to = null;
-                    object.value = null;
+                    object.to = "";
+                    object.value = "";
                     if ($util.Long) {
                         var long = new $util.Long(0, 0, true);
                         object.gas = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                     } else
                         object.gas = options.longs === String ? "0" : 0;
-                    object.gasPrice = null;
-                    object.data = null;
+                    object.gasPrice = "";
+                    object.data = "";
                 }
                 if (message.nonce != null && message.hasOwnProperty("nonce"))
                     if (typeof message.nonce === "number")
@@ -21469,18 +17827,18 @@
                     else
                         object.nonce = options.longs === String ? $util.Long.prototype.toString.call(message.nonce) : options.longs === Number ? new $util.LongBits(message.nonce.low >>> 0, message.nonce.high >>> 0).toNumber(true) : message.nonce;
                 if (message.to != null && message.hasOwnProperty("to"))
-                    object.to = $root.ethereum.Account.toObject(message.to, options);
+                    object.to = message.to;
                 if (message.value != null && message.hasOwnProperty("value"))
-                    object.value = $root.ethereum.Quantity.toObject(message.value, options);
+                    object.value = message.value;
                 if (message.gas != null && message.hasOwnProperty("gas"))
                     if (typeof message.gas === "number")
                         object.gas = options.longs === String ? String(message.gas) : message.gas;
                     else
                         object.gas = options.longs === String ? $util.Long.prototype.toString.call(message.gas) : options.longs === Number ? new $util.LongBits(message.gas.low >>> 0, message.gas.high >>> 0).toNumber(true) : message.gas;
                 if (message.gasPrice != null && message.hasOwnProperty("gasPrice"))
-                    object.gasPrice = $root.ethereum.Quantity.toObject(message.gasPrice, options);
+                    object.gasPrice = message.gasPrice;
                 if (message.data != null && message.hasOwnProperty("data"))
-                    object.data = $root.ethereum.Data.toObject(message.data, options);
+                    object.data = message.data;
                 return object;
             };
     
@@ -21505,8 +17863,8 @@
              * @memberof ethereum
              * @interface ITransaction
              * @property {ethereum.ITxData|null} [txData] Transaction txData
-             * @property {ethereum.IData|null} [raw] Transaction raw
-             * @property {ethereum.IHash|null} [hash] Transaction hash
+             * @property {string|null} [raw] Transaction raw
+             * @property {string|null} [hash] Transaction hash
              */
     
             /**
@@ -21534,19 +17892,19 @@
     
             /**
              * Transaction raw.
-             * @member {ethereum.IData|null|undefined} raw
+             * @member {string} raw
              * @memberof ethereum.Transaction
              * @instance
              */
-            Transaction.prototype.raw = null;
+            Transaction.prototype.raw = "";
     
             /**
              * Transaction hash.
-             * @member {ethereum.IHash|null|undefined} hash
+             * @member {string} hash
              * @memberof ethereum.Transaction
              * @instance
              */
-            Transaction.prototype.hash = null;
+            Transaction.prototype.hash = "";
     
             /**
              * Creates a new Transaction instance using the specified properties.
@@ -21575,9 +17933,9 @@
                 if (message.txData != null && message.hasOwnProperty("txData"))
                     $root.ethereum.TxData.encode(message.txData, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
                 if (message.raw != null && message.hasOwnProperty("raw"))
-                    $root.ethereum.Data.encode(message.raw, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.raw);
                 if (message.hash != null && message.hasOwnProperty("hash"))
-                    $root.ethereum.Hash.encode(message.hash, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.hash);
                 return writer;
             };
     
@@ -21616,10 +17974,10 @@
                         message.txData = $root.ethereum.TxData.decode(reader, reader.uint32());
                         break;
                     case 2:
-                        message.raw = $root.ethereum.Data.decode(reader, reader.uint32());
+                        message.raw = reader.string();
                         break;
                     case 3:
-                        message.hash = $root.ethereum.Hash.decode(reader, reader.uint32());
+                        message.hash = reader.string();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -21661,16 +18019,12 @@
                     if (error)
                         return "txData." + error;
                 }
-                if (message.raw != null && message.hasOwnProperty("raw")) {
-                    var error = $root.ethereum.Data.verify(message.raw);
-                    if (error)
-                        return "raw." + error;
-                }
-                if (message.hash != null && message.hasOwnProperty("hash")) {
-                    var error = $root.ethereum.Hash.verify(message.hash);
-                    if (error)
-                        return "hash." + error;
-                }
+                if (message.raw != null && message.hasOwnProperty("raw"))
+                    if (!$util.isString(message.raw))
+                        return "raw: string expected";
+                if (message.hash != null && message.hasOwnProperty("hash"))
+                    if (!$util.isString(message.hash))
+                        return "hash: string expected";
                 return null;
             };
     
@@ -21691,16 +18045,10 @@
                         throw TypeError(".ethereum.Transaction.txData: object expected");
                     message.txData = $root.ethereum.TxData.fromObject(object.txData);
                 }
-                if (object.raw != null) {
-                    if (typeof object.raw !== "object")
-                        throw TypeError(".ethereum.Transaction.raw: object expected");
-                    message.raw = $root.ethereum.Data.fromObject(object.raw);
-                }
-                if (object.hash != null) {
-                    if (typeof object.hash !== "object")
-                        throw TypeError(".ethereum.Transaction.hash: object expected");
-                    message.hash = $root.ethereum.Hash.fromObject(object.hash);
-                }
+                if (object.raw != null)
+                    message.raw = String(object.raw);
+                if (object.hash != null)
+                    message.hash = String(object.hash);
                 return message;
             };
     
@@ -21719,15 +18067,15 @@
                 var object = {};
                 if (options.defaults) {
                     object.txData = null;
-                    object.raw = null;
-                    object.hash = null;
+                    object.raw = "";
+                    object.hash = "";
                 }
                 if (message.txData != null && message.hasOwnProperty("txData"))
                     object.txData = $root.ethereum.TxData.toObject(message.txData, options);
                 if (message.raw != null && message.hasOwnProperty("raw"))
-                    object.raw = $root.ethereum.Data.toObject(message.raw, options);
+                    object.raw = message.raw;
                 if (message.hash != null && message.hasOwnProperty("hash"))
-                    object.hash = $root.ethereum.Hash.toObject(message.hash, options);
+                    object.hash = message.hash;
                 return object;
             };
     
@@ -21746,607 +18094,6 @@
         })();
     
         return ethereum;
-    })();
-    
-    $root.faucet = (function() {
-    
-        /**
-         * Namespace faucet.
-         * @exports faucet
-         * @namespace
-         */
-        var faucet = {};
-    
-        faucet.Faucet = (function() {
-    
-            /**
-             * Constructs a new Faucet service.
-             * @memberof faucet
-             * @classdesc Represents a Faucet
-             * @extends $protobuf.rpc.Service
-             * @constructor
-             * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
-             * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
-             * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
-             */
-            function Faucet(rpcImpl, requestDelimited, responseDelimited) {
-                $protobuf.rpc.Service.call(this, rpcImpl, requestDelimited, responseDelimited);
-            }
-    
-            (Faucet.prototype = Object.create($protobuf.rpc.Service.prototype)).constructor = Faucet;
-    
-            /**
-             * Creates new Faucet service using the specified rpc implementation.
-             * @function create
-             * @memberof faucet.Faucet
-             * @static
-             * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
-             * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
-             * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
-             * @returns {Faucet} RPC service. Useful where requests and/or responses are streamed.
-             */
-            Faucet.create = function create(rpcImpl, requestDelimited, responseDelimited) {
-                return new this(rpcImpl, requestDelimited, responseDelimited);
-            };
-    
-            /**
-             * Callback as used by {@link faucet.Faucet#credit}.
-             * @memberof faucet.Faucet
-             * @typedef CreditCallback
-             * @type {function}
-             * @param {Error|null} error Error, if any
-             * @param {faucet.CreditResponse} [response] CreditResponse
-             */
-    
-            /**
-             * Calls Credit.
-             * @function credit
-             * @memberof faucet.Faucet
-             * @instance
-             * @param {faucet.ICreditRequest} request CreditRequest message or plain object
-             * @param {faucet.Faucet.CreditCallback} callback Node-style callback called with the error, if any, and CreditResponse
-             * @returns {undefined}
-             * @variation 1
-             */
-            Object.defineProperty(Faucet.prototype.credit = function credit(request, callback) {
-                return this.rpcCall(credit, $root.faucet.CreditRequest, $root.faucet.CreditResponse, request, callback);
-            }, "name", { value: "Credit" });
-    
-            /**
-             * Calls Credit.
-             * @function credit
-             * @memberof faucet.Faucet
-             * @instance
-             * @param {faucet.ICreditRequest} request CreditRequest message or plain object
-             * @returns {Promise<faucet.CreditResponse>} Promise
-             * @variation 2
-             */
-    
-            return Faucet;
-        })();
-    
-        faucet.CreditRequest = (function() {
-    
-            /**
-             * Properties of a CreditRequest.
-             * @memberof faucet
-             * @interface ICreditRequest
-             * @property {chain.IChain|null} [chain] CreditRequest chain
-             * @property {ethereum.IAccount|null} [beneficiary] CreditRequest beneficiary
-             * @property {ethereum.IAccount|null} [creditor] CreditRequest creditor
-             * @property {ethereum.IQuantity|null} [amount] CreditRequest amount
-             */
-    
-            /**
-             * Constructs a new CreditRequest.
-             * @memberof faucet
-             * @classdesc Represents a CreditRequest.
-             * @implements ICreditRequest
-             * @constructor
-             * @param {faucet.ICreditRequest=} [properties] Properties to set
-             */
-            function CreditRequest(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * CreditRequest chain.
-             * @member {chain.IChain|null|undefined} chain
-             * @memberof faucet.CreditRequest
-             * @instance
-             */
-            CreditRequest.prototype.chain = null;
-    
-            /**
-             * CreditRequest beneficiary.
-             * @member {ethereum.IAccount|null|undefined} beneficiary
-             * @memberof faucet.CreditRequest
-             * @instance
-             */
-            CreditRequest.prototype.beneficiary = null;
-    
-            /**
-             * CreditRequest creditor.
-             * @member {ethereum.IAccount|null|undefined} creditor
-             * @memberof faucet.CreditRequest
-             * @instance
-             */
-            CreditRequest.prototype.creditor = null;
-    
-            /**
-             * CreditRequest amount.
-             * @member {ethereum.IQuantity|null|undefined} amount
-             * @memberof faucet.CreditRequest
-             * @instance
-             */
-            CreditRequest.prototype.amount = null;
-    
-            /**
-             * Creates a new CreditRequest instance using the specified properties.
-             * @function create
-             * @memberof faucet.CreditRequest
-             * @static
-             * @param {faucet.ICreditRequest=} [properties] Properties to set
-             * @returns {faucet.CreditRequest} CreditRequest instance
-             */
-            CreditRequest.create = function create(properties) {
-                return new CreditRequest(properties);
-            };
-    
-            /**
-             * Encodes the specified CreditRequest message. Does not implicitly {@link faucet.CreditRequest.verify|verify} messages.
-             * @function encode
-             * @memberof faucet.CreditRequest
-             * @static
-             * @param {faucet.ICreditRequest} message CreditRequest message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            CreditRequest.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.chain != null && message.hasOwnProperty("chain"))
-                    $root.chain.Chain.encode(message.chain, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                if (message.beneficiary != null && message.hasOwnProperty("beneficiary"))
-                    $root.ethereum.Account.encode(message.beneficiary, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                if (message.creditor != null && message.hasOwnProperty("creditor"))
-                    $root.ethereum.Account.encode(message.creditor, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-                if (message.amount != null && message.hasOwnProperty("amount"))
-                    $root.ethereum.Quantity.encode(message.amount, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified CreditRequest message, length delimited. Does not implicitly {@link faucet.CreditRequest.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof faucet.CreditRequest
-             * @static
-             * @param {faucet.ICreditRequest} message CreditRequest message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            CreditRequest.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a CreditRequest message from the specified reader or buffer.
-             * @function decode
-             * @memberof faucet.CreditRequest
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {faucet.CreditRequest} CreditRequest
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            CreditRequest.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.faucet.CreditRequest();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.chain = $root.chain.Chain.decode(reader, reader.uint32());
-                        break;
-                    case 2:
-                        message.beneficiary = $root.ethereum.Account.decode(reader, reader.uint32());
-                        break;
-                    case 3:
-                        message.creditor = $root.ethereum.Account.decode(reader, reader.uint32());
-                        break;
-                    case 4:
-                        message.amount = $root.ethereum.Quantity.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a CreditRequest message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof faucet.CreditRequest
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {faucet.CreditRequest} CreditRequest
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            CreditRequest.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a CreditRequest message.
-             * @function verify
-             * @memberof faucet.CreditRequest
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            CreditRequest.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.chain != null && message.hasOwnProperty("chain")) {
-                    var error = $root.chain.Chain.verify(message.chain);
-                    if (error)
-                        return "chain." + error;
-                }
-                if (message.beneficiary != null && message.hasOwnProperty("beneficiary")) {
-                    var error = $root.ethereum.Account.verify(message.beneficiary);
-                    if (error)
-                        return "beneficiary." + error;
-                }
-                if (message.creditor != null && message.hasOwnProperty("creditor")) {
-                    var error = $root.ethereum.Account.verify(message.creditor);
-                    if (error)
-                        return "creditor." + error;
-                }
-                if (message.amount != null && message.hasOwnProperty("amount")) {
-                    var error = $root.ethereum.Quantity.verify(message.amount);
-                    if (error)
-                        return "amount." + error;
-                }
-                return null;
-            };
-    
-            /**
-             * Creates a CreditRequest message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof faucet.CreditRequest
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {faucet.CreditRequest} CreditRequest
-             */
-            CreditRequest.fromObject = function fromObject(object) {
-                if (object instanceof $root.faucet.CreditRequest)
-                    return object;
-                var message = new $root.faucet.CreditRequest();
-                if (object.chain != null) {
-                    if (typeof object.chain !== "object")
-                        throw TypeError(".faucet.CreditRequest.chain: object expected");
-                    message.chain = $root.chain.Chain.fromObject(object.chain);
-                }
-                if (object.beneficiary != null) {
-                    if (typeof object.beneficiary !== "object")
-                        throw TypeError(".faucet.CreditRequest.beneficiary: object expected");
-                    message.beneficiary = $root.ethereum.Account.fromObject(object.beneficiary);
-                }
-                if (object.creditor != null) {
-                    if (typeof object.creditor !== "object")
-                        throw TypeError(".faucet.CreditRequest.creditor: object expected");
-                    message.creditor = $root.ethereum.Account.fromObject(object.creditor);
-                }
-                if (object.amount != null) {
-                    if (typeof object.amount !== "object")
-                        throw TypeError(".faucet.CreditRequest.amount: object expected");
-                    message.amount = $root.ethereum.Quantity.fromObject(object.amount);
-                }
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a CreditRequest message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof faucet.CreditRequest
-             * @static
-             * @param {faucet.CreditRequest} message CreditRequest
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            CreditRequest.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    object.chain = null;
-                    object.beneficiary = null;
-                    object.creditor = null;
-                    object.amount = null;
-                }
-                if (message.chain != null && message.hasOwnProperty("chain"))
-                    object.chain = $root.chain.Chain.toObject(message.chain, options);
-                if (message.beneficiary != null && message.hasOwnProperty("beneficiary"))
-                    object.beneficiary = $root.ethereum.Account.toObject(message.beneficiary, options);
-                if (message.creditor != null && message.hasOwnProperty("creditor"))
-                    object.creditor = $root.ethereum.Account.toObject(message.creditor, options);
-                if (message.amount != null && message.hasOwnProperty("amount"))
-                    object.amount = $root.ethereum.Quantity.toObject(message.amount, options);
-                return object;
-            };
-    
-            /**
-             * Converts this CreditRequest to JSON.
-             * @function toJSON
-             * @memberof faucet.CreditRequest
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            CreditRequest.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return CreditRequest;
-        })();
-    
-        faucet.CreditResponse = (function() {
-    
-            /**
-             * Properties of a CreditResponse.
-             * @memberof faucet
-             * @interface ICreditResponse
-             * @property {ethereum.IAccount|null} [creditor] CreditResponse creditor
-             * @property {ethereum.IQuantity|null} [amount] CreditResponse amount
-             * @property {error.IError|null} [error] CreditResponse error
-             */
-    
-            /**
-             * Constructs a new CreditResponse.
-             * @memberof faucet
-             * @classdesc Represents a CreditResponse.
-             * @implements ICreditResponse
-             * @constructor
-             * @param {faucet.ICreditResponse=} [properties] Properties to set
-             */
-            function CreditResponse(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * CreditResponse creditor.
-             * @member {ethereum.IAccount|null|undefined} creditor
-             * @memberof faucet.CreditResponse
-             * @instance
-             */
-            CreditResponse.prototype.creditor = null;
-    
-            /**
-             * CreditResponse amount.
-             * @member {ethereum.IQuantity|null|undefined} amount
-             * @memberof faucet.CreditResponse
-             * @instance
-             */
-            CreditResponse.prototype.amount = null;
-    
-            /**
-             * CreditResponse error.
-             * @member {error.IError|null|undefined} error
-             * @memberof faucet.CreditResponse
-             * @instance
-             */
-            CreditResponse.prototype.error = null;
-    
-            /**
-             * Creates a new CreditResponse instance using the specified properties.
-             * @function create
-             * @memberof faucet.CreditResponse
-             * @static
-             * @param {faucet.ICreditResponse=} [properties] Properties to set
-             * @returns {faucet.CreditResponse} CreditResponse instance
-             */
-            CreditResponse.create = function create(properties) {
-                return new CreditResponse(properties);
-            };
-    
-            /**
-             * Encodes the specified CreditResponse message. Does not implicitly {@link faucet.CreditResponse.verify|verify} messages.
-             * @function encode
-             * @memberof faucet.CreditResponse
-             * @static
-             * @param {faucet.ICreditResponse} message CreditResponse message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            CreditResponse.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.creditor != null && message.hasOwnProperty("creditor"))
-                    $root.ethereum.Account.encode(message.creditor, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                if (message.amount != null && message.hasOwnProperty("amount"))
-                    $root.ethereum.Quantity.encode(message.amount, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                if (message.error != null && message.hasOwnProperty("error"))
-                    $root.error.Error.encode(message.error, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified CreditResponse message, length delimited. Does not implicitly {@link faucet.CreditResponse.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof faucet.CreditResponse
-             * @static
-             * @param {faucet.ICreditResponse} message CreditResponse message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            CreditResponse.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a CreditResponse message from the specified reader or buffer.
-             * @function decode
-             * @memberof faucet.CreditResponse
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {faucet.CreditResponse} CreditResponse
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            CreditResponse.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.faucet.CreditResponse();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.creditor = $root.ethereum.Account.decode(reader, reader.uint32());
-                        break;
-                    case 2:
-                        message.amount = $root.ethereum.Quantity.decode(reader, reader.uint32());
-                        break;
-                    case 3:
-                        message.error = $root.error.Error.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a CreditResponse message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof faucet.CreditResponse
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {faucet.CreditResponse} CreditResponse
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            CreditResponse.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a CreditResponse message.
-             * @function verify
-             * @memberof faucet.CreditResponse
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            CreditResponse.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.creditor != null && message.hasOwnProperty("creditor")) {
-                    var error = $root.ethereum.Account.verify(message.creditor);
-                    if (error)
-                        return "creditor." + error;
-                }
-                if (message.amount != null && message.hasOwnProperty("amount")) {
-                    var error = $root.ethereum.Quantity.verify(message.amount);
-                    if (error)
-                        return "amount." + error;
-                }
-                if (message.error != null && message.hasOwnProperty("error")) {
-                    var error = $root.error.Error.verify(message.error);
-                    if (error)
-                        return "error." + error;
-                }
-                return null;
-            };
-    
-            /**
-             * Creates a CreditResponse message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof faucet.CreditResponse
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {faucet.CreditResponse} CreditResponse
-             */
-            CreditResponse.fromObject = function fromObject(object) {
-                if (object instanceof $root.faucet.CreditResponse)
-                    return object;
-                var message = new $root.faucet.CreditResponse();
-                if (object.creditor != null) {
-                    if (typeof object.creditor !== "object")
-                        throw TypeError(".faucet.CreditResponse.creditor: object expected");
-                    message.creditor = $root.ethereum.Account.fromObject(object.creditor);
-                }
-                if (object.amount != null) {
-                    if (typeof object.amount !== "object")
-                        throw TypeError(".faucet.CreditResponse.amount: object expected");
-                    message.amount = $root.ethereum.Quantity.fromObject(object.amount);
-                }
-                if (object.error != null) {
-                    if (typeof object.error !== "object")
-                        throw TypeError(".faucet.CreditResponse.error: object expected");
-                    message.error = $root.error.Error.fromObject(object.error);
-                }
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a CreditResponse message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof faucet.CreditResponse
-             * @static
-             * @param {faucet.CreditResponse} message CreditResponse
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            CreditResponse.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    object.creditor = null;
-                    object.amount = null;
-                    object.error = null;
-                }
-                if (message.creditor != null && message.hasOwnProperty("creditor"))
-                    object.creditor = $root.ethereum.Account.toObject(message.creditor, options);
-                if (message.amount != null && message.hasOwnProperty("amount"))
-                    object.amount = $root.ethereum.Quantity.toObject(message.amount, options);
-                if (message.error != null && message.hasOwnProperty("error"))
-                    object.error = $root.error.Error.toObject(message.error, options);
-                return object;
-            };
-    
-            /**
-             * Converts this CreditResponse to JSON.
-             * @function toJSON
-             * @memberof faucet.CreditResponse
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            CreditResponse.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return CreditResponse;
-        })();
-    
-        return faucet;
     })();
 
     return $root;

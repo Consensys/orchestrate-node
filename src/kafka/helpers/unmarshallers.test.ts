@@ -4,14 +4,14 @@ import { ProtocolType } from '../types/ProtocolType'
 
 import { unmarshalEnvelope } from './unmarshallers'
 
-const mockData = 'fefe'
-const mockFrom = 'c1912fee45d61c87cc5ea59dae31190fffff2333'
-const mockTo = 'c1912fee45d61c87cc5ea59dae31190fffff233e'
-const mockValue = '4c4b40'
-const mockHash = 'aaaaeeee'
-const mockContractAddress = 'c1912fee45d61c87cc5ea59dae31190fffff233f'
-const mockBloom = '31232344ff'
-const mockPostState = '31232344fffeaa'
+const mockData = '0xdata'
+const mockFrom = '0xfrom'
+const mockTo = '0xto'
+const mockValue = '4554545455'
+const mockHash = '0xhash'
+const mockContractAddress = '0xcontractAddress'
+const mockBloom = '0xbloomFilter'
+const mockPostState = '0xpostState'
 export const mockEnvelope = {
   args: {
     call: {
@@ -26,7 +26,7 @@ export const mockEnvelope = {
         signature: 'myMethod(string,string)'
       }
     },
-    data: { raw: Buffer.from(mockData, 'hex') },
+    data: mockData,
     private: {
       privateFrom: 'constellationFrom',
       privateFor: ['constellationFor0', 'constellationFor1']
@@ -36,7 +36,7 @@ export const mockEnvelope = {
     uuid: 'chainUUID',
     name: 'chainName'
   },
-  from: { raw: Buffer.from(mockFrom, 'hex') },
+  from: mockFrom,
   protocol: {
     type: chain.ProtocolType.BESU_ORION
   },
@@ -49,29 +49,29 @@ export const mockEnvelope = {
     }
   },
   tx: {
-    hash: { raw: Buffer.from(mockHash, 'hex') },
-    raw: { raw: Buffer.from(mockData, 'hex') },
+    hash: mockHash,
+    raw: mockData,
     txData: {
-      data: { raw: Buffer.from(mockData, 'hex') },
+      data: mockData,
       gas: 13221321,
-      gasPrice: { raw: Buffer.from(mockValue, 'hex') },
+      gasPrice: mockValue,
       nonce: 66,
-      to: { raw: Buffer.from(mockTo, 'hex') },
-      value: { raw: Buffer.from(mockValue, 'hex') }
+      to: mockTo,
+      value: mockValue
     }
   },
   receipt: {
-    blockHash: { raw: Buffer.from(mockHash, 'hex') },
+    blockHash: mockHash,
     blockNumber: 10,
     txIndex: 2,
-    txHash: { raw: Buffer.from(mockHash, 'hex') },
+    txHash: mockHash,
     status: 0,
     gasUsed: 555,
-    contractAddress: { raw: Buffer.from(mockContractAddress, 'hex') },
+    contractAddress: mockContractAddress,
     cumulativeGasUsed: 7777,
     logs: [],
-    bloom: Buffer.from(mockBloom, 'hex'),
-    postState: Buffer.from(mockPostState, 'hex')
+    bloom: mockBloom,
+    postState: mockPostState
   }
 }
 
@@ -83,35 +83,35 @@ describe('unmarshallers', () => {
         id: mockEnvelope.metadata.id,
         errors: mockEnvelope.errors,
         extraData: mockEnvelope.metadata.extra,
-        from: `0x${mockFrom}`,
+        from: mockFrom,
         receipt: {
-          blockHash: `0x${mockHash}`,
-          txHash: `0x${mockHash}`,
+          blockHash: mockHash,
+          txHash: mockHash,
           txIndex: mockEnvelope.receipt.txIndex,
           blockNumber: mockEnvelope.receipt.blockNumber,
           gasUsed: mockEnvelope.receipt.gasUsed,
           status: true,
           cumulativeGasUsed: mockEnvelope.receipt.cumulativeGasUsed,
           logs: undefined,
-          bloom: `0x${mockBloom}`,
-          postState: `0x${mockPostState}`,
-          contractAddress: `0x${mockContractAddress}`
+          bloom: mockBloom,
+          postState: mockPostState,
+          contractAddress: mockContractAddress
         },
         txContext: {
           contractName: mockEnvelope.args.call.contract.id.name,
           contractTag: mockEnvelope.args.call.contract.id.tag,
           chainUUID: mockEnvelope.chain.uuid,
           chainName: mockEnvelope.chain.name,
-          from: `0x${mockFrom}`,
+          from: mockFrom,
           protocol: ProtocolType.BesuOrion,
           gas: mockEnvelope.tx.txData.gas,
-          gasPrice: '5000000',
+          gasPrice: mockValue,
           nonce: mockEnvelope.tx.txData.nonce,
           methodSignature: mockEnvelope.args.call.method.signature,
-          value: '5000000',
+          value: mockValue,
           args: mockEnvelope.args.call.args,
-          input: `0x${mockData}`,
-          to: `0x${mockTo}`,
+          input: mockData,
+          to: mockTo,
           privateFor: mockEnvelope.args.private.privateFor,
           privateFrom: mockEnvelope.args.private.privateFrom
         }

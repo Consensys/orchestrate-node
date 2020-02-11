@@ -5,7 +5,6 @@ import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "protoc-gen-swagger/options/annotations.proto";
 import "types/envelope/envelope.proto";
-import "types/ethereum/base.proto";
 import "types/chain/chain.proto";
 
 option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/orchestrate.git/types/envelope-store";
@@ -24,6 +23,38 @@ option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
     external_docs: {
         url: "https://docs.orchestrate.pegasys.tech/en/latest/"
         description: "📒 Documentation of PegaSys Orchestrate"
+    }
+    security_definitions: {
+        security: {
+            key: "JWTAuth";
+            value: {
+                type: TYPE_API_KEY;
+                in: IN_HEADER;
+                name: "Authorization";
+                description: "Add your Token as: `Bearer` Token";
+            }
+        }
+        security: {
+            key: "ApiKeyAuth";
+            value: {
+                type: TYPE_API_KEY;
+                in: IN_HEADER;
+                name: "X-API-Key";
+                description: "Add the value of your API-Key";
+            }
+        }
+    }
+    security: {
+        security_requirement: {
+            key: "JWTAuth";
+            value: {};
+        }
+    }
+    security: {
+        security_requirement: {
+            key: "ApiKeyAuth";
+            value: {};
+        }
     }
 };
 
@@ -89,7 +120,7 @@ message LoadByTxHashRequest {
     chain.Chain chain = 2;
 
     // Hash of the transaction
-    ethereum.Hash tx_hash = 3;
+    string tx_hash = 3;
 }
 
 message SetStatusRequest {
