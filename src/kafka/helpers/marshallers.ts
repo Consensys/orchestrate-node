@@ -30,10 +30,12 @@ export function marshalTransactionRequest(request: ITransactionRequest) {
 }
 
 export function marshalRawTransactionRequest(request: IRawTransactionRequest) {
+  const tx = utils.parseTransaction(request.signedTransaction)
+
   const envelopeMessage: envelope.IEnvelope = {
     metadata: formatters.formatMetadata(request.id!, request.extraData, request.authToken),
     tx: {
-      hash: utils.keccak256(request.signedTransaction), // TODO: To be removed when implemented in the Orchestrate
+      hash: tx.hash, // TODO: To be removed when implemented in Orchestrate
       raw: request.signedTransaction
     },
     protocol: formatters.formatProtocol(request.protocol),
