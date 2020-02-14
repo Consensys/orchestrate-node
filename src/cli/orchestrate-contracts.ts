@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { Command } from 'commander'
 
 import {
@@ -10,14 +12,8 @@ import {
 
 const program = new Command()
 
-export const cli = (argv: string[]) => {
-  program.parse(argv)
-}
-
-program.version('1.0.0')
-
 program
-  .command('register-contract')
+  .command('register')
   .description('Registers a new contract in the remote registry')
   .requiredOption('-n, --name <str>', 'Name of the contract')
   .requiredOption('-f, --filepath <filepath>', 'Location of the artifact.json file of the contract')
@@ -26,13 +22,13 @@ program
   .action(registerContractHandler)
 
 program
-  .command('get-catalog')
+  .command('catalog')
   .description('Returns all the registered contract names')
   .requiredOption('-e, --endpoint <host:port>', 'Contract registry endpoint in the form host:port')
   .action(getCatalogHandler)
 
 program
-  .command('get-contract')
+  .command('contract')
   .description('Returns the registered contract by name and tag')
   .requiredOption('-n, --name <str>', 'Name of the contract')
   .requiredOption('-e, --endpoint <host:port>', 'Contract registry endpoint in the form host:port')
@@ -40,7 +36,7 @@ program
   .action(getContractHandler)
 
 program
-  .command('get-tags')
+  .command('tags')
   .description('Returns all the registered tags of a given contract')
   .requiredOption('-n, --name <str>', 'Name of the contract')
   .requiredOption('-e, --endpoint <host:port>', 'Contract registry endpoint in the form host:port')
@@ -53,3 +49,5 @@ program
   .option('-c, --chain <str>', '(optional) Chain on which to credit new accounts')
   .option('-v, --value <str>', '(optional) Value in wei to credit to new accounts')
   .action(generateAccountHandler)
+
+program.parse(process.argv)

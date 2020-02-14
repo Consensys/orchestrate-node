@@ -1,5 +1,12 @@
 #!/usr/bin/env node
 
-import { cli } from './cli'
+import { Command } from 'commander'
 
-cli(process.argv)
+const program = new Command()
+
+program
+  .version('2.0.0')
+  .description('Orchestrate CLI')
+  .command('contracts', 'Contract Registry management')
+  .command('accounts', 'Accounts management')
+  .parse(process.argv)
