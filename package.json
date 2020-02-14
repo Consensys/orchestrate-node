@@ -62,7 +62,7 @@
     "ethers": "~4.0.43",
     "kafkajs": "~1.11.0",
     "protobufjs": "~6.8.8",
-    "uuid": "~3.3.3"
+    "uuid": "~3.4.0"
   },
   "devDependencies": {
     "@types/bn.js": "~4.11.6",
