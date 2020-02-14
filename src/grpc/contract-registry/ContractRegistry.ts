@@ -30,7 +30,7 @@ export class ContractRegistry {
   /**
    * Registers a new contract in the contract registry
    *
-   * @param request - contrect registration request
+   * @param request - contract registration request
    */
   public async register(request: IRegisterContractRequest): Promise<void> {
     await this.registry.registerContract({
