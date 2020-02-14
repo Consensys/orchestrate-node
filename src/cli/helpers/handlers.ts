@@ -99,6 +99,5 @@ export async function generateAccountHandler(options: IGenerateAccountsOptions) 
     console.log(`Failed to generate account: ${error}`)
   } finally {
     await accountGenerator.disconnect()
-    process.exit()
   }
 }
