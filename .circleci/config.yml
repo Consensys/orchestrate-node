@@ -51,9 +51,6 @@ jobs:
           name: Build
           command: npm run build
       - run:
-          name: Build
-          command: npm run build
-      - run:
           name: Publish on npm
           command: |
             echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
