@@ -1,74 +1,80 @@
 import { utils } from 'ethers'
 import { Message } from 'kafkajs'
 
-import { envelope } from '../../stubs'
+import { tx } from '../../stubs'
 import { IGenerateAccountRequest, IRawTransactionRequest, ITransactionRequest } from '../types'
 
+import * as solFormatters from './solidity-formatters'
 import * as formatters from './stub-formatters'
 
 export function marshalTransactionRequest(request: ITransactionRequest) {
-  const envelopeMessage: envelope.IEnvelope = {
-    metadata: formatters.formatMetadata(request.id!, request.extraData, request.authToken),
-    args: formatters.formatEnvelopeArgs(
-      {
-        contractName: request.contractName,
-        contractTag: request.contractTag,
-        methodSignature: request.methodSignature,
-        args: request.args
-      },
-      request.data,
-      request.privateFrom,
-      request.privateFor
-    ),
-    protocol: formatters.formatProtocol(request.protocol),
-    from: formatters.formatAccount(request.from),
-    chain: formatters.formatChain(request.chainUUID, request.chainName),
-    tx: formatters.formatTransaction(request)
+  const params: tx.IParams = {
+    from: request.from,
+    to: request.to,
+    gas: request.gas ? request.gas.toString() : null,
+    gasPrice: request.gasPrice,
+    value: request.value,
+    nonce: request.nonce ? request.nonce.toString() : null,
+    data: request.data,
+    contract: formatters.formatContract(request.contractName, request.contractTag),
+    methodSignature: request.methodSignature,
+    args: solFormatters.formatMethodArgs(request.methodSignature, request.args),
+    privateFor: request.privateFor,
+    privateFrom: request.privateFrom
+  }
+
+  const envelopeMessage: tx.ITxRequest = {
+    id: request.id,
+    chain: request.chainName,
+    method: formatters.formatProtocol(request.protocol),
+    params,
+    contextLabels: request.contextLabels
+  }
+
+  if (request.authToken) {
+    envelopeMessage.headers = { Authorization: request.authToken, ...envelopeMessage.headers }
   }
 
   return marshalEnvelope(envelopeMessage)
 }
 
 export function marshalRawTransactionRequest(request: IRawTransactionRequest) {
-  const tx = utils.parseTransaction(request.signedTransaction)
+  const params: tx.IParams = {
+    raw: request.signedTransaction
+  }
 
-  const envelopeMessage: envelope.IEnvelope = {
-    metadata: formatters.formatMetadata(request.id!, request.extraData, request.authToken),
-    tx: {
-      hash: tx.hash, // TODO: To be removed when implemented in Orchestrate
-      raw: request.signedTransaction
-    },
-    protocol: formatters.formatProtocol(request.protocol),
-    chain: formatters.formatChain(request.chainUUID, request.chainName)
+  const envelopeMessage: tx.ITxRequest = {
+    id: request.id,
+    chain: request.chainName,
+    method: formatters.formatProtocol(request.protocol),
+    params,
+    contextLabels: { ...request.contextLabels, 'tx.mode': 'raw' }
+  }
+
+  if (request.authToken) {
+    envelopeMessage.headers = { Authorization: request.authToken, ...envelopeMessage.headers }
   }
 
   return marshalEnvelope(envelopeMessage)
 }
 
 export function marshalGenerateAccountRequest(request: IGenerateAccountRequest) {
-  const envelopeMessage: envelope.IEnvelope = {
-    metadata: formatters.formatMetadata(request.id, request.extraData, request.authToken)
+  const params: tx.IParams = {
+    value: request.value
   }
 
-  if (request.chain) {
-    envelopeMessage.chain = {
-      chainId: request.chain
-    }
-  }
-
-  if (request.value) {
-    envelopeMessage.tx = {
-      txData: {
-        value: request.value
-      }
-    }
+  const envelopeMessage: tx.ITxRequest = {
+    id: request.id,
+    chain: request.chain,
+    params,
+    contextLabels: request.contextLabels
   }
 
   return marshalEnvelope(envelopeMessage)
 }
 
-function marshalEnvelope(envelopeMessage: envelope.IEnvelope): Message {
-  const { encode } = envelope.Envelope
+function marshalEnvelope(envelopeMessage: tx.ITxRequest): Message {
+  const { encode } = tx.TxRequest
 
   // The type is Buffer on Node
   return { value: encode(envelopeMessage).finish() as Buffer }

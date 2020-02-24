@@ -1,65 +1,31 @@
-import { abi, args, chain, envelope, error, ethereum } from '../../stubs'
+import { error, ethereum, tx } from '../../stubs'
 import { IResponseValue } from '../types'
 import { IReceipt } from '../types/IReceipt'
 import { ITransactionContext } from '../types/ITransactionContext'
-import { ProtocolType } from '../types/ProtocolType'
 
 export function unmarshalEnvelope(data: Buffer): IResponseValue {
-  const envelopeMessage = envelope.Envelope.decode(data)
-  return mapEnvelopeToResponse(envelopeMessage)
-}
-
-function mapEnvelopeToResponse(envelopeMessage: envelope.IEnvelope): IResponseValue {
+  const envelopeMessage = tx.TxResponse.decode(data)
   return {
-    id: envelopeMessage.metadata!.id!,
-    from: parseString(envelopeMessage.from),
-    txContext: parseTxContext(envelopeMessage),
+    id: envelopeMessage.id!,
+    txContext: parseTxContext(envelopeMessage.transaction),
     receipt: parseReceipt(envelopeMessage.receipt),
     errors: parseErrors(envelopeMessage.errors),
-    extraData: parseMetadata(envelopeMessage.metadata)
+    contextLabels: envelopeMessage.contextLabels!
   }
 }
 
-function parseChainUUID(chainMessage?: chain.IChain | null) {
-  return chainMessage && chainMessage.uuid ? chainMessage.uuid : undefined
-}
-
-function parseChainName(chainMessage?: chain.IChain | null) {
-  return chainMessage && chainMessage.name ? chainMessage.name : undefined
-}
-
-function parseProtocol(value?: chain.IProtocol | null) {
-  if (value && value.type) {
-    switch (value.type) {
-      case chain.ProtocolType.BESU_ORION:
-        return ProtocolType.BesuOrion
-      case chain.ProtocolType.QUORUM_CONSTELLATION:
-        return ProtocolType.QuorumConstellation
-      case chain.ProtocolType.QUORUM_TESSERA:
-        return ProtocolType.QuorumTessera
-      default:
-        return ProtocolType.EthereumConstantinople
-    }
-  }
-}
-
-function parseTxContext(envelopeMessage: envelope.IEnvelope): ITransactionContext | undefined {
-  const { args: argsV, tx } = envelopeMessage
-
-  // A complete transaction context exists if we have a contract name
-  if (argsV && argsV.call && argsV.call.contract && argsV.call.contract.id && argsV.call.contract.id.name) {
+function parseTxContext(transaction?: ethereum.ITransaction | null): ITransactionContext | undefined {
+  if (transaction) {
     return {
-      contractName: argsV.call.contract.id.name,
-      contractTag: parseString(argsV.call.contract.id.tag),
-      chainUUID: parseChainUUID(envelopeMessage.chain),
-      chainName: parseChainName(envelopeMessage.chain),
-      from: parseString(envelopeMessage.from),
-      protocol: parseProtocol(envelopeMessage.protocol),
-      methodSignature: parseMethod(argsV.call.method),
-      input: parseString(argsV.data),
-      args: parseStringArray(argsV.call.args),
-      ...parseTx(tx),
-      ...parsePrivate(argsV.private)
+      from: parseString(transaction.from),
+      nonce: transaction.nonce ? Number(transaction.nonce) : undefined,
+      to: parseString(transaction.to),
+      value: parseString(transaction.value),
+      gas: transaction.gas ? Number(transaction.gas) : undefined,
+      gasPrice: parseString(transaction.gasPrice),
+      input: parseString(transaction.data),
+      raw: parseString(transaction.raw),
+      txHash: parseString(transaction.txHash)
     }
   }
 }
@@ -110,14 +76,6 @@ function parseLogs(logs?: ethereum.ILog[] | null) {
   }
 }
 
-function parseMetadata(metadata?: envelope.IMetadata | null) {
-  return metadata && metadata.extra ? metadata.extra : undefined
-}
-
-function parseMethod(method?: abi.IMethod | null) {
-  return method && method.signature ? method.signature : undefined
-}
-
 function parseString(value?: string | null) {
   return value ? value : undefined
 }
@@ -125,36 +83,6 @@ function parseString(value?: string | null) {
 function parseStringArray(arr?: string[] | null) {
   if (arr && arr.length !== 0) {
     return arr.map(el => el)
-  }
-}
-
-function parseTx(tx?: ethereum.ITransaction | null) {
-  if (tx && tx.txData) {
-    const value = parseString(tx.txData.value)
-    const gas = parseNumber(tx.txData.gas)
-    const gasPrice = parseString(tx.txData.gasPrice)
-    const nonce = parseNumber(tx.txData.nonce)
-    const to = parseString(tx.txData.to)
-
-    return {
-      value,
-      gas,
-      gasPrice,
-      nonce,
-      to
-    }
-  }
-}
-
-function parsePrivate(priv?: args.IPrivate | null) {
-  if (priv) {
-    const privateFrom = parseString(priv.privateFrom)
-    const privateFor = parseStringArray(priv.privateFor)
-
-    return {
-      privateFrom,
-      privateFor
-    }
   }
 }
 

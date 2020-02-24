@@ -1,8 +1,8 @@
 import { createMockInstance } from 'jest-create-mock-instance'
 
-import { envelope } from '../../../stubs'
+import { tx } from '../../../stubs'
 import { unmarshalEnvelope } from '../../helpers'
-import { mockEnvelope } from '../../helpers/unmarshallers.test'
+import { mockTxResponse } from '../../helpers/unmarshallers.test'
 import { EventType } from '../../types'
 import { Consumer } from '../Consumer'
 import { ResponseMessage } from '../ResponseMessage'
@@ -13,7 +13,7 @@ const mockKey = '1-0xc1912fee45d61c87cc5ea59dae31190fffff232d'
 
 const mockKafkaMessagePayload = {
   message: {
-    value: envelope.Envelope.encode(mockEnvelope).finish(),
+    value: tx.TxResponse.encode(mockTxResponse).finish(),
     offset: '0',
     key: Buffer.from(mockKey)
   },

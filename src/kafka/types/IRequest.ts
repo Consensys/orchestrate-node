@@ -1,7 +1,7 @@
-import { IExtraData } from './IExtraData'
+import { IContextLabels } from './IContextLabels'
 
 export interface IRequest {
   id?: string
-  extraData?: IExtraData
+  contextLabels?: IContextLabels
   authToken?: string
 }

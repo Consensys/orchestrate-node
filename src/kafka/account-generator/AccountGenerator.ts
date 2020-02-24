@@ -109,12 +109,12 @@ export class AccountGenerator {
 
   private listenForAccounts() {
     this.consumer.on(EventType.Response, (message: ResponseMessage) => {
-      const { id, from } = message.content().value
+      const { id, txContext } = message.content().value
       const resolve = this.resolveFuncs.get(id)
 
-      if (resolve && from) {
+      if (resolve && txContext) {
         this.resolveFuncs.delete(id)
-        resolve(from)
+        resolve(txContext.from ? txContext.from : '')
       }
     })
   }

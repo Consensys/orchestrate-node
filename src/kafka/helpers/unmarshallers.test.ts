@@ -1,6 +1,5 @@
-import { chain, envelope } from '../../stubs'
+import { tx } from '../../stubs'
 import { IResponseValue } from '../types'
-import { ProtocolType } from '../types/ProtocolType'
 
 import { unmarshalEnvelope } from './unmarshallers'
 
@@ -12,53 +11,23 @@ const mockHash = '0xhash'
 const mockContractAddress = '0xcontractAddress'
 const mockBloom = '0xbloomFilter'
 const mockPostState = '0xpostState'
-export const mockEnvelope = {
-  args: {
-    call: {
-      args: ['arg0', 'arg1'],
-      contract: {
-        id: {
-          name: 'myContract',
-          tag: 'contractTag'
-        }
-      },
-      method: {
-        signature: 'myMethod(string,string)'
-      }
-    },
-    data: mockData,
-    private: {
-      privateFrom: 'constellationFrom',
-      privateFor: ['constellationFor0', 'constellationFor1']
-    }
-  },
-  chain: {
-    uuid: 'chainUUID',
-    name: 'chainName'
-  },
-  from: mockFrom,
-  protocol: {
-    type: chain.ProtocolType.BESU_ORION
-  },
-  errors: [{ code: 1, message: 'errorMessage', component: 'component' }],
-  metadata: {
-    id: 'id',
-    extra: {
-      field0: 'field0',
-      field1: 'field1'
-    }
-  },
-  tx: {
-    hash: mockHash,
+export const mockTxResponse = {
+  id: 'id',
+  transaction: {
+    from: mockFrom,
+    contract: 'myContract[contractTag]',
+    txHash: mockHash,
     raw: mockData,
-    txData: {
-      data: mockData,
-      gas: 13221321,
-      gasPrice: mockValue,
-      nonce: 66,
-      to: mockTo,
-      value: mockValue
-    }
+    data: mockData,
+    gas: '13221321',
+    gasPrice: mockValue,
+    nonce: '66',
+    to: mockTo,
+    value: mockValue
+  },
+  contextLabels: {
+    field0: 'field0',
+    field1: 'field1'
   },
   receipt: {
     blockHash: mockHash,
@@ -72,7 +41,8 @@ export const mockEnvelope = {
     logs: [],
     bloom: mockBloom,
     postState: mockPostState
-  }
+  },
+  errors: [{ code: 1, message: 'errorMessage', component: 'component' }]
 }
 
 // TODO: unmarshallers are not taken into account in the coverage until we have the new envelope format because of too many branches
@@ -80,43 +50,35 @@ describe('unmarshallers', () => {
   describe('unmarshalEnvelope', () => {
     it('should unmarshall an envelope successfully', () => {
       const expectedValue: IResponseValue = {
-        id: mockEnvelope.metadata.id,
-        errors: mockEnvelope.errors,
-        extraData: mockEnvelope.metadata.extra,
-        from: mockFrom,
+        id: mockTxResponse.id,
+        errors: mockTxResponse.errors,
+        contextLabels: mockTxResponse.contextLabels,
         receipt: {
           blockHash: mockHash,
           txHash: mockHash,
-          txIndex: mockEnvelope.receipt.txIndex,
-          blockNumber: mockEnvelope.receipt.blockNumber,
-          gasUsed: mockEnvelope.receipt.gasUsed,
+          txIndex: mockTxResponse.receipt.txIndex,
+          blockNumber: mockTxResponse.receipt.blockNumber,
+          gasUsed: mockTxResponse.receipt.gasUsed,
           status: true,
-          cumulativeGasUsed: mockEnvelope.receipt.cumulativeGasUsed,
+          cumulativeGasUsed: mockTxResponse.receipt.cumulativeGasUsed,
           logs: undefined,
           bloom: mockBloom,
           postState: mockPostState,
           contractAddress: mockContractAddress
         },
         txContext: {
-          contractName: mockEnvelope.args.call.contract.id.name,
-          contractTag: mockEnvelope.args.call.contract.id.tag,
-          chainUUID: mockEnvelope.chain.uuid,
-          chainName: mockEnvelope.chain.name,
           from: mockFrom,
-          protocol: ProtocolType.BesuOrion,
-          gas: mockEnvelope.tx.txData.gas,
+          gas: Number(mockTxResponse.transaction.gas),
           gasPrice: mockValue,
-          nonce: mockEnvelope.tx.txData.nonce,
-          methodSignature: mockEnvelope.args.call.method.signature,
+          nonce: Number(mockTxResponse.transaction.nonce),
           value: mockValue,
-          args: mockEnvelope.args.call.args,
           input: mockData,
           to: mockTo,
-          privateFor: mockEnvelope.args.private.privateFor,
-          privateFrom: mockEnvelope.args.private.privateFrom
+          raw: mockData,
+          txHash: mockHash
         }
       }
-      const envelopeBuffer = envelope.Envelope.encode(mockEnvelope).finish()
+      const envelopeBuffer = tx.TxResponse.encode(mockTxResponse).finish()
 
       const value = unmarshalEnvelope(envelopeBuffer as Buffer)
 
