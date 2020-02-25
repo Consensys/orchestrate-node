@@ -1027,1042 +1027,6 @@
         return abi;
     })();
     
-    $root.args = (function() {
-    
-        /**
-         * Namespace args.
-         * @exports args
-         * @namespace
-         */
-        var args = {};
-    
-        args.Call = (function() {
-    
-            /**
-             * Properties of a Call.
-             * @memberof args
-             * @interface ICall
-             * @property {abi.IContract|null} [contract] Call contract
-             * @property {abi.IMethod|null} [method] Call method
-             * @property {Array.<string>|null} [args] Call args
-             */
-    
-            /**
-             * Constructs a new Call.
-             * @memberof args
-             * @classdesc Represents a Call.
-             * @implements ICall
-             * @constructor
-             * @param {args.ICall=} [properties] Properties to set
-             */
-            function Call(properties) {
-                this.args = [];
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * Call contract.
-             * @member {abi.IContract|null|undefined} contract
-             * @memberof args.Call
-             * @instance
-             */
-            Call.prototype.contract = null;
-    
-            /**
-             * Call method.
-             * @member {abi.IMethod|null|undefined} method
-             * @memberof args.Call
-             * @instance
-             */
-            Call.prototype.method = null;
-    
-            /**
-             * Call args.
-             * @member {Array.<string>} args
-             * @memberof args.Call
-             * @instance
-             */
-            Call.prototype.args = $util.emptyArray;
-    
-            /**
-             * Creates a new Call instance using the specified properties.
-             * @function create
-             * @memberof args.Call
-             * @static
-             * @param {args.ICall=} [properties] Properties to set
-             * @returns {args.Call} Call instance
-             */
-            Call.create = function create(properties) {
-                return new Call(properties);
-            };
-    
-            /**
-             * Encodes the specified Call message. Does not implicitly {@link args.Call.verify|verify} messages.
-             * @function encode
-             * @memberof args.Call
-             * @static
-             * @param {args.ICall} message Call message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Call.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.contract != null && message.hasOwnProperty("contract"))
-                    $root.abi.Contract.encode(message.contract, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                if (message.method != null && message.hasOwnProperty("method"))
-                    $root.abi.Method.encode(message.method, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                if (message.args != null && message.args.length)
-                    for (var i = 0; i < message.args.length; ++i)
-                        writer.uint32(/* id 3, wireType 2 =*/26).string(message.args[i]);
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified Call message, length delimited. Does not implicitly {@link args.Call.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof args.Call
-             * @static
-             * @param {args.ICall} message Call message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Call.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a Call message from the specified reader or buffer.
-             * @function decode
-             * @memberof args.Call
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {args.Call} Call
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Call.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.args.Call();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.contract = $root.abi.Contract.decode(reader, reader.uint32());
-                        break;
-                    case 2:
-                        message.method = $root.abi.Method.decode(reader, reader.uint32());
-                        break;
-                    case 3:
-                        if (!(message.args && message.args.length))
-                            message.args = [];
-                        message.args.push(reader.string());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a Call message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof args.Call
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {args.Call} Call
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Call.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a Call message.
-             * @function verify
-             * @memberof args.Call
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            Call.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.contract != null && message.hasOwnProperty("contract")) {
-                    var error = $root.abi.Contract.verify(message.contract);
-                    if (error)
-                        return "contract." + error;
-                }
-                if (message.method != null && message.hasOwnProperty("method")) {
-                    var error = $root.abi.Method.verify(message.method);
-                    if (error)
-                        return "method." + error;
-                }
-                if (message.args != null && message.hasOwnProperty("args")) {
-                    if (!Array.isArray(message.args))
-                        return "args: array expected";
-                    for (var i = 0; i < message.args.length; ++i)
-                        if (!$util.isString(message.args[i]))
-                            return "args: string[] expected";
-                }
-                return null;
-            };
-    
-            /**
-             * Creates a Call message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof args.Call
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {args.Call} Call
-             */
-            Call.fromObject = function fromObject(object) {
-                if (object instanceof $root.args.Call)
-                    return object;
-                var message = new $root.args.Call();
-                if (object.contract != null) {
-                    if (typeof object.contract !== "object")
-                        throw TypeError(".args.Call.contract: object expected");
-                    message.contract = $root.abi.Contract.fromObject(object.contract);
-                }
-                if (object.method != null) {
-                    if (typeof object.method !== "object")
-                        throw TypeError(".args.Call.method: object expected");
-                    message.method = $root.abi.Method.fromObject(object.method);
-                }
-                if (object.args) {
-                    if (!Array.isArray(object.args))
-                        throw TypeError(".args.Call.args: array expected");
-                    message.args = [];
-                    for (var i = 0; i < object.args.length; ++i)
-                        message.args[i] = String(object.args[i]);
-                }
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a Call message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof args.Call
-             * @static
-             * @param {args.Call} message Call
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            Call.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.arrays || options.defaults)
-                    object.args = [];
-                if (options.defaults) {
-                    object.contract = null;
-                    object.method = null;
-                }
-                if (message.contract != null && message.hasOwnProperty("contract"))
-                    object.contract = $root.abi.Contract.toObject(message.contract, options);
-                if (message.method != null && message.hasOwnProperty("method"))
-                    object.method = $root.abi.Method.toObject(message.method, options);
-                if (message.args && message.args.length) {
-                    object.args = [];
-                    for (var j = 0; j < message.args.length; ++j)
-                        object.args[j] = message.args[j];
-                }
-                return object;
-            };
-    
-            /**
-             * Converts this Call to JSON.
-             * @function toJSON
-             * @memberof args.Call
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            Call.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return Call;
-        })();
-    
-        args.Private = (function() {
-    
-            /**
-             * Properties of a Private.
-             * @memberof args
-             * @interface IPrivate
-             * @property {string|null} [privateFrom] Private privateFrom
-             * @property {Array.<string>|null} [privateFor] Private privateFor
-             * @property {string|null} [privateTxType] Private privateTxType
-             */
-    
-            /**
-             * Constructs a new Private.
-             * @memberof args
-             * @classdesc Represents a Private.
-             * @implements IPrivate
-             * @constructor
-             * @param {args.IPrivate=} [properties] Properties to set
-             */
-            function Private(properties) {
-                this.privateFor = [];
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * Private privateFrom.
-             * @member {string} privateFrom
-             * @memberof args.Private
-             * @instance
-             */
-            Private.prototype.privateFrom = "";
-    
-            /**
-             * Private privateFor.
-             * @member {Array.<string>} privateFor
-             * @memberof args.Private
-             * @instance
-             */
-            Private.prototype.privateFor = $util.emptyArray;
-    
-            /**
-             * Private privateTxType.
-             * @member {string} privateTxType
-             * @memberof args.Private
-             * @instance
-             */
-            Private.prototype.privateTxType = "";
-    
-            /**
-             * Creates a new Private instance using the specified properties.
-             * @function create
-             * @memberof args.Private
-             * @static
-             * @param {args.IPrivate=} [properties] Properties to set
-             * @returns {args.Private} Private instance
-             */
-            Private.create = function create(properties) {
-                return new Private(properties);
-            };
-    
-            /**
-             * Encodes the specified Private message. Does not implicitly {@link args.Private.verify|verify} messages.
-             * @function encode
-             * @memberof args.Private
-             * @static
-             * @param {args.IPrivate} message Private message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Private.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.privateFrom != null && message.hasOwnProperty("privateFrom"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.privateFrom);
-                if (message.privateFor != null && message.privateFor.length)
-                    for (var i = 0; i < message.privateFor.length; ++i)
-                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.privateFor[i]);
-                if (message.privateTxType != null && message.hasOwnProperty("privateTxType"))
-                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.privateTxType);
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified Private message, length delimited. Does not implicitly {@link args.Private.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof args.Private
-             * @static
-             * @param {args.IPrivate} message Private message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Private.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a Private message from the specified reader or buffer.
-             * @function decode
-             * @memberof args.Private
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {args.Private} Private
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Private.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.args.Private();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.privateFrom = reader.string();
-                        break;
-                    case 2:
-                        if (!(message.privateFor && message.privateFor.length))
-                            message.privateFor = [];
-                        message.privateFor.push(reader.string());
-                        break;
-                    case 3:
-                        message.privateTxType = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a Private message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof args.Private
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {args.Private} Private
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Private.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a Private message.
-             * @function verify
-             * @memberof args.Private
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            Private.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.privateFrom != null && message.hasOwnProperty("privateFrom"))
-                    if (!$util.isString(message.privateFrom))
-                        return "privateFrom: string expected";
-                if (message.privateFor != null && message.hasOwnProperty("privateFor")) {
-                    if (!Array.isArray(message.privateFor))
-                        return "privateFor: array expected";
-                    for (var i = 0; i < message.privateFor.length; ++i)
-                        if (!$util.isString(message.privateFor[i]))
-                            return "privateFor: string[] expected";
-                }
-                if (message.privateTxType != null && message.hasOwnProperty("privateTxType"))
-                    if (!$util.isString(message.privateTxType))
-                        return "privateTxType: string expected";
-                return null;
-            };
-    
-            /**
-             * Creates a Private message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof args.Private
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {args.Private} Private
-             */
-            Private.fromObject = function fromObject(object) {
-                if (object instanceof $root.args.Private)
-                    return object;
-                var message = new $root.args.Private();
-                if (object.privateFrom != null)
-                    message.privateFrom = String(object.privateFrom);
-                if (object.privateFor) {
-                    if (!Array.isArray(object.privateFor))
-                        throw TypeError(".args.Private.privateFor: array expected");
-                    message.privateFor = [];
-                    for (var i = 0; i < object.privateFor.length; ++i)
-                        message.privateFor[i] = String(object.privateFor[i]);
-                }
-                if (object.privateTxType != null)
-                    message.privateTxType = String(object.privateTxType);
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a Private message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof args.Private
-             * @static
-             * @param {args.Private} message Private
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            Private.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.arrays || options.defaults)
-                    object.privateFor = [];
-                if (options.defaults) {
-                    object.privateFrom = "";
-                    object.privateTxType = "";
-                }
-                if (message.privateFrom != null && message.hasOwnProperty("privateFrom"))
-                    object.privateFrom = message.privateFrom;
-                if (message.privateFor && message.privateFor.length) {
-                    object.privateFor = [];
-                    for (var j = 0; j < message.privateFor.length; ++j)
-                        object.privateFor[j] = message.privateFor[j];
-                }
-                if (message.privateTxType != null && message.hasOwnProperty("privateTxType"))
-                    object.privateTxType = message.privateTxType;
-                return object;
-            };
-    
-            /**
-             * Converts this Private to JSON.
-             * @function toJSON
-             * @memberof args.Private
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            Private.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return Private;
-        })();
-    
-        return args;
-    })();
-    
-    $root.chain = (function() {
-    
-        /**
-         * Namespace chain.
-         * @exports chain
-         * @namespace
-         */
-        var chain = {};
-    
-        chain.Chain = (function() {
-    
-            /**
-             * Properties of a Chain.
-             * @memberof chain
-             * @interface IChain
-             * @property {string|null} [chainId] Chain chainId
-             * @property {string|null} [uuid] Chain uuid
-             * @property {string|null} [name] Chain name
-             */
-    
-            /**
-             * Constructs a new Chain.
-             * @memberof chain
-             * @classdesc Represents a Chain.
-             * @implements IChain
-             * @constructor
-             * @param {chain.IChain=} [properties] Properties to set
-             */
-            function Chain(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * Chain chainId.
-             * @member {string} chainId
-             * @memberof chain.Chain
-             * @instance
-             */
-            Chain.prototype.chainId = "";
-    
-            /**
-             * Chain uuid.
-             * @member {string} uuid
-             * @memberof chain.Chain
-             * @instance
-             */
-            Chain.prototype.uuid = "";
-    
-            /**
-             * Chain name.
-             * @member {string} name
-             * @memberof chain.Chain
-             * @instance
-             */
-            Chain.prototype.name = "";
-    
-            /**
-             * Creates a new Chain instance using the specified properties.
-             * @function create
-             * @memberof chain.Chain
-             * @static
-             * @param {chain.IChain=} [properties] Properties to set
-             * @returns {chain.Chain} Chain instance
-             */
-            Chain.create = function create(properties) {
-                return new Chain(properties);
-            };
-    
-            /**
-             * Encodes the specified Chain message. Does not implicitly {@link chain.Chain.verify|verify} messages.
-             * @function encode
-             * @memberof chain.Chain
-             * @static
-             * @param {chain.IChain} message Chain message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Chain.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.chainId != null && message.hasOwnProperty("chainId"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.chainId);
-                if (message.uuid != null && message.hasOwnProperty("uuid"))
-                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.uuid);
-                if (message.name != null && message.hasOwnProperty("name"))
-                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.name);
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified Chain message, length delimited. Does not implicitly {@link chain.Chain.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof chain.Chain
-             * @static
-             * @param {chain.IChain} message Chain message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Chain.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a Chain message from the specified reader or buffer.
-             * @function decode
-             * @memberof chain.Chain
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {chain.Chain} Chain
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Chain.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.chain.Chain();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.chainId = reader.string();
-                        break;
-                    case 2:
-                        message.uuid = reader.string();
-                        break;
-                    case 3:
-                        message.name = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a Chain message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof chain.Chain
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {chain.Chain} Chain
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Chain.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a Chain message.
-             * @function verify
-             * @memberof chain.Chain
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            Chain.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.chainId != null && message.hasOwnProperty("chainId"))
-                    if (!$util.isString(message.chainId))
-                        return "chainId: string expected";
-                if (message.uuid != null && message.hasOwnProperty("uuid"))
-                    if (!$util.isString(message.uuid))
-                        return "uuid: string expected";
-                if (message.name != null && message.hasOwnProperty("name"))
-                    if (!$util.isString(message.name))
-                        return "name: string expected";
-                return null;
-            };
-    
-            /**
-             * Creates a Chain message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof chain.Chain
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {chain.Chain} Chain
-             */
-            Chain.fromObject = function fromObject(object) {
-                if (object instanceof $root.chain.Chain)
-                    return object;
-                var message = new $root.chain.Chain();
-                if (object.chainId != null)
-                    message.chainId = String(object.chainId);
-                if (object.uuid != null)
-                    message.uuid = String(object.uuid);
-                if (object.name != null)
-                    message.name = String(object.name);
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a Chain message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof chain.Chain
-             * @static
-             * @param {chain.Chain} message Chain
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            Chain.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    object.chainId = "";
-                    object.uuid = "";
-                    object.name = "";
-                }
-                if (message.chainId != null && message.hasOwnProperty("chainId"))
-                    object.chainId = message.chainId;
-                if (message.uuid != null && message.hasOwnProperty("uuid"))
-                    object.uuid = message.uuid;
-                if (message.name != null && message.hasOwnProperty("name"))
-                    object.name = message.name;
-                return object;
-            };
-    
-            /**
-             * Converts this Chain to JSON.
-             * @function toJSON
-             * @memberof chain.Chain
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            Chain.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return Chain;
-        })();
-    
-        chain.Protocol = (function() {
-    
-            /**
-             * Properties of a Protocol.
-             * @memberof chain
-             * @interface IProtocol
-             * @property {chain.ProtocolType|null} [type] Protocol type
-             * @property {Object.<string,string>|null} [extra] Protocol extra
-             */
-    
-            /**
-             * Constructs a new Protocol.
-             * @memberof chain
-             * @classdesc Represents a Protocol.
-             * @implements IProtocol
-             * @constructor
-             * @param {chain.IProtocol=} [properties] Properties to set
-             */
-            function Protocol(properties) {
-                this.extra = {};
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * Protocol type.
-             * @member {chain.ProtocolType} type
-             * @memberof chain.Protocol
-             * @instance
-             */
-            Protocol.prototype.type = 0;
-    
-            /**
-             * Protocol extra.
-             * @member {Object.<string,string>} extra
-             * @memberof chain.Protocol
-             * @instance
-             */
-            Protocol.prototype.extra = $util.emptyObject;
-    
-            /**
-             * Creates a new Protocol instance using the specified properties.
-             * @function create
-             * @memberof chain.Protocol
-             * @static
-             * @param {chain.IProtocol=} [properties] Properties to set
-             * @returns {chain.Protocol} Protocol instance
-             */
-            Protocol.create = function create(properties) {
-                return new Protocol(properties);
-            };
-    
-            /**
-             * Encodes the specified Protocol message. Does not implicitly {@link chain.Protocol.verify|verify} messages.
-             * @function encode
-             * @memberof chain.Protocol
-             * @static
-             * @param {chain.IProtocol} message Protocol message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Protocol.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.type != null && message.hasOwnProperty("type"))
-                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.type);
-                if (message.extra != null && message.hasOwnProperty("extra"))
-                    for (var keys = Object.keys(message.extra), i = 0; i < keys.length; ++i)
-                        writer.uint32(/* id 3, wireType 2 =*/26).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.extra[keys[i]]).ldelim();
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified Protocol message, length delimited. Does not implicitly {@link chain.Protocol.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof chain.Protocol
-             * @static
-             * @param {chain.IProtocol} message Protocol message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Protocol.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a Protocol message from the specified reader or buffer.
-             * @function decode
-             * @memberof chain.Protocol
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {chain.Protocol} Protocol
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Protocol.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.chain.Protocol(), key;
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.type = reader.int32();
-                        break;
-                    case 3:
-                        reader.skip().pos++;
-                        if (message.extra === $util.emptyObject)
-                            message.extra = {};
-                        key = reader.string();
-                        reader.pos++;
-                        message.extra[key] = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a Protocol message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof chain.Protocol
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {chain.Protocol} Protocol
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Protocol.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a Protocol message.
-             * @function verify
-             * @memberof chain.Protocol
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            Protocol.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.type != null && message.hasOwnProperty("type"))
-                    switch (message.type) {
-                    default:
-                        return "type: enum value expected";
-                    case 0:
-                    case 1:
-                    case 2:
-                    case 3:
-                        break;
-                    }
-                if (message.extra != null && message.hasOwnProperty("extra")) {
-                    if (!$util.isObject(message.extra))
-                        return "extra: object expected";
-                    var key = Object.keys(message.extra);
-                    for (var i = 0; i < key.length; ++i)
-                        if (!$util.isString(message.extra[key[i]]))
-                            return "extra: string{k:string} expected";
-                }
-                return null;
-            };
-    
-            /**
-             * Creates a Protocol message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof chain.Protocol
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {chain.Protocol} Protocol
-             */
-            Protocol.fromObject = function fromObject(object) {
-                if (object instanceof $root.chain.Protocol)
-                    return object;
-                var message = new $root.chain.Protocol();
-                switch (object.type) {
-                case "ETHEREUM_CONSTANTINOPLE":
-                case 0:
-                    message.type = 0;
-                    break;
-                case "QUORUM_CONSTELLATION":
-                case 1:
-                    message.type = 1;
-                    break;
-                case "QUORUM_TESSERA":
-                case 2:
-                    message.type = 2;
-                    break;
-                case "BESU_ORION":
-                case 3:
-                    message.type = 3;
-                    break;
-                }
-                if (object.extra) {
-                    if (typeof object.extra !== "object")
-                        throw TypeError(".chain.Protocol.extra: object expected");
-                    message.extra = {};
-                    for (var keys = Object.keys(object.extra), i = 0; i < keys.length; ++i)
-                        message.extra[keys[i]] = String(object.extra[keys[i]]);
-                }
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a Protocol message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof chain.Protocol
-             * @static
-             * @param {chain.Protocol} message Protocol
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            Protocol.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.objects || options.defaults)
-                    object.extra = {};
-                if (options.defaults)
-                    object.type = options.enums === String ? "ETHEREUM_CONSTANTINOPLE" : 0;
-                if (message.type != null && message.hasOwnProperty("type"))
-                    object.type = options.enums === String ? $root.chain.ProtocolType[message.type] : message.type;
-                var keys2;
-                if (message.extra && (keys2 = Object.keys(message.extra)).length) {
-                    object.extra = {};
-                    for (var j = 0; j < keys2.length; ++j)
-                        object.extra[keys2[j]] = message.extra[keys2[j]];
-                }
-                return object;
-            };
-    
-            /**
-             * Converts this Protocol to JSON.
-             * @function toJSON
-             * @memberof chain.Protocol
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            Protocol.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return Protocol;
-        })();
-    
-        /**
-         * ProtocolType enum.
-         * @name chain.ProtocolType
-         * @enum {string}
-         * @property {number} ETHEREUM_CONSTANTINOPLE=0 ETHEREUM_CONSTANTINOPLE value
-         * @property {number} QUORUM_CONSTELLATION=1 QUORUM_CONSTELLATION value
-         * @property {number} QUORUM_TESSERA=2 QUORUM_TESSERA value
-         * @property {number} BESU_ORION=3 BESU_ORION value
-         */
-        chain.ProtocolType = (function() {
-            var valuesById = {}, values = Object.create(valuesById);
-            values[valuesById[0] = "ETHEREUM_CONSTANTINOPLE"] = 0;
-            values[valuesById[1] = "QUORUM_CONSTELLATION"] = 1;
-            values[valuesById[2] = "QUORUM_TESSERA"] = 2;
-            values[valuesById[3] = "BESU_ORION"] = 3;
-            return values;
-        })();
-    
-        return chain;
-    })();
-    
     $root.common = (function() {
     
         /**
@@ -2078,7 +1042,7 @@
              * Properties of an AccountInstance.
              * @memberof common
              * @interface IAccountInstance
-             * @property {chain.IChain|null} [chain] AccountInstance chain
+             * @property {string|null} [chainId] AccountInstance chainId
              * @property {string|null} [account] AccountInstance account
              */
     
@@ -2098,12 +1062,12 @@
             }
     
             /**
-             * AccountInstance chain.
-             * @member {chain.IChain|null|undefined} chain
+             * AccountInstance chainId.
+             * @member {string} chainId
              * @memberof common.AccountInstance
              * @instance
              */
-            AccountInstance.prototype.chain = null;
+            AccountInstance.prototype.chainId = "";
     
             /**
              * AccountInstance account.
@@ -2137,8 +1101,8 @@
             AccountInstance.encode = function encode(message, writer) {
                 if (!writer)
                     writer = $Writer.create();
-                if (message.chain != null && message.hasOwnProperty("chain"))
-                    $root.chain.Chain.encode(message.chain, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                if (message.chainId != null && message.hasOwnProperty("chainId"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.chainId);
                 if (message.account != null && message.hasOwnProperty("account"))
                     writer.uint32(/* id 2, wireType 2 =*/18).string(message.account);
                 return writer;
@@ -2176,7 +1140,7 @@
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1:
-                        message.chain = $root.chain.Chain.decode(reader, reader.uint32());
+                        message.chainId = reader.string();
                         break;
                     case 2:
                         message.account = reader.string();
@@ -2216,11 +1180,9 @@
             AccountInstance.verify = function verify(message) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.chain != null && message.hasOwnProperty("chain")) {
-                    var error = $root.chain.Chain.verify(message.chain);
-                    if (error)
-                        return "chain." + error;
-                }
+                if (message.chainId != null && message.hasOwnProperty("chainId"))
+                    if (!$util.isString(message.chainId))
+                        return "chainId: string expected";
                 if (message.account != null && message.hasOwnProperty("account"))
                     if (!$util.isString(message.account))
                         return "account: string expected";
@@ -2239,11 +1201,8 @@
                 if (object instanceof $root.common.AccountInstance)
                     return object;
                 var message = new $root.common.AccountInstance();
-                if (object.chain != null) {
-                    if (typeof object.chain !== "object")
-                        throw TypeError(".common.AccountInstance.chain: object expected");
-                    message.chain = $root.chain.Chain.fromObject(object.chain);
-                }
+                if (object.chainId != null)
+                    message.chainId = String(object.chainId);
                 if (object.account != null)
                     message.account = String(object.account);
                 return message;
@@ -2263,11 +1222,11 @@
                     options = {};
                 var object = {};
                 if (options.defaults) {
-                    object.chain = null;
+                    object.chainId = "";
                     object.account = "";
                 }
-                if (message.chain != null && message.hasOwnProperty("chain"))
-                    object.chain = $root.chain.Chain.toObject(message.chain, options);
+                if (message.chainId != null && message.hasOwnProperty("chainId"))
+                    object.chainId = message.chainId;
                 if (message.account != null && message.hasOwnProperty("account"))
                     object.account = message.account;
                 return object;
@@ -15351,885 +14310,6 @@
         return envelopestore;
     })();
     
-    $root.envelope = (function() {
-    
-        /**
-         * Namespace envelope.
-         * @exports envelope
-         * @namespace
-         */
-        var envelope = {};
-    
-        envelope.Metadata = (function() {
-    
-            /**
-             * Properties of a Metadata.
-             * @memberof envelope
-             * @interface IMetadata
-             * @property {string|null} [id] Metadata id
-             * @property {Object.<string,string>|null} [extra] Metadata extra
-             */
-    
-            /**
-             * Constructs a new Metadata.
-             * @memberof envelope
-             * @classdesc Represents a Metadata.
-             * @implements IMetadata
-             * @constructor
-             * @param {envelope.IMetadata=} [properties] Properties to set
-             */
-            function Metadata(properties) {
-                this.extra = {};
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * Metadata id.
-             * @member {string} id
-             * @memberof envelope.Metadata
-             * @instance
-             */
-            Metadata.prototype.id = "";
-    
-            /**
-             * Metadata extra.
-             * @member {Object.<string,string>} extra
-             * @memberof envelope.Metadata
-             * @instance
-             */
-            Metadata.prototype.extra = $util.emptyObject;
-    
-            /**
-             * Creates a new Metadata instance using the specified properties.
-             * @function create
-             * @memberof envelope.Metadata
-             * @static
-             * @param {envelope.IMetadata=} [properties] Properties to set
-             * @returns {envelope.Metadata} Metadata instance
-             */
-            Metadata.create = function create(properties) {
-                return new Metadata(properties);
-            };
-    
-            /**
-             * Encodes the specified Metadata message. Does not implicitly {@link envelope.Metadata.verify|verify} messages.
-             * @function encode
-             * @memberof envelope.Metadata
-             * @static
-             * @param {envelope.IMetadata} message Metadata message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Metadata.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.id != null && message.hasOwnProperty("id"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-                if (message.extra != null && message.hasOwnProperty("extra"))
-                    for (var keys = Object.keys(message.extra), i = 0; i < keys.length; ++i)
-                        writer.uint32(/* id 2, wireType 2 =*/18).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.extra[keys[i]]).ldelim();
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified Metadata message, length delimited. Does not implicitly {@link envelope.Metadata.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof envelope.Metadata
-             * @static
-             * @param {envelope.IMetadata} message Metadata message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Metadata.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a Metadata message from the specified reader or buffer.
-             * @function decode
-             * @memberof envelope.Metadata
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {envelope.Metadata} Metadata
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Metadata.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.envelope.Metadata(), key;
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.id = reader.string();
-                        break;
-                    case 2:
-                        reader.skip().pos++;
-                        if (message.extra === $util.emptyObject)
-                            message.extra = {};
-                        key = reader.string();
-                        reader.pos++;
-                        message.extra[key] = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a Metadata message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof envelope.Metadata
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {envelope.Metadata} Metadata
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Metadata.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a Metadata message.
-             * @function verify
-             * @memberof envelope.Metadata
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            Metadata.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.id != null && message.hasOwnProperty("id"))
-                    if (!$util.isString(message.id))
-                        return "id: string expected";
-                if (message.extra != null && message.hasOwnProperty("extra")) {
-                    if (!$util.isObject(message.extra))
-                        return "extra: object expected";
-                    var key = Object.keys(message.extra);
-                    for (var i = 0; i < key.length; ++i)
-                        if (!$util.isString(message.extra[key[i]]))
-                            return "extra: string{k:string} expected";
-                }
-                return null;
-            };
-    
-            /**
-             * Creates a Metadata message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof envelope.Metadata
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {envelope.Metadata} Metadata
-             */
-            Metadata.fromObject = function fromObject(object) {
-                if (object instanceof $root.envelope.Metadata)
-                    return object;
-                var message = new $root.envelope.Metadata();
-                if (object.id != null)
-                    message.id = String(object.id);
-                if (object.extra) {
-                    if (typeof object.extra !== "object")
-                        throw TypeError(".envelope.Metadata.extra: object expected");
-                    message.extra = {};
-                    for (var keys = Object.keys(object.extra), i = 0; i < keys.length; ++i)
-                        message.extra[keys[i]] = String(object.extra[keys[i]]);
-                }
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a Metadata message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof envelope.Metadata
-             * @static
-             * @param {envelope.Metadata} message Metadata
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            Metadata.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.objects || options.defaults)
-                    object.extra = {};
-                if (options.defaults)
-                    object.id = "";
-                if (message.id != null && message.hasOwnProperty("id"))
-                    object.id = message.id;
-                var keys2;
-                if (message.extra && (keys2 = Object.keys(message.extra)).length) {
-                    object.extra = {};
-                    for (var j = 0; j < keys2.length; ++j)
-                        object.extra[keys2[j]] = message.extra[keys2[j]];
-                }
-                return object;
-            };
-    
-            /**
-             * Converts this Metadata to JSON.
-             * @function toJSON
-             * @memberof envelope.Metadata
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            Metadata.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return Metadata;
-        })();
-    
-        envelope.Args = (function() {
-    
-            /**
-             * Properties of an Args.
-             * @memberof envelope
-             * @interface IArgs
-             * @property {args.ICall|null} [call] Args call
-             * @property {args.IPrivate|null} ["private"] Args private
-             * @property {string|null} [data] Args data
-             */
-    
-            /**
-             * Constructs a new Args.
-             * @memberof envelope
-             * @classdesc Represents an Args.
-             * @implements IArgs
-             * @constructor
-             * @param {envelope.IArgs=} [properties] Properties to set
-             */
-            function Args(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * Args call.
-             * @member {args.ICall|null|undefined} call
-             * @memberof envelope.Args
-             * @instance
-             */
-            Args.prototype.call = null;
-    
-            /**
-             * Args private.
-             * @member {args.IPrivate|null|undefined} private
-             * @memberof envelope.Args
-             * @instance
-             */
-            Args.prototype["private"] = null;
-    
-            /**
-             * Args data.
-             * @member {string} data
-             * @memberof envelope.Args
-             * @instance
-             */
-            Args.prototype.data = "";
-    
-            /**
-             * Creates a new Args instance using the specified properties.
-             * @function create
-             * @memberof envelope.Args
-             * @static
-             * @param {envelope.IArgs=} [properties] Properties to set
-             * @returns {envelope.Args} Args instance
-             */
-            Args.create = function create(properties) {
-                return new Args(properties);
-            };
-    
-            /**
-             * Encodes the specified Args message. Does not implicitly {@link envelope.Args.verify|verify} messages.
-             * @function encode
-             * @memberof envelope.Args
-             * @static
-             * @param {envelope.IArgs} message Args message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Args.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.call != null && message.hasOwnProperty("call"))
-                    $root.args.Call.encode(message.call, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                if (message["private"] != null && message.hasOwnProperty("private"))
-                    $root.args.Private.encode(message["private"], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                if (message.data != null && message.hasOwnProperty("data"))
-                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.data);
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified Args message, length delimited. Does not implicitly {@link envelope.Args.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof envelope.Args
-             * @static
-             * @param {envelope.IArgs} message Args message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Args.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes an Args message from the specified reader or buffer.
-             * @function decode
-             * @memberof envelope.Args
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {envelope.Args} Args
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Args.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.envelope.Args();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.call = $root.args.Call.decode(reader, reader.uint32());
-                        break;
-                    case 2:
-                        message["private"] = $root.args.Private.decode(reader, reader.uint32());
-                        break;
-                    case 3:
-                        message.data = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes an Args message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof envelope.Args
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {envelope.Args} Args
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Args.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies an Args message.
-             * @function verify
-             * @memberof envelope.Args
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            Args.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.call != null && message.hasOwnProperty("call")) {
-                    var error = $root.args.Call.verify(message.call);
-                    if (error)
-                        return "call." + error;
-                }
-                if (message["private"] != null && message.hasOwnProperty("private")) {
-                    var error = $root.args.Private.verify(message["private"]);
-                    if (error)
-                        return "private." + error;
-                }
-                if (message.data != null && message.hasOwnProperty("data"))
-                    if (!$util.isString(message.data))
-                        return "data: string expected";
-                return null;
-            };
-    
-            /**
-             * Creates an Args message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof envelope.Args
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {envelope.Args} Args
-             */
-            Args.fromObject = function fromObject(object) {
-                if (object instanceof $root.envelope.Args)
-                    return object;
-                var message = new $root.envelope.Args();
-                if (object.call != null) {
-                    if (typeof object.call !== "object")
-                        throw TypeError(".envelope.Args.call: object expected");
-                    message.call = $root.args.Call.fromObject(object.call);
-                }
-                if (object["private"] != null) {
-                    if (typeof object["private"] !== "object")
-                        throw TypeError(".envelope.Args.private: object expected");
-                    message["private"] = $root.args.Private.fromObject(object["private"]);
-                }
-                if (object.data != null)
-                    message.data = String(object.data);
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from an Args message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof envelope.Args
-             * @static
-             * @param {envelope.Args} message Args
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            Args.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    object.call = null;
-                    object["private"] = null;
-                    object.data = "";
-                }
-                if (message.call != null && message.hasOwnProperty("call"))
-                    object.call = $root.args.Call.toObject(message.call, options);
-                if (message["private"] != null && message.hasOwnProperty("private"))
-                    object["private"] = $root.args.Private.toObject(message["private"], options);
-                if (message.data != null && message.hasOwnProperty("data"))
-                    object.data = message.data;
-                return object;
-            };
-    
-            /**
-             * Converts this Args to JSON.
-             * @function toJSON
-             * @memberof envelope.Args
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            Args.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return Args;
-        })();
-    
-        envelope.Envelope = (function() {
-    
-            /**
-             * Properties of an Envelope.
-             * @memberof envelope
-             * @interface IEnvelope
-             * @property {chain.IChain|null} [chain] Envelope chain
-             * @property {chain.IProtocol|null} [protocol] Envelope protocol
-             * @property {string|null} [from] Envelope from
-             * @property {ethereum.ITransaction|null} [tx] Envelope tx
-             * @property {ethereum.IReceipt|null} [receipt] Envelope receipt
-             * @property {Array.<error.IError>|null} [errors] Envelope errors
-             * @property {envelope.IArgs|null} [args] Envelope args
-             * @property {envelope.IMetadata|null} [metadata] Envelope metadata
-             */
-    
-            /**
-             * Constructs a new Envelope.
-             * @memberof envelope
-             * @classdesc Represents an Envelope.
-             * @implements IEnvelope
-             * @constructor
-             * @param {envelope.IEnvelope=} [properties] Properties to set
-             */
-            function Envelope(properties) {
-                this.errors = [];
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * Envelope chain.
-             * @member {chain.IChain|null|undefined} chain
-             * @memberof envelope.Envelope
-             * @instance
-             */
-            Envelope.prototype.chain = null;
-    
-            /**
-             * Envelope protocol.
-             * @member {chain.IProtocol|null|undefined} protocol
-             * @memberof envelope.Envelope
-             * @instance
-             */
-            Envelope.prototype.protocol = null;
-    
-            /**
-             * Envelope from.
-             * @member {string} from
-             * @memberof envelope.Envelope
-             * @instance
-             */
-            Envelope.prototype.from = "";
-    
-            /**
-             * Envelope tx.
-             * @member {ethereum.ITransaction|null|undefined} tx
-             * @memberof envelope.Envelope
-             * @instance
-             */
-            Envelope.prototype.tx = null;
-    
-            /**
-             * Envelope receipt.
-             * @member {ethereum.IReceipt|null|undefined} receipt
-             * @memberof envelope.Envelope
-             * @instance
-             */
-            Envelope.prototype.receipt = null;
-    
-            /**
-             * Envelope errors.
-             * @member {Array.<error.IError>} errors
-             * @memberof envelope.Envelope
-             * @instance
-             */
-            Envelope.prototype.errors = $util.emptyArray;
-    
-            /**
-             * Envelope args.
-             * @member {envelope.IArgs|null|undefined} args
-             * @memberof envelope.Envelope
-             * @instance
-             */
-            Envelope.prototype.args = null;
-    
-            /**
-             * Envelope metadata.
-             * @member {envelope.IMetadata|null|undefined} metadata
-             * @memberof envelope.Envelope
-             * @instance
-             */
-            Envelope.prototype.metadata = null;
-    
-            /**
-             * Creates a new Envelope instance using the specified properties.
-             * @function create
-             * @memberof envelope.Envelope
-             * @static
-             * @param {envelope.IEnvelope=} [properties] Properties to set
-             * @returns {envelope.Envelope} Envelope instance
-             */
-            Envelope.create = function create(properties) {
-                return new Envelope(properties);
-            };
-    
-            /**
-             * Encodes the specified Envelope message. Does not implicitly {@link envelope.Envelope.verify|verify} messages.
-             * @function encode
-             * @memberof envelope.Envelope
-             * @static
-             * @param {envelope.IEnvelope} message Envelope message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Envelope.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.chain != null && message.hasOwnProperty("chain"))
-                    $root.chain.Chain.encode(message.chain, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                if (message.protocol != null && message.hasOwnProperty("protocol"))
-                    $root.chain.Protocol.encode(message.protocol, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                if (message.from != null && message.hasOwnProperty("from"))
-                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.from);
-                if (message.tx != null && message.hasOwnProperty("tx"))
-                    $root.ethereum.Transaction.encode(message.tx, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
-                if (message.receipt != null && message.hasOwnProperty("receipt"))
-                    $root.ethereum.Receipt.encode(message.receipt, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
-                if (message.errors != null && message.errors.length)
-                    for (var i = 0; i < message.errors.length; ++i)
-                        $root.error.Error.encode(message.errors[i], writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
-                if (message.args != null && message.hasOwnProperty("args"))
-                    $root.envelope.Args.encode(message.args, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
-                if (message.metadata != null && message.hasOwnProperty("metadata"))
-                    $root.envelope.Metadata.encode(message.metadata, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified Envelope message, length delimited. Does not implicitly {@link envelope.Envelope.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof envelope.Envelope
-             * @static
-             * @param {envelope.IEnvelope} message Envelope message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Envelope.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes an Envelope message from the specified reader or buffer.
-             * @function decode
-             * @memberof envelope.Envelope
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {envelope.Envelope} Envelope
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Envelope.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.envelope.Envelope();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.chain = $root.chain.Chain.decode(reader, reader.uint32());
-                        break;
-                    case 2:
-                        message.protocol = $root.chain.Protocol.decode(reader, reader.uint32());
-                        break;
-                    case 3:
-                        message.from = reader.string();
-                        break;
-                    case 4:
-                        message.tx = $root.ethereum.Transaction.decode(reader, reader.uint32());
-                        break;
-                    case 5:
-                        message.receipt = $root.ethereum.Receipt.decode(reader, reader.uint32());
-                        break;
-                    case 6:
-                        if (!(message.errors && message.errors.length))
-                            message.errors = [];
-                        message.errors.push($root.error.Error.decode(reader, reader.uint32()));
-                        break;
-                    case 7:
-                        message.args = $root.envelope.Args.decode(reader, reader.uint32());
-                        break;
-                    case 8:
-                        message.metadata = $root.envelope.Metadata.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes an Envelope message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof envelope.Envelope
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {envelope.Envelope} Envelope
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Envelope.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies an Envelope message.
-             * @function verify
-             * @memberof envelope.Envelope
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            Envelope.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.chain != null && message.hasOwnProperty("chain")) {
-                    var error = $root.chain.Chain.verify(message.chain);
-                    if (error)
-                        return "chain." + error;
-                }
-                if (message.protocol != null && message.hasOwnProperty("protocol")) {
-                    var error = $root.chain.Protocol.verify(message.protocol);
-                    if (error)
-                        return "protocol." + error;
-                }
-                if (message.from != null && message.hasOwnProperty("from"))
-                    if (!$util.isString(message.from))
-                        return "from: string expected";
-                if (message.tx != null && message.hasOwnProperty("tx")) {
-                    var error = $root.ethereum.Transaction.verify(message.tx);
-                    if (error)
-                        return "tx." + error;
-                }
-                if (message.receipt != null && message.hasOwnProperty("receipt")) {
-                    var error = $root.ethereum.Receipt.verify(message.receipt);
-                    if (error)
-                        return "receipt." + error;
-                }
-                if (message.errors != null && message.hasOwnProperty("errors")) {
-                    if (!Array.isArray(message.errors))
-                        return "errors: array expected";
-                    for (var i = 0; i < message.errors.length; ++i) {
-                        var error = $root.error.Error.verify(message.errors[i]);
-                        if (error)
-                            return "errors." + error;
-                    }
-                }
-                if (message.args != null && message.hasOwnProperty("args")) {
-                    var error = $root.envelope.Args.verify(message.args);
-                    if (error)
-                        return "args." + error;
-                }
-                if (message.metadata != null && message.hasOwnProperty("metadata")) {
-                    var error = $root.envelope.Metadata.verify(message.metadata);
-                    if (error)
-                        return "metadata." + error;
-                }
-                return null;
-            };
-    
-            /**
-             * Creates an Envelope message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof envelope.Envelope
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {envelope.Envelope} Envelope
-             */
-            Envelope.fromObject = function fromObject(object) {
-                if (object instanceof $root.envelope.Envelope)
-                    return object;
-                var message = new $root.envelope.Envelope();
-                if (object.chain != null) {
-                    if (typeof object.chain !== "object")
-                        throw TypeError(".envelope.Envelope.chain: object expected");
-                    message.chain = $root.chain.Chain.fromObject(object.chain);
-                }
-                if (object.protocol != null) {
-                    if (typeof object.protocol !== "object")
-                        throw TypeError(".envelope.Envelope.protocol: object expected");
-                    message.protocol = $root.chain.Protocol.fromObject(object.protocol);
-                }
-                if (object.from != null)
-                    message.from = String(object.from);
-                if (object.tx != null) {
-                    if (typeof object.tx !== "object")
-                        throw TypeError(".envelope.Envelope.tx: object expected");
-                    message.tx = $root.ethereum.Transaction.fromObject(object.tx);
-                }
-                if (object.receipt != null) {
-                    if (typeof object.receipt !== "object")
-                        throw TypeError(".envelope.Envelope.receipt: object expected");
-                    message.receipt = $root.ethereum.Receipt.fromObject(object.receipt);
-                }
-                if (object.errors) {
-                    if (!Array.isArray(object.errors))
-                        throw TypeError(".envelope.Envelope.errors: array expected");
-                    message.errors = [];
-                    for (var i = 0; i < object.errors.length; ++i) {
-                        if (typeof object.errors[i] !== "object")
-                            throw TypeError(".envelope.Envelope.errors: object expected");
-                        message.errors[i] = $root.error.Error.fromObject(object.errors[i]);
-                    }
-                }
-                if (object.args != null) {
-                    if (typeof object.args !== "object")
-                        throw TypeError(".envelope.Envelope.args: object expected");
-                    message.args = $root.envelope.Args.fromObject(object.args);
-                }
-                if (object.metadata != null) {
-                    if (typeof object.metadata !== "object")
-                        throw TypeError(".envelope.Envelope.metadata: object expected");
-                    message.metadata = $root.envelope.Metadata.fromObject(object.metadata);
-                }
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from an Envelope message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof envelope.Envelope
-             * @static
-             * @param {envelope.Envelope} message Envelope
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            Envelope.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.arrays || options.defaults)
-                    object.errors = [];
-                if (options.defaults) {
-                    object.chain = null;
-                    object.protocol = null;
-                    object.from = "";
-                    object.tx = null;
-                    object.receipt = null;
-                    object.args = null;
-                    object.metadata = null;
-                }
-                if (message.chain != null && message.hasOwnProperty("chain"))
-                    object.chain = $root.chain.Chain.toObject(message.chain, options);
-                if (message.protocol != null && message.hasOwnProperty("protocol"))
-                    object.protocol = $root.chain.Protocol.toObject(message.protocol, options);
-                if (message.from != null && message.hasOwnProperty("from"))
-                    object.from = message.from;
-                if (message.tx != null && message.hasOwnProperty("tx"))
-                    object.tx = $root.ethereum.Transaction.toObject(message.tx, options);
-                if (message.receipt != null && message.hasOwnProperty("receipt"))
-                    object.receipt = $root.ethereum.Receipt.toObject(message.receipt, options);
-                if (message.errors && message.errors.length) {
-                    object.errors = [];
-                    for (var j = 0; j < message.errors.length; ++j)
-                        object.errors[j] = $root.error.Error.toObject(message.errors[j], options);
-                }
-                if (message.args != null && message.hasOwnProperty("args"))
-                    object.args = $root.envelope.Args.toObject(message.args, options);
-                if (message.metadata != null && message.hasOwnProperty("metadata"))
-                    object.metadata = $root.envelope.Metadata.toObject(message.metadata, options);
-                return object;
-            };
-    
-            /**
-             * Converts this Envelope to JSON.
-             * @function toJSON
-             * @memberof envelope.Envelope
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            Envelope.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return Envelope;
-        })();
-    
-        return envelope;
-    })();
-    
     $root.error = (function() {
     
         /**
@@ -17530,341 +15610,21 @@
             return Receipt;
         })();
     
-        ethereum.TxData = (function() {
-    
-            /**
-             * Properties of a TxData.
-             * @memberof ethereum
-             * @interface ITxData
-             * @property {number|Long|null} [nonce] TxData nonce
-             * @property {string|null} [to] TxData to
-             * @property {string|null} [value] TxData value
-             * @property {number|Long|null} [gas] TxData gas
-             * @property {string|null} [gasPrice] TxData gasPrice
-             * @property {string|null} [data] TxData data
-             */
-    
-            /**
-             * Constructs a new TxData.
-             * @memberof ethereum
-             * @classdesc Represents a TxData.
-             * @implements ITxData
-             * @constructor
-             * @param {ethereum.ITxData=} [properties] Properties to set
-             */
-            function TxData(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * TxData nonce.
-             * @member {number|Long} nonce
-             * @memberof ethereum.TxData
-             * @instance
-             */
-            TxData.prototype.nonce = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-    
-            /**
-             * TxData to.
-             * @member {string} to
-             * @memberof ethereum.TxData
-             * @instance
-             */
-            TxData.prototype.to = "";
-    
-            /**
-             * TxData value.
-             * @member {string} value
-             * @memberof ethereum.TxData
-             * @instance
-             */
-            TxData.prototype.value = "";
-    
-            /**
-             * TxData gas.
-             * @member {number|Long} gas
-             * @memberof ethereum.TxData
-             * @instance
-             */
-            TxData.prototype.gas = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-    
-            /**
-             * TxData gasPrice.
-             * @member {string} gasPrice
-             * @memberof ethereum.TxData
-             * @instance
-             */
-            TxData.prototype.gasPrice = "";
-    
-            /**
-             * TxData data.
-             * @member {string} data
-             * @memberof ethereum.TxData
-             * @instance
-             */
-            TxData.prototype.data = "";
-    
-            /**
-             * Creates a new TxData instance using the specified properties.
-             * @function create
-             * @memberof ethereum.TxData
-             * @static
-             * @param {ethereum.ITxData=} [properties] Properties to set
-             * @returns {ethereum.TxData} TxData instance
-             */
-            TxData.create = function create(properties) {
-                return new TxData(properties);
-            };
-    
-            /**
-             * Encodes the specified TxData message. Does not implicitly {@link ethereum.TxData.verify|verify} messages.
-             * @function encode
-             * @memberof ethereum.TxData
-             * @static
-             * @param {ethereum.ITxData} message TxData message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            TxData.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.nonce != null && message.hasOwnProperty("nonce"))
-                    writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.nonce);
-                if (message.to != null && message.hasOwnProperty("to"))
-                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.to);
-                if (message.value != null && message.hasOwnProperty("value"))
-                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.value);
-                if (message.gas != null && message.hasOwnProperty("gas"))
-                    writer.uint32(/* id 4, wireType 0 =*/32).uint64(message.gas);
-                if (message.gasPrice != null && message.hasOwnProperty("gasPrice"))
-                    writer.uint32(/* id 5, wireType 2 =*/42).string(message.gasPrice);
-                if (message.data != null && message.hasOwnProperty("data"))
-                    writer.uint32(/* id 6, wireType 2 =*/50).string(message.data);
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified TxData message, length delimited. Does not implicitly {@link ethereum.TxData.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof ethereum.TxData
-             * @static
-             * @param {ethereum.ITxData} message TxData message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            TxData.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a TxData message from the specified reader or buffer.
-             * @function decode
-             * @memberof ethereum.TxData
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {ethereum.TxData} TxData
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            TxData.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ethereum.TxData();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.nonce = reader.uint64();
-                        break;
-                    case 2:
-                        message.to = reader.string();
-                        break;
-                    case 3:
-                        message.value = reader.string();
-                        break;
-                    case 4:
-                        message.gas = reader.uint64();
-                        break;
-                    case 5:
-                        message.gasPrice = reader.string();
-                        break;
-                    case 6:
-                        message.data = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a TxData message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof ethereum.TxData
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {ethereum.TxData} TxData
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            TxData.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a TxData message.
-             * @function verify
-             * @memberof ethereum.TxData
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            TxData.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.nonce != null && message.hasOwnProperty("nonce"))
-                    if (!$util.isInteger(message.nonce) && !(message.nonce && $util.isInteger(message.nonce.low) && $util.isInteger(message.nonce.high)))
-                        return "nonce: integer|Long expected";
-                if (message.to != null && message.hasOwnProperty("to"))
-                    if (!$util.isString(message.to))
-                        return "to: string expected";
-                if (message.value != null && message.hasOwnProperty("value"))
-                    if (!$util.isString(message.value))
-                        return "value: string expected";
-                if (message.gas != null && message.hasOwnProperty("gas"))
-                    if (!$util.isInteger(message.gas) && !(message.gas && $util.isInteger(message.gas.low) && $util.isInteger(message.gas.high)))
-                        return "gas: integer|Long expected";
-                if (message.gasPrice != null && message.hasOwnProperty("gasPrice"))
-                    if (!$util.isString(message.gasPrice))
-                        return "gasPrice: string expected";
-                if (message.data != null && message.hasOwnProperty("data"))
-                    if (!$util.isString(message.data))
-                        return "data: string expected";
-                return null;
-            };
-    
-            /**
-             * Creates a TxData message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof ethereum.TxData
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {ethereum.TxData} TxData
-             */
-            TxData.fromObject = function fromObject(object) {
-                if (object instanceof $root.ethereum.TxData)
-                    return object;
-                var message = new $root.ethereum.TxData();
-                if (object.nonce != null)
-                    if ($util.Long)
-                        (message.nonce = $util.Long.fromValue(object.nonce)).unsigned = true;
-                    else if (typeof object.nonce === "string")
-                        message.nonce = parseInt(object.nonce, 10);
-                    else if (typeof object.nonce === "number")
-                        message.nonce = object.nonce;
-                    else if (typeof object.nonce === "object")
-                        message.nonce = new $util.LongBits(object.nonce.low >>> 0, object.nonce.high >>> 0).toNumber(true);
-                if (object.to != null)
-                    message.to = String(object.to);
-                if (object.value != null)
-                    message.value = String(object.value);
-                if (object.gas != null)
-                    if ($util.Long)
-                        (message.gas = $util.Long.fromValue(object.gas)).unsigned = true;
-                    else if (typeof object.gas === "string")
-                        message.gas = parseInt(object.gas, 10);
-                    else if (typeof object.gas === "number")
-                        message.gas = object.gas;
-                    else if (typeof object.gas === "object")
-                        message.gas = new $util.LongBits(object.gas.low >>> 0, object.gas.high >>> 0).toNumber(true);
-                if (object.gasPrice != null)
-                    message.gasPrice = String(object.gasPrice);
-                if (object.data != null)
-                    message.data = String(object.data);
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a TxData message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof ethereum.TxData
-             * @static
-             * @param {ethereum.TxData} message TxData
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            TxData.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    if ($util.Long) {
-                        var long = new $util.Long(0, 0, true);
-                        object.nonce = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                    } else
-                        object.nonce = options.longs === String ? "0" : 0;
-                    object.to = "";
-                    object.value = "";
-                    if ($util.Long) {
-                        var long = new $util.Long(0, 0, true);
-                        object.gas = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                    } else
-                        object.gas = options.longs === String ? "0" : 0;
-                    object.gasPrice = "";
-                    object.data = "";
-                }
-                if (message.nonce != null && message.hasOwnProperty("nonce"))
-                    if (typeof message.nonce === "number")
-                        object.nonce = options.longs === String ? String(message.nonce) : message.nonce;
-                    else
-                        object.nonce = options.longs === String ? $util.Long.prototype.toString.call(message.nonce) : options.longs === Number ? new $util.LongBits(message.nonce.low >>> 0, message.nonce.high >>> 0).toNumber(true) : message.nonce;
-                if (message.to != null && message.hasOwnProperty("to"))
-                    object.to = message.to;
-                if (message.value != null && message.hasOwnProperty("value"))
-                    object.value = message.value;
-                if (message.gas != null && message.hasOwnProperty("gas"))
-                    if (typeof message.gas === "number")
-                        object.gas = options.longs === String ? String(message.gas) : message.gas;
-                    else
-                        object.gas = options.longs === String ? $util.Long.prototype.toString.call(message.gas) : options.longs === Number ? new $util.LongBits(message.gas.low >>> 0, message.gas.high >>> 0).toNumber(true) : message.gas;
-                if (message.gasPrice != null && message.hasOwnProperty("gasPrice"))
-                    object.gasPrice = message.gasPrice;
-                if (message.data != null && message.hasOwnProperty("data"))
-                    object.data = message.data;
-                return object;
-            };
-    
-            /**
-             * Converts this TxData to JSON.
-             * @function toJSON
-             * @memberof ethereum.TxData
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            TxData.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return TxData;
-        })();
-    
         ethereum.Transaction = (function() {
     
             /**
              * Properties of a Transaction.
              * @memberof ethereum
              * @interface ITransaction
-             * @property {ethereum.ITxData|null} [txData] Transaction txData
+             * @property {string|null} [from] Transaction from
+             * @property {string|null} [nonce] Transaction nonce
+             * @property {string|null} [to] Transaction to
+             * @property {string|null} [value] Transaction value
+             * @property {string|null} [gas] Transaction gas
+             * @property {string|null} [gasPrice] Transaction gasPrice
+             * @property {string|null} [data] Transaction data
              * @property {string|null} [raw] Transaction raw
-             * @property {string|null} [hash] Transaction hash
+             * @property {string|null} [txHash] Transaction txHash
              */
     
             /**
@@ -17883,12 +15643,60 @@
             }
     
             /**
-             * Transaction txData.
-             * @member {ethereum.ITxData|null|undefined} txData
+             * Transaction from.
+             * @member {string} from
              * @memberof ethereum.Transaction
              * @instance
              */
-            Transaction.prototype.txData = null;
+            Transaction.prototype.from = "";
+    
+            /**
+             * Transaction nonce.
+             * @member {string} nonce
+             * @memberof ethereum.Transaction
+             * @instance
+             */
+            Transaction.prototype.nonce = "";
+    
+            /**
+             * Transaction to.
+             * @member {string} to
+             * @memberof ethereum.Transaction
+             * @instance
+             */
+            Transaction.prototype.to = "";
+    
+            /**
+             * Transaction value.
+             * @member {string} value
+             * @memberof ethereum.Transaction
+             * @instance
+             */
+            Transaction.prototype.value = "";
+    
+            /**
+             * Transaction gas.
+             * @member {string} gas
+             * @memberof ethereum.Transaction
+             * @instance
+             */
+            Transaction.prototype.gas = "";
+    
+            /**
+             * Transaction gasPrice.
+             * @member {string} gasPrice
+             * @memberof ethereum.Transaction
+             * @instance
+             */
+            Transaction.prototype.gasPrice = "";
+    
+            /**
+             * Transaction data.
+             * @member {string} data
+             * @memberof ethereum.Transaction
+             * @instance
+             */
+            Transaction.prototype.data = "";
     
             /**
              * Transaction raw.
@@ -17899,12 +15707,12 @@
             Transaction.prototype.raw = "";
     
             /**
-             * Transaction hash.
-             * @member {string} hash
+             * Transaction txHash.
+             * @member {string} txHash
              * @memberof ethereum.Transaction
              * @instance
              */
-            Transaction.prototype.hash = "";
+            Transaction.prototype.txHash = "";
     
             /**
              * Creates a new Transaction instance using the specified properties.
@@ -17930,12 +15738,24 @@
             Transaction.encode = function encode(message, writer) {
                 if (!writer)
                     writer = $Writer.create();
-                if (message.txData != null && message.hasOwnProperty("txData"))
-                    $root.ethereum.TxData.encode(message.txData, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                if (message.from != null && message.hasOwnProperty("from"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.from);
+                if (message.nonce != null && message.hasOwnProperty("nonce"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.nonce);
+                if (message.to != null && message.hasOwnProperty("to"))
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.to);
+                if (message.value != null && message.hasOwnProperty("value"))
+                    writer.uint32(/* id 4, wireType 2 =*/34).string(message.value);
+                if (message.gas != null && message.hasOwnProperty("gas"))
+                    writer.uint32(/* id 5, wireType 2 =*/42).string(message.gas);
+                if (message.gasPrice != null && message.hasOwnProperty("gasPrice"))
+                    writer.uint32(/* id 6, wireType 2 =*/50).string(message.gasPrice);
+                if (message.data != null && message.hasOwnProperty("data"))
+                    writer.uint32(/* id 7, wireType 2 =*/58).string(message.data);
                 if (message.raw != null && message.hasOwnProperty("raw"))
-                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.raw);
-                if (message.hash != null && message.hasOwnProperty("hash"))
-                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.hash);
+                    writer.uint32(/* id 8, wireType 2 =*/66).string(message.raw);
+                if (message.txHash != null && message.hasOwnProperty("txHash"))
+                    writer.uint32(/* id 9, wireType 2 =*/74).string(message.txHash);
                 return writer;
             };
     
@@ -17971,13 +15791,31 @@
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1:
-                        message.txData = $root.ethereum.TxData.decode(reader, reader.uint32());
+                        message.from = reader.string();
                         break;
                     case 2:
-                        message.raw = reader.string();
+                        message.nonce = reader.string();
                         break;
                     case 3:
-                        message.hash = reader.string();
+                        message.to = reader.string();
+                        break;
+                    case 4:
+                        message.value = reader.string();
+                        break;
+                    case 5:
+                        message.gas = reader.string();
+                        break;
+                    case 6:
+                        message.gasPrice = reader.string();
+                        break;
+                    case 7:
+                        message.data = reader.string();
+                        break;
+                    case 8:
+                        message.raw = reader.string();
+                        break;
+                    case 9:
+                        message.txHash = reader.string();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -18014,17 +15852,33 @@
             Transaction.verify = function verify(message) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.txData != null && message.hasOwnProperty("txData")) {
-                    var error = $root.ethereum.TxData.verify(message.txData);
-                    if (error)
-                        return "txData." + error;
-                }
+                if (message.from != null && message.hasOwnProperty("from"))
+                    if (!$util.isString(message.from))
+                        return "from: string expected";
+                if (message.nonce != null && message.hasOwnProperty("nonce"))
+                    if (!$util.isString(message.nonce))
+                        return "nonce: string expected";
+                if (message.to != null && message.hasOwnProperty("to"))
+                    if (!$util.isString(message.to))
+                        return "to: string expected";
+                if (message.value != null && message.hasOwnProperty("value"))
+                    if (!$util.isString(message.value))
+                        return "value: string expected";
+                if (message.gas != null && message.hasOwnProperty("gas"))
+                    if (!$util.isString(message.gas))
+                        return "gas: string expected";
+                if (message.gasPrice != null && message.hasOwnProperty("gasPrice"))
+                    if (!$util.isString(message.gasPrice))
+                        return "gasPrice: string expected";
+                if (message.data != null && message.hasOwnProperty("data"))
+                    if (!$util.isString(message.data))
+                        return "data: string expected";
                 if (message.raw != null && message.hasOwnProperty("raw"))
                     if (!$util.isString(message.raw))
                         return "raw: string expected";
-                if (message.hash != null && message.hasOwnProperty("hash"))
-                    if (!$util.isString(message.hash))
-                        return "hash: string expected";
+                if (message.txHash != null && message.hasOwnProperty("txHash"))
+                    if (!$util.isString(message.txHash))
+                        return "txHash: string expected";
                 return null;
             };
     
@@ -18040,15 +15894,24 @@
                 if (object instanceof $root.ethereum.Transaction)
                     return object;
                 var message = new $root.ethereum.Transaction();
-                if (object.txData != null) {
-                    if (typeof object.txData !== "object")
-                        throw TypeError(".ethereum.Transaction.txData: object expected");
-                    message.txData = $root.ethereum.TxData.fromObject(object.txData);
-                }
+                if (object.from != null)
+                    message.from = String(object.from);
+                if (object.nonce != null)
+                    message.nonce = String(object.nonce);
+                if (object.to != null)
+                    message.to = String(object.to);
+                if (object.value != null)
+                    message.value = String(object.value);
+                if (object.gas != null)
+                    message.gas = String(object.gas);
+                if (object.gasPrice != null)
+                    message.gasPrice = String(object.gasPrice);
+                if (object.data != null)
+                    message.data = String(object.data);
                 if (object.raw != null)
                     message.raw = String(object.raw);
-                if (object.hash != null)
-                    message.hash = String(object.hash);
+                if (object.txHash != null)
+                    message.txHash = String(object.txHash);
                 return message;
             };
     
@@ -18066,16 +15929,34 @@
                     options = {};
                 var object = {};
                 if (options.defaults) {
-                    object.txData = null;
+                    object.from = "";
+                    object.nonce = "";
+                    object.to = "";
+                    object.value = "";
+                    object.gas = "";
+                    object.gasPrice = "";
+                    object.data = "";
                     object.raw = "";
-                    object.hash = "";
+                    object.txHash = "";
                 }
-                if (message.txData != null && message.hasOwnProperty("txData"))
-                    object.txData = $root.ethereum.TxData.toObject(message.txData, options);
+                if (message.from != null && message.hasOwnProperty("from"))
+                    object.from = message.from;
+                if (message.nonce != null && message.hasOwnProperty("nonce"))
+                    object.nonce = message.nonce;
+                if (message.to != null && message.hasOwnProperty("to"))
+                    object.to = message.to;
+                if (message.value != null && message.hasOwnProperty("value"))
+                    object.value = message.value;
+                if (message.gas != null && message.hasOwnProperty("gas"))
+                    object.gas = message.gas;
+                if (message.gasPrice != null && message.hasOwnProperty("gasPrice"))
+                    object.gasPrice = message.gasPrice;
+                if (message.data != null && message.hasOwnProperty("data"))
+                    object.data = message.data;
                 if (message.raw != null && message.hasOwnProperty("raw"))
                     object.raw = message.raw;
-                if (message.hash != null && message.hasOwnProperty("hash"))
-                    object.hash = message.hash;
+                if (message.txHash != null && message.hasOwnProperty("txHash"))
+                    object.txHash = message.txHash;
                 return object;
             };
     
@@ -18094,6 +15975,1597 @@
         })();
     
         return ethereum;
+    })();
+    
+    $root.tx = (function() {
+    
+        /**
+         * Namespace tx.
+         * @exports tx
+         * @namespace
+         */
+        var tx = {};
+    
+        tx.TxRequest = (function() {
+    
+            /**
+             * Properties of a TxRequest.
+             * @memberof tx
+             * @interface ITxRequest
+             * @property {Object.<string,string>|null} [headers] TxRequest headers
+             * @property {string|null} [chain] TxRequest chain
+             * @property {tx.Method|null} [method] TxRequest method
+             * @property {tx.IParams|null} [params] TxRequest params
+             * @property {string|null} [id] TxRequest id
+             * @property {Object.<string,string>|null} [contextLabels] TxRequest contextLabels
+             */
+    
+            /**
+             * Constructs a new TxRequest.
+             * @memberof tx
+             * @classdesc Represents a TxRequest.
+             * @implements ITxRequest
+             * @constructor
+             * @param {tx.ITxRequest=} [properties] Properties to set
+             */
+            function TxRequest(properties) {
+                this.headers = {};
+                this.contextLabels = {};
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * TxRequest headers.
+             * @member {Object.<string,string>} headers
+             * @memberof tx.TxRequest
+             * @instance
+             */
+            TxRequest.prototype.headers = $util.emptyObject;
+    
+            /**
+             * TxRequest chain.
+             * @member {string} chain
+             * @memberof tx.TxRequest
+             * @instance
+             */
+            TxRequest.prototype.chain = "";
+    
+            /**
+             * TxRequest method.
+             * @member {tx.Method} method
+             * @memberof tx.TxRequest
+             * @instance
+             */
+            TxRequest.prototype.method = 0;
+    
+            /**
+             * TxRequest params.
+             * @member {tx.IParams|null|undefined} params
+             * @memberof tx.TxRequest
+             * @instance
+             */
+            TxRequest.prototype.params = null;
+    
+            /**
+             * TxRequest id.
+             * @member {string} id
+             * @memberof tx.TxRequest
+             * @instance
+             */
+            TxRequest.prototype.id = "";
+    
+            /**
+             * TxRequest contextLabels.
+             * @member {Object.<string,string>} contextLabels
+             * @memberof tx.TxRequest
+             * @instance
+             */
+            TxRequest.prototype.contextLabels = $util.emptyObject;
+    
+            /**
+             * Creates a new TxRequest instance using the specified properties.
+             * @function create
+             * @memberof tx.TxRequest
+             * @static
+             * @param {tx.ITxRequest=} [properties] Properties to set
+             * @returns {tx.TxRequest} TxRequest instance
+             */
+            TxRequest.create = function create(properties) {
+                return new TxRequest(properties);
+            };
+    
+            /**
+             * Encodes the specified TxRequest message. Does not implicitly {@link tx.TxRequest.verify|verify} messages.
+             * @function encode
+             * @memberof tx.TxRequest
+             * @static
+             * @param {tx.ITxRequest} message TxRequest message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            TxRequest.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.headers != null && message.hasOwnProperty("headers"))
+                    for (var keys = Object.keys(message.headers), i = 0; i < keys.length; ++i)
+                        writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.headers[keys[i]]).ldelim();
+                if (message.chain != null && message.hasOwnProperty("chain"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.chain);
+                if (message.method != null && message.hasOwnProperty("method"))
+                    writer.uint32(/* id 3, wireType 0 =*/24).int32(message.method);
+                if (message.params != null && message.hasOwnProperty("params"))
+                    $root.tx.Params.encode(message.params, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                if (message.id != null && message.hasOwnProperty("id"))
+                    writer.uint32(/* id 5, wireType 2 =*/42).string(message.id);
+                if (message.contextLabels != null && message.hasOwnProperty("contextLabels"))
+                    for (var keys = Object.keys(message.contextLabels), i = 0; i < keys.length; ++i)
+                        writer.uint32(/* id 6, wireType 2 =*/50).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.contextLabels[keys[i]]).ldelim();
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified TxRequest message, length delimited. Does not implicitly {@link tx.TxRequest.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof tx.TxRequest
+             * @static
+             * @param {tx.ITxRequest} message TxRequest message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            TxRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a TxRequest message from the specified reader or buffer.
+             * @function decode
+             * @memberof tx.TxRequest
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {tx.TxRequest} TxRequest
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            TxRequest.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.tx.TxRequest(), key;
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        reader.skip().pos++;
+                        if (message.headers === $util.emptyObject)
+                            message.headers = {};
+                        key = reader.string();
+                        reader.pos++;
+                        message.headers[key] = reader.string();
+                        break;
+                    case 2:
+                        message.chain = reader.string();
+                        break;
+                    case 3:
+                        message.method = reader.int32();
+                        break;
+                    case 4:
+                        message.params = $root.tx.Params.decode(reader, reader.uint32());
+                        break;
+                    case 5:
+                        message.id = reader.string();
+                        break;
+                    case 6:
+                        reader.skip().pos++;
+                        if (message.contextLabels === $util.emptyObject)
+                            message.contextLabels = {};
+                        key = reader.string();
+                        reader.pos++;
+                        message.contextLabels[key] = reader.string();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a TxRequest message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof tx.TxRequest
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {tx.TxRequest} TxRequest
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            TxRequest.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a TxRequest message.
+             * @function verify
+             * @memberof tx.TxRequest
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            TxRequest.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.headers != null && message.hasOwnProperty("headers")) {
+                    if (!$util.isObject(message.headers))
+                        return "headers: object expected";
+                    var key = Object.keys(message.headers);
+                    for (var i = 0; i < key.length; ++i)
+                        if (!$util.isString(message.headers[key[i]]))
+                            return "headers: string{k:string} expected";
+                }
+                if (message.chain != null && message.hasOwnProperty("chain"))
+                    if (!$util.isString(message.chain))
+                        return "chain: string expected";
+                if (message.method != null && message.hasOwnProperty("method"))
+                    switch (message.method) {
+                    default:
+                        return "method: enum value expected";
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                        break;
+                    }
+                if (message.params != null && message.hasOwnProperty("params")) {
+                    var error = $root.tx.Params.verify(message.params);
+                    if (error)
+                        return "params." + error;
+                }
+                if (message.id != null && message.hasOwnProperty("id"))
+                    if (!$util.isString(message.id))
+                        return "id: string expected";
+                if (message.contextLabels != null && message.hasOwnProperty("contextLabels")) {
+                    if (!$util.isObject(message.contextLabels))
+                        return "contextLabels: object expected";
+                    var key = Object.keys(message.contextLabels);
+                    for (var i = 0; i < key.length; ++i)
+                        if (!$util.isString(message.contextLabels[key[i]]))
+                            return "contextLabels: string{k:string} expected";
+                }
+                return null;
+            };
+    
+            /**
+             * Creates a TxRequest message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof tx.TxRequest
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {tx.TxRequest} TxRequest
+             */
+            TxRequest.fromObject = function fromObject(object) {
+                if (object instanceof $root.tx.TxRequest)
+                    return object;
+                var message = new $root.tx.TxRequest();
+                if (object.headers) {
+                    if (typeof object.headers !== "object")
+                        throw TypeError(".tx.TxRequest.headers: object expected");
+                    message.headers = {};
+                    for (var keys = Object.keys(object.headers), i = 0; i < keys.length; ++i)
+                        message.headers[keys[i]] = String(object.headers[keys[i]]);
+                }
+                if (object.chain != null)
+                    message.chain = String(object.chain);
+                switch (object.method) {
+                case "ETH_SENDRAWTRANSACTION":
+                case 0:
+                    message.method = 0;
+                    break;
+                case "ETH_SENDPRIVATETRANSACTION":
+                case 1:
+                    message.method = 1;
+                    break;
+                case "ETH_SENDRAWPRIVATETRANSACTION":
+                case 2:
+                    message.method = 2;
+                    break;
+                case "EEA_SENDPRIVATETRANSACTION":
+                case 3:
+                    message.method = 3;
+                    break;
+                }
+                if (object.params != null) {
+                    if (typeof object.params !== "object")
+                        throw TypeError(".tx.TxRequest.params: object expected");
+                    message.params = $root.tx.Params.fromObject(object.params);
+                }
+                if (object.id != null)
+                    message.id = String(object.id);
+                if (object.contextLabels) {
+                    if (typeof object.contextLabels !== "object")
+                        throw TypeError(".tx.TxRequest.contextLabels: object expected");
+                    message.contextLabels = {};
+                    for (var keys = Object.keys(object.contextLabels), i = 0; i < keys.length; ++i)
+                        message.contextLabels[keys[i]] = String(object.contextLabels[keys[i]]);
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a TxRequest message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof tx.TxRequest
+             * @static
+             * @param {tx.TxRequest} message TxRequest
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            TxRequest.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.objects || options.defaults) {
+                    object.headers = {};
+                    object.contextLabels = {};
+                }
+                if (options.defaults) {
+                    object.chain = "";
+                    object.method = options.enums === String ? "ETH_SENDRAWTRANSACTION" : 0;
+                    object.params = null;
+                    object.id = "";
+                }
+                var keys2;
+                if (message.headers && (keys2 = Object.keys(message.headers)).length) {
+                    object.headers = {};
+                    for (var j = 0; j < keys2.length; ++j)
+                        object.headers[keys2[j]] = message.headers[keys2[j]];
+                }
+                if (message.chain != null && message.hasOwnProperty("chain"))
+                    object.chain = message.chain;
+                if (message.method != null && message.hasOwnProperty("method"))
+                    object.method = options.enums === String ? $root.tx.Method[message.method] : message.method;
+                if (message.params != null && message.hasOwnProperty("params"))
+                    object.params = $root.tx.Params.toObject(message.params, options);
+                if (message.id != null && message.hasOwnProperty("id"))
+                    object.id = message.id;
+                if (message.contextLabels && (keys2 = Object.keys(message.contextLabels)).length) {
+                    object.contextLabels = {};
+                    for (var j = 0; j < keys2.length; ++j)
+                        object.contextLabels[keys2[j]] = message.contextLabels[keys2[j]];
+                }
+                return object;
+            };
+    
+            /**
+             * Converts this TxRequest to JSON.
+             * @function toJSON
+             * @memberof tx.TxRequest
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            TxRequest.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return TxRequest;
+        })();
+    
+        tx.TxEnvelope = (function() {
+    
+            /**
+             * Properties of a TxEnvelope.
+             * @memberof tx
+             * @interface ITxEnvelope
+             * @property {tx.ITxRequest|null} [txRequest] TxEnvelope txRequest
+             * @property {tx.ITxResponse|null} [txResponse] TxEnvelope txResponse
+             * @property {Object.<string,string>|null} [internalLabels] TxEnvelope internalLabels
+             */
+    
+            /**
+             * Constructs a new TxEnvelope.
+             * @memberof tx
+             * @classdesc Represents a TxEnvelope.
+             * @implements ITxEnvelope
+             * @constructor
+             * @param {tx.ITxEnvelope=} [properties] Properties to set
+             */
+            function TxEnvelope(properties) {
+                this.internalLabels = {};
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * TxEnvelope txRequest.
+             * @member {tx.ITxRequest|null|undefined} txRequest
+             * @memberof tx.TxEnvelope
+             * @instance
+             */
+            TxEnvelope.prototype.txRequest = null;
+    
+            /**
+             * TxEnvelope txResponse.
+             * @member {tx.ITxResponse|null|undefined} txResponse
+             * @memberof tx.TxEnvelope
+             * @instance
+             */
+            TxEnvelope.prototype.txResponse = null;
+    
+            /**
+             * TxEnvelope internalLabels.
+             * @member {Object.<string,string>} internalLabels
+             * @memberof tx.TxEnvelope
+             * @instance
+             */
+            TxEnvelope.prototype.internalLabels = $util.emptyObject;
+    
+            // OneOf field names bound to virtual getters and setters
+            var $oneOfFields;
+    
+            /**
+             * TxEnvelope msg.
+             * @member {"txRequest"|"txResponse"|undefined} msg
+             * @memberof tx.TxEnvelope
+             * @instance
+             */
+            Object.defineProperty(TxEnvelope.prototype, "msg", {
+                get: $util.oneOfGetter($oneOfFields = ["txRequest", "txResponse"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+    
+            /**
+             * Creates a new TxEnvelope instance using the specified properties.
+             * @function create
+             * @memberof tx.TxEnvelope
+             * @static
+             * @param {tx.ITxEnvelope=} [properties] Properties to set
+             * @returns {tx.TxEnvelope} TxEnvelope instance
+             */
+            TxEnvelope.create = function create(properties) {
+                return new TxEnvelope(properties);
+            };
+    
+            /**
+             * Encodes the specified TxEnvelope message. Does not implicitly {@link tx.TxEnvelope.verify|verify} messages.
+             * @function encode
+             * @memberof tx.TxEnvelope
+             * @static
+             * @param {tx.ITxEnvelope} message TxEnvelope message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            TxEnvelope.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.internalLabels != null && message.hasOwnProperty("internalLabels"))
+                    for (var keys = Object.keys(message.internalLabels), i = 0; i < keys.length; ++i)
+                        writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.internalLabels[keys[i]]).ldelim();
+                if (message.txRequest != null && message.hasOwnProperty("txRequest"))
+                    $root.tx.TxRequest.encode(message.txRequest, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                if (message.txResponse != null && message.hasOwnProperty("txResponse"))
+                    $root.tx.TxResponse.encode(message.txResponse, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified TxEnvelope message, length delimited. Does not implicitly {@link tx.TxEnvelope.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof tx.TxEnvelope
+             * @static
+             * @param {tx.ITxEnvelope} message TxEnvelope message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            TxEnvelope.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a TxEnvelope message from the specified reader or buffer.
+             * @function decode
+             * @memberof tx.TxEnvelope
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {tx.TxEnvelope} TxEnvelope
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            TxEnvelope.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.tx.TxEnvelope(), key;
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 2:
+                        message.txRequest = $root.tx.TxRequest.decode(reader, reader.uint32());
+                        break;
+                    case 3:
+                        message.txResponse = $root.tx.TxResponse.decode(reader, reader.uint32());
+                        break;
+                    case 1:
+                        reader.skip().pos++;
+                        if (message.internalLabels === $util.emptyObject)
+                            message.internalLabels = {};
+                        key = reader.string();
+                        reader.pos++;
+                        message.internalLabels[key] = reader.string();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a TxEnvelope message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof tx.TxEnvelope
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {tx.TxEnvelope} TxEnvelope
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            TxEnvelope.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a TxEnvelope message.
+             * @function verify
+             * @memberof tx.TxEnvelope
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            TxEnvelope.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                var properties = {};
+                if (message.txRequest != null && message.hasOwnProperty("txRequest")) {
+                    properties.msg = 1;
+                    {
+                        var error = $root.tx.TxRequest.verify(message.txRequest);
+                        if (error)
+                            return "txRequest." + error;
+                    }
+                }
+                if (message.txResponse != null && message.hasOwnProperty("txResponse")) {
+                    if (properties.msg === 1)
+                        return "msg: multiple values";
+                    properties.msg = 1;
+                    {
+                        var error = $root.tx.TxResponse.verify(message.txResponse);
+                        if (error)
+                            return "txResponse." + error;
+                    }
+                }
+                if (message.internalLabels != null && message.hasOwnProperty("internalLabels")) {
+                    if (!$util.isObject(message.internalLabels))
+                        return "internalLabels: object expected";
+                    var key = Object.keys(message.internalLabels);
+                    for (var i = 0; i < key.length; ++i)
+                        if (!$util.isString(message.internalLabels[key[i]]))
+                            return "internalLabels: string{k:string} expected";
+                }
+                return null;
+            };
+    
+            /**
+             * Creates a TxEnvelope message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof tx.TxEnvelope
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {tx.TxEnvelope} TxEnvelope
+             */
+            TxEnvelope.fromObject = function fromObject(object) {
+                if (object instanceof $root.tx.TxEnvelope)
+                    return object;
+                var message = new $root.tx.TxEnvelope();
+                if (object.txRequest != null) {
+                    if (typeof object.txRequest !== "object")
+                        throw TypeError(".tx.TxEnvelope.txRequest: object expected");
+                    message.txRequest = $root.tx.TxRequest.fromObject(object.txRequest);
+                }
+                if (object.txResponse != null) {
+                    if (typeof object.txResponse !== "object")
+                        throw TypeError(".tx.TxEnvelope.txResponse: object expected");
+                    message.txResponse = $root.tx.TxResponse.fromObject(object.txResponse);
+                }
+                if (object.internalLabels) {
+                    if (typeof object.internalLabels !== "object")
+                        throw TypeError(".tx.TxEnvelope.internalLabels: object expected");
+                    message.internalLabels = {};
+                    for (var keys = Object.keys(object.internalLabels), i = 0; i < keys.length; ++i)
+                        message.internalLabels[keys[i]] = String(object.internalLabels[keys[i]]);
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a TxEnvelope message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof tx.TxEnvelope
+             * @static
+             * @param {tx.TxEnvelope} message TxEnvelope
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            TxEnvelope.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.objects || options.defaults)
+                    object.internalLabels = {};
+                var keys2;
+                if (message.internalLabels && (keys2 = Object.keys(message.internalLabels)).length) {
+                    object.internalLabels = {};
+                    for (var j = 0; j < keys2.length; ++j)
+                        object.internalLabels[keys2[j]] = message.internalLabels[keys2[j]];
+                }
+                if (message.txRequest != null && message.hasOwnProperty("txRequest")) {
+                    object.txRequest = $root.tx.TxRequest.toObject(message.txRequest, options);
+                    if (options.oneofs)
+                        object.msg = "txRequest";
+                }
+                if (message.txResponse != null && message.hasOwnProperty("txResponse")) {
+                    object.txResponse = $root.tx.TxResponse.toObject(message.txResponse, options);
+                    if (options.oneofs)
+                        object.msg = "txResponse";
+                }
+                return object;
+            };
+    
+            /**
+             * Converts this TxEnvelope to JSON.
+             * @function toJSON
+             * @memberof tx.TxEnvelope
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            TxEnvelope.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return TxEnvelope;
+        })();
+    
+        /**
+         * Method enum.
+         * @name tx.Method
+         * @enum {string}
+         * @property {number} ETH_SENDRAWTRANSACTION=0 ETH_SENDRAWTRANSACTION value
+         * @property {number} ETH_SENDPRIVATETRANSACTION=1 ETH_SENDPRIVATETRANSACTION value
+         * @property {number} ETH_SENDRAWPRIVATETRANSACTION=2 ETH_SENDRAWPRIVATETRANSACTION value
+         * @property {number} EEA_SENDPRIVATETRANSACTION=3 EEA_SENDPRIVATETRANSACTION value
+         */
+        tx.Method = (function() {
+            var valuesById = {}, values = Object.create(valuesById);
+            values[valuesById[0] = "ETH_SENDRAWTRANSACTION"] = 0;
+            values[valuesById[1] = "ETH_SENDPRIVATETRANSACTION"] = 1;
+            values[valuesById[2] = "ETH_SENDRAWPRIVATETRANSACTION"] = 2;
+            values[valuesById[3] = "EEA_SENDPRIVATETRANSACTION"] = 3;
+            return values;
+        })();
+    
+        tx.Params = (function() {
+    
+            /**
+             * Properties of a Params.
+             * @memberof tx
+             * @interface IParams
+             * @property {string|null} [from] Params from
+             * @property {string|null} [to] Params to
+             * @property {string|null} [gas] Params gas
+             * @property {string|null} [gasPrice] Params gasPrice
+             * @property {string|null} [value] Params value
+             * @property {string|null} [nonce] Params nonce
+             * @property {string|null} [data] Params data
+             * @property {string|null} [contract] Params contract
+             * @property {string|null} [methodSignature] Params methodSignature
+             * @property {Array.<string>|null} [args] Params args
+             * @property {string|null} [raw] Params raw
+             * @property {Array.<string>|null} [privateFor] Params privateFor
+             * @property {string|null} [privateFrom] Params privateFrom
+             * @property {string|null} [privateTxType] Params privateTxType
+             * @property {string|null} [privacyGroupId] Params privacyGroupId
+             */
+    
+            /**
+             * Constructs a new Params.
+             * @memberof tx
+             * @classdesc Represents a Params.
+             * @implements IParams
+             * @constructor
+             * @param {tx.IParams=} [properties] Properties to set
+             */
+            function Params(properties) {
+                this.args = [];
+                this.privateFor = [];
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * Params from.
+             * @member {string} from
+             * @memberof tx.Params
+             * @instance
+             */
+            Params.prototype.from = "";
+    
+            /**
+             * Params to.
+             * @member {string} to
+             * @memberof tx.Params
+             * @instance
+             */
+            Params.prototype.to = "";
+    
+            /**
+             * Params gas.
+             * @member {string} gas
+             * @memberof tx.Params
+             * @instance
+             */
+            Params.prototype.gas = "";
+    
+            /**
+             * Params gasPrice.
+             * @member {string} gasPrice
+             * @memberof tx.Params
+             * @instance
+             */
+            Params.prototype.gasPrice = "";
+    
+            /**
+             * Params value.
+             * @member {string} value
+             * @memberof tx.Params
+             * @instance
+             */
+            Params.prototype.value = "";
+    
+            /**
+             * Params nonce.
+             * @member {string} nonce
+             * @memberof tx.Params
+             * @instance
+             */
+            Params.prototype.nonce = "";
+    
+            /**
+             * Params data.
+             * @member {string} data
+             * @memberof tx.Params
+             * @instance
+             */
+            Params.prototype.data = "";
+    
+            /**
+             * Params contract.
+             * @member {string} contract
+             * @memberof tx.Params
+             * @instance
+             */
+            Params.prototype.contract = "";
+    
+            /**
+             * Params methodSignature.
+             * @member {string} methodSignature
+             * @memberof tx.Params
+             * @instance
+             */
+            Params.prototype.methodSignature = "";
+    
+            /**
+             * Params args.
+             * @member {Array.<string>} args
+             * @memberof tx.Params
+             * @instance
+             */
+            Params.prototype.args = $util.emptyArray;
+    
+            /**
+             * Params raw.
+             * @member {string} raw
+             * @memberof tx.Params
+             * @instance
+             */
+            Params.prototype.raw = "";
+    
+            /**
+             * Params privateFor.
+             * @member {Array.<string>} privateFor
+             * @memberof tx.Params
+             * @instance
+             */
+            Params.prototype.privateFor = $util.emptyArray;
+    
+            /**
+             * Params privateFrom.
+             * @member {string} privateFrom
+             * @memberof tx.Params
+             * @instance
+             */
+            Params.prototype.privateFrom = "";
+    
+            /**
+             * Params privateTxType.
+             * @member {string} privateTxType
+             * @memberof tx.Params
+             * @instance
+             */
+            Params.prototype.privateTxType = "";
+    
+            /**
+             * Params privacyGroupId.
+             * @member {string} privacyGroupId
+             * @memberof tx.Params
+             * @instance
+             */
+            Params.prototype.privacyGroupId = "";
+    
+            /**
+             * Creates a new Params instance using the specified properties.
+             * @function create
+             * @memberof tx.Params
+             * @static
+             * @param {tx.IParams=} [properties] Properties to set
+             * @returns {tx.Params} Params instance
+             */
+            Params.create = function create(properties) {
+                return new Params(properties);
+            };
+    
+            /**
+             * Encodes the specified Params message. Does not implicitly {@link tx.Params.verify|verify} messages.
+             * @function encode
+             * @memberof tx.Params
+             * @static
+             * @param {tx.IParams} message Params message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Params.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.from != null && message.hasOwnProperty("from"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.from);
+                if (message.to != null && message.hasOwnProperty("to"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.to);
+                if (message.gas != null && message.hasOwnProperty("gas"))
+                    writer.uint32(/* id 4, wireType 2 =*/34).string(message.gas);
+                if (message.gasPrice != null && message.hasOwnProperty("gasPrice"))
+                    writer.uint32(/* id 5, wireType 2 =*/42).string(message.gasPrice);
+                if (message.value != null && message.hasOwnProperty("value"))
+                    writer.uint32(/* id 6, wireType 2 =*/50).string(message.value);
+                if (message.nonce != null && message.hasOwnProperty("nonce"))
+                    writer.uint32(/* id 7, wireType 2 =*/58).string(message.nonce);
+                if (message.data != null && message.hasOwnProperty("data"))
+                    writer.uint32(/* id 8, wireType 2 =*/66).string(message.data);
+                if (message.contract != null && message.hasOwnProperty("contract"))
+                    writer.uint32(/* id 9, wireType 2 =*/74).string(message.contract);
+                if (message.methodSignature != null && message.hasOwnProperty("methodSignature"))
+                    writer.uint32(/* id 10, wireType 2 =*/82).string(message.methodSignature);
+                if (message.args != null && message.args.length)
+                    for (var i = 0; i < message.args.length; ++i)
+                        writer.uint32(/* id 11, wireType 2 =*/90).string(message.args[i]);
+                if (message.raw != null && message.hasOwnProperty("raw"))
+                    writer.uint32(/* id 12, wireType 2 =*/98).string(message.raw);
+                if (message.privateFor != null && message.privateFor.length)
+                    for (var i = 0; i < message.privateFor.length; ++i)
+                        writer.uint32(/* id 13, wireType 2 =*/106).string(message.privateFor[i]);
+                if (message.privateFrom != null && message.hasOwnProperty("privateFrom"))
+                    writer.uint32(/* id 14, wireType 2 =*/114).string(message.privateFrom);
+                if (message.privateTxType != null && message.hasOwnProperty("privateTxType"))
+                    writer.uint32(/* id 15, wireType 2 =*/122).string(message.privateTxType);
+                if (message.privacyGroupId != null && message.hasOwnProperty("privacyGroupId"))
+                    writer.uint32(/* id 16, wireType 2 =*/130).string(message.privacyGroupId);
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified Params message, length delimited. Does not implicitly {@link tx.Params.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof tx.Params
+             * @static
+             * @param {tx.IParams} message Params message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Params.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a Params message from the specified reader or buffer.
+             * @function decode
+             * @memberof tx.Params
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {tx.Params} Params
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Params.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.tx.Params();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.from = reader.string();
+                        break;
+                    case 2:
+                        message.to = reader.string();
+                        break;
+                    case 4:
+                        message.gas = reader.string();
+                        break;
+                    case 5:
+                        message.gasPrice = reader.string();
+                        break;
+                    case 6:
+                        message.value = reader.string();
+                        break;
+                    case 7:
+                        message.nonce = reader.string();
+                        break;
+                    case 8:
+                        message.data = reader.string();
+                        break;
+                    case 9:
+                        message.contract = reader.string();
+                        break;
+                    case 10:
+                        message.methodSignature = reader.string();
+                        break;
+                    case 11:
+                        if (!(message.args && message.args.length))
+                            message.args = [];
+                        message.args.push(reader.string());
+                        break;
+                    case 12:
+                        message.raw = reader.string();
+                        break;
+                    case 13:
+                        if (!(message.privateFor && message.privateFor.length))
+                            message.privateFor = [];
+                        message.privateFor.push(reader.string());
+                        break;
+                    case 14:
+                        message.privateFrom = reader.string();
+                        break;
+                    case 15:
+                        message.privateTxType = reader.string();
+                        break;
+                    case 16:
+                        message.privacyGroupId = reader.string();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a Params message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof tx.Params
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {tx.Params} Params
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Params.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a Params message.
+             * @function verify
+             * @memberof tx.Params
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            Params.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.from != null && message.hasOwnProperty("from"))
+                    if (!$util.isString(message.from))
+                        return "from: string expected";
+                if (message.to != null && message.hasOwnProperty("to"))
+                    if (!$util.isString(message.to))
+                        return "to: string expected";
+                if (message.gas != null && message.hasOwnProperty("gas"))
+                    if (!$util.isString(message.gas))
+                        return "gas: string expected";
+                if (message.gasPrice != null && message.hasOwnProperty("gasPrice"))
+                    if (!$util.isString(message.gasPrice))
+                        return "gasPrice: string expected";
+                if (message.value != null && message.hasOwnProperty("value"))
+                    if (!$util.isString(message.value))
+                        return "value: string expected";
+                if (message.nonce != null && message.hasOwnProperty("nonce"))
+                    if (!$util.isString(message.nonce))
+                        return "nonce: string expected";
+                if (message.data != null && message.hasOwnProperty("data"))
+                    if (!$util.isString(message.data))
+                        return "data: string expected";
+                if (message.contract != null && message.hasOwnProperty("contract"))
+                    if (!$util.isString(message.contract))
+                        return "contract: string expected";
+                if (message.methodSignature != null && message.hasOwnProperty("methodSignature"))
+                    if (!$util.isString(message.methodSignature))
+                        return "methodSignature: string expected";
+                if (message.args != null && message.hasOwnProperty("args")) {
+                    if (!Array.isArray(message.args))
+                        return "args: array expected";
+                    for (var i = 0; i < message.args.length; ++i)
+                        if (!$util.isString(message.args[i]))
+                            return "args: string[] expected";
+                }
+                if (message.raw != null && message.hasOwnProperty("raw"))
+                    if (!$util.isString(message.raw))
+                        return "raw: string expected";
+                if (message.privateFor != null && message.hasOwnProperty("privateFor")) {
+                    if (!Array.isArray(message.privateFor))
+                        return "privateFor: array expected";
+                    for (var i = 0; i < message.privateFor.length; ++i)
+                        if (!$util.isString(message.privateFor[i]))
+                            return "privateFor: string[] expected";
+                }
+                if (message.privateFrom != null && message.hasOwnProperty("privateFrom"))
+                    if (!$util.isString(message.privateFrom))
+                        return "privateFrom: string expected";
+                if (message.privateTxType != null && message.hasOwnProperty("privateTxType"))
+                    if (!$util.isString(message.privateTxType))
+                        return "privateTxType: string expected";
+                if (message.privacyGroupId != null && message.hasOwnProperty("privacyGroupId"))
+                    if (!$util.isString(message.privacyGroupId))
+                        return "privacyGroupId: string expected";
+                return null;
+            };
+    
+            /**
+             * Creates a Params message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof tx.Params
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {tx.Params} Params
+             */
+            Params.fromObject = function fromObject(object) {
+                if (object instanceof $root.tx.Params)
+                    return object;
+                var message = new $root.tx.Params();
+                if (object.from != null)
+                    message.from = String(object.from);
+                if (object.to != null)
+                    message.to = String(object.to);
+                if (object.gas != null)
+                    message.gas = String(object.gas);
+                if (object.gasPrice != null)
+                    message.gasPrice = String(object.gasPrice);
+                if (object.value != null)
+                    message.value = String(object.value);
+                if (object.nonce != null)
+                    message.nonce = String(object.nonce);
+                if (object.data != null)
+                    message.data = String(object.data);
+                if (object.contract != null)
+                    message.contract = String(object.contract);
+                if (object.methodSignature != null)
+                    message.methodSignature = String(object.methodSignature);
+                if (object.args) {
+                    if (!Array.isArray(object.args))
+                        throw TypeError(".tx.Params.args: array expected");
+                    message.args = [];
+                    for (var i = 0; i < object.args.length; ++i)
+                        message.args[i] = String(object.args[i]);
+                }
+                if (object.raw != null)
+                    message.raw = String(object.raw);
+                if (object.privateFor) {
+                    if (!Array.isArray(object.privateFor))
+                        throw TypeError(".tx.Params.privateFor: array expected");
+                    message.privateFor = [];
+                    for (var i = 0; i < object.privateFor.length; ++i)
+                        message.privateFor[i] = String(object.privateFor[i]);
+                }
+                if (object.privateFrom != null)
+                    message.privateFrom = String(object.privateFrom);
+                if (object.privateTxType != null)
+                    message.privateTxType = String(object.privateTxType);
+                if (object.privacyGroupId != null)
+                    message.privacyGroupId = String(object.privacyGroupId);
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a Params message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof tx.Params
+             * @static
+             * @param {tx.Params} message Params
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            Params.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults) {
+                    object.args = [];
+                    object.privateFor = [];
+                }
+                if (options.defaults) {
+                    object.from = "";
+                    object.to = "";
+                    object.gas = "";
+                    object.gasPrice = "";
+                    object.value = "";
+                    object.nonce = "";
+                    object.data = "";
+                    object.contract = "";
+                    object.methodSignature = "";
+                    object.raw = "";
+                    object.privateFrom = "";
+                    object.privateTxType = "";
+                    object.privacyGroupId = "";
+                }
+                if (message.from != null && message.hasOwnProperty("from"))
+                    object.from = message.from;
+                if (message.to != null && message.hasOwnProperty("to"))
+                    object.to = message.to;
+                if (message.gas != null && message.hasOwnProperty("gas"))
+                    object.gas = message.gas;
+                if (message.gasPrice != null && message.hasOwnProperty("gasPrice"))
+                    object.gasPrice = message.gasPrice;
+                if (message.value != null && message.hasOwnProperty("value"))
+                    object.value = message.value;
+                if (message.nonce != null && message.hasOwnProperty("nonce"))
+                    object.nonce = message.nonce;
+                if (message.data != null && message.hasOwnProperty("data"))
+                    object.data = message.data;
+                if (message.contract != null && message.hasOwnProperty("contract"))
+                    object.contract = message.contract;
+                if (message.methodSignature != null && message.hasOwnProperty("methodSignature"))
+                    object.methodSignature = message.methodSignature;
+                if (message.args && message.args.length) {
+                    object.args = [];
+                    for (var j = 0; j < message.args.length; ++j)
+                        object.args[j] = message.args[j];
+                }
+                if (message.raw != null && message.hasOwnProperty("raw"))
+                    object.raw = message.raw;
+                if (message.privateFor && message.privateFor.length) {
+                    object.privateFor = [];
+                    for (var j = 0; j < message.privateFor.length; ++j)
+                        object.privateFor[j] = message.privateFor[j];
+                }
+                if (message.privateFrom != null && message.hasOwnProperty("privateFrom"))
+                    object.privateFrom = message.privateFrom;
+                if (message.privateTxType != null && message.hasOwnProperty("privateTxType"))
+                    object.privateTxType = message.privateTxType;
+                if (message.privacyGroupId != null && message.hasOwnProperty("privacyGroupId"))
+                    object.privacyGroupId = message.privacyGroupId;
+                return object;
+            };
+    
+            /**
+             * Converts this Params to JSON.
+             * @function toJSON
+             * @memberof tx.Params
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            Params.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return Params;
+        })();
+    
+        tx.TxResponse = (function() {
+    
+            /**
+             * Properties of a TxResponse.
+             * @memberof tx
+             * @interface ITxResponse
+             * @property {Object.<string,string>|null} [headers] TxResponse headers
+             * @property {string|null} [id] TxResponse id
+             * @property {Object.<string,string>|null} [contextLabels] TxResponse contextLabels
+             * @property {ethereum.ITransaction|null} [transaction] TxResponse transaction
+             * @property {ethereum.IReceipt|null} [receipt] TxResponse receipt
+             * @property {Array.<error.IError>|null} [errors] TxResponse errors
+             */
+    
+            /**
+             * Constructs a new TxResponse.
+             * @memberof tx
+             * @classdesc Represents a TxResponse.
+             * @implements ITxResponse
+             * @constructor
+             * @param {tx.ITxResponse=} [properties] Properties to set
+             */
+            function TxResponse(properties) {
+                this.headers = {};
+                this.contextLabels = {};
+                this.errors = [];
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * TxResponse headers.
+             * @member {Object.<string,string>} headers
+             * @memberof tx.TxResponse
+             * @instance
+             */
+            TxResponse.prototype.headers = $util.emptyObject;
+    
+            /**
+             * TxResponse id.
+             * @member {string} id
+             * @memberof tx.TxResponse
+             * @instance
+             */
+            TxResponse.prototype.id = "";
+    
+            /**
+             * TxResponse contextLabels.
+             * @member {Object.<string,string>} contextLabels
+             * @memberof tx.TxResponse
+             * @instance
+             */
+            TxResponse.prototype.contextLabels = $util.emptyObject;
+    
+            /**
+             * TxResponse transaction.
+             * @member {ethereum.ITransaction|null|undefined} transaction
+             * @memberof tx.TxResponse
+             * @instance
+             */
+            TxResponse.prototype.transaction = null;
+    
+            /**
+             * TxResponse receipt.
+             * @member {ethereum.IReceipt|null|undefined} receipt
+             * @memberof tx.TxResponse
+             * @instance
+             */
+            TxResponse.prototype.receipt = null;
+    
+            /**
+             * TxResponse errors.
+             * @member {Array.<error.IError>} errors
+             * @memberof tx.TxResponse
+             * @instance
+             */
+            TxResponse.prototype.errors = $util.emptyArray;
+    
+            /**
+             * Creates a new TxResponse instance using the specified properties.
+             * @function create
+             * @memberof tx.TxResponse
+             * @static
+             * @param {tx.ITxResponse=} [properties] Properties to set
+             * @returns {tx.TxResponse} TxResponse instance
+             */
+            TxResponse.create = function create(properties) {
+                return new TxResponse(properties);
+            };
+    
+            /**
+             * Encodes the specified TxResponse message. Does not implicitly {@link tx.TxResponse.verify|verify} messages.
+             * @function encode
+             * @memberof tx.TxResponse
+             * @static
+             * @param {tx.ITxResponse} message TxResponse message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            TxResponse.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.headers != null && message.hasOwnProperty("headers"))
+                    for (var keys = Object.keys(message.headers), i = 0; i < keys.length; ++i)
+                        writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.headers[keys[i]]).ldelim();
+                if (message.id != null && message.hasOwnProperty("id"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.id);
+                if (message.contextLabels != null && message.hasOwnProperty("contextLabels"))
+                    for (var keys = Object.keys(message.contextLabels), i = 0; i < keys.length; ++i)
+                        writer.uint32(/* id 3, wireType 2 =*/26).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.contextLabels[keys[i]]).ldelim();
+                if (message.transaction != null && message.hasOwnProperty("transaction"))
+                    $root.ethereum.Transaction.encode(message.transaction, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                if (message.receipt != null && message.hasOwnProperty("receipt"))
+                    $root.ethereum.Receipt.encode(message.receipt, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+                if (message.errors != null && message.errors.length)
+                    for (var i = 0; i < message.errors.length; ++i)
+                        $root.error.Error.encode(message.errors[i], writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified TxResponse message, length delimited. Does not implicitly {@link tx.TxResponse.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof tx.TxResponse
+             * @static
+             * @param {tx.ITxResponse} message TxResponse message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            TxResponse.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a TxResponse message from the specified reader or buffer.
+             * @function decode
+             * @memberof tx.TxResponse
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {tx.TxResponse} TxResponse
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            TxResponse.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.tx.TxResponse(), key;
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        reader.skip().pos++;
+                        if (message.headers === $util.emptyObject)
+                            message.headers = {};
+                        key = reader.string();
+                        reader.pos++;
+                        message.headers[key] = reader.string();
+                        break;
+                    case 2:
+                        message.id = reader.string();
+                        break;
+                    case 3:
+                        reader.skip().pos++;
+                        if (message.contextLabels === $util.emptyObject)
+                            message.contextLabels = {};
+                        key = reader.string();
+                        reader.pos++;
+                        message.contextLabels[key] = reader.string();
+                        break;
+                    case 4:
+                        message.transaction = $root.ethereum.Transaction.decode(reader, reader.uint32());
+                        break;
+                    case 5:
+                        message.receipt = $root.ethereum.Receipt.decode(reader, reader.uint32());
+                        break;
+                    case 6:
+                        if (!(message.errors && message.errors.length))
+                            message.errors = [];
+                        message.errors.push($root.error.Error.decode(reader, reader.uint32()));
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a TxResponse message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof tx.TxResponse
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {tx.TxResponse} TxResponse
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            TxResponse.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a TxResponse message.
+             * @function verify
+             * @memberof tx.TxResponse
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            TxResponse.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.headers != null && message.hasOwnProperty("headers")) {
+                    if (!$util.isObject(message.headers))
+                        return "headers: object expected";
+                    var key = Object.keys(message.headers);
+                    for (var i = 0; i < key.length; ++i)
+                        if (!$util.isString(message.headers[key[i]]))
+                            return "headers: string{k:string} expected";
+                }
+                if (message.id != null && message.hasOwnProperty("id"))
+                    if (!$util.isString(message.id))
+                        return "id: string expected";
+                if (message.contextLabels != null && message.hasOwnProperty("contextLabels")) {
+                    if (!$util.isObject(message.contextLabels))
+                        return "contextLabels: object expected";
+                    var key = Object.keys(message.contextLabels);
+                    for (var i = 0; i < key.length; ++i)
+                        if (!$util.isString(message.contextLabels[key[i]]))
+                            return "contextLabels: string{k:string} expected";
+                }
+                if (message.transaction != null && message.hasOwnProperty("transaction")) {
+                    var error = $root.ethereum.Transaction.verify(message.transaction);
+                    if (error)
+                        return "transaction." + error;
+                }
+                if (message.receipt != null && message.hasOwnProperty("receipt")) {
+                    var error = $root.ethereum.Receipt.verify(message.receipt);
+                    if (error)
+                        return "receipt." + error;
+                }
+                if (message.errors != null && message.hasOwnProperty("errors")) {
+                    if (!Array.isArray(message.errors))
+                        return "errors: array expected";
+                    for (var i = 0; i < message.errors.length; ++i) {
+                        var error = $root.error.Error.verify(message.errors[i]);
+                        if (error)
+                            return "errors." + error;
+                    }
+                }
+                return null;
+            };
+    
+            /**
+             * Creates a TxResponse message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof tx.TxResponse
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {tx.TxResponse} TxResponse
+             */
+            TxResponse.fromObject = function fromObject(object) {
+                if (object instanceof $root.tx.TxResponse)
+                    return object;
+                var message = new $root.tx.TxResponse();
+                if (object.headers) {
+                    if (typeof object.headers !== "object")
+                        throw TypeError(".tx.TxResponse.headers: object expected");
+                    message.headers = {};
+                    for (var keys = Object.keys(object.headers), i = 0; i < keys.length; ++i)
+                        message.headers[keys[i]] = String(object.headers[keys[i]]);
+                }
+                if (object.id != null)
+                    message.id = String(object.id);
+                if (object.contextLabels) {
+                    if (typeof object.contextLabels !== "object")
+                        throw TypeError(".tx.TxResponse.contextLabels: object expected");
+                    message.contextLabels = {};
+                    for (var keys = Object.keys(object.contextLabels), i = 0; i < keys.length; ++i)
+                        message.contextLabels[keys[i]] = String(object.contextLabels[keys[i]]);
+                }
+                if (object.transaction != null) {
+                    if (typeof object.transaction !== "object")
+                        throw TypeError(".tx.TxResponse.transaction: object expected");
+                    message.transaction = $root.ethereum.Transaction.fromObject(object.transaction);
+                }
+                if (object.receipt != null) {
+                    if (typeof object.receipt !== "object")
+                        throw TypeError(".tx.TxResponse.receipt: object expected");
+                    message.receipt = $root.ethereum.Receipt.fromObject(object.receipt);
+                }
+                if (object.errors) {
+                    if (!Array.isArray(object.errors))
+                        throw TypeError(".tx.TxResponse.errors: array expected");
+                    message.errors = [];
+                    for (var i = 0; i < object.errors.length; ++i) {
+                        if (typeof object.errors[i] !== "object")
+                            throw TypeError(".tx.TxResponse.errors: object expected");
+                        message.errors[i] = $root.error.Error.fromObject(object.errors[i]);
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a TxResponse message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof tx.TxResponse
+             * @static
+             * @param {tx.TxResponse} message TxResponse
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            TxResponse.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults)
+                    object.errors = [];
+                if (options.objects || options.defaults) {
+                    object.headers = {};
+                    object.contextLabels = {};
+                }
+                if (options.defaults) {
+                    object.id = "";
+                    object.transaction = null;
+                    object.receipt = null;
+                }
+                var keys2;
+                if (message.headers && (keys2 = Object.keys(message.headers)).length) {
+                    object.headers = {};
+                    for (var j = 0; j < keys2.length; ++j)
+                        object.headers[keys2[j]] = message.headers[keys2[j]];
+                }
+                if (message.id != null && message.hasOwnProperty("id"))
+                    object.id = message.id;
+                if (message.contextLabels && (keys2 = Object.keys(message.contextLabels)).length) {
+                    object.contextLabels = {};
+                    for (var j = 0; j < keys2.length; ++j)
+                        object.contextLabels[keys2[j]] = message.contextLabels[keys2[j]];
+                }
+                if (message.transaction != null && message.hasOwnProperty("transaction"))
+                    object.transaction = $root.ethereum.Transaction.toObject(message.transaction, options);
+                if (message.receipt != null && message.hasOwnProperty("receipt"))
+                    object.receipt = $root.ethereum.Receipt.toObject(message.receipt, options);
+                if (message.errors && message.errors.length) {
+                    object.errors = [];
+                    for (var j = 0; j < message.errors.length; ++j)
+                        object.errors[j] = $root.error.Error.toObject(message.errors[j], options);
+                }
+                return object;
+            };
+    
+            /**
+             * Converts this TxResponse to JSON.
+             * @function toJSON
+             * @memberof tx.TxResponse
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            TxResponse.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return TxResponse;
+        })();
+    
+        return tx;
     })();
 
     return $root;

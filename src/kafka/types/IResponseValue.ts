@@ -1,14 +1,13 @@
-import { IExtraData } from './IExtraData'
+import { IContextLabels } from './IContextLabels'
 import { IReceipt } from './IReceipt'
 import { ITransactionContext } from './ITransactionContext'
 
 export interface IResponseValue {
   id: string
-  from?: string
   txContext?: ITransactionContext
   receipt?: IReceipt
   errors?: IError[]
-  extraData?: IExtraData
+  contextLabels?: IContextLabels
 }
 
 interface IError {

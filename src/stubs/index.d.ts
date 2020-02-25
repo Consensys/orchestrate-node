@@ -417,432 +417,14 @@ export namespace abi {
     }
 }
 
-/** Namespace args. */
-export namespace args {
-
-    /** Properties of a Call. */
-    interface ICall {
-
-        /** Call contract */
-        contract?: (abi.IContract|null);
-
-        /** Call method */
-        method?: (abi.IMethod|null);
-
-        /** Call args */
-        args?: (string[]|null);
-    }
-
-    /** Represents a Call. */
-    class Call implements ICall {
-
-        /**
-         * Constructs a new Call.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: args.ICall);
-
-        /** Call contract. */
-        public contract?: (abi.IContract|null);
-
-        /** Call method. */
-        public method?: (abi.IMethod|null);
-
-        /** Call args. */
-        public args: string[];
-
-        /**
-         * Creates a new Call instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns Call instance
-         */
-        public static create(properties?: args.ICall): args.Call;
-
-        /**
-         * Encodes the specified Call message. Does not implicitly {@link args.Call.verify|verify} messages.
-         * @param message Call message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: args.ICall, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified Call message, length delimited. Does not implicitly {@link args.Call.verify|verify} messages.
-         * @param message Call message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: args.ICall, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a Call message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns Call
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): args.Call;
-
-        /**
-         * Decodes a Call message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns Call
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): args.Call;
-
-        /**
-         * Verifies a Call message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a Call message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns Call
-         */
-        public static fromObject(object: { [k: string]: any }): args.Call;
-
-        /**
-         * Creates a plain object from a Call message. Also converts values to other types if specified.
-         * @param message Call
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: args.Call, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this Call to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-
-    /** Properties of a Private. */
-    interface IPrivate {
-
-        /** Private privateFrom */
-        privateFrom?: (string|null);
-
-        /** Private privateFor */
-        privateFor?: (string[]|null);
-
-        /** Private privateTxType */
-        privateTxType?: (string|null);
-    }
-
-    /** Represents a Private. */
-    class Private implements IPrivate {
-
-        /**
-         * Constructs a new Private.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: args.IPrivate);
-
-        /** Private privateFrom. */
-        public privateFrom: string;
-
-        /** Private privateFor. */
-        public privateFor: string[];
-
-        /** Private privateTxType. */
-        public privateTxType: string;
-
-        /**
-         * Creates a new Private instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns Private instance
-         */
-        public static create(properties?: args.IPrivate): args.Private;
-
-        /**
-         * Encodes the specified Private message. Does not implicitly {@link args.Private.verify|verify} messages.
-         * @param message Private message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: args.IPrivate, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified Private message, length delimited. Does not implicitly {@link args.Private.verify|verify} messages.
-         * @param message Private message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: args.IPrivate, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a Private message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns Private
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): args.Private;
-
-        /**
-         * Decodes a Private message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns Private
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): args.Private;
-
-        /**
-         * Verifies a Private message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a Private message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns Private
-         */
-        public static fromObject(object: { [k: string]: any }): args.Private;
-
-        /**
-         * Creates a plain object from a Private message. Also converts values to other types if specified.
-         * @param message Private
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: args.Private, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this Private to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-}
-
-/** Namespace chain. */
-export namespace chain {
-
-    /** Properties of a Chain. */
-    interface IChain {
-
-        /** Chain chainId */
-        chainId?: (string|null);
-
-        /** Chain uuid */
-        uuid?: (string|null);
-
-        /** Chain name */
-        name?: (string|null);
-    }
-
-    /** Represents a Chain. */
-    class Chain implements IChain {
-
-        /**
-         * Constructs a new Chain.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: chain.IChain);
-
-        /** Chain chainId. */
-        public chainId: string;
-
-        /** Chain uuid. */
-        public uuid: string;
-
-        /** Chain name. */
-        public name: string;
-
-        /**
-         * Creates a new Chain instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns Chain instance
-         */
-        public static create(properties?: chain.IChain): chain.Chain;
-
-        /**
-         * Encodes the specified Chain message. Does not implicitly {@link chain.Chain.verify|verify} messages.
-         * @param message Chain message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: chain.IChain, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified Chain message, length delimited. Does not implicitly {@link chain.Chain.verify|verify} messages.
-         * @param message Chain message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: chain.IChain, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a Chain message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns Chain
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): chain.Chain;
-
-        /**
-         * Decodes a Chain message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns Chain
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): chain.Chain;
-
-        /**
-         * Verifies a Chain message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a Chain message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns Chain
-         */
-        public static fromObject(object: { [k: string]: any }): chain.Chain;
-
-        /**
-         * Creates a plain object from a Chain message. Also converts values to other types if specified.
-         * @param message Chain
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: chain.Chain, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this Chain to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-
-    /** Properties of a Protocol. */
-    interface IProtocol {
-
-        /** Protocol type */
-        type?: (chain.ProtocolType|null);
-
-        /** Protocol extra */
-        extra?: ({ [k: string]: string }|null);
-    }
-
-    /** Represents a Protocol. */
-    class Protocol implements IProtocol {
-
-        /**
-         * Constructs a new Protocol.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: chain.IProtocol);
-
-        /** Protocol type. */
-        public type: chain.ProtocolType;
-
-        /** Protocol extra. */
-        public extra: { [k: string]: string };
-
-        /**
-         * Creates a new Protocol instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns Protocol instance
-         */
-        public static create(properties?: chain.IProtocol): chain.Protocol;
-
-        /**
-         * Encodes the specified Protocol message. Does not implicitly {@link chain.Protocol.verify|verify} messages.
-         * @param message Protocol message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: chain.IProtocol, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified Protocol message, length delimited. Does not implicitly {@link chain.Protocol.verify|verify} messages.
-         * @param message Protocol message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: chain.IProtocol, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a Protocol message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns Protocol
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): chain.Protocol;
-
-        /**
-         * Decodes a Protocol message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns Protocol
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): chain.Protocol;
-
-        /**
-         * Verifies a Protocol message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a Protocol message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns Protocol
-         */
-        public static fromObject(object: { [k: string]: any }): chain.Protocol;
-
-        /**
-         * Creates a plain object from a Protocol message. Also converts values to other types if specified.
-         * @param message Protocol
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: chain.Protocol, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this Protocol to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-
-    /** ProtocolType enum. */
-    enum ProtocolType {
-        ETHEREUM_CONSTANTINOPLE = 0,
-        QUORUM_CONSTELLATION = 1,
-        QUORUM_TESSERA = 2,
-        BESU_ORION = 3
-    }
-}
-
 /** Namespace common. */
 export namespace common {
 
     /** Properties of an AccountInstance. */
     interface IAccountInstance {
 
-        /** AccountInstance chain */
-        chain?: (chain.IChain|null);
+        /** AccountInstance chainId */
+        chainId?: (string|null);
 
         /** AccountInstance account */
         account?: (string|null);
@@ -857,8 +439,8 @@ export namespace common {
          */
         constructor(properties?: common.IAccountInstance);
 
-        /** AccountInstance chain. */
-        public chain?: (chain.IChain|null);
+        /** AccountInstance chainId. */
+        public chainId: string;
 
         /** AccountInstance account. */
         public account: string;
@@ -6290,340 +5872,6 @@ export namespace google {
     }
 }
 
-/** Namespace envelope. */
-export namespace envelope {
-
-    /** Properties of a Metadata. */
-    interface IMetadata {
-
-        /** Metadata id */
-        id?: (string|null);
-
-        /** Metadata extra */
-        extra?: ({ [k: string]: string }|null);
-    }
-
-    /** Represents a Metadata. */
-    class Metadata implements IMetadata {
-
-        /**
-         * Constructs a new Metadata.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: envelope.IMetadata);
-
-        /** Metadata id. */
-        public id: string;
-
-        /** Metadata extra. */
-        public extra: { [k: string]: string };
-
-        /**
-         * Creates a new Metadata instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns Metadata instance
-         */
-        public static create(properties?: envelope.IMetadata): envelope.Metadata;
-
-        /**
-         * Encodes the specified Metadata message. Does not implicitly {@link envelope.Metadata.verify|verify} messages.
-         * @param message Metadata message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: envelope.IMetadata, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified Metadata message, length delimited. Does not implicitly {@link envelope.Metadata.verify|verify} messages.
-         * @param message Metadata message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: envelope.IMetadata, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a Metadata message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns Metadata
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): envelope.Metadata;
-
-        /**
-         * Decodes a Metadata message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns Metadata
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): envelope.Metadata;
-
-        /**
-         * Verifies a Metadata message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a Metadata message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns Metadata
-         */
-        public static fromObject(object: { [k: string]: any }): envelope.Metadata;
-
-        /**
-         * Creates a plain object from a Metadata message. Also converts values to other types if specified.
-         * @param message Metadata
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: envelope.Metadata, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this Metadata to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-
-    /** Properties of an Args. */
-    interface IArgs {
-
-        /** Args call */
-        call?: (args.ICall|null);
-
-        /** Args private */
-        "private"?: (args.IPrivate|null);
-
-        /** Args data */
-        data?: (string|null);
-    }
-
-    /** Represents an Args. */
-    class Args implements IArgs {
-
-        /**
-         * Constructs a new Args.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: envelope.IArgs);
-
-        /** Args call. */
-        public call?: (args.ICall|null);
-
-        /** Args private. */
-        public private?: (args.IPrivate|null);
-
-        /** Args data. */
-        public data: string;
-
-        /**
-         * Creates a new Args instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns Args instance
-         */
-        public static create(properties?: envelope.IArgs): envelope.Args;
-
-        /**
-         * Encodes the specified Args message. Does not implicitly {@link envelope.Args.verify|verify} messages.
-         * @param message Args message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: envelope.IArgs, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified Args message, length delimited. Does not implicitly {@link envelope.Args.verify|verify} messages.
-         * @param message Args message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: envelope.IArgs, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes an Args message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns Args
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): envelope.Args;
-
-        /**
-         * Decodes an Args message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns Args
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): envelope.Args;
-
-        /**
-         * Verifies an Args message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates an Args message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns Args
-         */
-        public static fromObject(object: { [k: string]: any }): envelope.Args;
-
-        /**
-         * Creates a plain object from an Args message. Also converts values to other types if specified.
-         * @param message Args
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: envelope.Args, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this Args to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-
-    /** Properties of an Envelope. */
-    interface IEnvelope {
-
-        /** Envelope chain */
-        chain?: (chain.IChain|null);
-
-        /** Envelope protocol */
-        protocol?: (chain.IProtocol|null);
-
-        /** Envelope from */
-        from?: (string|null);
-
-        /** Envelope tx */
-        tx?: (ethereum.ITransaction|null);
-
-        /** Envelope receipt */
-        receipt?: (ethereum.IReceipt|null);
-
-        /** Envelope errors */
-        errors?: (error.IError[]|null);
-
-        /** Envelope args */
-        args?: (envelope.IArgs|null);
-
-        /** Envelope metadata */
-        metadata?: (envelope.IMetadata|null);
-    }
-
-    /** Represents an Envelope. */
-    class Envelope implements IEnvelope {
-
-        /**
-         * Constructs a new Envelope.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: envelope.IEnvelope);
-
-        /** Envelope chain. */
-        public chain?: (chain.IChain|null);
-
-        /** Envelope protocol. */
-        public protocol?: (chain.IProtocol|null);
-
-        /** Envelope from. */
-        public from: string;
-
-        /** Envelope tx. */
-        public tx?: (ethereum.ITransaction|null);
-
-        /** Envelope receipt. */
-        public receipt?: (ethereum.IReceipt|null);
-
-        /** Envelope errors. */
-        public errors: error.IError[];
-
-        /** Envelope args. */
-        public args?: (envelope.IArgs|null);
-
-        /** Envelope metadata. */
-        public metadata?: (envelope.IMetadata|null);
-
-        /**
-         * Creates a new Envelope instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns Envelope instance
-         */
-        public static create(properties?: envelope.IEnvelope): envelope.Envelope;
-
-        /**
-         * Encodes the specified Envelope message. Does not implicitly {@link envelope.Envelope.verify|verify} messages.
-         * @param message Envelope message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: envelope.IEnvelope, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified Envelope message, length delimited. Does not implicitly {@link envelope.Envelope.verify|verify} messages.
-         * @param message Envelope message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: envelope.IEnvelope, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes an Envelope message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns Envelope
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): envelope.Envelope;
-
-        /**
-         * Decodes an Envelope message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns Envelope
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): envelope.Envelope;
-
-        /**
-         * Verifies an Envelope message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates an Envelope message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns Envelope
-         */
-        public static fromObject(object: { [k: string]: any }): envelope.Envelope;
-
-        /**
-         * Creates a plain object from an Envelope message. Also converts values to other types if specified.
-         * @param message Envelope
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: envelope.Envelope, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this Envelope to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-}
-
 /** Namespace error. */
 export namespace error {
 
@@ -7039,137 +6287,35 @@ export namespace ethereum {
         public toJSON(): { [k: string]: any };
     }
 
-    /** Properties of a TxData. */
-    interface ITxData {
-
-        /** TxData nonce */
-        nonce?: (number|Long|null);
-
-        /** TxData to */
-        to?: (string|null);
-
-        /** TxData value */
-        value?: (string|null);
-
-        /** TxData gas */
-        gas?: (number|Long|null);
-
-        /** TxData gasPrice */
-        gasPrice?: (string|null);
-
-        /** TxData data */
-        data?: (string|null);
-    }
-
-    /** Represents a TxData. */
-    class TxData implements ITxData {
-
-        /**
-         * Constructs a new TxData.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: ethereum.ITxData);
-
-        /** TxData nonce. */
-        public nonce: (number|Long);
-
-        /** TxData to. */
-        public to: string;
-
-        /** TxData value. */
-        public value: string;
-
-        /** TxData gas. */
-        public gas: (number|Long);
-
-        /** TxData gasPrice. */
-        public gasPrice: string;
-
-        /** TxData data. */
-        public data: string;
-
-        /**
-         * Creates a new TxData instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns TxData instance
-         */
-        public static create(properties?: ethereum.ITxData): ethereum.TxData;
-
-        /**
-         * Encodes the specified TxData message. Does not implicitly {@link ethereum.TxData.verify|verify} messages.
-         * @param message TxData message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: ethereum.ITxData, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified TxData message, length delimited. Does not implicitly {@link ethereum.TxData.verify|verify} messages.
-         * @param message TxData message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: ethereum.ITxData, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a TxData message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns TxData
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): ethereum.TxData;
-
-        /**
-         * Decodes a TxData message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns TxData
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): ethereum.TxData;
-
-        /**
-         * Verifies a TxData message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a TxData message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns TxData
-         */
-        public static fromObject(object: { [k: string]: any }): ethereum.TxData;
-
-        /**
-         * Creates a plain object from a TxData message. Also converts values to other types if specified.
-         * @param message TxData
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: ethereum.TxData, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this TxData to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-
     /** Properties of a Transaction. */
     interface ITransaction {
 
-        /** Transaction txData */
-        txData?: (ethereum.ITxData|null);
+        /** Transaction from */
+        from?: (string|null);
+
+        /** Transaction nonce */
+        nonce?: (string|null);
+
+        /** Transaction to */
+        to?: (string|null);
+
+        /** Transaction value */
+        value?: (string|null);
+
+        /** Transaction gas */
+        gas?: (string|null);
+
+        /** Transaction gasPrice */
+        gasPrice?: (string|null);
+
+        /** Transaction data */
+        data?: (string|null);
 
         /** Transaction raw */
         raw?: (string|null);
 
-        /** Transaction hash */
-        hash?: (string|null);
+        /** Transaction txHash */
+        txHash?: (string|null);
     }
 
     /** Represents a Transaction. */
@@ -7181,14 +6327,32 @@ export namespace ethereum {
          */
         constructor(properties?: ethereum.ITransaction);
 
-        /** Transaction txData. */
-        public txData?: (ethereum.ITxData|null);
+        /** Transaction from. */
+        public from: string;
+
+        /** Transaction nonce. */
+        public nonce: string;
+
+        /** Transaction to. */
+        public to: string;
+
+        /** Transaction value. */
+        public value: string;
+
+        /** Transaction gas. */
+        public gas: string;
+
+        /** Transaction gasPrice. */
+        public gasPrice: string;
+
+        /** Transaction data. */
+        public data: string;
 
         /** Transaction raw. */
         public raw: string;
 
-        /** Transaction hash. */
-        public hash: string;
+        /** Transaction txHash. */
+        public txHash: string;
 
         /**
          * Creates a new Transaction instance using the specified properties.
@@ -7256,6 +6420,537 @@ export namespace ethereum {
 
         /**
          * Converts this Transaction to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+}
+
+/** Namespace tx. */
+export namespace tx {
+
+    /** Properties of a TxRequest. */
+    interface ITxRequest {
+
+        /** TxRequest headers */
+        headers?: ({ [k: string]: string }|null);
+
+        /** TxRequest chain */
+        chain?: (string|null);
+
+        /** TxRequest method */
+        method?: (tx.Method|null);
+
+        /** TxRequest params */
+        params?: (tx.IParams|null);
+
+        /** TxRequest id */
+        id?: (string|null);
+
+        /** TxRequest contextLabels */
+        contextLabels?: ({ [k: string]: string }|null);
+    }
+
+    /** Represents a TxRequest. */
+    class TxRequest implements ITxRequest {
+
+        /**
+         * Constructs a new TxRequest.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: tx.ITxRequest);
+
+        /** TxRequest headers. */
+        public headers: { [k: string]: string };
+
+        /** TxRequest chain. */
+        public chain: string;
+
+        /** TxRequest method. */
+        public method: tx.Method;
+
+        /** TxRequest params. */
+        public params?: (tx.IParams|null);
+
+        /** TxRequest id. */
+        public id: string;
+
+        /** TxRequest contextLabels. */
+        public contextLabels: { [k: string]: string };
+
+        /**
+         * Creates a new TxRequest instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns TxRequest instance
+         */
+        public static create(properties?: tx.ITxRequest): tx.TxRequest;
+
+        /**
+         * Encodes the specified TxRequest message. Does not implicitly {@link tx.TxRequest.verify|verify} messages.
+         * @param message TxRequest message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: tx.ITxRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified TxRequest message, length delimited. Does not implicitly {@link tx.TxRequest.verify|verify} messages.
+         * @param message TxRequest message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: tx.ITxRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a TxRequest message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns TxRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): tx.TxRequest;
+
+        /**
+         * Decodes a TxRequest message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns TxRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): tx.TxRequest;
+
+        /**
+         * Verifies a TxRequest message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a TxRequest message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns TxRequest
+         */
+        public static fromObject(object: { [k: string]: any }): tx.TxRequest;
+
+        /**
+         * Creates a plain object from a TxRequest message. Also converts values to other types if specified.
+         * @param message TxRequest
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: tx.TxRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this TxRequest to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a TxEnvelope. */
+    interface ITxEnvelope {
+
+        /** TxEnvelope txRequest */
+        txRequest?: (tx.ITxRequest|null);
+
+        /** TxEnvelope txResponse */
+        txResponse?: (tx.ITxResponse|null);
+
+        /** TxEnvelope internalLabels */
+        internalLabels?: ({ [k: string]: string }|null);
+    }
+
+    /** Represents a TxEnvelope. */
+    class TxEnvelope implements ITxEnvelope {
+
+        /**
+         * Constructs a new TxEnvelope.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: tx.ITxEnvelope);
+
+        /** TxEnvelope txRequest. */
+        public txRequest?: (tx.ITxRequest|null);
+
+        /** TxEnvelope txResponse. */
+        public txResponse?: (tx.ITxResponse|null);
+
+        /** TxEnvelope internalLabels. */
+        public internalLabels: { [k: string]: string };
+
+        /** TxEnvelope msg. */
+        public msg?: ("txRequest"|"txResponse");
+
+        /**
+         * Creates a new TxEnvelope instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns TxEnvelope instance
+         */
+        public static create(properties?: tx.ITxEnvelope): tx.TxEnvelope;
+
+        /**
+         * Encodes the specified TxEnvelope message. Does not implicitly {@link tx.TxEnvelope.verify|verify} messages.
+         * @param message TxEnvelope message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: tx.ITxEnvelope, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified TxEnvelope message, length delimited. Does not implicitly {@link tx.TxEnvelope.verify|verify} messages.
+         * @param message TxEnvelope message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: tx.ITxEnvelope, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a TxEnvelope message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns TxEnvelope
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): tx.TxEnvelope;
+
+        /**
+         * Decodes a TxEnvelope message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns TxEnvelope
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): tx.TxEnvelope;
+
+        /**
+         * Verifies a TxEnvelope message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a TxEnvelope message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns TxEnvelope
+         */
+        public static fromObject(object: { [k: string]: any }): tx.TxEnvelope;
+
+        /**
+         * Creates a plain object from a TxEnvelope message. Also converts values to other types if specified.
+         * @param message TxEnvelope
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: tx.TxEnvelope, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this TxEnvelope to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Method enum. */
+    enum Method {
+        ETH_SENDRAWTRANSACTION = 0,
+        ETH_SENDPRIVATETRANSACTION = 1,
+        ETH_SENDRAWPRIVATETRANSACTION = 2,
+        EEA_SENDPRIVATETRANSACTION = 3
+    }
+
+    /** Properties of a Params. */
+    interface IParams {
+
+        /** Params from */
+        from?: (string|null);
+
+        /** Params to */
+        to?: (string|null);
+
+        /** Params gas */
+        gas?: (string|null);
+
+        /** Params gasPrice */
+        gasPrice?: (string|null);
+
+        /** Params value */
+        value?: (string|null);
+
+        /** Params nonce */
+        nonce?: (string|null);
+
+        /** Params data */
+        data?: (string|null);
+
+        /** Params contract */
+        contract?: (string|null);
+
+        /** Params methodSignature */
+        methodSignature?: (string|null);
+
+        /** Params args */
+        args?: (string[]|null);
+
+        /** Params raw */
+        raw?: (string|null);
+
+        /** Params privateFor */
+        privateFor?: (string[]|null);
+
+        /** Params privateFrom */
+        privateFrom?: (string|null);
+
+        /** Params privateTxType */
+        privateTxType?: (string|null);
+
+        /** Params privacyGroupId */
+        privacyGroupId?: (string|null);
+    }
+
+    /** Represents a Params. */
+    class Params implements IParams {
+
+        /**
+         * Constructs a new Params.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: tx.IParams);
+
+        /** Params from. */
+        public from: string;
+
+        /** Params to. */
+        public to: string;
+
+        /** Params gas. */
+        public gas: string;
+
+        /** Params gasPrice. */
+        public gasPrice: string;
+
+        /** Params value. */
+        public value: string;
+
+        /** Params nonce. */
+        public nonce: string;
+
+        /** Params data. */
+        public data: string;
+
+        /** Params contract. */
+        public contract: string;
+
+        /** Params methodSignature. */
+        public methodSignature: string;
+
+        /** Params args. */
+        public args: string[];
+
+        /** Params raw. */
+        public raw: string;
+
+        /** Params privateFor. */
+        public privateFor: string[];
+
+        /** Params privateFrom. */
+        public privateFrom: string;
+
+        /** Params privateTxType. */
+        public privateTxType: string;
+
+        /** Params privacyGroupId. */
+        public privacyGroupId: string;
+
+        /**
+         * Creates a new Params instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns Params instance
+         */
+        public static create(properties?: tx.IParams): tx.Params;
+
+        /**
+         * Encodes the specified Params message. Does not implicitly {@link tx.Params.verify|verify} messages.
+         * @param message Params message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: tx.IParams, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified Params message, length delimited. Does not implicitly {@link tx.Params.verify|verify} messages.
+         * @param message Params message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: tx.IParams, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a Params message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns Params
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): tx.Params;
+
+        /**
+         * Decodes a Params message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns Params
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): tx.Params;
+
+        /**
+         * Verifies a Params message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a Params message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns Params
+         */
+        public static fromObject(object: { [k: string]: any }): tx.Params;
+
+        /**
+         * Creates a plain object from a Params message. Also converts values to other types if specified.
+         * @param message Params
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: tx.Params, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this Params to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a TxResponse. */
+    interface ITxResponse {
+
+        /** TxResponse headers */
+        headers?: ({ [k: string]: string }|null);
+
+        /** TxResponse id */
+        id?: (string|null);
+
+        /** TxResponse contextLabels */
+        contextLabels?: ({ [k: string]: string }|null);
+
+        /** TxResponse transaction */
+        transaction?: (ethereum.ITransaction|null);
+
+        /** TxResponse receipt */
+        receipt?: (ethereum.IReceipt|null);
+
+        /** TxResponse errors */
+        errors?: (error.IError[]|null);
+    }
+
+    /** Represents a TxResponse. */
+    class TxResponse implements ITxResponse {
+
+        /**
+         * Constructs a new TxResponse.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: tx.ITxResponse);
+
+        /** TxResponse headers. */
+        public headers: { [k: string]: string };
+
+        /** TxResponse id. */
+        public id: string;
+
+        /** TxResponse contextLabels. */
+        public contextLabels: { [k: string]: string };
+
+        /** TxResponse transaction. */
+        public transaction?: (ethereum.ITransaction|null);
+
+        /** TxResponse receipt. */
+        public receipt?: (ethereum.IReceipt|null);
+
+        /** TxResponse errors. */
+        public errors: error.IError[];
+
+        /**
+         * Creates a new TxResponse instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns TxResponse instance
+         */
+        public static create(properties?: tx.ITxResponse): tx.TxResponse;
+
+        /**
+         * Encodes the specified TxResponse message. Does not implicitly {@link tx.TxResponse.verify|verify} messages.
+         * @param message TxResponse message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: tx.ITxResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified TxResponse message, length delimited. Does not implicitly {@link tx.TxResponse.verify|verify} messages.
+         * @param message TxResponse message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: tx.ITxResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a TxResponse message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns TxResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): tx.TxResponse;
+
+        /**
+         * Decodes a TxResponse message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns TxResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): tx.TxResponse;
+
+        /**
+         * Verifies a TxResponse message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a TxResponse message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns TxResponse
+         */
+        public static fromObject(object: { [k: string]: any }): tx.TxResponse;
+
+        /**
+         * Creates a plain object from a TxResponse message. Also converts values to other types if specified.
+         * @param message TxResponse
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: tx.TxResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this TxResponse to JSON.
          * @returns JSON object
          */
         public toJSON(): { [k: string]: any };

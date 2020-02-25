@@ -1,155 +1,50 @@
-import { chain, ethereum } from '../../stubs'
-import { ICall } from '../types/ICall'
+import { tx } from '../../stubs'
 import { ProtocolType } from '../types/ProtocolType'
 
 import * as formatters from './stub-formatters'
 
 describe('stub-formatters', () => {
-  describe('formatMetadata', () => {
-    const mockId = 'id'
-    const mockExtraData = {
-      fiel0: 'field0',
-      field1: 'field1'
-    }
-    const mockAuthToken = 'authToken'
-
-    it('should create a valid Metadata message', () => {
-      const message = formatters.formatMetadata(mockId, mockExtraData)
-      expect(message).toEqual({
-        id: mockId,
-        extra: mockExtraData
-      })
+  describe('formatContract', () => {
+    it('should format contract', () => {
+      const contract = formatters.formatContract('testContractName', 'testContractTag')
+      expect(contract).toEqual('testContractName[testContractTag]')
     })
 
-    it('should create a valid Metadata message with authToken', () => {
-      const message = formatters.formatMetadata(mockId, mockExtraData, mockAuthToken)
-      expect(message).toEqual({
-        id: mockId,
-        extra: { Authorization: mockAuthToken, ...mockExtraData }
-      })
+    it('should format contract without tag', () => {
+      const contract = formatters.formatContract('testContractName', undefined)
+      expect(contract).toEqual('testContractName')
     })
-  })
 
-  describe('formatEnvelopeArgs', () => {
-    const mockCall: ICall = {
-      contractName: 'myContract',
-      contractTag: 'contractTag',
-      methodSignature: 'myMethod(string)',
-      args: ['myArg']
-    }
-    const mockPrivateFrom = '0xconstellationAddress'
-    const mockPrivateFor = ['0xconstellationFor']
-    const mockData = '0x43243fefe'
-
-    it('should create a valid Args message', () => {
-      const message = formatters.formatEnvelopeArgs(mockCall, mockData, mockPrivateFrom, mockPrivateFor)
-      expect(message).toMatchObject({
-        call: {
-          contract: {
-            id: {
-              name: mockCall.contractName,
-              tag: mockCall.contractTag
-            }
-          },
-          method: { signature: mockCall.methodSignature },
-          args: mockCall.args
-        },
-        private: {
-          privateFor: mockPrivateFor,
-          privateFrom: mockPrivateFrom
-        }
-      })
+    it('should return empty contract', () => {
+      const contract = formatters.formatContract(undefined, 'uselessContractTag')
+      expect(contract).toBeNull()
     })
   })
 
   describe('formatProtocol', () => {
     it('should create a valid Protocol message for EthereumConstantinople', () => {
       const message = formatters.formatProtocol(ProtocolType.EthereumConstantinople)
-      expect(message).toEqual({
-        type: chain.ProtocolType.ETHEREUM_CONSTANTINOPLE,
-        extra: {}
-      })
+      expect(message).toEqual(tx.Method.ETH_SENDRAWTRANSACTION)
     })
 
     it('should create a valid Protocol message for BesuOrion', () => {
       const message = formatters.formatProtocol(ProtocolType.BesuOrion)
-      expect(message).toEqual({
-        type: chain.ProtocolType.BESU_ORION,
-        extra: {}
-      })
+      expect(message).toEqual(tx.Method.EEA_SENDPRIVATETRANSACTION)
     })
 
     it('should create a valid Protocol message for QuorumConstellation', () => {
       const message = formatters.formatProtocol(ProtocolType.QuorumConstellation)
-      expect(message).toEqual({
-        type: chain.ProtocolType.QUORUM_CONSTELLATION,
-        extra: {}
-      })
+      expect(message).toEqual(tx.Method.ETH_SENDPRIVATETRANSACTION)
     })
 
     it('should create a valid Protocol message for QuorumTessera', () => {
       const message = formatters.formatProtocol(ProtocolType.QuorumTessera)
-      expect(message).toEqual({
-        type: chain.ProtocolType.QUORUM_TESSERA,
-        extra: {}
-      })
+      expect(message).toEqual(tx.Method.ETH_SENDRAWPRIVATETRANSACTION)
     })
 
     it('should create a valid Protocol message with EthereumConstantinople by default', () => {
       const message = formatters.formatProtocol()
-      expect(message).toEqual({
-        type: chain.ProtocolType.ETHEREUM_CONSTANTINOPLE,
-        extra: {}
-      })
-    })
-  })
-
-  describe('formatChain', () => {
-    const mockChainUUID = 'chainUUID'
-    const mockChainName = 'chainName'
-
-    it('should create a valid Chain message', () => {
-      const message = formatters.formatChain(mockChainUUID, mockChainName)
-      expect(message).toEqual({
-        uuid: mockChainUUID,
-        name: mockChainName
-      })
-    })
-
-    it('should fail if chainUUID and chainName are undefined', () => {
-      expect(() => formatters.formatChain()).toThrowError(new Error('Either chainUUID or chainName must be specified'))
-    })
-  })
-
-  describe('formatTransaction', () => {
-    const mockTransaction = {
-      from: '0xc1912fee45d61c87cc5ea59dae31190fffff232d',
-      gas: 20000,
-      gasPrice: '29999999',
-      nonce: 66,
-      to: '0xc1912fee45d61c87cc5ea59dae31190fffff2333',
-      value: '5555566',
-      data: '0xdata'
-    }
-
-    it('should create a valid Transaction message', () => {
-      const message = formatters.formatTransaction(mockTransaction)
-      expect(ethereum.Transaction.verify(message)).toBeNull()
-    })
-
-    it('should create a valid Transaction message with no "to" value', () => {
-      const message = formatters.formatTransaction({ ...mockTransaction, to: undefined })
-      expect(message.txData!.to).toEqual('')
-    })
-
-    it('should create a valid Transaction message with no "data" value', () => {
-      const message = formatters.formatTransaction({ ...mockTransaction, data: undefined })
-      expect(message.txData!.data).toEqual('')
-    })
-
-    it('should create a valid Transaction message with no "value" value', () => {
-      const message = formatters.formatTransaction({ ...mockTransaction, value: undefined })
-      expect(message.txData!.value).toEqual('')
+      expect(message).toEqual(tx.Method.ETH_SENDRAWTRANSACTION)
     })
   })
 })

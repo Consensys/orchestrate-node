@@ -97,13 +97,13 @@ describe('AccountGenerator', () => {
       setTimeout(() => {
         // Will be ignored because the Id is not registered
         mockResponseMessage = {
-          content: jest.fn().mockReturnValueOnce({ value: { id: 'unknownId', from: '0xaddress0' } })
+          content: jest.fn().mockReturnValueOnce({ value: { id: 'unknownId', txContext: { from: '0xaddress0' } } })
         }
         mockConsumer.emit(EventType.Response, new ResponseMessage(mockConsumer, mockResponseMessage as any))
 
         // Will be consumed and returned
         mockResponseMessage = {
-          content: jest.fn().mockReturnValueOnce({ value: { id: 'id', from: '0xaddress1' } })
+          content: jest.fn().mockReturnValueOnce({ value: { id: 'id', txContext: { from: '0xaddress1' } } })
         }
         mockConsumer.emit(EventType.Response, new ResponseMessage(mockConsumer, mockResponseMessage as any))
       }, 100)
