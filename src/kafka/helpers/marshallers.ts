@@ -1,4 +1,3 @@
-import { utils } from 'ethers'
 import { Message } from 'kafkajs'
 
 import { tx } from '../../stubs'
@@ -23,17 +22,10 @@ export function marshalTransactionRequest(request: ITransactionRequest) {
     privateFrom: request.privateFrom
   }
 
-  const envelopeMessage: tx.ITxRequest = {
-    id: request.id,
-    chain: request.chainName,
-    method: formatters.formatProtocol(request.protocol),
-    params,
-    contextLabels: request.contextLabels
-  }
-
-  if (request.authToken) {
-    envelopeMessage.headers = { Authorization: request.authToken, ...envelopeMessage.headers }
-  }
+  const envelopeMessage = marshalTxRequest(request.id, request.chainName, request.authToken)
+  envelopeMessage.params = params
+  envelopeMessage.method = formatters.formatProtocol(request.protocol)
+  envelopeMessage.contextLabels = request.contextLabels
 
   return marshalEnvelope(envelopeMessage)
 }
@@ -43,17 +35,10 @@ export function marshalRawTransactionRequest(request: IRawTransactionRequest) {
     raw: request.signedTransaction
   }
 
-  const envelopeMessage: tx.ITxRequest = {
-    id: request.id,
-    chain: request.chainName,
-    method: formatters.formatProtocol(request.protocol),
-    params,
-    contextLabels: { ...request.contextLabels, 'tx.mode': 'raw' }
-  }
-
-  if (request.authToken) {
-    envelopeMessage.headers = { Authorization: request.authToken, ...envelopeMessage.headers }
-  }
+  const envelopeMessage = marshalTxRequest(request.id, request.chainName, request.authToken)
+  envelopeMessage.params = params
+  envelopeMessage.method = formatters.formatProtocol(request.protocol)
+  envelopeMessage.contextLabels = { ...request.contextLabels, txMode: 'raw' }
 
   return marshalEnvelope(envelopeMessage)
 }
@@ -63,12 +48,9 @@ export function marshalGenerateAccountRequest(request: IGenerateAccountRequest) 
     value: request.value
   }
 
-  const envelopeMessage: tx.ITxRequest = {
-    id: request.id,
-    chain: request.chain,
-    params,
-    contextLabels: request.contextLabels
-  }
+  const envelopeMessage = marshalTxRequest(request.id, request.chain, request.authToken)
+  envelopeMessage.params = params
+  envelopeMessage.contextLabels = request.contextLabels
 
   return marshalEnvelope(envelopeMessage)
 }
@@ -78,4 +60,16 @@ function marshalEnvelope(envelopeMessage: tx.ITxRequest): Message {
 
   // The type is Buffer on Node
   return { value: encode(envelopeMessage).finish() as Buffer }
+}
+
+function marshalTxRequest(id?: string, chainName?: string, authToken?: string) {
+  const envelopeMessage: tx.ITxRequest = {
+    id,
+    chain: chainName
+  }
+  if (authToken) {
+    envelopeMessage.headers = { Authorization: authToken, ...envelopeMessage.headers }
+  }
+
+  return envelopeMessage
 }

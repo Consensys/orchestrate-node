@@ -17,7 +17,7 @@ describe('stub-formatters', () => {
 
     it('should return empty contract', () => {
       const contract = formatters.formatContract(undefined, 'uselessContractTag')
-      expect(contract).toEqual('')
+      expect(contract).toBeNull()
     })
   })
 

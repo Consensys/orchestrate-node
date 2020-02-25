@@ -114,7 +114,7 @@ export class AccountGenerator {
 
       if (resolve && txContext) {
         this.resolveFuncs.delete(id)
-        resolve(txContext.from ? txContext.from : '')
+        resolve(txContext.from!)
       }
     })
   }

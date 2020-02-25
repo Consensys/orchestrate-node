@@ -1,10 +1,10 @@
 import { tx } from '../../stubs'
 import { ProtocolType } from '../types/ProtocolType'
 
-export function formatContract(name?: string, tag?: string): string {
-  if (name === undefined || name === '') {
-    return ''
-  } else if (tag === undefined || tag === '') {
+export function formatContract(name?: string, tag?: string): string | null {
+  if (!name) {
+    return null
+  } else if (!tag) {
     return name
   }
   return `${name}[${tag}]`

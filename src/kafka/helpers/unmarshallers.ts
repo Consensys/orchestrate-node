@@ -18,10 +18,10 @@ function parseTxContext(transaction?: ethereum.ITransaction | null): ITransactio
   if (transaction) {
     return {
       from: parseString(transaction.from),
-      nonce: transaction.nonce ? Number(transaction.nonce) : undefined,
+      nonce: parseStringNumber(transaction.nonce),
       to: parseString(transaction.to),
       value: parseString(transaction.value),
-      gas: transaction.gas ? Number(transaction.gas) : undefined,
+      gas: parseStringNumber(transaction.gas),
       gasPrice: parseString(transaction.gasPrice),
       input: parseString(transaction.data),
       raw: parseString(transaction.raw),
@@ -35,12 +35,12 @@ function parseReceipt(receipt?: ethereum.IReceipt | null): IReceipt | undefined 
     return {
       blockHash: parseString(receipt.blockHash),
       blockNumber: parseNumber(receipt.blockNumber),
-      txIndex: receipt.txIndex ? Number(receipt.txIndex) : undefined,
+      txIndex: parseNumber(receipt.txIndex),
       txHash: parseString(receipt.txHash),
       status: receipt.status ? Boolean(receipt.status) : undefined,
       contractAddress: parseString(receipt.contractAddress),
-      gasUsed: receipt.gasUsed ? Number(receipt.gasUsed) : undefined,
-      cumulativeGasUsed: receipt.cumulativeGasUsed ? Number(receipt.cumulativeGasUsed) : undefined,
+      gasUsed: parseNumber(receipt.gasUsed),
+      cumulativeGasUsed: parseNumber(receipt.cumulativeGasUsed),
       postState: parseString(receipt.postState),
       bloom: parseString(receipt.bloom),
       logs: parseLogs(receipt.logs)
@@ -78,6 +78,10 @@ function parseLogs(logs?: ethereum.ILog[] | null) {
 
 function parseString(value?: string | null) {
   return value ? value : undefined
+}
+
+function parseStringNumber(value?: string | null) {
+  return value ? Number(value) : undefined
 }
 
 function parseStringArray(arr?: string[] | null) {
