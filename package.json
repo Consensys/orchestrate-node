@@ -58,7 +58,7 @@
   "homepage": "https://github.com/PegaSysEng/orchestrate-node#readme",
   "dependencies": {
     "@grpc/grpc-js": "~0.6.15",
-    "commander": "~4.1.0",
+    "commander": "~4.1.1",
     "ethers": "~4.0.43",
     "kafkajs": "~1.11.0",
     "protobufjs": "~6.8.8",
