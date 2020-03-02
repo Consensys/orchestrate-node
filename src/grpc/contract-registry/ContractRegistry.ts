@@ -1,4 +1,4 @@
-import { Client, credentials as grpcCredentials } from '@grpc/grpc-js'
+import { ChannelCredentials, Client, credentials as grpcCredentials } from '@grpc/grpc-js'
 // tslint:disable-next-line: no-submodule-imports
 import { ChannelOptions } from '@grpc/grpc-js/build/src/channel-options'
 // tslint:disable-next-line: no-submodule-imports
@@ -22,7 +22,11 @@ export class ContractRegistry {
    * @param credentials - gRPC credentials to use, insecure by default
    * @param options - optional gRPC channel options
    */
-  constructor(endpoint: string, credentials = grpcCredentials.createInsecure(), options?: ChannelOptions) {
+  constructor(
+    endpoint: string,
+    credentials: ChannelCredentials = grpcCredentials.createInsecure(),
+    options?: ChannelOptions
+  ) {
     this.rpcClient = new Client(endpoint, credentials, options)
     this.registry = new contractregistry.ContractRegistry(this.rpc.bind(this) as any)
   }

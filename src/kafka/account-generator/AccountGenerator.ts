@@ -92,9 +92,10 @@ export class AccountGenerator {
       throw new Error('AccountGenerator is not currently connected, did you forget to call connect()?')
     }
 
+    let timeoutId: NodeJS.Timeout
     const timeoutPromise = new Promise<string>((_, reject) => {
-      const id = setTimeout(() => {
-        clearTimeout(id)
+      timeoutId = setTimeout(() => {
+        clearTimeout(timeoutId)
         reject('Request timed out')
       }, timeout)
     })
@@ -104,7 +105,12 @@ export class AccountGenerator {
       this.resolveFuncs.set(messageId, resolve)
     })
 
-    return Promise.race([timeoutPromise, callPromise])
+    const result = Promise.race([timeoutPromise, callPromise]).then(v => {
+      clearTimeout(timeoutId)
+      return v
+    })
+
+    return result
   }
 
   private listenForAccounts() {
