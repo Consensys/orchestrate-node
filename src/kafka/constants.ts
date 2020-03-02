@@ -6,4 +6,4 @@ export const DEFAULT_TOPIC_TX_SENDER = 'topic-tx-sender'
 export const DEFAULT_TOPIC_TX_DECODED = 'topic-tx-decoded'
 export const DEFAULT_TOPIC_TX_RECOVER = 'topic-tx-recover'
 
-export const DEFAULT_TIMEOUT_ACCOUNT_GENERATOR = 60000
+export const DEFAULT_TIMEOUT_ACCOUNT_GENERATOR = 10000
