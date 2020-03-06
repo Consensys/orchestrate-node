@@ -1,4 +1,4 @@
-import { ChannelCredentials, Client, credentials as grpcCredentials } from '@grpc/grpc-js'
+import { ChannelCredentials, Client, Metadata } from '@grpc/grpc-js'
 // tslint:disable-next-line: no-submodule-imports
 import { ChannelOptions } from '@grpc/grpc-js/build/src/channel-options'
 // tslint:disable-next-line: no-submodule-imports
@@ -14,21 +14,32 @@ import { IContract, IRegisterContractRequest } from '../types'
 export class ContractRegistry {
   private readonly rpcClient: Client
   private readonly registry: contractregistry.ContractRegistry
+  private readonly callMetadata: Metadata
 
   /**
    * Creates a new ContractRegistry instance
    *
    * @param endpoint - the URL and port of the contract registry RPC
-   * @param credentials - gRPC credentials to use, insecure by default
+   * @param authToken - JWT Bearer token
    * @param options - optional gRPC channel options
    */
-  constructor(
-    endpoint: string,
-    credentials: ChannelCredentials = grpcCredentials.createInsecure(),
-    options?: ChannelOptions
-  ) {
-    this.rpcClient = new Client(endpoint, credentials, options)
+  constructor(endpoint: string, authToken?: string, options?: ChannelOptions) {
+    this.rpcClient = new Client(endpoint, ChannelCredentials.createInsecure(), options)
     this.registry = new contractregistry.ContractRegistry(this.rpc.bind(this) as any)
+    this.callMetadata = new Metadata()
+
+    if (authToken) {
+      this.setAuthentication(authToken)
+    }
+  }
+
+  /**
+   * Sets the JWT token
+   *
+   * @param authToken JWT Bearer token
+   */
+  public setAuthentication(authToken: string): void {
+    this.callMetadata.set('Authorization', authToken)
   }
 
   /**
@@ -128,6 +139,7 @@ export class ContractRegistry {
       serializeF,
       deSerializeF,
       requestData,
+      this.callMetadata,
       callback
     )
   }

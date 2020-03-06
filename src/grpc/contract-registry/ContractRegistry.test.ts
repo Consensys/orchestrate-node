@@ -6,9 +6,14 @@ const mockRPCClient = {
   makeUnaryRequest: jest.fn()
 }
 
+const mockMetadata = {
+  set: jest.fn()
+}
+
 jest.mock('@grpc/grpc-js', () => ({
   Client: jest.fn().mockImplementation(() => mockRPCClient),
-  credentials: { createInsecure: jest.fn() }
+  ChannelCredentials: { createInsecure: jest.fn() },
+  Metadata: jest.fn().mockImplementation(() => mockMetadata)
 }))
 
 const mockABI = [
@@ -37,7 +42,14 @@ describe('ContractRegistry', () => {
   let contractRegistry: ContractRegistry
 
   beforeEach(() => {
-    contractRegistry = new ContractRegistry('endpoint:3000')
+    contractRegistry = new ContractRegistry('endpoint:3000', 'myToken')
+  })
+
+  describe('setAuthentication', () => {
+    it('should set the authorization token successfully', async () => {
+      contractRegistry.setAuthentication('myNewToken')
+      expect(mockMetadata.set).toHaveBeenCalled()
+    })
   })
 
   describe('register', () => {
@@ -225,9 +237,11 @@ describe('ContractRegistry', () => {
   const mockUnaryRequest = (data: Uint8Array) => {
     mockRPCClient.makeUnaryRequest = jest
       .fn()
-      .mockImplementationOnce((method: any, serialize: any, deserialize: any, requestData, callback: any) => {
-        callback(undefined, data)
-      })
+      .mockImplementationOnce(
+        (method: any, serialize: any, deserialize: any, requestData, callMedatada: any, callback: any) => {
+          callback(undefined, data)
+        }
+      )
   }
 
   const expectUnaryRequest = (methodName: string, expectedRequestData?: Uint8Array) => {
@@ -236,6 +250,7 @@ describe('ContractRegistry', () => {
       expect.any(Function),
       expect.any(Function),
       expectedRequestData,
+      mockMetadata,
       expect.any(Function)
     )
   }
