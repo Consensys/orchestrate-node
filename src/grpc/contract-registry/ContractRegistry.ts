@@ -1,9 +1,9 @@
-import { ChannelCredentials, Client, credentials as grpcCredentials } from '@grpc/grpc-js'
+import { ChannelCredentials, Client, Metadata } from '@grpc/grpc-js'
 // tslint:disable-next-line: no-submodule-imports
 import { ChannelOptions } from '@grpc/grpc-js/build/src/channel-options'
 // tslint:disable-next-line: no-submodule-imports
 import { UnaryCallback } from '@grpc/grpc-js/build/src/client'
-import { Method } from 'protobufjs'
+import { Reader, Writer } from 'protobufjs'
 
 import { abi, contractregistry } from '../../stubs'
 import { IContract, IRegisterContractRequest } from '../types'
@@ -13,22 +13,15 @@ import { IContract, IRegisterContractRequest } from '../types'
  */
 export class ContractRegistry {
   private readonly rpcClient: Client
-  private readonly registry: contractregistry.ContractRegistry
 
   /**
    * Creates a new ContractRegistry instance
    *
    * @param endpoint - the URL and port of the contract registry RPC
-   * @param credentials - gRPC credentials to use, insecure by default
    * @param options - optional gRPC channel options
    */
-  constructor(
-    endpoint: string,
-    credentials: ChannelCredentials = grpcCredentials.createInsecure(),
-    options?: ChannelOptions
-  ) {
-    this.rpcClient = new Client(endpoint, credentials, options)
-    this.registry = new contractregistry.ContractRegistry(this.rpc.bind(this) as any)
+  constructor(endpoint: string, options?: ChannelOptions) {
+    this.rpcClient = new Client(endpoint, ChannelCredentials.createInsecure(), options)
   }
 
   /**
@@ -36,27 +29,43 @@ export class ContractRegistry {
    *
    * @param request - contract registration request
    */
-  public async register(request: IRegisterContractRequest): Promise<void> {
-    await this.registry.registerContract({
-      contract: {
-        id: {
-          name: request.name,
-          tag: request.tag
-        },
-        abi: JSON.stringify(request.abi),
-        bytecode: request.bytecode,
-        deployedBytecode: request.deployedBytecode
-      }
-    })
+  public async register(request: IRegisterContractRequest): Promise<contractregistry.RegisterContractResponse> {
+    const response = await this.executeCall(
+      contractregistry.RegisterContractRequest.encode,
+      contractregistry.RegisterContractResponse.decode,
+      {
+        contract: {
+          id: {
+            name: request.name,
+            tag: request.tag
+          },
+          abi: JSON.stringify(request.abi),
+          bytecode: request.bytecode,
+          deployedBytecode: request.deployedBytecode
+        }
+      },
+      contractregistry.ContractRegistry.prototype.registerContract.name,
+      request.authToken
+    )
+
+    return response as contractregistry.RegisterContractResponse
   }
 
   /**
    * Gets all the contract names from the contract registry
    *
+   * @param authToken - authorization token
    * @returns the list of contract names
    */
-  public async getCatalog(): Promise<string[]> {
-    const response = await this.registry.getCatalog({})
+  public async getCatalog(authToken?: string): Promise<string[]> {
+    const response = (await this.executeCall(
+      contractregistry.GetCatalogRequest.encode,
+      contractregistry.GetCatalogResponse.decode,
+      {},
+      contractregistry.ContractRegistry.prototype.getCatalog.name,
+      authToken
+    )) as contractregistry.GetCatalogResponse
+
     return response.names
   }
 
@@ -65,10 +74,18 @@ export class ContractRegistry {
    *
    * @param name - Contract name
    * @param tag - Contract tag
+   * @param authToken - authorization token
    * @returns the contract details
    */
-  public async get(name: string, tag?: string): Promise<IContract> {
-    const response = await this.registry.getContract(this.formatContractId(name, tag))
+  public async get(name: string, tag?: string, authToken?: string): Promise<IContract> {
+    const response = (await this.executeCall(
+      contractregistry.GetContractRequest.encode,
+      contractregistry.GetContractResponse.decode,
+      this.formatContractId(name, tag),
+      contractregistry.ContractRegistry.prototype.getContract.name,
+      authToken
+    )) as contractregistry.GetContractResponse
+
     return this.parseContract(response.contract!)
   }
 
@@ -77,10 +94,18 @@ export class ContractRegistry {
    *
    * @param name - Contract name
    * @param tag - Contract tag
+   * @param authToken - authorization token
    * @returns the contract ABI
    */
-  public async getABI(name: string, tag?: string): Promise<string> {
-    const response = await this.registry.getContractABI(this.formatContractId(name, tag))
+  public async getABI(name: string, tag?: string, authToken?: string): Promise<string> {
+    const response = (await this.executeCall(
+      contractregistry.GetContractRequest.encode,
+      contractregistry.GetContractABIResponse.decode,
+      this.formatContractId(name, tag),
+      contractregistry.ContractRegistry.prototype.getContractABI.name,
+      authToken
+    )) as contractregistry.GetContractABIResponse
+
     return JSON.parse(response.abi)
   }
 
@@ -89,10 +114,18 @@ export class ContractRegistry {
    *
    * @param name - Contract name
    * @param tag - Contract tag
+   * @param authToken - authorization token
    * @returns the contract bytecode
    */
-  public async getBytecode(name: string, tag?: string): Promise<string> {
-    const response = await this.registry.getContractBytecode(this.formatContractId(name, tag))
+  public async getBytecode(name: string, tag?: string, authToken?: string): Promise<string> {
+    const response = (await this.executeCall(
+      contractregistry.GetContractRequest.encode,
+      contractregistry.GetContractBytecodeResponse.decode,
+      this.formatContractId(name, tag),
+      contractregistry.ContractRegistry.prototype.getContractBytecode.name,
+      authToken
+    )) as contractregistry.GetContractBytecodeResponse
+
     return response.bytecode
   }
 
@@ -101,10 +134,18 @@ export class ContractRegistry {
    *
    * @param name - Contract name
    * @param tag - Contract tag
+   * @param authToken - authorization token
    * @returns the contract deployed bytecode
    */
-  public async getDeployedBytecode(name: string, tag?: string): Promise<string> {
-    const response = await this.registry.getContractDeployedBytecode(this.formatContractId(name, tag))
+  public async getDeployedBytecode(name: string, tag?: string, authToken?: string): Promise<string> {
+    const response = (await this.executeCall(
+      contractregistry.GetContractRequest.encode,
+      contractregistry.GetContractDeployedBytecodeResponse.decode,
+      this.formatContractId(name, tag),
+      contractregistry.ContractRegistry.prototype.getContractDeployedBytecode.name,
+      authToken
+    )) as contractregistry.GetContractDeployedBytecodeResponse
+
     return response.deployedBytecode
   }
 
@@ -112,22 +153,56 @@ export class ContractRegistry {
    * Gets all the tags of a contract by name
    *
    * @param name - Contract name
+   * @param authToken - authorization token
    * @returns the tags of the contract
    */
-  public async getTags(name: string): Promise<string[]> {
-    const response = await this.registry.getTags({ name })
+  public async getTags(name: string, authToken?: string): Promise<string[]> {
+    const response = (await this.executeCall(
+      contractregistry.GetTagsRequest.encode,
+      contractregistry.GetTagsResponse.decode,
+      { name },
+      contractregistry.ContractRegistry.prototype.getTags.name,
+      authToken
+    )) as contractregistry.GetTagsResponse
+
     return response.tags
   }
 
-  private rpc(method: Method, requestData: Buffer, callback: UnaryCallback<Buffer>) {
+  private executeCall(
+    encodeFunc: (request: any) => Writer,
+    decodeFunc: (response: Reader | Uint8Array) => any,
+    request: any,
+    methodName: string,
+    authToken?: string
+  ) {
+    return new Promise((resolve, reject) => {
+      const requestData = encodeFunc(request).finish() as Buffer
+      const callback: UnaryCallback<Buffer> = (err, responseBuffer) => {
+        if (err) {
+          return reject(err)
+        }
+        return resolve(decodeFunc(responseBuffer as Uint8Array))
+      }
+
+      this.rpc(methodName, requestData, callback, authToken)
+    })
+  }
+
+  private rpc(method: string, requestData: Buffer, callback: UnaryCallback<Buffer>, authToken?: string) {
     const serializeF = (request: Buffer) => request
     const deSerializeF = (response: Buffer) => response
 
+    const metadata = new Metadata()
+    if (authToken) {
+      metadata.set('Authorization', authToken)
+    }
+
     this.rpcClient.makeUnaryRequest(
-      `contractregistry.ContractRegistry/${method.name}`,
+      `contractregistry.ContractRegistry/${method}`,
       serializeF,
       deSerializeF,
       requestData,
+      metadata,
       callback
     )
   }
@@ -145,9 +220,9 @@ export class ContractRegistry {
     return {
       name: message.id!.name!,
       tag: message.id!.tag!,
-      abi: message.abi ? JSON.parse(message.abi) : undefined,
-      bytecode: message.bytecode ? message.bytecode : undefined,
-      deployedBytecode: message.deployedBytecode ? message.deployedBytecode : undefined
+      abi: JSON.parse(message.abi!),
+      bytecode: message.bytecode!,
+      deployedBytecode: message.deployedBytecode!
     }
   }
 }
