@@ -8,7 +8,7 @@ export const start = async () => {
     const contractRegistry = new ContractRegistry('localhost:8020')
 
     await contractRegistry.register({
-      name: 'SimpleToken',
+      name: 'LolToken',
       abi: SimpleToken.abi,
       bytecode: SimpleToken.bytecode,
       deployedBytecode: SimpleToken.deployedBytecode
