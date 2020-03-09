@@ -10,7 +10,9 @@
     "!src/**/index.{ts,js}",
     "!src/stubs/*",
     "!src/kafka/helpers/unmarshallers.ts",
-    "!src/cli/cli.ts"
+    "!src/cli/cli.ts",
+    "!src/cli/orchestrate-accounts.ts",
+    "!src/cli/orchestrate-contracts.ts"
   ],
   "coverageThreshold": {
     "global": {
