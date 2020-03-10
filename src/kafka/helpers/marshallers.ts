@@ -44,12 +44,7 @@ export function marshalRawTransactionRequest(request: IRawTransactionRequest) {
 }
 
 export function marshalGenerateAccountRequest(request: IGenerateAccountRequest) {
-  const params: tx.IParams = {
-    value: request.value
-  }
-
   const envelopeMessage = marshalTxRequest(request.id, request.chain, request.authToken)
-  envelopeMessage.params = params
   envelopeMessage.contextLabels = request.contextLabels
 
   return marshalEnvelope(envelopeMessage)

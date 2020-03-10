@@ -19,5 +19,4 @@ export interface IGetTagsOptions extends IEndpointOptions {
 
 export interface IGenerateAccountsOptions extends IEndpointOptions {
   chain?: string
-  value?: string
 }
