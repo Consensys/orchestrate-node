@@ -1,6 +1,6 @@
 import { logLevel } from 'kafkajs'
 
-import { DEFAULT_TIMEOUT_ACCOUNT_GENERATOR, DEFAULT_TOPIC_WALLET_GENERATED } from '../constants'
+import { DEFAULT_TIMEOUT_ACCOUNT_GENERATOR, DEFAULT_TOPIC_ACCOUNT_GENERATED } from '../constants'
 import { Consumer, ResponseMessage } from '../consumer'
 import { Producer } from '../producer'
 import { EventType, IGenerateAccountRequest } from '../types'
@@ -32,7 +32,7 @@ export class AccountGenerator {
 
     this.consumer = new Consumer(
       brokers,
-      [DEFAULT_TOPIC_WALLET_GENERATED],
+      [DEFAULT_TOPIC_ACCOUNT_GENERATED],
       { logLevel: logLevel.NOTHING },
       { groupId: 'wallet-generator-sdk-consumer' }
     )

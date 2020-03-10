@@ -1,7 +1,7 @@
 import * as KakfaJS from 'kafkajs'
 import { v4 as uuidv4 } from 'uuid'
 
-import { DEFAULT_TOPIC_TX_CRAFTER, DEFAULT_TOPIC_TX_SENDER, DEFAULT_TOPIC_WALLET_GENERATOR } from '../constants'
+import { DEFAULT_TOPIC_ACCOUNT_GENERATOR, DEFAULT_TOPIC_TX_CRAFTER, DEFAULT_TOPIC_TX_SENDER } from '../constants'
 import { marshalGenerateAccountRequest, marshalRawTransactionRequest, marshalTransactionRequest } from '../helpers'
 import { KafkaClient } from '../KafkaClient'
 import { IGenerateAccountRequest, IRawTransactionRequest, ITransactionRequest } from '../types'
@@ -104,7 +104,7 @@ export class Producer extends KafkaClient {
    */
   public async generateAccount(
     request?: IGenerateAccountRequest,
-    topic = DEFAULT_TOPIC_WALLET_GENERATOR
+    topic = DEFAULT_TOPIC_ACCOUNT_GENERATOR
   ): Promise<string> {
     this.checkReadiness()
 
