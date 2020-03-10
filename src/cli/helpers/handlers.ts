@@ -91,8 +91,7 @@ export async function generateAccountHandler(options: IGenerateAccountsOptions) 
   try {
     await accountGenerator.connect()
     const address = await accountGenerator.generateAccount({
-      chain: options.chain,
-      value: options.value
+      chain: options.chain
     })
     console.log(address)
   } catch (error) {

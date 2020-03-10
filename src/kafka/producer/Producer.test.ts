@@ -180,7 +180,7 @@ describe('Producer', () => {
     })
 
     it('should generate message to create a wallet succesfully', async () => {
-      const request = { id: requestId, authToken: 'Bearer: token', extraData, chain: 'chainId', value: '50000' }
+      const request = { id: requestId, authToken: 'Bearer: token', extraData, chain: 'chainId' }
       await producer.connect()
       const result = await producer.generateAccount(request, topic)
 

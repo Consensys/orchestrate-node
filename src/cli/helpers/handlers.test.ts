@@ -214,7 +214,6 @@ describe('handlers', () => {
 
   describe('generateAccountHandler', () => {
     const mockChain = 'chain'
-    const mockValue = '5000'
 
     it('should return and not fail if account generator fails', async () => {
       mockAccountGenerator.generateAccount.mockRejectedValueOnce(new Error())
@@ -233,14 +232,12 @@ describe('handlers', () => {
 
       await generateAccountHandler({
         endpoint: mockEndpoint,
-        chain: mockChain,
-        value: mockValue
+        chain: mockChain
       })
 
       expect(mockAccountGenerator.connect).toHaveBeenCalled()
       expect(mockAccountGenerator.generateAccount).toHaveBeenCalledWith({
-        chain: mockChain,
-        value: mockValue
+        chain: mockChain
       })
       expect(mockAccountGenerator.disconnect).toHaveBeenCalled()
     })
