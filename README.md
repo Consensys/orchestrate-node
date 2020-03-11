@@ -6,7 +6,7 @@ The PegaSys Orchestrate library provides convenient access to the PegaSys Orches
 
 # Documentation
 
-See the [SDK's documentation here.](https://docs.orchestrate.pegasys.tech/en/latest/Tutorials/SDK/)
+See the [SDK's documentation here.](https://docs.orchestrate.pegasys.tech/en/stable/SDK/JS/SDK-Examples/)
 
 And you can consult as well all [PegaSys Orchestrate's documentation here.](https://docs.orchestrate.pegasys.tech/)
 
