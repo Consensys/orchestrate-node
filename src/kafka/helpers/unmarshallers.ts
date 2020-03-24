@@ -32,12 +32,14 @@ function parseTxContext(transaction?: ethereum.ITransaction | null): ITransactio
 
 function parseReceipt(receipt?: ethereum.IReceipt | null): IReceipt | undefined {
   if (receipt) {
+    const status = (receipt.status as Long).isZero() ? false : true
+
     return {
       blockHash: parseString(receipt.blockHash),
       blockNumber: parseNumber(receipt.blockNumber),
       txIndex: parseNumber(receipt.txIndex),
       txHash: parseString(receipt.txHash),
-      status: receipt.status ? Boolean(receipt.status) : undefined,
+      status,
       contractAddress: parseString(receipt.contractAddress),
       gasUsed: parseNumber(receipt.gasUsed),
       cumulativeGasUsed: parseNumber(receipt.cumulativeGasUsed),

@@ -59,7 +59,7 @@ describe('unmarshallers', () => {
           txIndex: mockTxResponse.receipt.txIndex,
           blockNumber: mockTxResponse.receipt.blockNumber,
           gasUsed: mockTxResponse.receipt.gasUsed,
-          status: true,
+          status: false,
           cumulativeGasUsed: mockTxResponse.receipt.cumulativeGasUsed,
           logs: undefined,
           bloom: mockBloom,
