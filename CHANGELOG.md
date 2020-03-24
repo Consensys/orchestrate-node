@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.0.1 (2020-03-24)
+
+### 🛠 Bug fixes
+
+- Fixes a bug where the status of a receipt is always true when the transaction reverted
+
 ## 2.0.0 (2020-02-03)
 
 Complete rewrite of the SDK in pure TypeScript and redefinition of the interfaces
