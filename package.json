@@ -1,6 +1,6 @@
 {
   "name": "pegasys-orchestrate",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "The PegaSys Orchestrate library provides convenient access to the PegaSys Orchestrate API from applications written in server-side JavaScript",
   "main": "lib/index.js",
   "files": [
@@ -14,7 +14,7 @@
     "test": "jest --config jestconfig.json",
     "test:watch": "npm run test -- --watch",
     "test:coverage": "npm run test -- --coverage",
-    "build": "npm run clean && tsc",
+    "build": "npm run clean && tsc && cp src/stubs/index.d.ts lib/stubs/index.d.ts",
     "clean": "rimraf ./lib ./coverage",
     "lint": "tslint -p . -c tslint.json",
     "lint:fix": "npm run lint -- --fix",
