@@ -17,13 +17,13 @@ describe('solidity-formatters', () => {
       ])
 
       expect(argsList).toEqual([
-        '0x32',
+        '50',
         '0x000000ea',
         'myString',
         utils.getAddress('0xc1912fee45d61c87cc5ea59dae31190fffff232d'),
         'false',
         JSON.stringify(['string1', 'string2']),
-        JSON.stringify(['0x1', '0x2']),
+        JSON.stringify(['1', '2']),
         JSON.stringify(['true', 'false'])
       ])
     })

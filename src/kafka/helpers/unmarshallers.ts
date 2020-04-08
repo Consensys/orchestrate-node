@@ -45,7 +45,8 @@ function parseReceipt(receipt?: ethereum.IReceipt | null): IReceipt | undefined 
       cumulativeGasUsed: parseNumber(receipt.cumulativeGasUsed),
       postState: parseString(receipt.postState),
       bloom: parseString(receipt.bloom),
-      logs: parseLogs(receipt.logs)
+      logs: parseLogs(receipt.logs),
+      revertReason: parseString(receipt.revertReason)
     }
   }
 }

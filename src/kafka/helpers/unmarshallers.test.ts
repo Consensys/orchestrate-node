@@ -11,6 +11,7 @@ const mockHash = '0xhash'
 const mockContractAddress = '0xcontractAddress'
 const mockBloom = '0xbloomFilter'
 const mockPostState = '0xpostState'
+const mockRevertReason = 'test revert reason'
 export const mockTxResponse = {
   id: 'id',
   transaction: {
@@ -40,7 +41,8 @@ export const mockTxResponse = {
     cumulativeGasUsed: 7777,
     logs: [],
     bloom: mockBloom,
-    postState: mockPostState
+    postState: mockPostState,
+    revertReason: mockRevertReason
   },
   errors: [{ code: 1, message: 'errorMessage', component: 'component' }]
 }
@@ -64,7 +66,8 @@ describe('unmarshallers', () => {
           logs: undefined,
           bloom: mockBloom,
           postState: mockPostState,
-          contractAddress: mockContractAddress
+          contractAddress: mockContractAddress,
+          revertReason: mockRevertReason
         },
         txContext: {
           from: mockFrom,

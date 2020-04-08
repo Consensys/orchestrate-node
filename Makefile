@@ -4,7 +4,7 @@
 PROTO_REPO=orchestrate
 PROTO_DIST_DIR=proto
 PROTO_SRC_DIR=types
-COMMIT_HASH=f6807c352298f92f2231468a2d5dc7de982b1e99
+COMMIT_HASH=2e914016b02625daa42e55bc1231e50b0e940e92
 
 import-proto:
 	@rm -rf orchestrate $(PROTO_DIST_DIR)

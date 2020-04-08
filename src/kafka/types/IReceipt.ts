@@ -12,4 +12,5 @@ export interface IReceipt {
   logs?: ILog[]
   gasUsed?: number
   cumulativeGasUsed?: number
+  revertReason?: string
 }
