@@ -15127,6 +15127,7 @@
              * @property {Array.<ethereum.ILog>|null} [logs] Receipt logs
              * @property {number|Long|null} [gasUsed] Receipt gasUsed
              * @property {number|Long|null} [cumulativeGasUsed] Receipt cumulativeGasUsed
+             * @property {string|null} [revertReason] Receipt revertReason
              */
     
             /**
@@ -15234,6 +15235,14 @@
             Receipt.prototype.cumulativeGasUsed = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
             /**
+             * Receipt revertReason.
+             * @member {string} revertReason
+             * @memberof ethereum.Receipt
+             * @instance
+             */
+            Receipt.prototype.revertReason = "";
+    
+            /**
              * Creates a new Receipt instance using the specified properties.
              * @function create
              * @memberof ethereum.Receipt
@@ -15280,6 +15289,8 @@
                     writer.uint32(/* id 12, wireType 0 =*/96).uint64(message.gasUsed);
                 if (message.cumulativeGasUsed != null && message.hasOwnProperty("cumulativeGasUsed"))
                     writer.uint32(/* id 13, wireType 0 =*/104).uint64(message.cumulativeGasUsed);
+                if (message.revertReason != null && message.hasOwnProperty("revertReason"))
+                    writer.uint32(/* id 14, wireType 2 =*/114).string(message.revertReason);
                 return writer;
             };
     
@@ -15348,6 +15359,9 @@
                         break;
                     case 13:
                         message.cumulativeGasUsed = reader.uint64();
+                        break;
+                    case 14:
+                        message.revertReason = reader.string();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -15423,6 +15437,9 @@
                 if (message.cumulativeGasUsed != null && message.hasOwnProperty("cumulativeGasUsed"))
                     if (!$util.isInteger(message.cumulativeGasUsed) && !(message.cumulativeGasUsed && $util.isInteger(message.cumulativeGasUsed.low) && $util.isInteger(message.cumulativeGasUsed.high)))
                         return "cumulativeGasUsed: integer|Long expected";
+                if (message.revertReason != null && message.hasOwnProperty("revertReason"))
+                    if (!$util.isString(message.revertReason))
+                        return "revertReason: string expected";
                 return null;
             };
     
@@ -15503,6 +15520,8 @@
                         message.cumulativeGasUsed = object.cumulativeGasUsed;
                     else if (typeof object.cumulativeGasUsed === "object")
                         message.cumulativeGasUsed = new $util.LongBits(object.cumulativeGasUsed.low >>> 0, object.cumulativeGasUsed.high >>> 0).toNumber(true);
+                if (object.revertReason != null)
+                    message.revertReason = String(object.revertReason);
                 return message;
             };
     
@@ -15552,6 +15571,7 @@
                         object.cumulativeGasUsed = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                     } else
                         object.cumulativeGasUsed = options.longs === String ? "0" : 0;
+                    object.revertReason = "";
                 }
                 if (message.txHash != null && message.hasOwnProperty("txHash"))
                     object.txHash = message.txHash;
@@ -15593,6 +15613,8 @@
                         object.cumulativeGasUsed = options.longs === String ? String(message.cumulativeGasUsed) : message.cumulativeGasUsed;
                     else
                         object.cumulativeGasUsed = options.longs === String ? $util.Long.prototype.toString.call(message.cumulativeGasUsed) : options.longs === Number ? new $util.LongBits(message.cumulativeGasUsed.low >>> 0, message.cumulativeGasUsed.high >>> 0).toNumber(true) : message.cumulativeGasUsed;
+                if (message.revertReason != null && message.hasOwnProperty("revertReason"))
+                    object.revertReason = message.revertReason;
                 return object;
             };
     
