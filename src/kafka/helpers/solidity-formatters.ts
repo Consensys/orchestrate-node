@@ -33,16 +33,8 @@ export function formatMethodArgs(methodSignature?: string, parameters?: any[]) {
   const decodedParams = abiCoder.decode(types, encodedParams)
 
   return decodedParams.map((param: any) => {
-    if (isBigNumber(param)) {
-      return utils.hexStripZeros(param.toHexString())
-    }
-
     if (Array.isArray(param)) {
       const paramArray = param.map(value => {
-        if (isBigNumber(value)) {
-          return utils.hexStripZeros(value.toHexString())
-        }
-
         return value.toString()
       })
 

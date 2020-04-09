@@ -6172,6 +6172,9 @@ export namespace ethereum {
 
         /** Receipt cumulativeGasUsed */
         cumulativeGasUsed?: (number|Long|null);
+
+        /** Receipt revertReason */
+        revertReason?: (string|null);
     }
 
     /** Represents a Receipt. */
@@ -6215,6 +6218,9 @@ export namespace ethereum {
 
         /** Receipt cumulativeGasUsed. */
         public cumulativeGasUsed: (number|Long);
+
+        /** Receipt revertReason. */
+        public revertReason: string;
 
         /**
          * Creates a new Receipt instance using the specified properties.
