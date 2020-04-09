@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.1.0 (2020-04-09)
+
+### 🆕 Features
+
+- Support revert reason in transaction receipt
+
 ## 2.0.1 (2020-03-24)
 
 ### 🛠 Bug fixes
