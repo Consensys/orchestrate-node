@@ -1,4 +1,5 @@
 export * from './EventType'
+export * from './ProtocolType'
 export * from './ITransactionRequest'
 export * from './IRawTransactionRequest'
 export * from './IResponse'
