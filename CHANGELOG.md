@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## 2.1.0 (2020-04-09)
+## 2.1.0 (Unreleased)
 
 ### 🆕 Features
 
