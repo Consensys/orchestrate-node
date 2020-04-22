@@ -1,6 +1,6 @@
 {
   "name": "pegasys-orchestrate",
-  "version": "2.1.0-rc1",
+  "version": "2.1.0-rc2",
   "description": "The PegaSys Orchestrate library provides convenient access to the PegaSys Orchestrate API from applications written in server-side JavaScript",
   "main": "lib/index.js",
   "files": [
@@ -24,6 +24,7 @@
     "generate:docs:html": "rimraf docs && typedoc --plugin none",
     "generate:docs:md": "rimraf docs && typedoc --plugin typedoc-plugin-markdown",
     "example:send-tx": "ts-node examples/send-tx",
+    "example:send-private-tx": "ts-node examples/send-private-tx",
     "example:send-raw-tx": "ts-node examples/send-raw-tx",
     "example:consume": "ts-node examples/consume",
     "example:register-contract": "ts-node examples/register-contract",
