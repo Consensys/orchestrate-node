@@ -59,7 +59,7 @@ function marshalEnvelope(envelopeMessage: tx.ITxRequest): Message {
   return { value: encode(envelopeMessage).finish() as Buffer, key: marshalKafkaKey(envelopeMessage) }
 }
 
-// Attribute kafka partition keys to messages to well attribute nonce
+// Attribute kafka partition keys to well attribute nonce
 // For a classic eth_sendRawTransaction transaction - <from>@<chain>
 // For a eea_sendRawTransaction with a privacyGroupID - <from>@orion-<privacyGroupID>@<chain>
 // For a eea_sendRawTransaction with a privateFor - <from>@orion-<hash(privateFor-privateFrom)>@<chain>

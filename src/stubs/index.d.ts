@@ -6175,6 +6175,18 @@ export namespace ethereum {
 
         /** Receipt revertReason */
         revertReason?: (string|null);
+
+        /** Receipt output */
+        output?: (string|null);
+
+        /** Receipt privateFrom */
+        privateFrom?: (string|null);
+
+        /** Receipt privateFor */
+        privateFor?: (string[]|null);
+
+        /** Receipt privacyGroupId */
+        privacyGroupId?: (string|null);
     }
 
     /** Represents a Receipt. */
@@ -6221,6 +6233,18 @@ export namespace ethereum {
 
         /** Receipt revertReason. */
         public revertReason: string;
+
+        /** Receipt output. */
+        public output: string;
+
+        /** Receipt privateFrom. */
+        public privateFrom: string;
+
+        /** Receipt privateFor. */
+        public privateFor: string[];
+
+        /** Receipt privacyGroupId. */
+        public privacyGroupId: string;
 
         /**
          * Creates a new Receipt instance using the specified properties.

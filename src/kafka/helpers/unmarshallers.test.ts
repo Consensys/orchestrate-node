@@ -12,6 +12,10 @@ const mockContractAddress = '0xcontractAddress'
 const mockBloom = '0xbloomFilter'
 const mockPostState = '0xpostState'
 const mockRevertReason = 'test revert reason'
+const mockOutput = 'testOutput'
+const mockPrivateFrom = 'testPrivateFrom'
+const mockPrivateFor = ['testPrivateFor']
+const mockPrivacyGroupId = 'testPrivateGroupID'
 export const mockTxResponse = {
   id: 'id',
   transaction: {
@@ -42,7 +46,11 @@ export const mockTxResponse = {
     logs: [],
     bloom: mockBloom,
     postState: mockPostState,
-    revertReason: mockRevertReason
+    revertReason: mockRevertReason,
+    output: mockOutput,
+    privateFrom: mockPrivateFrom,
+    privateFor: mockPrivateFor,
+    privacyGroupId: mockPrivacyGroupId
   },
   errors: [{ code: 1, message: 'errorMessage', component: 'component' }]
 }
@@ -67,7 +75,11 @@ describe('unmarshallers', () => {
           bloom: mockBloom,
           postState: mockPostState,
           contractAddress: mockContractAddress,
-          revertReason: mockRevertReason
+          revertReason: mockRevertReason,
+          output: mockOutput,
+          privateFrom: mockPrivateFrom,
+          privateFor: mockPrivateFor,
+          privacyGroupId: mockPrivacyGroupId
         },
         txContext: {
           from: mockFrom,

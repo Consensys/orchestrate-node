@@ -46,7 +46,11 @@ function parseReceipt(receipt?: ethereum.IReceipt | null): IReceipt | undefined 
       postState: parseString(receipt.postState),
       bloom: parseString(receipt.bloom),
       logs: parseLogs(receipt.logs),
-      revertReason: parseString(receipt.revertReason)
+      revertReason: parseString(receipt.revertReason),
+      output: parseString(receipt.output),
+      privateFrom: parseString(receipt.privateFrom),
+      privateFor: receipt.privateFor ? receipt.privateFor : undefined,
+      privacyGroupId: parseString(receipt.privacyGroupId)
     }
   }
 }
