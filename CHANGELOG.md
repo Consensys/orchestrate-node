@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### 🆕 Features
 
+- Support private transaction with Besu/Orion and Quorum/Tessera
 - Support revert reason in transaction receipt
 
 ## 2.0.1 (2020-03-24)

@@ -15128,6 +15128,10 @@
              * @property {number|Long|null} [gasUsed] Receipt gasUsed
              * @property {number|Long|null} [cumulativeGasUsed] Receipt cumulativeGasUsed
              * @property {string|null} [revertReason] Receipt revertReason
+             * @property {string|null} [output] Receipt output
+             * @property {string|null} [privateFrom] Receipt privateFrom
+             * @property {Array.<string>|null} [privateFor] Receipt privateFor
+             * @property {string|null} [privacyGroupId] Receipt privacyGroupId
              */
     
             /**
@@ -15140,6 +15144,7 @@
              */
             function Receipt(properties) {
                 this.logs = [];
+                this.privateFor = [];
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null)
@@ -15243,6 +15248,38 @@
             Receipt.prototype.revertReason = "";
     
             /**
+             * Receipt output.
+             * @member {string} output
+             * @memberof ethereum.Receipt
+             * @instance
+             */
+            Receipt.prototype.output = "";
+    
+            /**
+             * Receipt privateFrom.
+             * @member {string} privateFrom
+             * @memberof ethereum.Receipt
+             * @instance
+             */
+            Receipt.prototype.privateFrom = "";
+    
+            /**
+             * Receipt privateFor.
+             * @member {Array.<string>} privateFor
+             * @memberof ethereum.Receipt
+             * @instance
+             */
+            Receipt.prototype.privateFor = $util.emptyArray;
+    
+            /**
+             * Receipt privacyGroupId.
+             * @member {string} privacyGroupId
+             * @memberof ethereum.Receipt
+             * @instance
+             */
+            Receipt.prototype.privacyGroupId = "";
+    
+            /**
              * Creates a new Receipt instance using the specified properties.
              * @function create
              * @memberof ethereum.Receipt
@@ -15291,6 +15328,15 @@
                     writer.uint32(/* id 13, wireType 0 =*/104).uint64(message.cumulativeGasUsed);
                 if (message.revertReason != null && message.hasOwnProperty("revertReason"))
                     writer.uint32(/* id 14, wireType 2 =*/114).string(message.revertReason);
+                if (message.output != null && message.hasOwnProperty("output"))
+                    writer.uint32(/* id 15, wireType 2 =*/122).string(message.output);
+                if (message.privateFrom != null && message.hasOwnProperty("privateFrom"))
+                    writer.uint32(/* id 16, wireType 2 =*/130).string(message.privateFrom);
+                if (message.privateFor != null && message.privateFor.length)
+                    for (var i = 0; i < message.privateFor.length; ++i)
+                        writer.uint32(/* id 17, wireType 2 =*/138).string(message.privateFor[i]);
+                if (message.privacyGroupId != null && message.hasOwnProperty("privacyGroupId"))
+                    writer.uint32(/* id 18, wireType 2 =*/146).string(message.privacyGroupId);
                 return writer;
             };
     
@@ -15362,6 +15408,20 @@
                         break;
                     case 14:
                         message.revertReason = reader.string();
+                        break;
+                    case 15:
+                        message.output = reader.string();
+                        break;
+                    case 16:
+                        message.privateFrom = reader.string();
+                        break;
+                    case 17:
+                        if (!(message.privateFor && message.privateFor.length))
+                            message.privateFor = [];
+                        message.privateFor.push(reader.string());
+                        break;
+                    case 18:
+                        message.privacyGroupId = reader.string();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -15440,6 +15500,22 @@
                 if (message.revertReason != null && message.hasOwnProperty("revertReason"))
                     if (!$util.isString(message.revertReason))
                         return "revertReason: string expected";
+                if (message.output != null && message.hasOwnProperty("output"))
+                    if (!$util.isString(message.output))
+                        return "output: string expected";
+                if (message.privateFrom != null && message.hasOwnProperty("privateFrom"))
+                    if (!$util.isString(message.privateFrom))
+                        return "privateFrom: string expected";
+                if (message.privateFor != null && message.hasOwnProperty("privateFor")) {
+                    if (!Array.isArray(message.privateFor))
+                        return "privateFor: array expected";
+                    for (var i = 0; i < message.privateFor.length; ++i)
+                        if (!$util.isString(message.privateFor[i]))
+                            return "privateFor: string[] expected";
+                }
+                if (message.privacyGroupId != null && message.hasOwnProperty("privacyGroupId"))
+                    if (!$util.isString(message.privacyGroupId))
+                        return "privacyGroupId: string expected";
                 return null;
             };
     
@@ -15522,6 +15598,19 @@
                         message.cumulativeGasUsed = new $util.LongBits(object.cumulativeGasUsed.low >>> 0, object.cumulativeGasUsed.high >>> 0).toNumber(true);
                 if (object.revertReason != null)
                     message.revertReason = String(object.revertReason);
+                if (object.output != null)
+                    message.output = String(object.output);
+                if (object.privateFrom != null)
+                    message.privateFrom = String(object.privateFrom);
+                if (object.privateFor) {
+                    if (!Array.isArray(object.privateFor))
+                        throw TypeError(".ethereum.Receipt.privateFor: array expected");
+                    message.privateFor = [];
+                    for (var i = 0; i < object.privateFor.length; ++i)
+                        message.privateFor[i] = String(object.privateFor[i]);
+                }
+                if (object.privacyGroupId != null)
+                    message.privacyGroupId = String(object.privacyGroupId);
                 return message;
             };
     
@@ -15538,8 +15627,10 @@
                 if (!options)
                     options = {};
                 var object = {};
-                if (options.arrays || options.defaults)
+                if (options.arrays || options.defaults) {
                     object.logs = [];
+                    object.privateFor = [];
+                }
                 if (options.defaults) {
                     object.txHash = "";
                     object.blockHash = "";
@@ -15572,6 +15663,9 @@
                     } else
                         object.cumulativeGasUsed = options.longs === String ? "0" : 0;
                     object.revertReason = "";
+                    object.output = "";
+                    object.privateFrom = "";
+                    object.privacyGroupId = "";
                 }
                 if (message.txHash != null && message.hasOwnProperty("txHash"))
                     object.txHash = message.txHash;
@@ -15615,6 +15709,17 @@
                         object.cumulativeGasUsed = options.longs === String ? $util.Long.prototype.toString.call(message.cumulativeGasUsed) : options.longs === Number ? new $util.LongBits(message.cumulativeGasUsed.low >>> 0, message.cumulativeGasUsed.high >>> 0).toNumber(true) : message.cumulativeGasUsed;
                 if (message.revertReason != null && message.hasOwnProperty("revertReason"))
                     object.revertReason = message.revertReason;
+                if (message.output != null && message.hasOwnProperty("output"))
+                    object.output = message.output;
+                if (message.privateFrom != null && message.hasOwnProperty("privateFrom"))
+                    object.privateFrom = message.privateFrom;
+                if (message.privateFor && message.privateFor.length) {
+                    object.privateFor = [];
+                    for (var j = 0; j < message.privateFor.length; ++j)
+                        object.privateFor[j] = message.privateFor[j];
+                }
+                if (message.privacyGroupId != null && message.hasOwnProperty("privacyGroupId"))
+                    object.privacyGroupId = message.privacyGroupId;
                 return object;
             };
     

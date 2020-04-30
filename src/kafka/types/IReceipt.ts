@@ -13,4 +13,8 @@ export interface IReceipt {
   gasUsed?: number
   cumulativeGasUsed?: number
   revertReason?: string
+  output?: string
+  privateFrom?: string
+  privateFor?: string[]
+  privacyGroupId?: string
 }
