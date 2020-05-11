@@ -8,7 +8,7 @@ export const start = async () => {
     await producer.connect()
 
     // Deploy a new SimpleToken contract
-    // await producer.sendTransaction({
+    // const envelopeId = await producer.sendTransaction({
     //   chainName: 'quorum',
     //   contractName: 'SimpleToken',
     //   methodSignature: 'transfer(address,uint256)',
@@ -20,7 +20,7 @@ export const start = async () => {
     //   privateFrom: 'BULeR8JyUWhiuuCMU/HLA0Q5pzkYT+cHII3ZKBey3Bo='
     // })
 
-    await producer.sendTransaction({
+    const envelopeId = await producer.sendTransaction({
       chainName: 'quorum',
       contractName: 'SimpleToken',
       methodSignature: 'constructor()',
@@ -29,6 +29,8 @@ export const start = async () => {
       privateFor: ['QfeDAys9MPDs2XHExtc84jKGHxZg/aj52DTh0vtA3Xc='],
       privateFrom: 'BULeR8JyUWhiuuCMU/HLA0Q5pzkYT+cHII3ZKBey3Bo='
     })
+
+    console.log(`Envelope ID: ${envelopeId}`)
   } catch (error) {
     console.error(error)
   }

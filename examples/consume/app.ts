@@ -9,14 +9,14 @@ const consume = async (consumer: Consumer) => {
   consumer.on(EventType.Response, async (message: ResponseMessage) => {
     const { offset, topic, value } = message.content()
 
-    console.log('Message received !', { offset, topic })
+    console.log('Message received !', { envelopeId: value.id, offset, topic })
     if (value.errors && value.errors.length !== 0) {
       console.log('Transaction failed!', { errors: value.errors, txContext: value.txContext })
     } else {
       console.log('Receipt:', value.receipt)
     }
 
-    // We commit every messgage
+    // We commit every message
     await message.commit()
     console.log('Message committed')
   })

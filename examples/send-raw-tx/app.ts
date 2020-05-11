@@ -42,10 +42,12 @@ export const start = async () => {
       value: utils.parseEther('0.5')
     })
 
-    await producer.sendRawTransaction({
+    const envelopeId = await producer.sendRawTransaction({
       chainName: 'besu',
       signedTransaction
     })
+
+    console.log(`Envelope ID: ${envelopeId}`)
   } catch (error) {
     console.error(error)
   }
