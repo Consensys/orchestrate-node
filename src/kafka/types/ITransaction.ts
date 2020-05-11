@@ -5,5 +5,5 @@ export interface ITransaction {
   nonce?: number
   to?: string
   value?: string
-  from: string
+  from?: string
 }
