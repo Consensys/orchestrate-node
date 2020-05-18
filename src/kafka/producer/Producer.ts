@@ -59,8 +59,12 @@ export class Producer extends KafkaClient {
   public async produce(topic: string, message: KakfaJS.Message): Promise<KakfaJS.RecordMetadata> {
     this.checkReadiness()
 
-    const result = await this.producer.send({ topic, messages: [message] })
-    return result[0]
+    try {
+      const result = await this.producer.send({ topic, messages: [message] })
+      return result[0]
+    } catch (error) {
+      throw error
+    }
   }
 
   /**
