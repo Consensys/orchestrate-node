@@ -35,8 +35,6 @@ describe('Producer', () => {
     mockKafkaProducer.send.mockClear()
     mockKafkaProducer.disconnect.mockClear()
 
-    mockKafkaProducer.send.mockResolvedValueOnce([mockResult])
-
     producer = new Producer(brokers)
   })
 
@@ -89,8 +87,17 @@ describe('Producer', () => {
       )
     })
 
+    it('should fail if send fails', async () => {
+      await producer.connect()
+      mockKafkaProducer.send.mockRejectedValueOnce(new Error('Failed to send'))
+
+      await expect(producer.produce(topic, mockMessage as any)).rejects.toThrowError(new Error('Failed to send'))
+    })
+
     it('should produce a message successfully ', async () => {
       await producer.connect()
+      mockKafkaProducer.send.mockResolvedValueOnce([mockResult])
+
       const result = await producer.produce(topic, mockMessage as any)
 
       expect(mockKafkaProducer.send).toHaveBeenCalledWith({ topic, messages: [mockMessage] })
@@ -99,25 +106,35 @@ describe('Producer', () => {
   })
 
   describe('sendTransaction', () => {
+    const mockRequest = {
+      from: mockFrom,
+      id: requestId,
+      extraData,
+      chainUUID: 'chainUUID',
+      contractName: 'contract'
+    }
+
     it('should fail if the producer is not connected', async () => {
       await expect(producer.sendTransaction({} as any)).rejects.toThrowError(
         new Error('Producer is not currently connected, did you forget to call connect()?')
       )
     })
 
-    it('should send a transaction successfully', async () => {
-      const request = {
-        from: mockFrom,
-        id: requestId,
-        extraData,
-        chainUUID: 'chainUUID',
-        contractName: 'contract'
-      }
+    it('should fail if produce fails', async () => {
+      mockKafkaProducer.send.mockRejectedValueOnce(new Error('Failed to send'))
 
       await producer.connect()
-      const result = await producer.sendTransaction(request, topic)
 
-      expect(mockKafkaProducer.send).toHaveBeenCalledWith({ topic, messages: [marshalTransactionRequest(request)] })
+      await expect(producer.sendTransaction(mockRequest, topic)).rejects.toThrowError(new Error('Failed to send'))
+    })
+
+    it('should send a transaction successfully', async () => {
+      mockKafkaProducer.send.mockResolvedValueOnce([mockResult])
+
+      await producer.connect()
+      const result = await producer.sendTransaction(mockRequest, topic)
+
+      expect(mockKafkaProducer.send).toHaveBeenCalledWith({ topic, messages: [marshalTransactionRequest(mockRequest)] })
       expect(result).toEqual(requestId)
     })
 
@@ -127,6 +144,7 @@ describe('Producer', () => {
         contractName: 'contractName',
         chainUUID: 'chainUUID'
       }
+      mockKafkaProducer.send.mockResolvedValueOnce([mockResult])
 
       await producer.connect()
       const result = await producer.sendTransaction(request, topic)
@@ -137,6 +155,10 @@ describe('Producer', () => {
   })
 
   describe('sendRawTransaction', () => {
+    beforeEach(() => {
+      mockKafkaProducer.send.mockResolvedValueOnce([mockResult])
+    })
+
     it('should fail if the producer is not connected', async () => {
       await expect(producer.sendRawTransaction({} as any)).rejects.toThrowError(
         new Error('Producer is not currently connected, did you forget to call connect()?')
@@ -173,6 +195,10 @@ describe('Producer', () => {
   })
 
   describe('generateAccount', () => {
+    beforeEach(() => {
+      mockKafkaProducer.send.mockResolvedValueOnce([mockResult])
+    })
+
     it('should fail if the producer is not connected', async () => {
       await expect(producer.generateAccount()).rejects.toThrowError(
         new Error('Producer is not currently connected, did you forget to call connect()?')
