@@ -10,6 +10,10 @@ All notable changes to this project will be documented in this file.
 - Support revert reason in transaction receipt
 - Adds chain information to the transaction response
 
+### Breaking changes
+
+- `chainName` field was replaced by `chain` in multiple interfaces
+
 ## 2.0.1 (2020-03-24)
 
 ### 🛠 Bug fixes
