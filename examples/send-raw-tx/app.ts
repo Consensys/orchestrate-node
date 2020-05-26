@@ -25,7 +25,7 @@ export const start = async () => {
 
     // Funding the newly created account to be able to send a raw transaction
     await producer.sendTransaction({
-      chainName: 'besu',
+      chain: 'besu',
       from: '0x7e654d251da770a068413677967f6d3ea2fea9e4', // Default Orchestrate account in development mode
       value: utils.parseEther('1.0').toString(),
       to: wallet.address
@@ -43,7 +43,7 @@ export const start = async () => {
     })
 
     const envelopeId = await producer.sendRawTransaction({
-      chainName: 'besu',
+      chain: 'besu',
       signedTransaction
     })
 

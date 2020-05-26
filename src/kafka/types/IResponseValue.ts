@@ -7,6 +7,7 @@ export interface IResponseValue {
   txContext?: ITransactionContext
   receipt?: IReceipt
   errors?: IError[]
+  chain?: string
   contextLabels?: IContextLabels
 }
 

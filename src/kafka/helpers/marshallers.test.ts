@@ -6,7 +6,7 @@ describe('marshallers', () => {
   describe('kafka partition key', () => {
     it('creates a kafka partition key for classic transaction', () => {
       const msg = marshalTransactionRequest({
-        chainName: 'test',
+        chain: 'test',
         from: '0xc1912fee45d61c87cc5ea59dae31190fffff232d'
       })
 
@@ -15,7 +15,7 @@ describe('marshallers', () => {
 
     it('creates a kafka partition key for eea_sendRawTransaction with privateFor', () => {
       const msg = marshalTransactionRequest({
-        chainName: 'test',
+        chain: 'test',
         from: '0xc1912fee45d61c87cc5ea59dae31190fffff232d',
         protocol: ProtocolType.BesuOrion,
         privateFor: ['testPrivateFor'],
@@ -27,7 +27,7 @@ describe('marshallers', () => {
 
     it('creates a kafka partition key for eea_sendRawTransaction with privateFor', () => {
       const msg = marshalTransactionRequest({
-        chainName: 'test',
+        chain: 'test',
         from: '0xc1912fee45d61c87cc5ea59dae31190fffff232d',
         protocol: ProtocolType.BesuOrion,
         privacyGroupId: 'testPrivacyGroupId',
@@ -39,11 +39,12 @@ describe('marshallers', () => {
 
     it('creates a kafka partition key for eea_sendRawTransaction without privateFor or privacyGroupId', () => {
       const msg = marshalTransactionRequest({
+        chain: 'chainName',
         from: '0xc1912fee45d61c87cc5ea59dae31190fffff232d',
         protocol: ProtocolType.BesuOrion
       })
 
-      expect(msg.key).toEqual('0xc1912fee45d61c87cc5ea59dae31190fffff232d@orion-undefined')
+      expect(msg.key).toEqual('0xc1912fee45d61c87cc5ea59dae31190fffff232d@orion-chainName')
     })
   })
 })

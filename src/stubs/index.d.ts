@@ -6884,6 +6884,9 @@ export namespace tx {
         /** TxResponse receipt */
         receipt?: (ethereum.IReceipt|null);
 
+        /** TxResponse chain */
+        chain?: (string|null);
+
         /** TxResponse errors */
         errors?: (error.IError[]|null);
     }
@@ -6911,6 +6914,9 @@ export namespace tx {
 
         /** TxResponse receipt. */
         public receipt?: (ethereum.IReceipt|null);
+
+        /** TxResponse chain. */
+        public chain: string;
 
         /** TxResponse errors. */
         public errors: error.IError[];

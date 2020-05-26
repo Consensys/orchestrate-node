@@ -52,7 +52,8 @@ export const mockTxResponse = {
     privateFor: mockPrivateFor,
     privacyGroupId: mockPrivacyGroupId
   },
-  errors: [{ code: 1, message: 'errorMessage', component: 'component' }]
+  errors: [{ code: 1, message: 'errorMessage', component: 'component' }],
+  chain: 'chainName'
 }
 
 // TODO: unmarshallers are not taken into account in the coverage until we have the new envelope format because of too many branches
@@ -91,7 +92,8 @@ describe('unmarshallers', () => {
           to: mockTo,
           raw: mockData,
           txHash: mockHash
-        }
+        },
+        chain: 'chainName'
       }
       const envelopeBuffer = tx.TxResponse.encode(mockTxResponse).finish()
 

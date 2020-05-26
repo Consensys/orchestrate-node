@@ -17330,6 +17330,7 @@
              * @property {Object.<string,string>|null} [contextLabels] TxResponse contextLabels
              * @property {ethereum.ITransaction|null} [transaction] TxResponse transaction
              * @property {ethereum.IReceipt|null} [receipt] TxResponse receipt
+             * @property {string|null} [chain] TxResponse chain
              * @property {Array.<error.IError>|null} [errors] TxResponse errors
              */
     
@@ -17392,6 +17393,14 @@
             TxResponse.prototype.receipt = null;
     
             /**
+             * TxResponse chain.
+             * @member {string} chain
+             * @memberof tx.TxResponse
+             * @instance
+             */
+            TxResponse.prototype.chain = "";
+    
+            /**
              * TxResponse errors.
              * @member {Array.<error.IError>} errors
              * @memberof tx.TxResponse
@@ -17438,6 +17447,8 @@
                 if (message.errors != null && message.errors.length)
                     for (var i = 0; i < message.errors.length; ++i)
                         $root.error.Error.encode(message.errors[i], writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
+                if (message.chain != null && message.hasOwnProperty("chain"))
+                    writer.uint32(/* id 7, wireType 2 =*/58).string(message.chain);
                 return writer;
             };
     
@@ -17496,6 +17507,9 @@
                         break;
                     case 5:
                         message.receipt = $root.ethereum.Receipt.decode(reader, reader.uint32());
+                        break;
+                    case 7:
+                        message.chain = reader.string();
                         break;
                     case 6:
                         if (!(message.errors && message.errors.length))
@@ -17566,6 +17580,9 @@
                     if (error)
                         return "receipt." + error;
                 }
+                if (message.chain != null && message.hasOwnProperty("chain"))
+                    if (!$util.isString(message.chain))
+                        return "chain: string expected";
                 if (message.errors != null && message.hasOwnProperty("errors")) {
                     if (!Array.isArray(message.errors))
                         return "errors: array expected";
@@ -17616,6 +17633,8 @@
                         throw TypeError(".tx.TxResponse.receipt: object expected");
                     message.receipt = $root.ethereum.Receipt.fromObject(object.receipt);
                 }
+                if (object.chain != null)
+                    message.chain = String(object.chain);
                 if (object.errors) {
                     if (!Array.isArray(object.errors))
                         throw TypeError(".tx.TxResponse.errors: array expected");
@@ -17652,6 +17671,7 @@
                     object.id = "";
                     object.transaction = null;
                     object.receipt = null;
+                    object.chain = "";
                 }
                 var keys2;
                 if (message.headers && (keys2 = Object.keys(message.headers)).length) {
@@ -17675,6 +17695,8 @@
                     for (var j = 0; j < message.errors.length; ++j)
                         object.errors[j] = $root.error.Error.toObject(message.errors[j], options);
                 }
+                if (message.chain != null && message.hasOwnProperty("chain"))
+                    object.chain = message.chain;
                 return object;
             };
     
