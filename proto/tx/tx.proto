@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-import "types/error/error.proto";
-import "types/ethereum/receipt.proto";
-import "types/ethereum/transaction.proto";
+import "pkg/types/error/error.proto";
+import "pkg/types/ethereum/receipt.proto";
+import "pkg/types/ethereum/transaction.proto";
 
-option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/orchestrate.git/types/tx";
+option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/orchestrate.git/pkg/types/tx";
 
 package tx;
 
@@ -116,6 +116,9 @@ message TxResponse {
 
     ethereum.Transaction transaction = 4;
     ethereum.Receipt receipt = 5;
+    // Name of the Chain as registered on the chain registry
+    // e.g. 1 for mainnet, 3 for Ropsten
+    string chain = 7;
 
     repeated error.Error errors = 6;
 }

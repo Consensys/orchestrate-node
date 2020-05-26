@@ -110,7 +110,7 @@ describe('Producer', () => {
       from: mockFrom,
       id: requestId,
       extraData,
-      chainUUID: 'chainUUID',
+      chain: 'chain',
       contractName: 'contract'
     }
 
@@ -142,7 +142,7 @@ describe('Producer', () => {
       const request = {
         from: mockFrom,
         contractName: 'contractName',
-        chainUUID: 'chainUUID'
+        chain: 'chain'
       }
       mockKafkaProducer.send.mockResolvedValueOnce([mockResult])
 
@@ -169,7 +169,7 @@ describe('Producer', () => {
       const request = {
         id: requestId,
         extraData,
-        chainUUID: 'chainUUID',
+        chain: 'chain',
         signedTransaction: mockSignedTx
       }
 
@@ -183,7 +183,7 @@ describe('Producer', () => {
     it('should send a transaction request with default parameters', async () => {
       const request = {
         signedTransaction: mockSignedTx,
-        chainUUID: 'chainUUID'
+        chain: 'chain'
       }
 
       await producer.connect()

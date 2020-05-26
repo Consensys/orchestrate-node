@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/orchestrate.git/types/error";
+option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/orchestrate.git/pkg/types/error";
 
 package error;
 

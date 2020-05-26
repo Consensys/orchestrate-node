@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/orchestrate.git/types/ethereum";
+option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/orchestrate.git/pkg/types/ethereum";
 
 package ethereum;
 
@@ -88,10 +88,10 @@ message Receipt {
     // PRIVATE TX FIELDS //
     ///////////////////////
 
-    // DATA - RLP-encoded return value of a contract call for Orion Priv Tx
+    // DATA - RLP-encoded return value of a contract call for Orion Priv Tx 
     // Provisional till we migrate to TransactionManager Jobs
     string output = 15;
-
+    
     // DATA (32 bytes) - Orion public key of the sender.
     // e.g A1aVtMxLCUHmBVHXoZzzBgPbW/wj5axDpW9X8l91SGo=
     string privateFrom = 16;

@@ -8,7 +8,7 @@ export const start = async () => {
     await producer.connect()
 
     const envelopeId = await producer.sendTransaction({
-      chainName: 'besu',
+      chain: 'besu',
       contractName: 'SimpleToken',
       methodSignature: 'constructor()',
       contextLabels: {

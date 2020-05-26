@@ -24,7 +24,7 @@ export function marshalTransactionRequest(request: ITransactionRequest) {
     privacyGroupId: request.privacyGroupId
   }
 
-  const envelopeMessage = marshalTxRequest(request.id, request.chainName, request.authToken)
+  const envelopeMessage = marshalTxRequest(request.id, request.chain, request.authToken)
   envelopeMessage.params = params
   envelopeMessage.method = formatters.formatProtocol(request.protocol)
   envelopeMessage.contextLabels = request.contextLabels
@@ -37,7 +37,7 @@ export function marshalRawTransactionRequest(request: IRawTransactionRequest) {
     raw: request.signedTransaction
   }
 
-  const envelopeMessage = marshalTxRequest(request.id, request.chainName, request.authToken)
+  const envelopeMessage = marshalTxRequest(request.id, request.chain, request.authToken)
   envelopeMessage.params = params
   envelopeMessage.method = formatters.formatProtocol(request.protocol)
   envelopeMessage.contextLabels = { ...request.contextLabels, txMode: 'raw' }
@@ -86,10 +86,10 @@ export function marshalKafkaKey(envelopeMessage: tx.ITxRequest) {
   }
 }
 
-function marshalTxRequest(id?: string, chainName?: string, authToken?: string) {
+function marshalTxRequest(id?: string, chain?: string, authToken?: string) {
   const envelopeMessage: tx.ITxRequest = {
     id,
-    chain: chainName
+    chain
   }
   if (authToken) {
     envelopeMessage.headers = { Authorization: authToken, ...envelopeMessage.headers }

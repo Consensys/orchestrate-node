@@ -3,7 +3,7 @@
 # gitlab options
 PROTO_REPO=orchestrate
 PROTO_DIST_DIR=proto
-PROTO_SRC_DIR=types
+PROTO_SRC_DIR=pkg/types
 
 # TO UPDATE
 # COMMIT_HASH=2e914016b02625daa42e55bc1231e50b0e940e92

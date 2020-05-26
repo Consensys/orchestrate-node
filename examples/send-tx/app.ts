@@ -9,7 +9,7 @@ export const start = async () => {
 
     // Deploy a new SimpleToken contract
     // const envelopeId = await producer.sendTransaction({
-    //   chainName: 'besu',
+    //   chain: 'besu',
     //   contractName: 'SimpleToken',
     //   methodSignature: 'transfer(address,uint256)',
     //   args: ['0x7e654d251da770a068413677967f6d3ea2fea9e5', 5000],
@@ -18,7 +18,7 @@ export const start = async () => {
     // })
 
     const envelopeId = await producer.sendTransaction({
-      chainName: 'besu',
+      chain: 'besu',
       contractName: 'SimpleToken',
       methodSignature: 'constructor()',
       from: '0x7e654d251da770a068413677967f6d3ea2fea9e4' // Default Orchestrate account in development mode
