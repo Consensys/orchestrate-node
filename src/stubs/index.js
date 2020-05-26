@@ -14298,6 +14298,18 @@
         return google;
     })();
     
+    $root.envelopestore = (function() {
+    
+        /**
+         * Namespace envelopestore.
+         * @exports envelopestore
+         * @namespace
+         */
+        var envelopestore = {};
+    
+        return envelopestore;
+    })();
+    
     $root.error = (function() {
     
         /**
