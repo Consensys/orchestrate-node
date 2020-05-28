@@ -63,6 +63,7 @@
     "commander": "~4.1.0",
     "ethers": "~4.0.43",
     "kafkajs": "~1.11.0",
+    "minimist": "^1.2.5",
     "protobufjs": "~6.8.8",
     "uuid": "~3.3.3"
   },
