@@ -87,9 +87,13 @@ workflows:
   version: 2
   default:
     jobs:
-      - test
-      - check
       - build
+      - test:
+          requires:
+            - build
+      - check:
+          requires:
+            - build
       # - wait-for-approval: # Runs for tags only
       #     type: approval
       #     requires:
