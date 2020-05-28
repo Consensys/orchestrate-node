@@ -1,85 +1,195 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
+---
 version: 2.1
 
-jobs:
-  build:
+executors:
+  node_executor:
     docker:
-      - image: circleci/node:12
-    working_directory: ~/project
+      - image: circleci/node:14-buster
+
+commands:
+  prepare_node:
+    description: "checkout, install all packages and handle cache"
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+            - node-cache-{{ checksum "package-lock.json" }}
+            - node-cache-
       - run:
-          name: npm version
-          command: npm -v
-      - run:
-          name: Install dependencies
+          name: install packages
           command: npm ci
       - save_cache:
           paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+            - ~/.npm
+          key: node-cache-{{ checksum "package-lock.json" }}
+
+  publish_doc:
+    description: "publish doc to gihub pages"
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /tmp/workspace
+      - add_ssh_keys:
+          fingerprints:
+            - '24:3f:be:a8:0c:25:9a:08:12:5c:37:47:00:e6:4a:b0'
       - run:
-          name: Lint and formatting
+          name: Set Git user params
           command: |
-            npm run lint
-            npm run check-formatting
+            git config --global user.name $CIRCLE_USERNAME
+            git config --global user.email "${CIRCLE_USERNAME}@users.noreply.github.com"
+      - deploy:
+          name: Commit and push docs changes
+          command: |
+            # publishing happens by pushing files to gh-pages branch
+            # retrieve branch to publish to from CIrcle CI env vars and fallback on test-gh-pages
+            # if no var defined
+            [ -n "$BRANCH_OVERRIDE" ] && readonly BRANCH="$BRANCH_OVERRIDE" || readonly BRANCH='test-gh-pages'
+
+            # switch to the publishing branch
+            git checkout "$BRANCH"
+
+            # copy the content of the docs folder built on the previous job and attached
+            # using workspace on temp location
+            # cp with T option to override existing content, specially usefull for latest
+            cp -aT /tmp/workspace/docs/. .
+
+            # add a readme to make sure devs understand that this publishing branch is generated
+            # by CI (use template readme), mv replaces the current readme that is only for source dir
+            mv TARGET_README.md README.md
+
+            # add all new copied content of the workspace to git
+            git add .
+
+            # commit with infos on the triggering task and branch
+            # use [skip ci] to prevent CI from runnning on this branch as no CI is configured
+            git commit -m "Automated SDK documentation update" \
+                       -m "[ci skip] Circle CI build ${CIRCLE_BUILD_NUM}, see ${CIRCLE_BUILD_URL}" \
+                       -m "Branch: ${CIRCLE_BRANCH}, commit: ${CIRCLE_SHA1}, tag:${CIRCLE_TAG-none}"
+
+            # push changes to the Github Pages publishing branch on origin repos
+            git push --set-upstream origin $BRANCH
+            git push origin
+
+jobs:
+  styleCheck:
+    executor: node_executor
+    steps:
+      - prepare_node
       - run:
-          name: Unit tests
-          command: npm run test:coverage
+          name: Check lints
+          command: npm run lint
+      - run:
+          name: Check formatting
+          command: npm run check-formatting
+
+  build:
+    executor: node_executor
+    steps:
+      - prepare_node
       - run:
           name: Build
           command: npm run build
-  publish:
-    docker:
-      - image: circleci/node:12
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - ./lib
+
+  test:
+    executor: node_executor
+    steps:
+      - prepare_node
+      - run:
+          name: Unit tests
+          command: npm run test:coverage
+
+  publishSdk:
+    executor: node_executor
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-      - run:
-          name: Build
-          command: npm run build
-      - run:
-          name: Publish on npm
+            - node-cache-{{ checksum "package-lock.json" }}
+            - node-cache-
+      - attach_workspace:
+          at: ~/project
+      - deploy:
+          name: Publish sdk package on NPM
           command: |
             echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
             npm publish --access public
+
+  generateDoc:
+    executor: node_executor
+    steps:
+    - prepare_node
+    - run:
+        name: build doc
+        command: npm run generate:docs
+    - run:
+        name: archive doc
+        command: tar -czf orchestrate-sdk-doc.tgz ./docs/out
+    - store_artifacts:
+        path: ./orchestrate-sdk-doc.tgz
+    - run:
+        name: organise doc dirs
+        command: |
+          node .circleci/organise_doc.js --rootdir=$(pwd) --tag="${CIRCLE_TAG}"
+          ls -la docs/
+    - persist_to_workspace:
+        root: ~/project
+        paths:
+          - ./docs
+
+  publishDocMaster:
+    executor: node_executor
+    steps:
+    - publish_doc
+
+  publishDocTag:
+    executor: node_executor
+    steps:
+    - publish_doc
 
 workflows:
   version: 2
   default:
     jobs:
-      - build: # Runs for the specified branches OR all tags
+      - styleCheck
+      - build
+      - test
+      - generateDoc:
+          requires:
+            - build
+      - publishDocMaster:
+          requires:
+            - styleCheck
+            - test
+            - generateDoc
           filters:
             branches:
-              only:
-                - /^feature\/[a-zA-Z0-9\/\-.]*$/
-                - /^fix\/[a-zA-Z0-9\/\-.]*$/
-                - /^maintenance\/[a-zA-Z0-9\/\-.]*$/
-                - master
+              only: master
             tags:
-              only: /.*/
+              ignore: /.*/ # make sure it doesn't run twice when master is the tagged branch
       - wait-for-approval: # Runs for tags only
           type: approval
           requires:
-            - build
+            - test
+            - styleCheck
+            - generateDoc
           filters:
             tags:
               only: /^v.*/
             branches:
               ignore: /.*/
-      - publish: # Runs for tags only
+      - publishSdk: # Runs for tags only
+          requires:
+            - wait-for-approval
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+      - publishDocTag: # Runs for tags only
           requires:
             - wait-for-approval
           filters:
