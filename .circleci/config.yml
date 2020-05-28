@@ -90,22 +90,22 @@ workflows:
       - test
       - check
       - build
-      - wait-for-approval: # Runs for tags only
-          type: approval
-          requires:
-            - test
-            - check
-            - build
-          filters:
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
-      - publish: # Runs for tags only
-          requires:
-            - wait-for-approval
-          filters:
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
+      # - wait-for-approval: # Runs for tags only
+      #     type: approval
+      #     requires:
+      #       - test
+      #       - check
+      #       - build
+      #     filters:
+      #       tags:
+      #         only: /^v.*/
+      #       branches:
+      #         ignore: /.*/
+      # - publish: # Runs for tags only
+      #     requires:
+      #       - wait-for-approval
+      #     filters:
+      #       tags:
+      #         only: /^v.*/
+      #       branches:
+      #         ignore: /.*/
