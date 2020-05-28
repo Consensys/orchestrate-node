@@ -5,8 +5,9 @@ executors:
   node_executor:
     docker:
       - image: circleci/node:12.9.0-stretch
+
 jobs:
-  test:
+  check:
     executor: node_executor
     steps:
       - checkout
@@ -22,8 +23,12 @@ jobs:
             - ~/.npm
           key: node-cache-{{ checksum "package-lock.json" }}
       - run:
-          name: Unit tests
-          command: npm run test:coverage
+          name: Check lints
+          command: npm run lint
+      - run:
+          name: Check formatting
+          command: npm run check-formatting
+
   build:
     executor: node_executor
     steps:
@@ -46,7 +51,8 @@ jobs:
           root: ~/project
           paths:
             - ./lib
-  check:
+
+  test:
     executor: node_executor
     steps:
       - checkout
@@ -62,11 +68,9 @@ jobs:
             - ~/.npm
           key: node-cache-{{ checksum "package-lock.json" }}
       - run:
-          name: Check lints
-          command: npm run lint
-      - run:
-          name: Check formatting
-          command: npm run check-formatting
+          name: Unit tests
+          command: npm run test:coverage
+
   publish:
     executor: node_executor
     steps:
@@ -87,13 +91,9 @@ workflows:
   version: 2
   default:
     jobs:
+      - check
       - build
-      - test:
-          requires:
-            - build
-      - check:
-          requires:
-            - build
+      - test
       # - wait-for-approval: # Runs for tags only
       #     type: approval
       #     requires:
