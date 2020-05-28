@@ -21,8 +21,7 @@
     "format": "prettier --write 'src/**/*.{ts,js,json}'",
     "check-formatting": "prettier --list-different 'src/**/*.{ts,js,json}'",
     "generate:stubs": "pbjs -t static-module -o src/stubs/index.js proto/**/*.proto && pbts -o src/stubs/index.d.ts src/stubs/index.js",
-    "generate:docs:html": "rimraf docs && typedoc --plugin none",
-    "generate:docs:md": "rimraf docs && typedoc --plugin typedoc-plugin-markdown",
+    "generate:docs": "typedoc --options typedoc.json",
     "example:send-tx": "ts-node examples/send-tx",
     "example:send-private-tx": "ts-node examples/send-private-tx",
     "example:send-raw-tx": "ts-node examples/send-raw-tx",
@@ -51,13 +50,14 @@
     "Alexis Masseron <alexis.masseron@consensys.net>",
     "Christian Tran <christian.tran@consensys.net>",
     "Julien Marchand <julien.marchand@consensys.net>",
-    "Nicolas Maurice <nicolas.maurice@consensys.net>"
+    "Nicolas Maurice <nicolas.maurice@consensys.net>",
+    "Nicolas Massart <nicolas.massart@consensys.net>"
   ],
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/PegaSysEng/orchestrate-node/issues"
   },
-  "homepage": "https://github.com/PegaSysEng/orchestrate-node#readme",
+  "homepage": "https://pegasyseng.github.io/orchestrate-node/",
   "dependencies": {
     "@grpc/grpc-js": "~0.6.15",
     "commander": "~4.1.0",
@@ -81,7 +81,6 @@
     "tslint": "~5.20.1",
     "tslint-config-prettier": "~1.18.0",
     "typedoc": "~0.16.9",
-    "typedoc-plugin-markdown": "~2.2.16",
     "typescript": "~3.7.4"
   },
   "husky": {

@@ -1,56 +1,83 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
+---
 version: 2.1
 
-jobs:
-  build:
+executors:
+  node_executor:
     docker:
-      - image: circleci/node:12
-    working_directory: ~/project
+      - image: circleci/node:12.9.0-stretch
+jobs:
+  test:
+    executor: node_executor
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-      - run:
-          name: npm version
-          command: npm -v
+            - node-cache-{{ checksum "package-lock.json" }}
+            - node-cache-
       - run:
           name: Install dependencies
           command: npm ci
       - save_cache:
           paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-      - run:
-          name: Lint and formatting
-          command: |
-            npm run lint
-            npm run check-formatting
+            - ~/.npm
+          key: node-cache-{{ checksum "package-lock.json" }}
       - run:
           name: Unit tests
           command: npm run test:coverage
-      - run:
-          name: Build
-          command: npm run build
-  publish:
-    docker:
-      - image: circleci/node:12
+  build:
+    executor: node_executor
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+            - node-cache-{{ checksum "package-lock.json" }}
+            - node-cache-
+      - run:
+          name: Install dependencies
+          command: npm ci
+      - save_cache:
+          paths:
+            - ~/.npm
+          key: node-cache-{{ checksum "package-lock.json" }}
       - run:
           name: Build
           command: npm run build
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - ./lib
+  check:
+    executor: node_executor
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - node-cache-{{ checksum "package-lock.json" }}
+            - node-cache-
       - run:
+          name: Install dependencies
+          command: npm ci
+      - save_cache:
+          paths:
+            - ~/.npm
+          key: node-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: Check lints
+          command: npm run lint
+      - run:
+          name: Check formatting
+          command: npm run check-formatting
+  publish:
+    executor: node_executor
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - node-cache-{{ checksum "package-lock.json" }}
+            - node-cache-
+      - attach_workspace:
+          at: ~/project
+      - publish:
           name: Publish on npm
           command: |
             echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
@@ -60,19 +87,14 @@ workflows:
   version: 2
   default:
     jobs:
-      - build: # Runs for the specified branches OR all tags
-          filters:
-            branches:
-              only:
-                - /^feature\/[a-zA-Z0-9\/\-.]*$/
-                - /^fix\/[a-zA-Z0-9\/\-.]*$/
-                - /^maintenance\/[a-zA-Z0-9\/\-.]*$/
-                - master
-            tags:
-              only: /.*/
+      - test
+      - check
+      - build
       - wait-for-approval: # Runs for tags only
           type: approval
           requires:
+            - test
+            - check
             - build
           filters:
             tags:

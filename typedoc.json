@@ -1,6 +1,6 @@
 {
   "mode": "file",
-  "out": "docs",
+  "out": "docs/out",
   "name": "Orchestrate SDK Documentation",
   "includeVersion": true,
   "inputFiles": ["./src/index.ts"],
@@ -9,5 +9,6 @@
   "excludeProtected": true,
   "excludeExternals": true,
   "excludeNotExported": true,
-  "ignoreCompilerErrors": true
+  "ignoreCompilerErrors": true,
+  "theme": "default"
 }
