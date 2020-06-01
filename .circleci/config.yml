@@ -152,7 +152,7 @@ jobs:
 
 workflows:
   version: 2
-  workflow:
+  default:
     jobs:
       - styleCheck
       - build
