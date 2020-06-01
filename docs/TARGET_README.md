@@ -6,3 +6,5 @@ Sources for this content can be found on /docs directory on
 [master](https://github.com/PegaSysEng/orchestrate-node/tree/master/docs) and its children branches.
 
 The actual up to date generated doc is available at https://pegasyseng.github.io/orchestrate-node/
+
+Note: there's no CircleCI configuration on this branch, it's on purpose as CI commit skips CI.
