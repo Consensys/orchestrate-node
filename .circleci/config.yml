@@ -4,7 +4,7 @@ version: 2.1
 executors:
   node_executor:
     docker:
-      - image: circleci/node:12.9.0-stretch
+      - image: circleci/node:14-buster
 
 jobs:
   check:
@@ -112,7 +112,9 @@ jobs:
         path: ./orchestrate-sdk-doc.tgz
     - run:
         name: organise doc dirs
-        command: node .circleci/organise_doc.js --rootdir=$(pwd) --tag="${CIRCLE_TAG}"
+        command: |
+          node .circleci/organise_doc.js --rootdir=$(pwd) --tag="${CIRCLE_TAG}"
+          ls -la docs/
     - persist_to_workspace:
         root: ~/project
         paths:

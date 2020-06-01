@@ -1,32 +1,30 @@
-'use strict';
+'use strict'
 
-const fs = require('fs-extra');
-const args = require('minimist')(process.argv.slice(2));
+const fs = require('fs')
+const args = require('minimist')(process.argv.slice(2))
 
 // get the output directory
-const DOC_OUTPUT_DIR = require('../typedoc.json').out;
+const typedocJSON = require('../typedoc.json')
+const typedocOutputDir = typedocJSON.out
 
 // root dir is the absolute path to use, provided by CI
-const ROOT_DIR = args.rootdir;
+const rootDir = args.rootdir
+if (rootDir === '' || rootDir == null){
+  console.error('rootDir argument must be defined');
+  process.exit(1);
+}
+
+// source directories where typedoc put the doc
+const sourceDir = `${rootDir}/${typedocOutputDir}`
+
 // the tag being built and empty or null if none
-const TAG = args.tag;
+const tag = args.tag
 
-// if no tag, doc sill gon in latest directory
-const TARGET_DIR = (TAG == '' || TAG == null) ? 'latest' : TAG;
-
-// source directories where JSdoc put the doc
-const SOURCE_DIR = `${ROOT_DIR}/${DOC_OUTPUT_DIR}`;
+// if no tag, doc will go in latest directory by default
+const targetDir = `${rootDir}/docs/${(tag === '' || tag == null) ? 'latest' : tag}`
 
 // check if source exists and move files to latest or tag matching directory
-fs.pathExists(SOURCE_DIR)
-.then(exists => {
-  if(exists){
-    fs.move(SOURCE_DIR,`${ROOT_DIR}/docs/${TARGET_DIR}`)
-  }else{
-    throw(`${SOURCE_DIR} doesn't exist!`);
-  }
+fs.rename(sourceDir, targetDir, (err) => {
+  if (err) throw err
+  console.log('Doc organisation success')
 })
-// then remove the initial empty dir
-.then(() => {fs.remove(SOURCE_DIR)})
-.then(() => {console.log('Doc organisation success')})
-.catch(err => {console.error(err)});
