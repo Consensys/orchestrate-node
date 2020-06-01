@@ -177,7 +177,7 @@ workflows:
   version: 2
   workflow:
     jobs:
-      - check
+      - styleCheck
       - build
       - test
       - generateDoc:
