@@ -7,7 +7,7 @@ executors:
       - image: circleci/node:14-buster
 
 jobs:
-  check:
+  styleCheck:
     executor: node_executor
     steps:
       - checkout
