@@ -185,7 +185,7 @@ workflows:
             - build
       - publishDoc:
           requires:
-            - check
+            - styleCheck
             - test
             - generateDoc
       # - wait-for-approval: # Runs for tags only
