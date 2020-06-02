@@ -154,10 +154,30 @@ workflows:
   version: 2
   default:
     jobs:
-      - styleCheck
-      - build
-      - test
+      - styleCheck:
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              only: /.*/
+      - build:
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              only: /.*/
+      - test:
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              only: /.*/
       - generateDoc:
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              only: /.*/
           requires:
             - build
       - publishDocMaster:
@@ -191,7 +211,7 @@ workflows:
               ignore: /.*/
       - publishDocTag: # Runs for tags only
           requires:
-            - wait-for-approval
+            - publishSdk
           filters:
             tags:
               only: /^v.*/
