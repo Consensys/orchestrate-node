@@ -26,7 +26,7 @@ const consume = async (consumer: Consumer) => {
 
 export const start = async () => {
   try {
-    const consumer = new Consumer(['localhost:9092'])
+    const consumer = new Consumer(['localhost:9092'], undefined, undefined, { groupId: 'example-tx' })
     await consume(consumer)
   } catch (error) {
     console.error(error)

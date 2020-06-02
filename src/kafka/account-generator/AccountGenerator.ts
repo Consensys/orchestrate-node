@@ -1,4 +1,4 @@
-import { logLevel } from 'kafkajs'
+import * as KakfaJS from 'kafkajs'
 
 import { DEFAULT_TIMEOUT_ACCOUNT_GENERATOR, DEFAULT_TOPIC_ACCOUNT_GENERATED } from '../constants'
 import { Consumer, ResponseMessage } from '../consumer'
@@ -24,18 +24,18 @@ export class AccountGenerator {
    *
    * @param producer - Producer used to interact with Orchestrate
    */
-  constructor(brokers: string[]) {
-    this.producer = new Producer(brokers, {
-      logLevel: logLevel.NOTHING,
-      clientId: 'wallet-generator-sdk-producer'
-    })
+  constructor(
+    brokers: string[],
+    kafkaConfig?: Omit<KakfaJS.KafkaConfig, 'brokers'>,
+    producerConfig?: KakfaJS.ProducerConfig,
+    consumerConfig?: KakfaJS.ConsumerConfig
+  ) {
+    this.producer = new Producer(brokers, { clientId: 'wallet-generator-sdk-producer', ...kafkaConfig }, producerConfig)
 
-    this.consumer = new Consumer(
-      brokers,
-      [DEFAULT_TOPIC_ACCOUNT_GENERATED],
-      { logLevel: logLevel.NOTHING },
-      { groupId: 'wallet-generator-sdk-consumer' }
-    )
+    this.consumer = new Consumer(brokers, [DEFAULT_TOPIC_ACCOUNT_GENERATED], kafkaConfig, {
+      groupId: 'wallet-generator-sdk-consumer',
+      ...consumerConfig
+    })
 
     this.resolveFuncs = new Map()
   }

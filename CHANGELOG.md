@@ -2,17 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
-## 2.1.0 (Unreleased)
+## 2.2.0 (unreleased)
+
+### 🛠 Bug fixes
+
+- Update `AccountGenerator` constructor to be able to pass configurations for the producer and consumer, including the consumer group id.
+
+### Breaking changes
+
+- `chainName` field was replaced by `chain` in `TxRequest` and `TxResponse` interfaces
+
+## 2.1.0 (2020-06-02)
 
 ### 🆕 Features
 
 - Support private transaction with Besu/Orion and Quorum/Tessera
 - Support revert reason in transaction receipt
 - Adds chain information to the transaction response
-
-### Breaking changes
-
-- `chainName` field was replaced by `chain` in multiple interfaces
 
 ## 2.0.1 (2020-03-24)
 

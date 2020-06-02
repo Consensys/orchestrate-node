@@ -4,7 +4,9 @@ import { AccountGenerator } from '../../src'
 
 export const start = async () => {
   try {
-    const accountGenerator = new AccountGenerator(['localhost:9092'])
+    const accountGenerator = new AccountGenerator(['localhost:9092'], undefined, undefined, {
+      groupId: 'example-account'
+    })
 
     await accountGenerator.connect()
     const addresses = await Promise.all([
