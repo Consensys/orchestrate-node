@@ -168,6 +168,8 @@ workflows:
           filters:
             branches:
               only: master
+            tags:
+              ignore: /.*/ # make sure it doesn't run twice when master is the tagged branch
       - wait-for-approval: # Runs for tags only
           type: approval
           requires:

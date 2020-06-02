@@ -9,7 +9,7 @@ const typedocOutputDir = typedocJSON.out
 
 // root dir is the absolute path to use, provided by CI
 const rootDir = args.rootdir
-if (rootDir === '' || rootDir == null){
+if (!rootDir){
   console.error('rootDir argument must be defined');
   process.exit(1);
 }
@@ -20,8 +20,9 @@ const sourceDir = `${rootDir}/${typedocOutputDir}`
 // the tag being built and empty or null if none
 const tag = args.tag
 
-// if no tag, doc will go in latest directory by default
-const targetDir = `${rootDir}/docs/${(tag === '' || tag == null) ? 'latest' : tag}`
+// if tag create a dir with tag defined and not empty name
+// otherwise doc will go in latest directory by default
+const targetDir = `${rootDir}/docs/${(tag) ? tag : 'latest'}`
 
 // check if source exists and move files to latest or tag matching directory
 fs.rename(sourceDir, targetDir, (err) => {
