@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## 2.2.0 (unreleased)
 
+### 🛠 Bug fixes
+
+- Update `AccountGenerator` constructor to be able to pass configurations for the producer and consumer, including the consumer group id.
+
 ### Breaking changes
 
 - `chainName` field was replaced by `chain` in `TxRequest` and `TxResponse` interfaces
