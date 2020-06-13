@@ -61,7 +61,7 @@
   "dependencies": {
     "@grpc/grpc-js": "~0.6.15",
     "commander": "~4.1.0",
-    "ethers": "~4.0.43",
+    "ethers": "~4.0.47",
     "kafkajs": "~1.11.0",
     "minimist": "~1.2.5",
     "protobufjs": "~6.8.8",
