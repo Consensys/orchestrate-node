@@ -64,7 +64,7 @@
     "ethers": "~4.0.43",
     "kafkajs": "~1.11.0",
     "minimist": "~1.2.5",
-    "protobufjs": "~6.8.8",
+    "protobufjs": "~6.9.0",
     "uuid": "~3.3.3"
   },
   "devDependencies": {
