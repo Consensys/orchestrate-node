@@ -1,5 +1,11 @@
-[![CircleCI](https://circleci.com/gh/PegaSysEng/orchestrate-node.svg?style=svg&circle-token=b950a12c7c5f1ba8ae60273360c99d832301057a)](https://circleci.com/gh/PegaSysEng/orchestrate-node)
+[![Website](https://img.shields.io/website?label=documentation&url=https%3A%2F%2Fdocs.orchestrate.pegasys.tech%2F)](https://docs.orchestrate.pegasys.tech/)
+[![Website](https://img.shields.io/website?label=website&url=https%3A%2F%2Fpegasys.tech%2Forchestrate%2F)](https://pegasys.tech/orchestrate/)
 
+[![npm](https://img.shields.io/npm/v/pegasys-orchestrate)](https://www.npmjs.com/package/pegasys-orchestrate)
+[![npm](https://img.shields.io/npm/dw/pegasys-orchestrate)](https://www.npmjs.com/package/pegasys-orchestrate)
+
+[![CircleCI](https://img.shields.io/circleci/build/gh/PegaSysEng/orchestrate-node?token=b950a12c7c5f1ba8ae60273360c99d832301057a)](https://circleci.com/gh/PegaSysEng/orchestrate-node)
+[![Known Vulnerabilities](https://snyk.io/test/github/PegaSysEng/orchestrate-node/badge.svg?targetFile=package.json)](https://snyk.io/test/github/PegaSysEng/orchestrate-node?targetFile=package.json)
 # PegaSys-Orchestrate Node.js Library
 
 The PegaSys Orchestrate library provides convenient access to the PegaSys Orchestrate API from applications written in server-side JavaScript
