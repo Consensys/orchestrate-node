@@ -262,7 +262,7 @@
             /**
              * Properties of a Contract.
              * @memberof abi
-             * @interface IContract
+             * @interface IHttpClient
              * @property {abi.IContractId|null} [id] Contract id
              * @property {string|null} [abi] Contract abi
              * @property {string|null} [bytecode] Contract bytecode
@@ -275,7 +275,7 @@
              * Constructs a new Contract.
              * @memberof abi
              * @classdesc Represents a Contract.
-             * @implements IContract
+             * @implements IHttpClient
              * @constructor
              * @param {abi.IContract=} [properties] Properties to set
              */
