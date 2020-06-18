@@ -16,7 +16,7 @@ export abstract class KafkaClient extends EventEmitter {
    * @param brokers - List of brokers to connect to
    * @param kafkaConfig - Kafka client configuration
    */
-  constructor(kafkaConfig: KakfaJS.KafkaConfig) {
+  protected constructor(kafkaConfig: KakfaJS.KafkaConfig) {
     super()
 
     this.brokers = kafkaConfig.brokers

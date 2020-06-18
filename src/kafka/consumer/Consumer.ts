@@ -76,7 +76,7 @@ export class Consumer extends KafkaClient {
 
     await this.consumer.run({
       autoCommit: false,
-      eachMessage: async payload => {
+      eachMessage: async (payload) => {
         onMessageReceived(payload, this)
       }
     })

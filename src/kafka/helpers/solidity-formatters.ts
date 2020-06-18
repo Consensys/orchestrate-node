@@ -34,7 +34,7 @@ export function formatMethodArgs(methodSignature?: string, parameters?: any[]) {
 
   return decodedParams.map((param: any) => {
     if (Array.isArray(param)) {
-      const paramArray = param.map(value => {
+      const paramArray = param.map((value) => {
         return value.toString()
       })
 

@@ -105,12 +105,10 @@ export class AccountGenerator {
       this.resolveFuncs.set(messageId, resolve)
     })
 
-    const result = Promise.race([timeoutPromise, callPromise]).then(v => {
+    return Promise.race([timeoutPromise, callPromise]).then((v) => {
       clearTimeout(timeoutId)
       return v
     })
-
-    return result
   }
 
   private listenForAccounts() {

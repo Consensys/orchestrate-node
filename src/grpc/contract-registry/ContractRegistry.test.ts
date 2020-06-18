@@ -79,7 +79,7 @@ describe('ContractRegistry', () => {
     it('should fail to register a new contract', async () => {
       mockUnaryRequestFailure()
       try {
-        await contractRegistry.register({ wrongField: 'wronRequest' } as any)
+        await contractRegistry.register({ wrongField: 'wrongRequest' } as any)
         fail('Expected failure')
       } catch (error) {
         expect(error).toEqual(new Error('unary request callBack failed'))
@@ -247,7 +247,7 @@ describe('ContractRegistry', () => {
     mockRPCClient.makeUnaryRequest = jest
       .fn()
       .mockImplementationOnce(
-        (method: any, serialize: any, deserialize: any, requestData, callMedatada: any, callback: any) => {
+        (method: any, serialize: any, deserialize: any, requestData, callMetadata: any, callback: any) => {
           callback(undefined, data)
         }
       )
@@ -257,7 +257,7 @@ describe('ContractRegistry', () => {
     mockRPCClient.makeUnaryRequest = jest
       .fn()
       .mockImplementationOnce(
-        (method: any, serialize: any, deserialize: any, requestData, callMedatada: any, callback: any) => {
+        (method: any, serialize: any, deserialize: any, requestData, callMetadata: any, callback: any) => {
           callback(new Error('unary request callBack failed'), undefined)
         }
       )

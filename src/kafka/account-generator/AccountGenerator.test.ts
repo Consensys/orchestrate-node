@@ -80,14 +80,14 @@ describe('AccountGenerator', () => {
   })
 
   describe('generateAccount', () => {
-    it('should generate an account successfully', async done => {
+    it('should generate an account successfully', async (done) => {
       mockProducer.generateAccount.mockResolvedValueOnce('id')
       const request = { authToken: 'Bearer token', chain: 'chain', value: '5000' }
 
       await accountGenerator.connect()
 
       // tslint:disable-next-line: no-floating-promises
-      accountGenerator.generateAccount(request).then(address => {
+      accountGenerator.generateAccount(request).then((address) => {
         expect(address).toEqual('0xaddress1')
         expect(mockProducer.generateAccount).toHaveBeenCalledWith(request)
         done()
