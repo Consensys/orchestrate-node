@@ -31,7 +31,7 @@ describe('solidity-formatters', () => {
     it('should fail if signature is wrongly formatted', () => {
       const testSet = ['()', '()test', 'test[)', 'test(addresss)', 'test(())']
 
-      testSet.forEach(test => {
+      testSet.forEach((test) => {
         expect(() => formatMethodArgs(test, ['arg'])).toThrow()
       })
     })

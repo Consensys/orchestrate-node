@@ -1,5 +1,5 @@
 import { tx } from '../../stubs'
-import { ProtocolType } from '../types/ProtocolType'
+import { ProtocolType } from '../types'
 
 import * as formatters from './stub-formatters'
 

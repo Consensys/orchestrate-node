@@ -81,12 +81,12 @@ export class ContractRegistry {
     const response = (await this.executeCall(
       contractregistry.GetContractRequest.encode,
       contractregistry.GetContractResponse.decode,
-      this.formatContractId(name, tag),
+      ContractRegistry.formatContractId(name, tag),
       contractregistry.ContractRegistry.prototype.getContract.name,
       authToken
     )) as contractregistry.GetContractResponse
 
-    return this.parseContract(response.contract!)
+    return ContractRegistry.parseContract(response.contract!)
   }
 
   /**
@@ -101,7 +101,7 @@ export class ContractRegistry {
     const response = (await this.executeCall(
       contractregistry.GetContractRequest.encode,
       contractregistry.GetContractABIResponse.decode,
-      this.formatContractId(name, tag),
+      ContractRegistry.formatContractId(name, tag),
       contractregistry.ContractRegistry.prototype.getContractABI.name,
       authToken
     )) as contractregistry.GetContractABIResponse
@@ -121,7 +121,7 @@ export class ContractRegistry {
     const response = (await this.executeCall(
       contractregistry.GetContractRequest.encode,
       contractregistry.GetContractBytecodeResponse.decode,
-      this.formatContractId(name, tag),
+      ContractRegistry.formatContractId(name, tag),
       contractregistry.ContractRegistry.prototype.getContractBytecode.name,
       authToken
     )) as contractregistry.GetContractBytecodeResponse
@@ -141,7 +141,7 @@ export class ContractRegistry {
     const response = (await this.executeCall(
       contractregistry.GetContractRequest.encode,
       contractregistry.GetContractDeployedBytecodeResponse.decode,
-      this.formatContractId(name, tag),
+      ContractRegistry.formatContractId(name, tag),
       contractregistry.ContractRegistry.prototype.getContractDeployedBytecode.name,
       authToken
     )) as contractregistry.GetContractDeployedBytecodeResponse
@@ -207,7 +207,7 @@ export class ContractRegistry {
     )
   }
 
-  private formatContractId(name: string, tag?: string) {
+  private static formatContractId(name: string, tag?: string) {
     return {
       contractId: {
         name,
@@ -216,7 +216,7 @@ export class ContractRegistry {
     }
   }
 
-  private parseContract(message: abi.IContract): IContract {
+  private static parseContract(message: abi.IContract): IContract {
     return {
       name: message.id!.name!,
       tag: message.id!.tag!,

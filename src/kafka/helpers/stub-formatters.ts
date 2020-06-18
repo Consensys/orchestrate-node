@@ -1,5 +1,5 @@
 import { tx } from '../../stubs'
-import { ProtocolType } from '../types/ProtocolType'
+import { ProtocolType } from '../types'
 
 export function formatContract(name?: string, tag?: string): string | null {
   if (!name) {
