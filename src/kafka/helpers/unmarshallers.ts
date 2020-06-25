@@ -33,7 +33,7 @@ function parseTxContext(transaction?: ethereum.ITransaction | null): ITransactio
 
 function parseReceipt(receipt?: ethereum.IReceipt | null): IReceipt | undefined {
   if (receipt) {
-    const status = (receipt.status as Long).isZero() ? false : true
+    const status = !(receipt.status as Long).isZero()
 
     return {
       blockHash: parseString(receipt.blockHash),
@@ -58,7 +58,7 @@ function parseReceipt(receipt?: ethereum.IReceipt | null): IReceipt | undefined 
 
 function parseErrors(errors?: error.IError[] | null) {
   if (errors && errors.length !== 0) {
-    return errors.map(err => ({
+    return errors.map((err) => ({
       code: err.code ? Number(err.code) : undefined,
       message: err.message ? err.message : undefined,
       component: err.component ? err.component : undefined
@@ -68,7 +68,7 @@ function parseErrors(errors?: error.IError[] | null) {
 
 function parseLogs(logs?: ethereum.ILog[] | null) {
   if (logs && logs.length !== 0) {
-    return logs.map(log => ({
+    return logs.map((log) => ({
       address: parseString(log.address),
       topics: parseStringArray(log.topics),
       data: parseString(log.data),
@@ -94,7 +94,7 @@ function parseStringNumber(value?: string | null) {
 
 function parseStringArray(arr?: string[] | null) {
   if (arr && arr.length !== 0) {
-    return arr.map(el => el)
+    return arr.map((el) => el)
   }
 }
 

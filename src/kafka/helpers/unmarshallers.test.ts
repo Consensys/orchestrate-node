@@ -59,7 +59,7 @@ export const mockTxResponse = {
 // TODO: unmarshallers are not taken into account in the coverage until we have the new envelope format because of too many branches
 describe('unmarshallers', () => {
   describe('unmarshalEnvelope', () => {
-    it('should unmarshall an envelope successfully', () => {
+    it('should unmarshal an envelope successfully', () => {
       const expectedValue: IResponseValue = {
         id: mockTxResponse.id,
         errors: mockTxResponse.errors,

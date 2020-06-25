@@ -73,10 +73,7 @@ export function marshalKafkaKey(envelopeMessage: tx.ITxRequest) {
         return `${envelopeMessage.params.from}@orion-${envelopeMessage.params.privacyGroupId}@${envelopeMessage.chain}`
       } else if (envelopeMessage.params.privateFor?.length! > 0) {
         const raw: string[] = [...envelopeMessage.params.privateFor!, envelopeMessage.params.privateFrom!]
-        const key = crypto
-          .createHash('md5')
-          .update(raw.sort().join('-'))
-          .digest('hex')
+        const key = crypto.createHash('md5').update(raw.sort().join('-')).digest('hex')
         return `${envelopeMessage.params.from}@orion-${key}@${envelopeMessage.chain}`
       }
       return `${envelopeMessage.params.from}@orion-${envelopeMessage.chain}`
