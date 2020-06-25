@@ -51,26 +51,26 @@ Run `orchestrate -h` to output usage information.
 
 `orchestrate [options] [command]`
 
-##### Options
+#### Options
 
 - `-V`, `--version`: output the Orchestrate SDK version number.
 - `-h`, `--help`: output usage information.
 
-##### Commands
+#### Commands
 
 - `contracts`: Interact with the Contract Registry, see [Contract command](#contract-command) for options.
 - `accounts`: Interact with the Contract Registry.
 - `help [command]`: display help for the command. Same as using the `-h` or `--help` option.
 
-### Contract command
+#### Contract command
 
 Orchestrate `contract` command allows to manipulate smart contracts in the contract registry.
 
-#### Help
+##### Help
 
 Run `orchestrate contracts -h` to get contract command usage information.
 
-#### Usage
+##### Usage
 
 `orchestrate contracts [options] [command]`
 
@@ -81,123 +81,128 @@ Run `orchestrate contracts -h` to get contract command usage information.
 ##### Commands
 
 - `register [options]`:
-  Insert a new contract in Orchestrate contract registry ###### Options:
 
-      - `-n, --name  <string>`: Name of the contract.
-      - `-f, --filepath <file>`: Path of the JSON artifact file for the compiled contract.
-      - `-e, --endpoint <host:port>`: Contract registry endpoint.
-      - `-t, --tag <string>`: Tag to be attached to the contract, can be used as the version but any other value is possible.
-      - `-h, --help`: Output register command usage.
+  Insert a new contract in Orchestrate contract registry
 
-      	**Register command example:**
+  ###### Options
 
-      	```bash
-      	orchestrate contracts register -e localhost:8020 -n Counter -t 1.2.3 -f build/contracts/Counter.json
-      	```
+  - `-n, --name <string>`: Name of the contract.
+  - `-f, --filepath <file>`: Path of the JSON artifact file for the compiled contract.
+  - `-e, --endpoint <host:port>`: Contract registry endpoint.
+  - `-t, --tag <string>`: Tag to be attached to the contract, can be used as the version but any other value is possible.
+  - `-h, --help`: Output register command usage.
 
-      	**Sucessful output** displays `Contract successfully registered`.
+  ###### Register command example
+
+  ```bash
+  orchestrate contracts register -e localhost:8020 -n Counter -t 1.2.3 -f build/contracts/Counter.json
+  ```
+
+  ###### Successful output
+
+  `Contract successfully registered`.
 
 - `catalog [options]`:
 
-      	Lists all the registered contracts names.
+  Lists all the registered contracts names.
 
-      	Output is a JSON formated list of strings.
+  Output is a JSON formated list of strings.
 
-      	If the registry is empty, an empty list `[]` is returned.
+  If the registry is empty, an empty list `[]` is returned.
 
-      	###### Options:
+  ###### Options
 
-      	- `-e, --endpoint <host:port>`: Contract registry endpoint.
-      	- `-h, --help`: Output catalog command usage.
+  - `-e, --endpoint <host:port>`: Contract registry endpoint.
+  - `-h, --help`: Output catalog command usage.
 
-      	**Contracts catalog command example:**
+  ###### Contracts catalog command example
 
-      	```bash
-      	orchestrate contracts catalog -e localhost:8020
-      	```
+  ```bash
+  orchestrate contracts catalog -e localhost:8020
+  ```
 
-      	**Output example:**
+  ###### Output example
 
-      	```json
-      	[ 'Counter' ]
-      	```
+  ```json
+  [ 'Counter' ]
+  ```
 
 - `contract [options]`:
 
-      	Returns the registered contract by name and tag (usually used as the contract version).
+  Returns the registered contract by name and tag (usually used as the contract version).
 
-      	###### Options:
+  ###### Options
 
-      	- `-n, --name  <string>`: Name of the contract.
-      	- `-e, --endpoint <host:port>`: Contract registry endpoint.
-      	- `-t, --tag <string>`: Optional tag of the contract.
-      	- `-h, --help`: Output contract command usage.
+  - `-n, --name <string>`: Name of the contract.
+  - `-e, --endpoint <host:port>`: Contract registry endpoint.
+  - `-t, --tag <string>`: Optional tag of the contract.
+  - `-h, --help`: Output contract command usage.
 
-      	**Contract command example:**
+  ###### Contract command example
 
-      	```bash
-      	orchestrate contracts contract -n Counter -t 1.2.3 -e localhost:8020
-      	```
+  ```bash
+  orchestrate contracts contract -n Counter -t 1.2.3 -e localhost:8020
+  ```
 
-      	**Output example:**
+  ###### Output example
 
-      	```json
-      	{
-      	  name: 'Counter',
-      	  tag: '1.2.3',
-      	  abi: [
-      	    {
-      	      anonymous: false,
-      	      inputs: [Array],
-      	      name: 'Incremented',
-      	      type: 'event'
-      	    },
-      	    {
-      	      constant: false,
-      	      inputs: [Array],
-      	      name: 'increment',
-      	      outputs: [],
-      	      payable: false,
-      	      stateMutability: 'nonpayable',
-      	      type: 'function'
-      	    }
-      	  ],
-      	  bytecode: '0x6080604052348015600f57600080fd5b5061010a8061001f6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c80637cf5dab014602d575b600080fd5b605660048036036020811015604157600080fd5b81019080803590602001909291905050506058565b005b8060008082825401925050819055507f38ac789ed44572701765277c4d0970f2db1c1a571ed39e84358095ae4eaa54203382604051808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018281526020019250505060405180910390a15056fea265627a7a72315820b1e04b5f7796f256da0d265a961b4fbeeb62170cae31a34546c6cbceb31884d664736f6c63430005100032',
-      	  deployedBytecode: '0x6080604052348015600f57600080fd5b506004361060285760003560e01c80637cf5dab014602d575b600080fd5b605660048036036020811015604157600080fd5b81019080803590602001909291905050506058565b005b8060008082825401925050819055507f38ac789ed44572701765277c4d0970f2db1c1a571ed39e84358095ae4eaa54203382604051808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018281526020019250505060405180910390a15056fea265627a7a72315820b1e04b5f7796f256da0d265a961b4fbeeb62170cae31a34546c6cbceb31884d664736f6c63430005100032'
-      	}
-      	```
+  ```json
+  {
+    "name": "Counter",
+    "tag": "1.2.3",
+    "abi": [
+      {
+        "anonymous": false,
+        "inputs": [Array],
+        "name": "Incremented",
+        "type": "event"
+      },
+      {
+        "constant": false,
+        "inputs": [Array],
+        "name": "increment",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }
+    ],
+    "bytecode": "0x6080604052348015600f57600080fd5b5061010a8061001f6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c80637cf5dab014602d575b600080fd5b605660048036036020811015604157600080fd5b81019080803590602001909291905050506058565b005b8060008082825401925050819055507f38ac789ed44572701765277c4d0970f2db1c1a571ed39e84358095ae4eaa54203382604051808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018281526020019250505060405180910390a15056fea265627a7a72315820b1e04b5f7796f256da0d265a961b4fbeeb62170cae31a34546c6cbceb31884d664736f6c63430005100032",
+    "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060285760003560e01c80637cf5dab014602d575b600080fd5b605660048036036020811015604157600080fd5b81019080803590602001909291905050506058565b005b8060008082825401925050819055507f38ac789ed44572701765277c4d0970f2db1c1a571ed39e84358095ae4eaa54203382604051808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018281526020019250505060405180910390a15056fea265627a7a72315820b1e04b5f7796f256da0d265a961b4fbeeb62170cae31a34546c6cbceb31884d664736f6c63430005100032"
+  }
+  ```
 
 - `tags [options]`:
 
-      	Returns all the associated tags of a registered contract.
+	Returns all the associated tags of a registered contract.
 
-      	###### Options:
+	###### Options
 
-      	- `-n, --name  <string>`: Name of the contract.
-      	- `-e, --endpoint <host:port>`: Contract registry endpoint.
-      	- `-h, --help`: Output tags command usage.
+	- `-n, --name  <string>`: Name of the contract.
+	- `-e, --endpoint <host:port>`: Contract registry endpoint.
+	- `-h, --help`: Output tags command usage.
 
-      	**Tags command example:**
+	###### Tags command example
 
-      	```bash
-      	orchestrate contracts tags -n Counter -e localhost:8020
-      	```
+	```bash
+	orchestrate contracts tags -n Counter -e localhost:8020
+	```
 
-      	**Output example:**
+	###### Output example
 
-      	```json
-      	[ '1.2.3', 'latest' ]
-      	```
+	```json
+	[ '1.2.3', 'latest' ]
+	```
 
 #### Account command
 
 Orchestrate `accounts` command allows to manipulate Orchestrate accounts.
 
-#### Help
+##### Help
 
 Run `orchestrate accounts -h` to get contract command usage information.
 
-#### Usage
+##### Usage
 
 `orchestrate accounts [options] [command]`
 
@@ -210,25 +215,25 @@ Run `orchestrate accounts -h` to get contract command usage information.
 - `generate [options]`:
   Create a new account in Orchestrate.
 
-      	###### Options:
+	###### Options
 
-      - `-e, --endpoint <host:port>`: Kafka endpoint.
-      	- `-c, --chain <string>`: Optional chain on which to credit the new account.
-      - `-h, --help`: Output generate command usage.
+  - `-e, --endpoint <host:port>`: Kafka endpoint.
+  - `-c, --chain <string>`: Optional chain on which to credit the new account.
+  - `-h, --help`: Output generate command usage.
 
-      	**Generate command example:**
+	**Generate command example:**
 
-      	```bash
-      	orchestrate accounts generate -c besu -e localhost:9092
-      	```
+	```bash
+	orchestrate accounts generate -c besu -e localhost:9092
+	```
 
-      	**Output example:**
+	**Output example:**
 
-      	```json
-      	{"level":"INFO","timestamp":"2020-06-24T17:29:07.230Z","logger":"kafkajs","message":"[Consumer] Starting","groupId":"wallet-generator-sdk-consumer"}
-      	{"level":"INFO","timestamp":"2020-06-24T17:29:10.255Z","logger":"kafkajs","message":"[Runner] Consumer has joined the group","groupId":"wallet-generator-sdk-consumer","memberId":"orchestrate-sdk-consumer-bc78503d-2605-4b4c-b87e-6ab58342e378","leaderId":"orchestrate-sdk-consumer-bc78503d-2605-4b4c-b87e-6ab58342e378","isLeader":true,"memberAssignment":{"topic-account-generated":[0]},"groupProtocol":"RoundRobinAssigner","duration":3022}
-      	0xD562A0739aD90995c188E04f6A13AbE698c3834D
-      	{"level":"INFO","timestamp":"2020-06-24T17:29:11.324Z","logger":"kafkajs","message":"[Consumer] Stopped","groupId":"wallet-generator-sdk-consumer"}
-      	```
+	```json
+	{"level":"INFO","timestamp":"2020-06-24T17:29:07.230Z","logger":"kafkajs","message":"[Consumer] Starting","groupId":"wallet-generator-sdk-consumer"}
+	{"level":"INFO","timestamp":"2020-06-24T17:29:10.255Z","logger":"kafkajs","message":"[Runner] Consumer has joined the group","groupId":"wallet-generator-sdk-consumer","memberId":"orchestrate-sdk-consumer-bc78503d-2605-4b4c-b87e-6ab58342e378","leaderId":"orchestrate-sdk-consumer-bc78503d-2605-4b4c-b87e-6ab58342e378","isLeader":true,"memberAssignment":{"topic-account-generated":[0]},"groupProtocol":"RoundRobinAssigner","duration":3022}
+	0xD562A0739aD90995c188E04f6A13AbE698c3834D
+	{"level":"INFO","timestamp":"2020-06-24T17:29:11.324Z","logger":"kafkajs","message":"[Consumer] Stopped","groupId":"wallet-generator-sdk-consumer"}
+	```
 
-      	Where `0xD562A0739aD90995c188E04f6A13AbE698c3834D` is the generated Ethereum address.
+  In this example, `0xD562A0739aD90995c188E04f6A13AbE698c3834D` is the generated Ethereum address.
