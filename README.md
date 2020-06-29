@@ -26,3 +26,5 @@ The PegaSys Orchestrate library provides convenient access to the PegaSys Orches
 You can consult all [PegaSys Orchestrate's documentation here.](https://docs.orchestrate.pegasys.tech/)
 
 Please contact us at [support@pegasys.tech](mailto:support@pegasys.tech?subject=Orchestrate+Node+SDK)
+
+[[include:CLI.md]]
