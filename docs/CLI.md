@@ -1,61 +1,59 @@
-# Orchestrate Node SDK CLI reference
-
 In addition to the programatic API provided by the library, you can run some actions directly from
 the command line using the `pegasys-orchestrate` module.
 
-## Install pegasys-orchestrate
+### Install pegasys-orchestrate
 
 Run `npm install pegasys-orchestrate -g` to globally access Pegasys Orchestrate command line tool on your system.
 
-## Orchestrate command
+### Orchestrate command
 
 Run `orchestrate` with subcommands and options to interact with Orchestrate Contract registry
 and accounts.
 
 Each command can have subcommands and options.
 
-### Help
+#### Help
 
 Run `orchestrate -h` to output usage information.
 
-### Usage
+#### Usage
 
 `orchestrate [options] [command]`
 
-### Options
+#### Options
 
 - `-V`, `--version`: output the Orchestrate SDK version number.
 - `-h`, `--help`: output usage information.
 
-### Commands
+#### Commands
 
-- `contracts`: Interact with the Contract Registry, see [Contract command](#contract-command) for options.
+- `contracts`: Interact with the Contract Registry, see [Contract command](##contract-command) for options.
 - `accounts`: Interact with the Contract Registry.
 - `help [command]`: display help for the command. Same as using the `-h` or `--help` option.
 
-### Contract command
+#### Contract command
 
 Orchestrate `contract` command allows to manipulate smart contracts in the contract registry.
 
-#### Help
+##### Help
 
 Run `orchestrate contracts -h` to get contract command usage information.
 
-#### Usage
+##### Usage
 
 `orchestrate contracts [options] [command]`
 
-#### Options
+##### Options
 
 - `-h`, `--help`: output contracts command usage information.
 
-#### Commands
+##### Commands
 
 - `register [options]`:
 
   Insert a new contract in Orchestrate contract registry
 
-  ##### Options
+  ###### Options
 
   - `-n, --name <string>`: Name of the contract.
   - `-f, --filepath <file>`: Path of the JSON artifact file for the compiled contract.
@@ -63,13 +61,13 @@ Run `orchestrate contracts -h` to get contract command usage information.
   - `-t, --tag <string>`: Tag to be attached to the contract, can be used as the version but any other value is possible.
   - `-h, --help`: Output register command usage.
 
-  ##### Register command example
+  ###### Register command example
 
   ```bash
   orchestrate contracts register -e localhost:8020 -n Counter -t 1.2.3 -f build/contracts/Counter.json
   ```
 
-  ##### Successful output
+  ###### Successful output
 
   `Contract successfully registered`.
 
@@ -81,18 +79,18 @@ Run `orchestrate contracts -h` to get contract command usage information.
 
   If the registry is empty, an empty list `[]` is returned.
 
-  ##### Options
+  ###### Options
 
   - `-e, --endpoint <host:port>`: Contract registry endpoint.
   - `-h, --help`: Output catalog command usage.
 
-  ##### Contracts catalog command example
+  ###### Contracts catalog command example
 
   ```bash
   orchestrate contracts catalog -e localhost:8020
   ```
 
-  ##### Output example
+  ###### Output example
 
   ```json
   [ 'Counter' ]
@@ -102,20 +100,20 @@ Run `orchestrate contracts -h` to get contract command usage information.
 
   Returns the registered contract by name and tag (usually used as the contract version).
 
-  ##### Options
+  ###### Options
 
   - `-n, --name <string>`: Name of the contract.
   - `-e, --endpoint <host:port>`: Contract registry endpoint.
   - `-t, --tag <string>`: Optional tag of the contract.
   - `-h, --help`: Output contract command usage.
 
-  ##### Contract command example
+  ###### Contract command example
 
   ```bash
   orchestrate contracts contract -n Counter -t 1.2.3 -e localhost:8020
   ```
 
-  ##### Output example
+  ###### Output example
 
   ```json
   {
@@ -147,46 +145,46 @@ Run `orchestrate contracts -h` to get contract command usage information.
 
 	Returns all the associated tags of a registered contract.
 
-	##### Options
+	###### Options
 
 	- `-n, --name  <string>`: Name of the contract.
 	- `-e, --endpoint <host:port>`: Contract registry endpoint.
 	- `-h, --help`: Output tags command usage.
 
-	##### Tags command example
+	###### Tags command example
 
 	```bash
 	orchestrate contracts tags -n Counter -e localhost:8020
 	```
 
-	##### Output example
+	###### Output example
 
 	```json
 	[ '1.2.3', 'latest' ]
 	```
 
-### Account command
+#### Account command
 
 Orchestrate `accounts` command allows to manipulate Orchestrate accounts.
 
-#### Help
+##### Help
 
 Run `orchestrate accounts -h` to get contract command usage information.
 
-#### Usage
+##### Usage
 
 `orchestrate accounts [options] [command]`
 
-#### Options
+##### Options
 
 - `-h`, `--help`: output accounts command usage information.
 
-#### Commands
+##### Commands
 
 - `generate [options]`:
   Create a new account in Orchestrate.
 
-	##### Options
+	###### Options
 
   - `-e, --endpoint <host:port>`: Kafka endpoint.
   - `-c, --chain <string>`: Optional chain on which to credit the new account.

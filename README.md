@@ -27,4 +27,8 @@ You can consult all [PegaSys Orchestrate's documentation here.](https://docs.orc
 
 Please contact us at [support@pegasys.tech](mailto:support@pegasys.tech?subject=Orchestrate+Node+SDK)
 
+## Orchestrate Node SDK CLI reference
+
 [[include:CLI.md]]
+
+[include:cli.md]: docs/CLI.md
