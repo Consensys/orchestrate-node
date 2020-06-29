@@ -32,11 +32,15 @@ describe('ChainRegistry', () => {
         path: '/chains'
       }
 
-      mockHTTPClient.get.mockReturnValue(Promise.resolve([mockChain]))
+      mockHTTPClient.get.mockResolvedValueOnce({
+        data: [mockChain],
+        status: 200,
+        headers: {}
+      })
       chainRegistry.chains()
 
       expect(HttpClient).toHaveBeenCalledTimes(1)
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, {})
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
     })
 
     it('should fetch chains with jwt successfully', async () => {
@@ -47,11 +51,11 @@ describe('ChainRegistry', () => {
       }
 
       try {
-        mockHTTPClient.get.mockReturnValue(
-          Promise.resolve({
-            data: [mockChain]
-          })
-        )
+        mockHTTPClient.get.mockResolvedValueOnce({
+          data: [mockChain],
+          status: 200,
+          headers: {}
+        })
         const res = await chainRegistry.chains(authToken)
         expect(res).toEqual([mockChain])
       } catch (e) {
@@ -59,7 +63,7 @@ describe('ChainRegistry', () => {
       }
 
       expect(HttpClient).toHaveBeenCalledTimes(1)
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, {})
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
     })
 
     it('should fetch chains with jwt with errors', async () => {
@@ -71,15 +75,20 @@ describe('ChainRegistry', () => {
 
       const err = new Error('fail message')
       try {
-        mockHTTPClient.get.mockReturnValue(Promise.resolve({ err }))
+        mockHTTPClient.get.mockRejectedValueOnce({
+          data: err,
+          status: 500,
+          headers: {}
+        })
         await chainRegistry.chains(authToken)
         fail('expected to fail')
       } catch (e) {
-        expect(e).toEqual(err)
+        expect(e.data).toEqual(err)
+        expect(e.status).toEqual(500)
       }
 
       expect(HttpClient).toHaveBeenCalledTimes(1)
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, {})
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
     })
   })
 
@@ -95,7 +104,11 @@ describe('ChainRegistry', () => {
       }
 
       try {
-        mockHTTPClient.post.mockReturnValue(Promise.resolve({ data: mockChain }))
+        mockHTTPClient.post.mockResolvedValueOnce({
+          data: mockChain,
+          status: 200,
+          headers: {}
+        })
         const res = await chainRegistry.registerChain(chain)
         expect(res).toEqual(mockChain)
       } catch (e) {
@@ -103,7 +116,7 @@ describe('ChainRegistry', () => {
       }
 
       expect(HttpClient).toHaveBeenCalledTimes(1)
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(req, {})
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
     })
 
     it('should register a new chain with jwt successfully', async () => {
@@ -119,8 +132,10 @@ describe('ChainRegistry', () => {
         authToken
       }
 
-      mockHTTPClient.post.mockReturnValue({
-        data: Promise.resolve(mockChain)
+      mockHTTPClient.post.mockResolvedValueOnce({
+        data: mockChain,
+        status: 200,
+        headers: {}
       })
 
       try {
@@ -131,7 +146,7 @@ describe('ChainRegistry', () => {
       }
 
       expect(HttpClient).toHaveBeenCalledTimes(1)
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(req, {})
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
     })
   })
 
@@ -147,15 +162,19 @@ describe('ChainRegistry', () => {
 
     const err = new Error('fail message')
     try {
-      mockHTTPClient.post.mockReturnValue(Promise.resolve({ err }))
+      mockHTTPClient.post.mockRejectedValueOnce({
+        data: err,
+        status: 500,
+        headers: {}
+      })
       await chainRegistry.registerChain(chain)
       fail(`expected to fail`)
     } catch (e) {
-      expect(e).toEqual(err)
+      expect(e.data).toEqual(err)
     }
 
     expect(HttpClient).toHaveBeenCalledTimes(1)
-    expect(mockHTTPClient.post).toHaveBeenCalledWith(req, {})
+    expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
   })
 
   it('should error to register a new chain', async () => {
@@ -170,7 +189,7 @@ describe('ChainRegistry', () => {
     const err = new Error('fail message')
 
     try {
-      mockHTTPClient.post.mockReturnValue(Promise.reject(err))
+      mockHTTPClient.post.mockRejectedValueOnce(err)
       await chainRegistry.registerChain(chain)
       fail(`expected to fail`)
     } catch (e) {
@@ -178,6 +197,6 @@ describe('ChainRegistry', () => {
     }
 
     expect(HttpClient).toHaveBeenCalledTimes(1)
-    expect(mockHTTPClient.post).toHaveBeenCalledWith(req, {})
+    expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
   })
 })

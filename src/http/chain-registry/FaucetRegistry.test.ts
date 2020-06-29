@@ -1,3 +1,5 @@
+import createMockInstance from 'jest-create-mock-instance'
+
 import { HttpClient } from '../client/http'
 import { IFaucet, IHttpGETRequest, IHttpPOSTRequest, IRegisterFaucetRequest } from '../types'
 
@@ -34,11 +36,11 @@ describe('FaucetRegistry', () => {
       }
 
       try {
-        mockHTTPClient.get.mockReturnValue(
-          Promise.resolve({
-            data: [mockFaucet]
-          })
-        )
+        mockHTTPClient.get.mockResolvedValueOnce({
+          status: 200,
+          headers: {},
+          data: [mockFaucet]
+        })
         const res = await faucetRegistry.faucets()
         expect(res).toEqual([mockFaucet])
       } catch (e) {
@@ -46,7 +48,7 @@ describe('FaucetRegistry', () => {
       }
 
       expect(HttpClient).toHaveBeenCalledTimes(1)
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, {})
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
     })
 
     it('should fetch a faucets with jwt successfully', async () => {
@@ -57,11 +59,11 @@ describe('FaucetRegistry', () => {
       }
 
       try {
-        mockHTTPClient.get.mockReturnValue(
-          Promise.resolve({
-            data: [mockFaucet]
-          })
-        )
+        mockHTTPClient.get.mockResolvedValueOnce({
+          status: 200,
+          headers: {},
+          data: [mockFaucet]
+        })
         const res = await faucetRegistry.faucets(authToken)
         expect(res).toEqual([mockFaucet])
       } catch (e) {
@@ -69,7 +71,7 @@ describe('FaucetRegistry', () => {
       }
 
       expect(HttpClient).toHaveBeenCalledTimes(1)
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, {})
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
     })
 
     it('should fetch faucets with jwt with errors', async () => {
@@ -81,15 +83,20 @@ describe('FaucetRegistry', () => {
 
       const err = new Error('fail message')
       try {
-        mockHTTPClient.get.mockReturnValue(Promise.resolve({ err }))
+        mockHTTPClient.get.mockRejectedValueOnce({
+          data: err,
+          status: 500,
+          headers: {}
+        })
         await faucetRegistry.faucets(authToken)
         fail('expected to fail')
       } catch (e) {
-        expect(e).toEqual(err)
+        expect(e.data).toEqual(err)
+        expect(e.status).toEqual(500)
       }
 
       expect(HttpClient).toHaveBeenCalledTimes(1)
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, {})
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
     })
   })
 
@@ -107,11 +114,11 @@ describe('FaucetRegistry', () => {
       }
 
       try {
-        mockHTTPClient.post.mockReturnValue(
-          Promise.resolve({
-            data: mockFaucet
-          })
-        )
+        mockHTTPClient.post.mockResolvedValueOnce({
+          status: 200,
+          headers: {},
+          data: mockFaucet
+        })
         const res = await faucetRegistry.registerFaucet(faucet)
         expect(res).toEqual(mockFaucet)
       } catch (e) {
@@ -119,7 +126,7 @@ describe('FaucetRegistry', () => {
       }
 
       expect(HttpClient).toHaveBeenCalledTimes(1)
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(req, {})
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
     })
 
     it('should register a new chain with jwt successfully', async () => {
@@ -137,11 +144,11 @@ describe('FaucetRegistry', () => {
       }
 
       try {
-        mockHTTPClient.post.mockReturnValue(
-          Promise.resolve({
-            data: mockFaucet
-          })
-        )
+        mockHTTPClient.post.mockResolvedValueOnce({
+          status: 200,
+          headers: {},
+          data: mockFaucet
+        })
         const res = await faucetRegistry.registerFaucet(faucet, authToken)
         expect(res).toEqual(mockFaucet)
       } catch (e) {
@@ -149,7 +156,7 @@ describe('FaucetRegistry', () => {
       }
 
       expect(HttpClient).toHaveBeenCalledTimes(1)
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(req, {})
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
     })
 
     it('should register a new chain with errors', async () => {
@@ -166,15 +173,20 @@ describe('FaucetRegistry', () => {
 
       const err = new Error('fail message')
       try {
-        mockHTTPClient.post.mockReturnValue(Promise.resolve({ err }))
+        mockHTTPClient.post.mockRejectedValueOnce({
+          data: err,
+          status: 420,
+          headers: {}
+        })
         await faucetRegistry.registerFaucet(faucet)
         fail('expected to fail')
       } catch (e) {
-        expect(e).toEqual(err)
+        expect(e.data).toEqual(err)
+        expect(e.status).toEqual(420)
       }
 
       expect(HttpClient).toHaveBeenCalledTimes(1)
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(req, {})
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
     })
   })
 })

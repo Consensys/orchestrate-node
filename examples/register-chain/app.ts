@@ -4,7 +4,7 @@ import { ChainRegistry } from '../../src'
 
 export const start = async () => {
   try {
-    const chainRegistry = new ChainRegistry('localhost:8011')
+    const chainRegistry = new ChainRegistry('http://localhost:8011')
 
     await chainRegistry.registerChain({
       name: 'MyChain',

@@ -1,125 +1,79 @@
-import { IncomingMessage, request, RequestOptions } from 'http'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import * as querystring from 'querystring'
 
-import { IHttpClientConfig, IHttpGETRequest, IHttpPOSTRequest, IHttpResponse } from '../types'
+import { IHttpClientConfig, IHttpError, IHttpGETRequest, IHttpPOSTRequest, IHttpResponse } from '../types'
+
+import { HttpResponseError } from './httpErr'
 
 /**
+ * @hidden
  * @class HttpClient
  */
 export class HttpClient {
-  private readonly config: IHttpClientConfig
+  protected readonly baseURL: string
+  protected readonly authToken?: string
 
   public constructor(config: IHttpClientConfig) {
-    if (config.host.indexOf('http://') === -1 && config.host.indexOf('https://') === -1) {
-      config.host = `http://${config.host}`
-    }
-
-    this.config = config
+    this.baseURL = config.host
+    this.authToken = config.authToken
   }
 
-  public get(req: IHttpGETRequest, options?: RequestOptions): Promise<IHttpResponse> {
-    let url = `${this.config.host}${req.path}`
+  public async get(req: IHttpGETRequest): Promise<IHttpResponse> {
+    let path = req.path
     if (req.query) {
-      url += `?${querystring.stringify(req.query)}`
+      path += `?${querystring.stringify(req.query)}`
     }
 
-    return this.request(
-      url,
-      '',
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        ...(options || {})
-      },
-      req.authToken || this.config.authToken
-    )
+    try {
+      return HttpClient.parseResponse(await axios.get(path, this.requestConfig(req)))
+    } catch (e) {
+      throw HttpClient.parseErrResponse(e)
+    }
   }
 
-  public post(req: IHttpPOSTRequest, options?: RequestOptions): Promise<IHttpResponse> {
-    const postData = req.data ? JSON.stringify(req.data) : ''
-    return this.request(
-      `${this.config.host}${req.path}`,
-      postData,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Content-Length': Buffer.byteLength(postData)
-        },
-        ...(options || {})
-      },
-      req.authToken || this.config.authToken
-    )
+  public async post(req: IHttpPOSTRequest): Promise<IHttpResponse> {
+    try {
+      return HttpClient.parseResponse(await axios.post(req.path, req.data, this.requestConfig(req)))
+    } catch (e) {
+      throw HttpClient.parseErrResponse(e)
+    }
   }
 
-  protected request(
-    url: string,
-    postData: string,
-    options: RequestOptions,
-    authToken?: string
-  ): Promise<IHttpResponse> {
-    return new Promise((resolve, reject) => {
-      if (authToken !== '') {
-        options.headers = {
-          ...options.headers,
-          Authentication: `Bearer ${authToken}`
-        }
-      }
-
-      const req = request(url, options, (res: IncomingMessage) => {
-        this.requestCb(res, resolve, reject)
-      })
-
-      req.on('error', (err) => {
-        reject(err)
-      })
-
-      // Write data to request body in case POST
-      if (postData !== '') {
-        req.write(postData)
-      }
-
-      req.end()
-    })
-  }
-
-  private requestCb(res: IncomingMessage, resolve: (t: any) => void, reject: (t: any) => void): void {
-    const { statusCode } = res
-    const contentType = res.headers['content-type']
-
-    let errMsg: string = ''
-    if (statusCode !== 200 && statusCode !== 202) {
-      errMsg = 'Request Failed.\n' + `Status Code: ${statusCode}`
-    } else if (!/^application\/json/.test(contentType!)) {
-      errMsg = 'Invalid content-type.\n' + `Expected application/json but received ${contentType}`
+  protected requestConfig(req: IHttpPOSTRequest | IHttpGETRequest): AxiosRequestConfig {
+    const cfg: AxiosRequestConfig = {
+      baseURL: this.baseURL,
+      headers: {}
     }
 
-    let rawData: string = ''
-    res.setEncoding('utf8')
-    res.on('data', (chunk) => {
-      rawData += chunk
-    })
+    if (req.authToken) {
+      cfg.headers.Authorization = `Bearer ${req.authToken}`
+    } else if (this.authToken) {
+      cfg.headers.Authorization = `Bearer ${this.authToken}`
+    }
 
-    res.on('end', () => {
-      const response: IHttpResponse = {
-        status: statusCode!,
-        headers: res.headers
-      }
+    const reqP = req as IHttpPOSTRequest
+    if (reqP.data) {
+      cfg.headers['Content-Type'] = 'application/json'
+    }
 
-      if (errMsg !== '') {
-        response.err = new Error(`${errMsg} \n ${rawData}`)
-        resolve(response)
-        return
-      }
+    return cfg
+  }
 
-      try {
-        response.data = JSON.parse(rawData)
-        resolve(response)
-      } catch (err) {
-        reject(err)
-      }
-    })
+  protected static parseResponse(res: AxiosResponse): IHttpResponse {
+    return {
+      status: res.status,
+      headers: res.headers,
+      data: res.data
+    }
+  }
+
+  protected static parseErrResponse(e: any): IHttpError {
+    if (e.isAxiosError && e.response) {
+      return new HttpResponseError(e, e.response.status, e.response.headers, e.response.data)
+    } else if (e.isAxiosError) {
+      return new HttpResponseError(e, 500, e.config)
+    } else {
+      return new HttpResponseError(e, 500)
+    }
   }
 }

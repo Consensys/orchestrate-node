@@ -11,7 +11,7 @@ export class ChainRegistry {
   /**
    * Creates a new ChainRegistry instance
    *
-   * @param chainRegistryHost - the URL and port of the chain registry RPC
+   * @param chainRegistryHost - the URL and port of the Chain Registry service
    */
   constructor(chainRegistryHost: string) {
     this.client = new HttpClient({
@@ -25,12 +25,12 @@ export class ChainRegistry {
       authToken
     }
 
-    const res: IHttpResponse = await this.client.get(req, {})
-    if (res.err) {
-      throw res.err
+    try {
+      const res: IHttpResponse = await this.client.get(req)
+      return res.data
+    } catch (e) {
+      throw e
     }
-
-    return res.data
   }
 
   public async registerChain(chain: IRegisterChainRequest, authToken?: string): Promise<IChain> {
@@ -40,11 +40,11 @@ export class ChainRegistry {
       authToken
     }
 
-    const res: IHttpResponse = await this.client.post(req, {})
-    if (res.err) {
-      throw res.err
+    try {
+      const res: IHttpResponse = await this.client.post(req)
+      return res.data
+    } catch (e) {
+      throw e
     }
-
-    return res.data
   }
 }
