@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ResponseMessage | Orchestrate SDK Documentation - v2.2.0</title>
+	<title>ChainRegistry | Orchestrate SDK Documentation - v2.2.0</title>
 	<meta name="description" content="Documentation for Orchestrate SDK Documentation - v2.2.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -52,28 +52,21 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="responsemessage.html">ResponseMessage</a>
+					<a href="chainregistry.html">ChainRegistry</a>
 				</li>
 			</ul>
-			<h1>Class ResponseMessage</h1>
+			<h1>Class ChainRegistry</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Class representing a response message from Orchestrate</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ResponseMessage</span>
+						<span class="target">ChainRegistry</span>
 					</li>
 				</ul>
 			</section>
@@ -84,14 +77,14 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="responsemessage.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="chainregistry.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="responsemessage.html#commit" class="tsd-kind-icon">commit</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="responsemessage.html#content" class="tsd-kind-icon">content</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="chainregistry.html#chains" class="tsd-kind-icon">chains</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="chainregistry.html#registerchain" class="tsd-kind-icon">register<wbr>Chain</a></li>
 							</ul>
 						</section>
 					</div>
@@ -103,25 +96,32 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Response<wbr>Message<span class="tsd-signature-symbol">(</span>consumer<span class="tsd-signature-symbol">: </span><a href="consumer.html" class="tsd-signature-type">Consumer</a>, message<span class="tsd-signature-symbol">: </span><a href="../interfaces/iresponse.html" class="tsd-signature-type">IResponse</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="responsemessage.html" class="tsd-signature-type">ResponseMessage</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Chain<wbr>Registry<span class="tsd-signature-symbol">(</span>chainRegistryHost<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="chainregistry.html" class="tsd-signature-type">ChainRegistry</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/a5f3450/src/kafka/consumer/ResponseMessage.ts#L8">src/kafka/consumer/ResponseMessage.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/a5f3450/src/http/chain-registry/ChainRegistry.ts#L9">src/http/chain-registry/ChainRegistry.ts:9</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a new ChainRegistry instance</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>consumer: <a href="consumer.html" class="tsd-signature-type">Consumer</a></h5>
-								</li>
-								<li>
-									<h5>message: <a href="../interfaces/iresponse.html" class="tsd-signature-type">IResponse</a></h5>
+									<h5>chainRegistryHost: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>the URL and port of the Chain Registry service</p>
+										</div>
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="responsemessage.html" class="tsd-signature-type">ResponseMessage</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="chainregistry.html" class="tsd-signature-type">ChainRegistry</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -129,46 +129,51 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="commit" class="tsd-anchor"></a>
-					<h3>commit</h3>
+					<a name="chains" class="tsd-anchor"></a>
+					<h3>chains</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">commit<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">chains<span class="tsd-signature-symbol">(</span>authToken<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ichain.html" class="tsd-signature-type">IChain</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/a5f3450/src/kafka/consumer/ResponseMessage.ts#L14">src/kafka/consumer/ResponseMessage.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/a5f3450/src/http/chain-registry/ChainRegistry.ts#L22">src/http/chain-registry/ChainRegistry.ts:22</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Commits the message offset</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> authToken: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ichain.html" class="tsd-signature-type">IChain</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="content" class="tsd-anchor"></a>
-					<h3>content</h3>
+					<a name="registerchain" class="tsd-anchor"></a>
+					<h3>register<wbr>Chain</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">content<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/iresponse.html" class="tsd-signature-type">IResponse</a></li>
+						<li class="tsd-signature tsd-kind-icon">register<wbr>Chain<span class="tsd-signature-symbol">(</span>chain<span class="tsd-signature-symbol">: </span><a href="../interfaces/iregisterchainrequest.html" class="tsd-signature-type">IRegisterChainRequest</a>, authToken<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ichain.html" class="tsd-signature-type">IChain</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/a5f3450/src/kafka/consumer/ResponseMessage.ts#L21">src/kafka/consumer/ResponseMessage.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/a5f3450/src/http/chain-registry/ChainRegistry.ts#L36">src/http/chain-registry/ChainRegistry.ts:36</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Gets the message</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/iresponse.html" class="tsd-signature-type">IResponse</a></h4>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>chain: <a href="../interfaces/iregisterchainrequest.html" class="tsd-signature-type">IRegisterChainRequest</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> authToken: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ichain.html" class="tsd-signature-type">IChain</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -193,9 +198,24 @@
 					<li class=" tsd-kind-class">
 						<a href="accountgenerator.html" class="tsd-kind-icon">Account<wbr>Generator</a>
 					</li>
-					<li class=" tsd-kind-class">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
 						<a href="chainregistry.html" class="tsd-kind-icon">Chain<wbr>Registry</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="chainregistry.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="chainregistry.html#chains" class="tsd-kind-icon">chains</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="chainregistry.html#registerchain" class="tsd-kind-icon">register<wbr>Chain</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-class">
 						<a href="consumer.html" class="tsd-kind-icon">Consumer</a>
 					</li>
@@ -208,24 +228,9 @@
 					<li class=" tsd-kind-class">
 						<a href="producer.html" class="tsd-kind-icon">Producer</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-class">
+					<li class=" tsd-kind-class">
 						<a href="responsemessage.html" class="tsd-kind-icon">Response<wbr>Message</a>
-						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="responsemessage.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="responsemessage.html#commit" class="tsd-kind-icon">commit</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="responsemessage.html#content" class="tsd-kind-icon">content</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/icall.html" class="tsd-kind-icon">ICall</a>
 					</li>

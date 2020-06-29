@@ -67,14 +67,6 @@
 				<ul class="tsd-hierarchy">
 					<li>
 						<span class="target">IChain</span>
-						<ul class="tsd-hierarchy">
-							<li>
-								<a href="itransactionrequest.html" class="tsd-signature-type">ITransactionRequest</a>
-							</li>
-							<li>
-								<a href="irawtransactionrequest.html" class="tsd-signature-type">IRawTransactionRequest</a>
-							</li>
-						</ul>
 					</li>
 				</ul>
 			</section>
@@ -86,7 +78,11 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ichain.html#chain" class="tsd-kind-icon">chain</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ichain.html#name" class="tsd-kind-icon">name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ichain.html#protocol" class="tsd-kind-icon">protocol</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ichain.html#tenantid" class="tsd-kind-icon">tenantID</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ichain.html#urls" class="tsd-kind-icon">urls</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ichain.html#uuid" class="tsd-kind-icon">uuid</a></li>
 							</ul>
 						</section>
 					</div>
@@ -100,7 +96,17 @@
 					<div class="tsd-signature tsd-kind-icon">chain<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/f1206ef/src/kafka/types/IChain.ts#L4">src/kafka/types/IChain.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/a5f3450/src/kafka/types/IChain.ts#L4">src/kafka/types/IChain.ts:4</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="name" class="tsd-anchor"></a>
+					<h3>name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/a5f3450/src/http/types/IChain.ts#L8">src/http/types/IChain.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -110,7 +116,37 @@
 					<div class="tsd-signature tsd-kind-icon">protocol<span class="tsd-signature-symbol">:</span> <a href="../enums/protocoltype.html" class="tsd-signature-type">ProtocolType</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/f1206ef/src/kafka/types/IChain.ts#L5">src/kafka/types/IChain.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/a5f3450/src/kafka/types/IChain.ts#L5">src/kafka/types/IChain.ts:5</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="tenantid" class="tsd-anchor"></a>
+					<h3>tenantID</h3>
+					<div class="tsd-signature tsd-kind-icon">tenantID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/a5f3450/src/http/types/IChain.ts#L9">src/http/types/IChain.ts:9</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="urls" class="tsd-anchor"></a>
+					<h3>urls</h3>
+					<div class="tsd-signature tsd-kind-icon">urls<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/a5f3450/src/http/types/IChain.ts#L10">src/http/types/IChain.ts:10</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="uuid" class="tsd-anchor"></a>
+					<h3>uuid</h3>
+					<div class="tsd-signature tsd-kind-icon">uuid<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/a5f3450/src/http/types/IChain.ts#L7">src/http/types/IChain.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -136,10 +172,16 @@
 						<a href="../classes/accountgenerator.html" class="tsd-kind-icon">Account<wbr>Generator</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="../classes/chainregistry.html" class="tsd-kind-icon">Chain<wbr>Registry</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="../classes/consumer.html" class="tsd-kind-icon">Consumer</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="../classes/contractregistry.html" class="tsd-kind-icon">Contract<wbr>Registry</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="../classes/faucetregistry.html" class="tsd-kind-icon">Faucet<wbr>Registry</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="../classes/producer.html" class="tsd-kind-icon">Producer</a>
@@ -159,7 +201,19 @@
 								<a href="ichain.html#chain" class="tsd-kind-icon">chain</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="ichain.html#name" class="tsd-kind-icon">name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="ichain.html#protocol" class="tsd-kind-icon">protocol</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="ichain.html#tenantid" class="tsd-kind-icon">tenantID</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="ichain.html#urls" class="tsd-kind-icon">urls</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="ichain.html#uuid" class="tsd-kind-icon">uuid</a>
 							</li>
 						</ul>
 					</li>
@@ -175,7 +229,13 @@
 						<a href="ierror.html" class="tsd-kind-icon">IError</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="ifaucet.html" class="tsd-kind-icon">IFaucet</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="igenerateaccountrequest.html" class="tsd-kind-icon">IGenerate<wbr>Account<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="ihttperror.html" class="tsd-kind-icon">IHttp<wbr>Error</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="ilog.html" class="tsd-kind-icon">ILog</a>
@@ -190,7 +250,13 @@
 						<a href="ireceipt.html" class="tsd-kind-icon">IReceipt</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="iregisterchainrequest.html" class="tsd-kind-icon">IRegister<wbr>Chain<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="iregistercontractrequest.html" class="tsd-kind-icon">IRegister<wbr>Contract<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="iregisterfaucetrequest.html" class="tsd-kind-icon">IRegister<wbr>Faucet<wbr>Request</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="irequest.html" class="tsd-kind-icon">IRequest</a>
