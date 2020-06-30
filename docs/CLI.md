@@ -1,73 +1,99 @@
+# Orchestrate Node SDK CLI reference
+
 In addition to the programatic API provided by the library, you can run some actions directly from
 the command line using the `pegasys-orchestrate` module.
 
-### Install pegasys-orchestrate
+## Important requirement
+
+**Pegasys Orchestrate SDK requires Orchestrate to be installed.**
+
+Orchestrate is only available for PegaSys Orchestrate customers and partners.
+
+[Contact PegaSys](https://pegasys.tech/contact/) if you want to purchase [Orchestrate](https://pegasys.tech/orchestrate/)
+or are interested in our partner program.
+
+If you are already a partner or customer but we did not provide the credentials to install Orchestrate,
+request access on [Pegasys Zendesk support site](http://pegasys.zendesk.com/).
+
+To access [Pegasys Zendesk support site](http://pegasys.zendesk.com/), create an account with your
+company email or login using an existing Pegasys Zendesk account.
+
+Alternatively, send an email from your company email to
+[support@pegasys.tech](mailto:support@pegasys.tech?subject=Orchestrate+Node+SDK).
+
+**You cannot continue without the registry credentials.**
+
+## Install pegasys-orchestrate
 
 Run `npm install pegasys-orchestrate -g` to globally access Pegasys Orchestrate command line tool on your system.
 
-### Orchestrate command
+---
+
+## Orchestrate command
 
 Run `orchestrate` with subcommands and options to interact with Orchestrate Contract registry
 and accounts.
 
-Each command can have subcommands and options.
+Each subcommand can have subcommands and options.
 
-#### Help
+### Help
 
 Run `orchestrate -h` to output usage information.
 
-#### Usage
+### Usage
 
-`orchestrate [options] [command]`
+`orchestrate [options] [subcommand]`
 
-#### Options
+### Options
 
 - `-V`, `--version`: output the Orchestrate SDK version number.
 - `-h`, `--help`: output usage information.
 
-#### Commands
+### Subcommands
 
-- `contracts`: Interact with the Contract Registry, see [Contract command](##contract-command) for options.
+- `contracts`: Interact with the Contract Registry, see [Contract subcommand](#contract-subcommand) for options.
 - `accounts`: Interact with the Contract Registry.
 - `help [command]`: display help for the command. Same as using the `-h` or `--help` option.
 
-#### Contract command
+---
 
-Orchestrate `contract` command allows to manipulate smart contracts in the contract registry.
+### Contract subcommand
 
-##### Help
+Orchestrate `contract` subcommand allows to manipulate smart contracts in the contract registry.
 
-Run `orchestrate contracts -h` to get contract command usage information.
+#### Help
 
-##### Usage
+Run `orchestrate contracts -h` to get contract subcommand usage information.
 
-`orchestrate contracts [options] [command]`
+#### Usage
 
-##### Options
+`orchestrate contracts [options] [subcommand]`
 
-- `-h`, `--help`: output contracts command usage information.
+#### Options
 
-##### Commands
+- `-h`, `--help`: output contracts subcommand usage information.
+
+#### Subcommands
 
 - `register [options]`:
 
   Insert a new contract in Orchestrate contract registry
 
-  ###### Options
+  ##### Options
 
   - `-n, --name <string>`: Name of the contract.
   - `-f, --filepath <file>`: Path of the JSON artifact file for the compiled contract.
   - `-e, --endpoint <host:port>`: Contract registry endpoint.
   - `-t, --tag <string>`: Tag to be attached to the contract, can be used as the version but any other value is possible.
-  - `-h, --help`: Output register command usage.
+  - `-h, --help`: Output register subcommand usage.
 
-  ###### Register command example
+  ##### Register subcommand example
 
   ```bash
   orchestrate contracts register -e localhost:8020 -n Counter -t 1.2.3 -f build/contracts/Counter.json
   ```
 
-  ###### Successful output
+  ##### Successful output
 
   `Contract successfully registered`.
 
@@ -79,18 +105,18 @@ Run `orchestrate contracts -h` to get contract command usage information.
 
   If the registry is empty, an empty list `[]` is returned.
 
-  ###### Options
+  ##### Options
 
   - `-e, --endpoint <host:port>`: Contract registry endpoint.
-  - `-h, --help`: Output catalog command usage.
+  - `-h, --help`: Output catalog subcommand usage.
 
-  ###### Contracts catalog command example
+  ##### Contracts catalog subcommand example
 
   ```bash
   orchestrate contracts catalog -e localhost:8020
   ```
 
-  ###### Output example
+  ##### Output example
 
   ```json
   [ 'Counter' ]
@@ -100,20 +126,20 @@ Run `orchestrate contracts -h` to get contract command usage information.
 
   Returns the registered contract by name and tag (usually used as the contract version).
 
-  ###### Options
+  ##### Options
 
   - `-n, --name <string>`: Name of the contract.
   - `-e, --endpoint <host:port>`: Contract registry endpoint.
   - `-t, --tag <string>`: Optional tag of the contract.
-  - `-h, --help`: Output contract command usage.
+  - `-h, --help`: Output contract subcommand usage.
 
-  ###### Contract command example
+  ##### Contract subcommand example
 
   ```bash
   orchestrate contracts contract -n Counter -t 1.2.3 -e localhost:8020
   ```
 
-  ###### Output example
+  ##### Output example
 
   ```json
   {
@@ -145,52 +171,54 @@ Run `orchestrate contracts -h` to get contract command usage information.
 
 	Returns all the associated tags of a registered contract.
 
-	###### Options
+	##### Options
 
 	- `-n, --name  <string>`: Name of the contract.
 	- `-e, --endpoint <host:port>`: Contract registry endpoint.
-	- `-h, --help`: Output tags command usage.
+	- `-h, --help`: Output tags subcommand usage.
 
-	###### Tags command example
+	##### Tags subcommand example
 
 	```bash
 	orchestrate contracts tags -n Counter -e localhost:8020
 	```
 
-	###### Output example
+	##### Output example
 
 	```json
 	[ '1.2.3', 'latest' ]
 	```
 
-#### Account command
+---
 
-Orchestrate `accounts` command allows to manipulate Orchestrate accounts.
+### Account subcommand
 
-##### Help
+Orchestrate `accounts` subcommand allows to manipulate Orchestrate accounts.
 
-Run `orchestrate accounts -h` to get contract command usage information.
+#### Help
 
-##### Usage
+Run `orchestrate accounts -h` to get contract subcommand usage information.
 
-`orchestrate accounts [options] [command]`
+#### Usage
 
-##### Options
+`orchestrate accounts [options] [subcommand]`
 
-- `-h`, `--help`: output accounts command usage information.
+#### Options
 
-##### Commands
+- `-h`, `--help`: output accounts subcommand usage information.
+
+#### Subcommands
 
 - `generate [options]`:
   Create a new account in Orchestrate.
 
-	###### Options
+	##### Options
 
   - `-e, --endpoint <host:port>`: Kafka endpoint.
   - `-c, --chain <string>`: Optional chain on which to credit the new account.
-  - `-h, --help`: Output generate command usage.
+  - `-h, --help`: Output generate subcommand usage.
 
-	**Generate command example:**
+	**Generate subcommand example:**
 
 	```bash
 	orchestrate accounts generate -c besu -e localhost:9092
