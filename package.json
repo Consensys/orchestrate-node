@@ -65,7 +65,7 @@
     "@grpc/grpc-js": "^1.0.5",
     "axios": "^0.19.2",
     "commander": "^5.1.0",
-    "ethers": "^4.0.47",
+    "ethers": "^5.0.0",
     "kafkajs": "~1.12.0",
     "protobufjs": "^6.9.0",
     "typedoc-plugin-extras": "~1.1.4",
