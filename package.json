@@ -28,7 +28,9 @@
     "example:send-onetimekey-tx": "ts-node examples/send-onetimekey-tx",
     "example:consume": "ts-node examples/consume",
     "example:register-contract": "ts-node examples/register-contract",
-    "example:generate-account": "ts-node examples/generate-account"
+    "example:generate-account": "ts-node examples/generate-account",
+    "example:register-chain": "ts-node examples/register-chain",
+    "example:register-faucet": "ts-node examples/register-faucet"
   },
   "repository": {
     "type": "git",
@@ -51,7 +53,8 @@
     "Dario Anongba Varela <dario.varela@consensys.net>",
     "Julien Marchand <julien.marchand@consensys.net>",
     "Nicolas Maurice <nicolas.maurice@consensys.net>",
-    "Nicolas Massart <nicolas.massart@consensys.net>"
+    "Nicolas Massart <nicolas.massart@consensys.net>",
+    "Gabriel Garrido Calvo <gabriel.garrido@consensys.net>"
   ],
   "license": "Apache-2.0",
   "bugs": {
@@ -60,16 +63,20 @@
   "homepage": "https://pegasyseng.github.io/orchestrate-node/",
   "dependencies": {
     "@grpc/grpc-js": "^1.0.5",
+    "axios": "^0.19.2",
     "commander": "^5.1.0",
     "ethers": "^4.0.47",
     "kafkajs": "~1.12.0",
     "protobufjs": "^6.9.0",
+    "typedoc-plugin-pages": "~1.0.1",
+    "querystring": "^0.2.0",
     "uuid": "~8.1.0"
   },
   "devDependencies": {
     "@types/bn.js": "~4.11.6",
     "@types/jest": "~26.0.0",
     "@types/uuid": "^8.0.0",
+    "axios-mock-adapter": "^1.18.1",
     "husky": "^4.2.5",
     "jest": "^26.0.1",
     "jest-create-mock-instance": "~1.1.0",

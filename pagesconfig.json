@@ -1,0 +1,19 @@
+{
+  "groups": [
+    {
+      "title": "User reference",
+      "pages": [
+        {
+          "title": "Command line interface",
+          "source": "./docs/CLI.md"
+        },
+        {
+          "title": "Code examples",
+          "source": "./examples/README.md"
+        }
+      ]
+    }
+  ],
+  "theme": "pages-plugin",
+  "reflectionNavigationTitle": "TypeScript/JavaScript API"
+}
