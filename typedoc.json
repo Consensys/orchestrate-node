@@ -10,5 +10,5 @@
   "excludeExternals": true,
   "excludeNotExported": true,
   "ignoreCompilerErrors": true,
-  "theme": "default"
+  "theme": "pages-plugin"
 }
