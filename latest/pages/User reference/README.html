@@ -111,8 +111,8 @@
 					<li>Create and send smart contract transactions examples</li>
 					<li>Create and send value transaction example</li>
 				</ol>
-				<a href="#prepare-for-transactions" id="prepare-for-transactions" style="color: inherit; text-decoration: none;">
-					<h3>Prepare for transactions</h3>
+				<a href="#prepare-environment" id="prepare-environment" style="color: inherit; text-decoration: none;">
+					<h3>Prepare environment</h3>
 				</a>
 				<ul>
 					<li><p><strong>generate-account</strong>: generate four new Ethereum accounts in Orchestrate.</p>
@@ -121,12 +121,18 @@
 					<li><p><strong>register-contract</strong>: register the simple ERC20 token smart contract in Orchestrate contract registry.</p>
 						<p>Run <code>npm run example:register-contract</code>.</p>
 					</li>
+					<li><p><strong>register-chain</strong>: register new chain &quot;MyChain&quot; with RPC endpoint located at &#39;<a href="http://geth:8545&#39;">http://geth:8545&#39;</a>.</p>
+						<p>Run <code>npm run example:register-chain</code>.</p>
+					</li>
+					<li><p><strong>register-faucet</strong>: register new faucet account setting creditor account, limits and other rules.</p>
+						<p>Run <code>npm run example:register-faucet</code>.</p>
+					</li>
 				</ul>
-				<a href="#await-for-transactions" id="await-for-transactions" style="color: inherit; text-decoration: none;">
-					<h3>Await for transactions</h3>
+				<a href="#consume-transaction-responses" id="consume-transaction-responses" style="color: inherit; text-decoration: none;">
+					<h3>Consume transaction responses</h3>
 				</a>
 				<ul>
-					<li><p><strong>consume</strong>: listen to Orchestrate transaction events and display the transaction receipt.</p>
+					<li><p><strong>consume</strong>: Start listener for Orchestrate kafka channels to pull transaction events and display the transaction receipt.</p>
 						<p>Run <code>npm run example:consume</code>.</p>
 						<p>Keep it running to visualise the following transaction examples receipts.</p>
 					</li>
