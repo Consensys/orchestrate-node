@@ -50,7 +50,7 @@ Run the following examples in the order displayed in this page:
 1. Create and send smart contract transactions examples
 1. Create and send value transaction example
 
-### Prepare for transactions
+### Prepare environment
 
 - **generate-account**: generate four new Ethereum accounts in Orchestrate.
 
@@ -60,9 +60,17 @@ Run the following examples in the order displayed in this page:
 
   Run `npm run example:register-contract`.
 
-### Await for transactions
+- **register-chain**: register new chain "MyChain" with RPC endpoint located at 'http://geth:8545'.
 
-- **consume**: listen to Orchestrate transaction events and display the transaction receipt.
+  Run `npm run example:register-chain`.
+
+- **register-faucet**: register new faucet account setting creditor account, limits and other rules.
+
+  Run `npm run example:register-faucet`.
+
+### Consume transaction responses
+
+- **consume**: Start listener for Orchestrate kafka channels to pull transaction events and display the transaction receipt.
 
   Run `npm run example:consume`.
 

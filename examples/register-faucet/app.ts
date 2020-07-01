@@ -4,7 +4,7 @@ import { FaucetRegistry } from '../../src'
 
 export const start = async () => {
   try {
-    const faucetRegistry = new FaucetRegistry('localhost:8011')
+    const faucetRegistry = new FaucetRegistry('http://localhost:8011')
 
     await faucetRegistry.registerFaucet({
       name: 'faucet1',
