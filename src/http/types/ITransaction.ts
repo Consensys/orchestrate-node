@@ -1,3 +1,5 @@
+import { ParsedUrlQueryInput } from 'querystring'
+
 import { IScheduleResponse } from './ISchedule'
 
 export interface ISendTransactionRequest extends IBaseRequest {
@@ -6,6 +8,10 @@ export interface ISendTransactionRequest extends IBaseRequest {
 
 export interface IDeployContractRequest extends IBaseRequest {
   params: IDeployContractParams
+}
+
+export interface ISearchRequest extends ParsedUrlQueryInput {
+  idempotencyKeys: string[]
 }
 
 export interface ITransactionResponse {

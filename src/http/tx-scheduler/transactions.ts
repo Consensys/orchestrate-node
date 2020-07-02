@@ -3,8 +3,13 @@
  */
 
 import { HttpClient } from '../client/http'
-import { IHttpPOSTRequest, IHttpResponse } from '../types'
-import { IDeployContractRequest, ISendTransactionRequest, ITransactionResponse } from '../types/ITransaction'
+import { IHttpGETRequest, IHttpPOSTRequest, IHttpResponse } from '../types'
+import {
+  IDeployContractRequest,
+  ISearchRequest,
+  ISendTransactionRequest,
+  ITransactionResponse
+} from '../types/ITransaction'
 
 export class TxSchedulerTransactions {
   private client: HttpClient
@@ -21,14 +26,34 @@ export class TxSchedulerTransactions {
   }
 
   /**
-   * Send contract transaction request
-   * @param txRequest transaction request data
+   * Search for transactions
+   * @param searchRequest transaction request data
    * @param authToken Bearer token. Required when multi-tenancy is enabled
    */
-  public async send(txRequest: ISendTransactionRequest, authToken?: string): Promise<ITransactionResponse> {
+  public async search(searchRequest: ISearchRequest, authToken?: string): Promise<ITransactionResponse> {
+    const req: IHttpGETRequest = {
+      path: '/transactions',
+      query: searchRequest,
+      authToken
+    }
+
+    try {
+      const res: IHttpResponse = await this.client.get(req)
+      return res.data
+    } catch (e) {
+      throw e
+    }
+  }
+
+  /**
+   * Send contract transaction request
+   * @param sendRequest transaction request data
+   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   */
+  public async send(sendRequest: ISendTransactionRequest, authToken?: string): Promise<ITransactionResponse> {
     const req: IHttpPOSTRequest = {
       path: '/transactions/send',
-      data: txRequest,
+      data: sendRequest,
       authToken
     }
 
@@ -42,13 +67,16 @@ export class TxSchedulerTransactions {
 
   /**
    * Deploy contract request
-   * @param txRequest deploy contract request data
+   * @param deployRequest deploy contract request data
    * @param authToken Bearer token. Required when multi-tenancy is enabled
    */
-  public async deployContract(txRequest: IDeployContractRequest, authToken?: string): Promise<ITransactionResponse> {
+  public async deployContract(
+    deployRequest: IDeployContractRequest,
+    authToken?: string
+  ): Promise<ITransactionResponse> {
     const req: IHttpPOSTRequest = {
       path: '/transactions/deploy-contract',
-      data: txRequest,
+      data: deployRequest,
       authToken
     }
 
