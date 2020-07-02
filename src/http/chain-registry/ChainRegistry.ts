@@ -21,7 +21,7 @@ export class ChainRegistry {
 
   /**
    * Fetch list of registered chains
-   * @param authToken Bearer user token. Required when multi-tenancy is enabled
+   * @param authToken Bearer token. Required when multi-tenancy is enabled
    */
   public async chains(authToken?: string): Promise<IChain[]> {
     const req: IHttpGETRequest = {
@@ -40,7 +40,7 @@ export class ChainRegistry {
   /**
    * Register a new chain
    * @param chain Data corresponding to the new chain
-   * @param authToken Bearer user token. Required when multi-tenancy is enabled
+   * @param authToken Bearer token. Required when multi-tenancy is enabled
    */
   public async registerChain(chain: IRegisterChainRequest, authToken?: string): Promise<IChain> {
     const req: IHttpPOSTRequest = {

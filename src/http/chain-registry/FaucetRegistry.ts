@@ -21,7 +21,7 @@ export class FaucetRegistry {
 
   /**
    * Fetch list of registered faucets
-   * @param authToken Bearer user token. Required when multi-tenancy is enabled
+   * @param authToken Bearer token. Required when multi-tenancy is enabled
    */
   public async faucets(authToken?: string): Promise<IFaucet[]> {
     const req: IHttpGETRequest = {
@@ -40,7 +40,7 @@ export class FaucetRegistry {
   /**
    * Register a faucet account
    * @param faucet Data corresponding to the new faucet
-   * @param authToken Bearer user token. Required when multi-tenancy is enabled
+   * @param authToken Bearer token. Required when multi-tenancy is enabled
    */
   public async registerFaucet(faucet: IRegisterFaucetRequest, authToken?: string): Promise<IFaucet> {
     const req: IHttpPOSTRequest = {
