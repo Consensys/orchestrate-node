@@ -19,7 +19,12 @@ const mockFaucet: IFaucet = {
   tenantID: 'tenantID',
   uuid: 'uuid',
   chainRule: 'chainUUID',
-  creditorAccount: '0xCreditorAddrAcc'
+  creditorAccount: '0xCreditorAddrAcc',
+  amount: '1000',
+  cooldown: '1s',
+  maxBalance: '1000',
+  createdAt: new Date(),
+  updatedAt: new Date(),
 }
 
 describe('FaucetRegistry', () => {

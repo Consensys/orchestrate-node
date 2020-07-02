@@ -1,5 +1,5 @@
 /**
- * Class that enables interaction with the Contract Registry
+ * Class that enables interaction with the Chain Registry ('/faucets`)
  */
 
 import { HttpClient } from '../client/http'
@@ -19,6 +19,10 @@ export class FaucetRegistry {
     })
   }
 
+  /**
+   * Fetch list of registered faucets
+   * @param authToken Bearer user token. Required when multi-tenancy is enabled
+   */
   public async faucets(authToken?: string): Promise<IFaucet[]> {
     const req: IHttpGETRequest = {
       path: '/faucets',
@@ -33,6 +37,11 @@ export class FaucetRegistry {
     }
   }
 
+  /**
+   * Register a faucet account
+   * @param faucet Data corresponding to the new faucet
+   * @param authToken Bearer user token. Required when multi-tenancy is enabled
+   */
   public async registerFaucet(faucet: IRegisterFaucetRequest, authToken?: string): Promise<IFaucet> {
     const req: IHttpPOSTRequest = {
       path: '/faucets',

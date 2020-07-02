@@ -16,7 +16,9 @@ const mockChain: IChain = {
   name: 'testChain',
   tenantID: 'tenantID',
   urls: ['endpoint:8545'],
-  uuid: 'uuid'
+  uuid: 'uuid',
+  createdAt: new Date(),
+  updatedAt: new Date(),
 }
 
 describe('ChainRegistry', () => {
