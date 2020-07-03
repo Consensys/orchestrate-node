@@ -31,8 +31,9 @@
     "example:generate-account": "ts-node examples/generate-account",
     "example:register-chain": "ts-node examples/register-chain",
     "example:register-faucet": "ts-node examples/register-faucet",
-    "example:tx-scheduler:search": "ts-node examples/tx-scheduler/search",
-    "example:tx-scheduler:deploy-contract": "ts-node examples/tx-scheduler/deploy-contract"
+    "example:tx-scheduler:deploy-contract": "ts-node examples/tx-scheduler/deploy-contract",
+    "example:tx-scheduler:send-tx": "ts-node examples/tx-scheduler/send-tx",
+    "example:tx-scheduler:search": "ts-node examples/tx-scheduler/search"
   },
   "repository": {
     "type": "git",
