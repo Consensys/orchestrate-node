@@ -10,6 +10,22 @@ export interface IDeployContractRequest extends IBaseRequest {
   params: IDeployContractParams
 }
 
+export interface ISendRawRequest extends IBaseRequest {
+  params: {
+    raw: string
+  }
+}
+
+export interface ISendTransferRequest extends IBaseRequest {
+  params: {
+    from: string
+    to: string
+    value: string
+    gas?: string
+    gasPrice?: string
+  }
+}
+
 export interface ISearchRequest extends ParsedUrlQueryInput {
   idempotencyKeys: string[]
 }

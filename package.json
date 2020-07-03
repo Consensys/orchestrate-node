@@ -33,6 +33,8 @@
     "example:register-faucet": "ts-node examples/register-faucet",
     "example:tx-scheduler:deploy-contract": "ts-node examples/tx-scheduler/deploy-contract",
     "example:tx-scheduler:send-tx": "ts-node examples/tx-scheduler/send-tx",
+    "example:tx-scheduler:send-raw-tx": "ts-node examples/tx-scheduler/send-raw-tx",
+    "example:tx-scheduler:send-transfer": "ts-node examples/tx-scheduler/send-transfer",
     "example:tx-scheduler:search": "ts-node examples/tx-scheduler/search"
   },
   "repository": {
