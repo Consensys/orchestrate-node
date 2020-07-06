@@ -16,7 +16,7 @@ export interface ISendRawRequest extends IBaseRequest {
   }
 }
 
-export interface ISendTransferRequest extends IBaseRequest {
+export interface ITransferRequest extends IBaseRequest {
   params: {
     from: string
     to: string

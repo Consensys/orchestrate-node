@@ -3,11 +3,11 @@
 import { utils, Wallet } from 'ethers'
 import * as cutil from 'util'
 
-import { TxSchedulerTransactions } from '../../../src/http/tx-scheduler'
+import { TransactionClient } from '../../../src/http/tx-scheduler'
 
 export const start = async () => {
   try {
-    const txScheduler = new TxSchedulerTransactions('http://localhost:8041')
+    const txScheduler = new TransactionClient('http://localhost:8041')
 
     // For development usage only, never expose your private key!
     const privateKey = '0x56202652fdffd802b7252a456dbd8f3ecc0352bbde76c23b40afe8aebd714e2e'

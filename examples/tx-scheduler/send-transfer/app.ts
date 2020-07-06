@@ -2,13 +2,13 @@
 
 import * as cutil from 'util'
 
-import { TxSchedulerTransactions } from '../../../src/http/tx-scheduler'
+import { TransactionClient } from '../../../src/http/tx-scheduler'
 
 export const start = async () => {
   try {
-    const txScheduler = new TxSchedulerTransactions('http://localhost:8041')
+    const txScheduler = new TransactionClient('http://localhost:8041')
 
-    const res = await txScheduler.sendTransfer({
+    const res = await txScheduler.transfer({
       chain: 'MyChain',
       params: {
         from: '0x6009608a02a7a15fd6689d6dad560c44e9ab61ff',

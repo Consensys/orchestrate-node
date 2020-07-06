@@ -11,11 +11,11 @@ import {
   ISearchRequest,
   ISendRawRequest,
   ISendTransactionRequest,
-  ISendTransferRequest,
-  ITransactionResponse
+  ITransactionResponse,
+  ITransferRequest
 } from '../types'
 
-export class TxSchedulerTransactions {
+export class TransactionClient {
   private client: HttpClient
 
   /**
@@ -34,7 +34,7 @@ export class TxSchedulerTransactions {
    * @param txUUID transaction UUID
    * @param authToken Bearer token. Required when multi-tenancy is enabled
    */
-  public async getOne(txUUID: string, authToken?: string): Promise<ITransactionResponse> {
+  public async get(txUUID: string, authToken?: string): Promise<ITransactionResponse> {
     const req: IHttpGETRequest = {
       path: `/transactions/${txUUID}`,
       authToken
@@ -124,17 +124,17 @@ export class TxSchedulerTransactions {
 
   /**
    * Send transfer transaction request
-   * @param sendTransferRequest transfer transaction request data
+   * @param transferRequest transfer transaction request data
    * @param idempotencyKey Optional transaction unique identifier
    * @param authToken Bearer token. Required when multi-tenancy is enabled
    */
-  public async sendTransfer(
-    sendTransferRequest: ISendTransferRequest,
+  public async transfer(
+    transferRequest: ITransferRequest,
     idempotencyKey?: string,
     authToken?: string
   ): Promise<ITransactionResponse> {
     try {
-      return await this._postRequest('/transactions/transfer', sendTransferRequest, idempotencyKey, authToken)
+      return await this._postRequest('/transactions/transfer', transferRequest, idempotencyKey, authToken)
     } catch (e) {
       throw e
     }

@@ -1,4 +1,3 @@
-import { HttpClient } from '../client/http'
 import {
   IDeployContractRequest,
   IETHTransactionParams,
@@ -10,11 +9,11 @@ import {
   ISearchRequest,
   ISendRawRequest,
   ISendTransactionRequest,
-  ISendTransferRequest,
-  ITransactionResponse
+  ITransactionResponse,
+  ITransferRequest
 } from '../types'
 
-import { TxSchedulerTransactions } from './Transactions'
+import { TransactionClient } from './Transactions'
 
 const mockJobLogRes: ILog = {
   message: 'Job Created',
@@ -59,11 +58,11 @@ jest.mock('../client/http', () => ({
   HttpClient: jest.fn().mockImplementation(() => mockHTTPClient)
 }))
 
-describe('TxSchedulerTransactions', () => {
-  let txScheduler: TxSchedulerTransactions
+describe('TxSchedulerClient', () => {
+  let txScheduler: TransactionClient
 
   beforeAll(() => {
-    txScheduler = new TxSchedulerTransactions('endpoint:8081')
+    txScheduler = new TransactionClient('endpoint:8081')
   })
 
   afterEach(() => {
@@ -71,7 +70,7 @@ describe('TxSchedulerTransactions', () => {
     jest.restoreAllMocks()
   })
 
-  describe('getOne', () => {
+  describe('get', () => {
     it('should fetch one transaction by UUID successfully', async () => {
       const req: IHttpGETRequest = {
         path: `/transactions/${mockTransactionResp.uuid}`
@@ -82,7 +81,7 @@ describe('TxSchedulerTransactions', () => {
         status: 200,
         headers: {}
       })
-      const data = await txScheduler.getOne(mockTransactionResp.uuid)
+      const data = await txScheduler.get(mockTransactionResp.uuid)
 
       expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
       expect(data).toEqual(mockTransactionResp)
@@ -97,7 +96,7 @@ describe('TxSchedulerTransactions', () => {
 
       mockHTTPClient.get.mockRejectedValueOnce(err)
       try {
-        await txScheduler.getOne(mockTransactionResp.uuid, authToken)
+        await txScheduler.get(mockTransactionResp.uuid, authToken)
         fail('expected failed request')
       } catch (e) {
         expect(e).toEqual(err)
@@ -241,7 +240,7 @@ describe('TxSchedulerTransactions', () => {
 
   describe('sendTransfer', () => {
     it('should send a transfer transaction successfully', async () => {
-      const creq: ISendTransferRequest = {
+      const creq: ITransferRequest = {
         chain: 'MyChain',
         params: {
           from: '0xFromAddr',
@@ -261,14 +260,14 @@ describe('TxSchedulerTransactions', () => {
         headers: {}
       })
 
-      const data = await txScheduler.sendTransfer(creq, undefined, authToken)
+      const data = await txScheduler.transfer(creq, undefined, authToken)
 
       expect(mockHTTPClient.post).toHaveBeenCalledWith(req, {})
       expect(data).toEqual(mockTransactionResp)
     })
 
     it('should fail to send a transfer transaction', async () => {
-      const creq: ISendTransferRequest = {
+      const creq: ITransferRequest = {
         chain: 'MyChain',
         params: {
           from: '0xFromAddr',
@@ -284,7 +283,7 @@ describe('TxSchedulerTransactions', () => {
       const err = new Error('MyError')
       mockHTTPClient.post.mockRejectedValueOnce(err)
       try {
-        await txScheduler.sendTransfer(creq)
+        await txScheduler.transfer(creq)
         fail('expected failed request')
       } catch (e) {
         expect(e).toEqual(err)
