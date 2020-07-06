@@ -1,3 +1,7 @@
 export * from './IHttpClient'
 export * from './IChain'
 export * from './IFaucet'
+export * from './IJob'
+export * from './ISchedule'
+export * from './ITransaction'
+export * from './IETHTransaction'
