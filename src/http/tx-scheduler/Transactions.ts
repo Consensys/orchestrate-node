@@ -3,15 +3,17 @@
  */
 
 import { HttpClient } from '../client/http'
-import { IHttpGETRequest, IHttpPOSTRequest, IHttpResponse } from '../types'
 import {
   IDeployContractRequest,
+  IHttpGETRequest,
+  IHttpPOSTRequest,
+  IHttpResponse,
   ISearchRequest,
   ISendRawRequest,
   ISendTransactionRequest,
   ISendTransferRequest,
   ITransactionResponse
-} from '../types/ITransaction'
+} from '../types'
 
 export class TxSchedulerTransactions {
   private client: HttpClient
@@ -51,7 +53,7 @@ export class TxSchedulerTransactions {
    * @param searchRequest transaction request data
    * @param authToken Bearer token. Required when multi-tenancy is enabled
    */
-  public async search(searchRequest: ISearchRequest, authToken?: string): Promise<ITransactionResponse> {
+  public async search(searchRequest: ISearchRequest, authToken?: string): Promise<[ITransactionResponse]> {
     const req: IHttpGETRequest = {
       path: '/transactions',
       query: searchRequest,
@@ -121,7 +123,7 @@ export class TxSchedulerTransactions {
   }
 
   /**
-   * Send raw transaction request
+   * Send transfer transaction request
    * @param sendTransferRequest transfer transaction request data
    * @param idempotencyKey Optional transaction unique identifier
    * @param authToken Bearer token. Required when multi-tenancy is enabled

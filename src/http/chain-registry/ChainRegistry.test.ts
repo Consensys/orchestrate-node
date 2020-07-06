@@ -18,7 +18,7 @@ const mockChain: IChain = {
   urls: ['endpoint:8545'],
   uuid: 'uuid',
   createdAt: new Date(),
-  updatedAt: new Date(),
+  updatedAt: new Date()
 }
 
 describe('ChainRegistry', () => {
@@ -26,6 +26,11 @@ describe('ChainRegistry', () => {
 
   beforeAll(() => {
     chainRegistry = new ChainRegistry('endpoint:8081')
+  })
+
+  afterEach(() => {
+    jest.clearAllMocks()
+    jest.restoreAllMocks()
   })
 
   describe('fetch', () => {
@@ -41,7 +46,6 @@ describe('ChainRegistry', () => {
       })
       chainRegistry.chains()
 
-      expect(HttpClient).toHaveBeenCalledTimes(1)
       expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
     })
 
@@ -64,7 +68,6 @@ describe('ChainRegistry', () => {
         fail(e)
       }
 
-      expect(HttpClient).toHaveBeenCalledTimes(1)
       expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
     })
 
@@ -89,7 +92,6 @@ describe('ChainRegistry', () => {
         expect(e.status).toEqual(500)
       }
 
-      expect(HttpClient).toHaveBeenCalledTimes(1)
       expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
     })
   })
@@ -117,7 +119,6 @@ describe('ChainRegistry', () => {
         fail(e)
       }
 
-      expect(HttpClient).toHaveBeenCalledTimes(1)
       expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
     })
 
@@ -147,7 +148,6 @@ describe('ChainRegistry', () => {
         fail(e)
       }
 
-      expect(HttpClient).toHaveBeenCalledTimes(1)
       expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
     })
   })
@@ -175,7 +175,6 @@ describe('ChainRegistry', () => {
       expect(e.data).toEqual(err)
     }
 
-    expect(HttpClient).toHaveBeenCalledTimes(1)
     expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
   })
 
@@ -198,7 +197,6 @@ describe('ChainRegistry', () => {
       expect(e).toEqual(err)
     }
 
-    expect(HttpClient).toHaveBeenCalledTimes(1)
     expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
   })
 })

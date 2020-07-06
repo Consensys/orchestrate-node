@@ -3,14 +3,14 @@
 import { utils, Wallet } from 'ethers'
 import * as cutil from 'util'
 
-import { TxSchedulerTransactions } from '../../../src/http/tx-scheduler/transactions'
+import { TxSchedulerTransactions } from '../../../src/http/tx-scheduler'
 
 export const start = async () => {
   try {
     const txScheduler = new TxSchedulerTransactions('http://localhost:8041')
 
     // For development usage only, never expose your private key!
-    const privateKey = '0xc4b172e72033581bc41c36fa0448fcf031e9a31c4a3e300e541802dfb7248307'
+    const privateKey = '0x56202652fdffd802b7252a456dbd8f3ecc0352bbde76c23b40afe8aebd714e2e'
     const wallet = new Wallet(privateKey)
 
     console.log('Generated address:', wallet.address)
@@ -19,19 +19,16 @@ export const start = async () => {
     const signedTransaction = await wallet.sign({
       nonce: 0,
       gasLimit: 21000,
-      to: '0x7e654d251da770a068413677967f6d3ea2fea9e5',
+      to: '0xdbb881a51cd4023e4400cef3ef73046743f08da3',
       value: utils.parseEther('1')
     })
 
-    const res = await txScheduler.sendRaw(
-      {
-        chain: 'MyChain',
-        params: {
-          raw: signedTransaction
-        }
-      },
-      'ExampleStep06'
-    )
+    const res = await txScheduler.sendRaw({
+      chain: 'MyChain',
+      params: {
+        raw: signedTransaction
+      }
+    })
 
     console.log(cutil.inspect(res, false, null, true))
   } catch (error) {

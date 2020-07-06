@@ -1,7 +1,7 @@
-import { JobResponse } from './IJob'
+import { IJobResponse } from './IJob'
 
 export interface IScheduleResponse {
   uuid: string
-  jobs?: JobResponse[]
+  jobs?: IJobResponse[]
   createdAt: Date
 }

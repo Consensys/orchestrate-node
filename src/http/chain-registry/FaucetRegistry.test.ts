@@ -24,7 +24,7 @@ const mockFaucet: IFaucet = {
   cooldown: '1s',
   maxBalance: '1000',
   createdAt: new Date(),
-  updatedAt: new Date(),
+  updatedAt: new Date()
 }
 
 describe('FaucetRegistry', () => {
@@ -32,6 +32,11 @@ describe('FaucetRegistry', () => {
 
   beforeAll(() => {
     faucetRegistry = new FaucetRegistry('endpoint:8081')
+  })
+
+  afterEach(() => {
+    jest.clearAllMocks()
+    jest.restoreAllMocks()
   })
 
   describe('fetch', () => {
@@ -52,7 +57,6 @@ describe('FaucetRegistry', () => {
         fail(e)
       }
 
-      expect(HttpClient).toHaveBeenCalledTimes(1)
       expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
     })
 
@@ -75,7 +79,6 @@ describe('FaucetRegistry', () => {
         fail(e)
       }
 
-      expect(HttpClient).toHaveBeenCalledTimes(1)
       expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
     })
 
@@ -100,7 +103,6 @@ describe('FaucetRegistry', () => {
         expect(e.status).toEqual(500)
       }
 
-      expect(HttpClient).toHaveBeenCalledTimes(1)
       expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
     })
   })
@@ -130,7 +132,6 @@ describe('FaucetRegistry', () => {
         fail(e)
       }
 
-      expect(HttpClient).toHaveBeenCalledTimes(1)
       expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
     })
 
@@ -160,7 +161,6 @@ describe('FaucetRegistry', () => {
         fail(e)
       }
 
-      expect(HttpClient).toHaveBeenCalledTimes(1)
       expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
     })
 
@@ -190,7 +190,6 @@ describe('FaucetRegistry', () => {
         expect(e.status).toEqual(420)
       }
 
-      expect(HttpClient).toHaveBeenCalledTimes(1)
       expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
     })
   })

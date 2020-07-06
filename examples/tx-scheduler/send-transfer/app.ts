@@ -2,7 +2,7 @@
 
 import * as cutil from 'util'
 
-import { TxSchedulerTransactions } from '../../../src/http/tx-scheduler/transactions'
+import { TxSchedulerTransactions } from '../../../src/http/tx-scheduler'
 
 export const start = async () => {
   try {
@@ -13,8 +13,7 @@ export const start = async () => {
       params: {
         from: '0x6009608a02a7a15fd6689d6dad560c44e9ab61ff',
         to: '0x4a435585d27cd7e6dae2c714be8e414b5fd7d257',
-        value: '100',
-        gas: '21000'
+        value: '100000000'
       }
     })
 

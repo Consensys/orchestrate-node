@@ -1,23 +1,23 @@
 import { IETHTransaction } from './IETHTransaction'
 
-export interface JobResponse {
+export interface IJobResponse {
   uuid: string
   chainUUID: string
   transaction: IETHTransaction
-  logs: Log[]
-  labels: object
-  annotations?: Annotations
+  logs: ILog[]
+  labels?: object
+  annotations?: IAnnotations
   status: string
   type: string
   createdAt: Date
 }
 
-export interface Log {
+export interface ILog {
   status: string
   message: string
   createdAt: Date
 }
 
-export interface Annotations {
+export interface IAnnotations {
   oneTimeKey: boolean
 }

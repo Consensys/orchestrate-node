@@ -54,9 +54,9 @@ interface IDeployContractParams extends IBaseTransactionParams, IPrivateTransact
   oneTimeKey?: boolean
 }
 
-interface IETHTransactionParams extends IBaseTransactionParams, IPrivateTransactionParams {
-  raw: string
-  nonce: string
+export interface IETHTransactionParams extends IBaseTransactionParams, IPrivateTransactionParams {
+  raw?: string
+  nonce?: string
 }
 
 interface IBaseTransactionParams {

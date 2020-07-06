@@ -2,7 +2,7 @@
 
 import * as util from 'util'
 
-import { TxSchedulerTransactions } from '../../../src/http/tx-scheduler/transactions'
+import { TxSchedulerTransactions } from '../../../src/http/tx-scheduler'
 
 export const start = async () => {
   try {
