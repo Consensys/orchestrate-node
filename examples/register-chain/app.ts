@@ -8,7 +8,12 @@ export const start = async () => {
 
     await chainRegistry.registerChain({
       name: 'MyChain',
-      urls: ['http://geth:8545']
+      urls: ['http://geth:8545'],
+      listener: {
+        externalTxEnabled: true,
+        backoffDuration: '5s',
+        fromBlock: '0'
+      }
     })
 
     const chains = await chainRegistry.chains()
