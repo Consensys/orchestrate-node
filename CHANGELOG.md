@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.3.0 (2020-07-08)
+
+### 🆕 Features
+
+- Manage your chains using a new HTTP wrapper **chainRegistry**
+- Manage your faucets using a new HTTP wrapper **faucetRegistry**
+
 ## 2.2.0 (2020-06-08)
 
 ### 🛠 Bug fixes
