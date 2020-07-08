@@ -1,0 +1,292 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Orchestrate SDK Documentation - v2.3.0</title>
+	<meta name="description" content="Documentation for Orchestrate SDK Documentation - v2.3.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">Orchestrate SDK Documentation - v2.3.0</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1>Orchestrate SDK Documentation - v2.3.0</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<p><a href="https://docs.orchestrate.pegasys.tech/"><img src="https://img.shields.io/website?label=documentation&url=https%3A%2F%2Fdocs.orchestrate.pegasys.tech%2F" alt="Website"></a>
+				<a href="https://pegasys.tech/orchestrate/"><img src="https://img.shields.io/website?label=website&url=https%3A%2F%2Fpegasys.tech%2Forchestrate%2F" alt="Website"></a></p>
+				<p><a href="https://www.npmjs.com/package/pegasys-orchestrate"><img src="https://img.shields.io/npm/v/pegasys-orchestrate" alt="npm"></a>
+				<a href="https://www.npmjs.com/package/pegasys-orchestrate"><img src="https://img.shields.io/npm/dw/pegasys-orchestrate" alt="npm"></a></p>
+				<p><a href="https://circleci.com/gh/PegaSysEng/orchestrate-node"><img src="https://img.shields.io/circleci/build/gh/PegaSysEng/orchestrate-node?token=b950a12c7c5f1ba8ae60273360c99d832301057a" alt="CircleCI"></a>
+				<a href="https://snyk.io/test/github/PegaSysEng/orchestrate-node?targetFile=package.json"><img src="https://snyk.io/test/github/PegaSysEng/orchestrate-node/badge.svg?targetFile=package.json" alt="Known Vulnerabilities"></a></p>
+				<a href="#pegasys-orchestrate-nodejs-library" id="pegasys-orchestrate-nodejs-library" style="color: inherit; text-decoration: none;">
+					<h1>PegaSys-Orchestrate Node.js Library</h1>
+				</a>
+				<p>The PegaSys Orchestrate library provides convenient access to the PegaSys Orchestrate API from applications written in server-side JavaScript</p>
+				<a href="#compatibility" id="compatibility" style="color: inherit; text-decoration: none;">
+					<h2>Compatibility</h2>
+				</a>
+				<table>
+					<thead>
+						<tr>
+							<th>SDK versions</th>
+							<th>Orchestrate versions</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td>master/HEAD</td>
+							<td>Orchestrate v2.2.x or higher</td>
+						</tr>
+						<tr>
+							<td>SDK v2.3.x</td>
+							<td>Orchestrate v2.1.x or higher</td>
+						</tr>
+						<tr>
+							<td>SDK v2.2.x</td>
+							<td>Orchestrate v2.1.x or higher</td>
+						</tr>
+						<tr>
+							<td>SDK v2.1.x</td>
+							<td>Orchestrate v2.1.x or higher</td>
+						</tr>
+						<tr>
+							<td>SDK v2.0.x</td>
+							<td>Orchestrate v2.0.x</td>
+						</tr>
+						<tr>
+							<td>SDK v1.0.x or lower</td>
+							<td>Orchestrate v1.0.x or lower</td>
+						</tr>
+				</tbody></table>
+				<a href="#orchestrate-documentation" id="orchestrate-documentation" style="color: inherit; text-decoration: none;">
+					<h2>Orchestrate documentation</h2>
+				</a>
+				<p>For a global understanding of PegaSys Orchestrate, not only this SDK, refer to the
+				<a href="https://docs.orchestrate.pegasys.tech/">PegaSys Orchestrate documentation.</a></p>
+				<a href="#important-requirement" id="important-requirement" style="color: inherit; text-decoration: none;">
+					<h2>Important requirement</h2>
+				</a>
+				<p><strong>Pegasys Orchestrate SDK requires Orchestrate to be installed.</strong></p>
+				<p>Orchestrate is only available for PegaSys Orchestrate customers and partners.</p>
+				<p><a href="https://pegasys.tech/contact/">Contact PegaSys</a> if you want to purchase <a href="https://pegasys.tech/orchestrate/">Orchestrate</a>
+				or are interested in our partner program.</p>
+				<p>If you are already a partner or customer but we did not provide the credentials to install Orchestrate,
+				request access on <a href="http://pegasys.zendesk.com/">Pegasys Zendesk support site</a>.</p>
+				<p>To access <a href="http://pegasys.zendesk.com/">Pegasys Zendesk support site</a>, create an account with your
+				company email or login using an existing Pegasys Zendesk account.</p>
+				<p>Alternatively, send an email from your company email to
+				<a href="mailto:support@pegasys.tech?subject=Orchestrate+Node+SDK">support@pegasys.tech</a>.</p>
+				<p><strong>You cannot continue without the registry credentials.</strong></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="label pp-nav pp-group">
+						<span>User reference</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="pages/User reference/CLI.html">Command line interface</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="pages/User reference/README.html">Code examples</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>Type<wbr>Script/<wbr>Java<wbr>Script API</span>
+					</li>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="enums/eventtype.html" class="tsd-kind-icon">Event<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/protocoltype.html" class="tsd-kind-icon">Protocol<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/accountgenerator.html" class="tsd-kind-icon">Account<wbr>Generator</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/chainregistry.html" class="tsd-kind-icon">Chain<wbr>Registry</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/consumer.html" class="tsd-kind-icon">Consumer</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/contractregistry.html" class="tsd-kind-icon">Contract<wbr>Registry</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/faucetregistry.html" class="tsd-kind-icon">Faucet<wbr>Registry</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/producer.html" class="tsd-kind-icon">Producer</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/responsemessage.html" class="tsd-kind-icon">Response<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icall.html" class="tsd-kind-icon">ICall</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ichain.html" class="tsd-kind-icon">IChain</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icontextlabels.html" class="tsd-kind-icon">IContext<wbr>Labels</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icontract.html" class="tsd-kind-icon">IContract</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ierror.html" class="tsd-kind-icon">IError</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ifaucet.html" class="tsd-kind-icon">IFaucet</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/igenerateaccountrequest.html" class="tsd-kind-icon">IGenerate<wbr>Account<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ihttperror.html" class="tsd-kind-icon">IHttp<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ilog.html" class="tsd-kind-icon">ILog</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iprivate.html" class="tsd-kind-icon">IPrivate</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/irawtransactionrequest.html" class="tsd-kind-icon">IRaw<wbr>Transaction<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ireceipt.html" class="tsd-kind-icon">IReceipt</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iregisterchainrequest.html" class="tsd-kind-icon">IRegister<wbr>Chain<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iregistercontractrequest.html" class="tsd-kind-icon">IRegister<wbr>Contract<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iregisterfaucetrequest.html" class="tsd-kind-icon">IRegister<wbr>Faucet<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/irequest.html" class="tsd-kind-icon">IRequest</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iresponse.html" class="tsd-kind-icon">IResponse</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iresponsevalue.html" class="tsd-kind-icon">IResponse<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/itransaction.html" class="tsd-kind-icon">ITransaction</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/itransactioncontext.html" class="tsd-kind-icon">ITransaction<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/itransactionrequest.html" class="tsd-kind-icon">ITransaction<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#default_timeout_account_generator" class="tsd-kind-icon">DEFAULT_<wbr>TIMEOUT_<wbr>ACCOUNT_<wbr>GENERATOR</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#default_topic_account_generated" class="tsd-kind-icon">DEFAULT_<wbr>TOPIC_<wbr>ACCOUNT_<wbr>GENERATED</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#default_topic_account_generator" class="tsd-kind-icon">DEFAULT_<wbr>TOPIC_<wbr>ACCOUNT_<wbr>GENERATOR</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#default_topic_tx_crafter" class="tsd-kind-icon">DEFAULT_<wbr>TOPIC_<wbr>TX_<wbr>CRAFTER</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#default_topic_tx_decoded" class="tsd-kind-icon">DEFAULT_<wbr>TOPIC_<wbr>TX_<wbr>DECODED</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#default_topic_tx_recover" class="tsd-kind-icon">DEFAULT_<wbr>TOPIC_<wbr>TX_<wbr>RECOVER</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#default_topic_tx_sender" class="tsd-kind-icon">DEFAULT_<wbr>TOPIC_<wbr>TX_<wbr>SENDER</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.json"><' + '/script>');</script>
+</body>
+</html>
