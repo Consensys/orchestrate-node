@@ -95,3 +95,25 @@ Run the following examples in the order displayed in this page:
 - **send-private-tx**: send a Quorum private transaction to publish a simple ERC20 token smart contract.
 
   Run `npm run example:send-private-tx`.
+
+### Transaction Scheduler examples
+
+- **deploy-contract**: send a deploy contract transaction to deploy the pre-registered ERC20 smart contract
+
+  Run `npm run example:tx-scheduler:deploy-contract`.
+
+- **send-tx**: send a contract transaction to interact with your deployed contracts
+
+  Run `npm run example:tx-scheduler:send-tx`.
+
+- **send-transfer**: send a transfer transaction to other accounts
+
+Run `npm run example:tx-scheduler:send-transfer`.
+
+- **send-raw-tx**: send a raw transaction
+
+Run `npm run example:tx-scheduler:send-raw`.
+
+- **search**: fetch your completed or pending transactions using their ids or idempotency_keys
+
+Run `npm run example:tx-scheduler:search`.

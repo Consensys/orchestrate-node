@@ -13,4 +13,9 @@ export interface IFaucet {
   tenantID: string
   chainRule: string
   creditorAccount: string
+  cooldown: string
+  amount: string
+  maxBalance: string
+  createdAt: Date
+  updatedAt: Date
 }

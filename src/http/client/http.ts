@@ -18,31 +18,31 @@ export class HttpClient {
     this.authToken = config.authToken
   }
 
-  public async get(req: IHttpGETRequest): Promise<IHttpResponse> {
+  public async get(req: IHttpGETRequest, headers?: object): Promise<IHttpResponse> {
     let path = req.path
     if (req.query) {
       path += `?${querystring.stringify(req.query)}`
     }
 
     try {
-      return HttpClient.parseResponse(await axios.get(path, this.requestConfig(req)))
+      return HttpClient.parseResponse(await axios.get(path, this.requestConfig(req, headers)))
     } catch (e) {
       throw HttpClient.parseErrResponse(e)
     }
   }
 
-  public async post(req: IHttpPOSTRequest): Promise<IHttpResponse> {
+  public async post(req: IHttpPOSTRequest, headers?: object): Promise<IHttpResponse> {
     try {
-      return HttpClient.parseResponse(await axios.post(req.path, req.data, this.requestConfig(req)))
+      return HttpClient.parseResponse(await axios.post(req.path, req.data, this.requestConfig(req, headers)))
     } catch (e) {
       throw HttpClient.parseErrResponse(e)
     }
   }
 
-  protected requestConfig(req: IHttpPOSTRequest | IHttpGETRequest): AxiosRequestConfig {
+  protected requestConfig(req: IHttpPOSTRequest | IHttpGETRequest, headers?: object): AxiosRequestConfig {
     const cfg: AxiosRequestConfig = {
       baseURL: this.baseURL,
-      headers: {}
+      headers: headers || {}
     }
 
     if (req.authToken) {
