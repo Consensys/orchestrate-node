@@ -1,36 +1,28 @@
 // tslint:disable: no-console
 
-import { Producer, ProtocolType } from '../../src'
+import * as cutil from 'util'
+
+import { ProtocolType, TransactionClient } from '../../src'
 
 export const start = async () => {
   try {
-    const producer = new Producer(['localhost:9092'])
-    await producer.connect()
+    const txClient = new TransactionClient('http://localhost:8041')
 
-    // Deploy a new SimpleToken contract
-    // const envelopeId = await producer.sendTransaction({
-    //   chain: 'quorum',
-    //   contractName: 'SimpleToken',
-    //   methodSignature: 'transfer(address,uint256)',
-    //   args: ['0x7e654d251da770a068413677967f6d3ea2fea9e5', 5000],
-    //   from: '0x7e654d251da770a068413677967f6d3ea2fea9e4', // Default Orchestrate account in development mode
-    //   to: '0xA967b03011D139C1603D6B9F122e04F2aEC78666',
-    //   protocol: ProtocolType.QuorumTessera,
-    //   privateFor: ['QfeDAys9MPDs2XHExtc84jKGHxZg/aj52DTh0vtA3Xc='],
-    //   privateFrom: 'BULeR8JyUWhiuuCMU/HLA0Q5pzkYT+cHII3ZKBey3Bo='
-    // })
+    const res = await txClient.deployContract(
+      {
+        chain: 'besu',
+        params: {
+          contractName: 'SimpleToken',
+          from: '0x7e654d251da770a068413677967f6d3ea2fea9e4', // Default Orchestrate account in development mode
+          protocol: ProtocolType.Orion,
+          privateFor: ['QfeDAys9MPDs2XHExtc84jKGHxZg/aj52DTh0vtA3Xc='], // Orion default node 2 public key in development mode
+          privateFrom: 'BULeR8JyUWhiuuCMU/HLA0Q5pzkYT+cHII3ZKBey3Bo=' // Orion default node 1 public key in development mode
+        }
+      },
+      'ExampleSendPrivate'
+    )
 
-    const envelopeId = await producer.sendTransaction({
-      chain: 'quorum',
-      contractName: 'SimpleToken',
-      methodSignature: 'constructor()',
-      from: '0x7e654d251da770a068413677967f6d3ea2fea9e4', // Default Orchestrate account in development mode
-      protocol: ProtocolType.QuorumTessera,
-      privateFor: ['QfeDAys9MPDs2XHExtc84jKGHxZg/aj52DTh0vtA3Xc='],
-      privateFrom: 'BULeR8JyUWhiuuCMU/HLA0Q5pzkYT+cHII3ZKBey3Bo='
-    })
-
-    console.log(`Envelope ID: ${envelopeId}`)
+    console.log(cutil.inspect(res, false, null, true))
   } catch (error) {
     console.error(error)
   }

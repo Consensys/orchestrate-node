@@ -1,8 +1,6 @@
 import {
   IDeployContractRequest,
   IETHTransactionParams,
-  IHttpGETRequest,
-  IHttpPOSTRequest,
   IJobResponse,
   ILog,
   IScheduleResponse,
@@ -10,8 +8,10 @@ import {
   ISendRawRequest,
   ISendTransactionRequest,
   ITransactionResponse,
-  ITransferRequest
+  ITransferRequest,
+  ProtocolType
 } from '../types'
+import { IHttpGETRequest, IHttpPOSTRequest } from '../types/IHttpClient'
 
 import { TransactionClient } from './Transactions'
 
@@ -187,6 +187,40 @@ describe('TxSchedulerClient', () => {
           to: '0xContractAddr',
           methodSignature: 'transfer(address, unit256)',
           args: ['0xToAddr', '1000']
+        }
+      }
+      const req: IHttpPOSTRequest = {
+        path: `/transactions/send`,
+        data: creq
+      }
+
+      mockHTTPClient.post.mockResolvedValueOnce({
+        data: mockTransactionResp,
+        status: 200,
+        headers: {}
+      })
+
+      const data = await txScheduler.send(creq, mockTransactionResp.idempotencyKey)
+
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(req, {
+        'X-Idempotency-Key': mockTransactionResp.idempotencyKey
+      })
+      expect(data).toEqual(mockTransactionResp)
+    })
+  })
+
+  describe('send private', () => {
+    it('should send a contract transaction successfully', async () => {
+      const creq: ISendTransactionRequest = {
+        chain: 'MyChain',
+        params: {
+          from: '0xFromAddr',
+          to: '0xContractAddr',
+          methodSignature: 'transfer(address, unit256)',
+          args: ['0xToAddr', '1000'],
+          protocol: ProtocolType.Orion,
+          privateFor: ['0xpubkey1', '0xpubkey2'],
+          privateFrom: '0xpubkey'
         }
       }
       const req: IHttpPOSTRequest = {

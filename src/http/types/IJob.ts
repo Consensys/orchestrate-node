@@ -1,4 +1,6 @@
+import { IAnnotationsResponse } from './IAnnotations'
 import { IETHTransaction } from './IETHTransaction'
+import { ILog } from './ILog'
 
 export interface IJobResponse {
   uuid: string
@@ -6,18 +8,8 @@ export interface IJobResponse {
   transaction: IETHTransaction
   logs: ILog[]
   labels?: object
-  annotations?: IAnnotations
+  annotations?: IAnnotationsResponse
   status: string
   type: string
   createdAt: Date
-}
-
-export interface ILog {
-  status: string
-  message: string
-  createdAt: Date
-}
-
-export interface IAnnotations {
-  oneTimeKey: boolean
 }

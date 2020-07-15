@@ -1,13 +1,16 @@
 import { ParsedUrlQueryInput } from 'querystring'
 
+import { IAnnotationsRequest } from './IAnnotations'
 import { IScheduleResponse } from './ISchedule'
 
 export interface ISendTransactionRequest extends IBaseRequest {
   params: ITransactionParams
+  annotations?: IAnnotationsRequest
 }
 
 export interface IDeployContractRequest extends IBaseRequest {
   params: IDeployContractParams
+  annotations?: IAnnotationsRequest
 }
 
 export interface ISendRawRequest extends IBaseRequest {

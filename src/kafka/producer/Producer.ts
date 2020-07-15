@@ -1,12 +1,13 @@
 import * as KakfaJS from 'kafkajs'
 import { v4 as uuidv4 } from 'uuid'
 
-import { DEFAULT_TOPIC_ACCOUNT_GENERATOR, DEFAULT_TOPIC_TX_CRAFTER, DEFAULT_TOPIC_TX_SENDER } from '../constants'
-import { marshalGenerateAccountRequest, marshalRawTransactionRequest, marshalTransactionRequest } from '../helpers'
+import { DEFAULT_TOPIC_ACCOUNT_GENERATOR } from '../constants'
+import { marshalRequest } from '../helpers'
 import { KafkaClient } from '../KafkaClient'
-import { IGenerateAccountRequest, IRawTransactionRequest, ITransactionRequest } from '../types'
+import { IGenerateAccountRequest } from '../types'
 
 /**
+ * @hidden
  * Class used to send messages to Orchestrate
  */
 export class Producer extends KafkaClient {
@@ -68,38 +69,6 @@ export class Producer extends KafkaClient {
   }
 
   /**
-   * Sends an Ethereum transaction
-   *
-   * @param request - Transaction request
-   * @param topic - Topic name. Sends to Transaction Crafter by default
-   * @returns The ID of the message
-   */
-  public async sendTransaction(request: ITransactionRequest, topic = DEFAULT_TOPIC_TX_CRAFTER): Promise<string> {
-    this.checkReadiness()
-
-    request.id = request.id ? request.id : uuidv4()
-    await this.produce(topic, marshalTransactionRequest(request))
-
-    return request.id
-  }
-
-  /**
-   * Sends a raw Ethereum transaction
-   *
-   * @param request - Raw transaction request
-   * @param topic - Topic name. Sends to Transaction Sender by default
-   * @returns The ID of the message
-   */
-  public async sendRawTransaction(request: IRawTransactionRequest, topic = DEFAULT_TOPIC_TX_SENDER): Promise<string> {
-    this.checkReadiness()
-
-    request.id = request.id ? request.id : uuidv4()
-    await this.produce(topic, marshalRawTransactionRequest(request))
-
-    return request.id
-  }
-
-  /**
    * Generates a new Ethereum account
    *
    * @param request - Account generation request
@@ -116,7 +85,7 @@ export class Producer extends KafkaClient {
       request = { id: uuidv4(), ...request }
     }
 
-    await this.produce(topic, marshalGenerateAccountRequest(request))
+    await this.produce(topic, marshalRequest(request))
 
     return request.id!
   }

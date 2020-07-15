@@ -45,10 +45,15 @@ Open a terminal and run `npm install` from the SDK repository root directory.
 
 Run the following examples in the order displayed in this page:
 
-1. Prepare for transactions examples
-1. Await for transactions examples
-1. Create and send smart contract transactions examples
-1. Create and send value transaction example
+1. Prepare Orchestrate environment
+2. Consume transactions
+3. Deploy new smart contract
+4. Send raw transactions
+5. Send contract transactions (to the deployed smart contract)
+6. Send one time key transactions
+7. Send private transactions (deploy a new private contract)
+8. Transfer value (ETH transfer)
+9. Search for sent transactions and get their status
 
 ### Prepare environment
 
@@ -68,7 +73,7 @@ Run the following examples in the order displayed in this page:
 
   Run `npm run example:register-faucet`.
 
-### Consume transaction responses
+### Consume transactions
 
 - **consume**: Start listener for Orchestrate kafka channels to pull transaction events and display the transaction receipt.
 
@@ -76,7 +81,11 @@ Run the following examples in the order displayed in this page:
 
   Keep it running to visualise the following transaction examples receipts.
 
-### Besu transactions examples
+### Send transactions
+
+- **deploy-contract**: send a deploy contract transaction to deploy the pre-registered ERC20 smart contract
+
+  Run `npm run example:deploy-contract`.
 
 - **send-raw-tx**: send raw transaction to transfer 1 ETH from an account to another.
 
@@ -90,30 +99,16 @@ Run the following examples in the order displayed in this page:
 
   Run `npm run example:send-onetimekey-tx`.
 
-### Quorum private transactions examples
-
-- **send-private-tx**: send a Quorum private transaction to publish a simple ERC20 token smart contract.
+- **send-private-tx**: send an Orion private transaction to publish a simple ERC20 token smart contract.
 
   Run `npm run example:send-private-tx`.
 
-### Transaction Scheduler examples
+* **send-transfer**: transfer ETH to other accounts
 
-- **deploy-contract**: send a deploy contract transaction to deploy the pre-registered ERC20 smart contract
+  Run `npm run example:send-transfer`.
 
-  Run `npm run example:tx-scheduler:deploy-contract`.
-
-- **send-tx**: send a contract transaction to interact with your deployed contracts
-
-  Run `npm run example:tx-scheduler:send-tx`.
-
-- **send-transfer**: send a transfer transaction to other accounts
-
-Run `npm run example:tx-scheduler:send-transfer`.
-
-- **send-raw-tx**: send a raw transaction
-
-Run `npm run example:tx-scheduler:send-raw`.
+### Search transactions
 
 - **search**: fetch your completed or pending transactions using their ids or idempotency_keys
 
-Run `npm run example:tx-scheduler:search`.
+  Run `npm run example:search`.
