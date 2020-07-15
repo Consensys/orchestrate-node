@@ -15,7 +15,8 @@ The PegaSys Orchestrate library provides convenient access to the PegaSys Orches
 
 | SDK versions        | Orchestrate versions         |
 | ------------------- | ---------------------------- |
-| master/HEAD         | Orchestrate v2.2.x or higher |
+| master/HEAD         | Orchestrate v2.3.x or higher |
+| SDK v3.x.x          | Orchestrate v2.3.x or higher |
 | SDK v2.3.x          | Orchestrate v2.1.x or higher |
 | SDK v2.2.x          | Orchestrate v2.1.x or higher |
 | SDK v2.1.x          | Orchestrate v2.1.x or higher |
