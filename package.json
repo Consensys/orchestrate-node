@@ -75,7 +75,7 @@
     "protobufjs": "^6.9.0",
     "typedoc-plugin-pages": "~1.0.1",
     "querystring": "^0.2.0",
-    "uuid": "~8.1.0"
+    "uuid": "~8.2.0"
   },
   "devDependencies": {
     "@types/bn.js": "~4.11.6",
