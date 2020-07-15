@@ -5,15 +5,13 @@
 import { HttpClient } from '../client/http'
 import {
   IDeployContractRequest,
-  IHttpGETRequest,
-  IHttpPOSTRequest,
-  IHttpResponse,
   ISearchRequest,
   ISendRawRequest,
   ISendTransactionRequest,
   ITransactionResponse,
   ITransferRequest
 } from '../types'
+import { IHttpGETRequest, IHttpPOSTRequest, IHttpResponse } from '../types/IHttpClient'
 
 export class TransactionClient {
   private client: HttpClient
