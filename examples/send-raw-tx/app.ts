@@ -1,53 +1,39 @@
 // tslint:disable: no-console
 
 import { utils, Wallet } from 'ethers'
+import * as cutil from 'util'
 
-import { Producer } from '../../src'
-
-const wait = async (ms: number) => {
-  return new Promise((resolve, _) => {
-    setTimeout(() => {
-      resolve()
-    }, ms)
-  })
-}
+import { TransactionClient } from '../../src'
 
 export const start = async () => {
   try {
-    const producer = new Producer(['localhost:9092'])
-    await producer.connect()
+    const txClient = new TransactionClient('http://localhost:8041')
 
     // For development usage only, never expose your private key!
-    const privateKey = '0x3141592653589793238462643383279502884197169399375105820974944592'
+    const privateKey = '0x56202652fdffd802b7252a456dbd8f3ecc0352bbde76c23b40afe8aebd714e2e'
     const wallet = new Wallet(privateKey)
 
     console.log('Generated address:', wallet.address)
-
-    // Funding the newly created account to be able to send a raw transaction
-    await producer.sendTransaction({
-      chain: 'besu',
-      from: '0x7e654d251da770a068413677967f6d3ea2fea9e4', // Default Orchestrate account in development mode
-      value: utils.parseEther('1.0').toString(),
-      to: wallet.address
-    })
-
-    // wait for mining
-    await wait(5000)
 
     // We send 1 ETH to some other account
     const signedTransaction = await wallet.sign({
       nonce: 0,
       gasLimit: 21000,
-      to: '0x88a5C2d9919e46F883EB62F7b8Dd9d0CC45bc290',
-      value: utils.parseEther('0.5')
+      to: '0xdbb881a51cd4023e4400cef3ef73046743f08da3',
+      value: utils.parseEther('1')
     })
 
-    const envelopeId = await producer.sendRawTransaction({
-      chain: 'besu',
-      signedTransaction
-    })
+    const res = await txClient.sendRaw(
+      {
+        chain: 'MyChain',
+        params: {
+          raw: signedTransaction
+        }
+      },
+      'ExampleSendRaw'
+    )
 
-    console.log(`Envelope ID: ${envelopeId}`)
+    console.log(cutil.inspect(res, false, null, true))
   } catch (error) {
     console.error(error)
   }

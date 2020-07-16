@@ -1,4 +1,4 @@
-import { marshalGenerateAccountRequest, marshalRawTransactionRequest, marshalTransactionRequest } from '../helpers'
+import { marshalRequest } from '../helpers'
 
 import { Producer } from './Producer'
 
@@ -23,9 +23,6 @@ const mockMessage = {
 const mockResult = { field: 'myResult' }
 const extraData = { extraDataField: 'extraDataField' }
 const requestId = 'requestId'
-const mockFrom = '0xc1912fee45d61c87cc5ea59dae31190fffff2333'
-const mockSignedTx =
-  '0xf86780808252089488a5c2d9919e46f883eb62f7b8dd9d0cc45bc2908806f05b59d3b20000801ba0cf1f0ee7b02637e3d9c334ae5689c3e1fe102faf6c21486976b271c811098ef9a06b0bd4227f2d4fe4e59c09a47ec3770c63c165c4dce40d076bae22f780bebc50'
 
 describe('Producer', () => {
   let producer: Producer
@@ -105,95 +102,6 @@ describe('Producer', () => {
     })
   })
 
-  describe('sendTransaction', () => {
-    const mockRequest = {
-      from: mockFrom,
-      id: requestId,
-      extraData,
-      chain: 'chain',
-      contractName: 'contract'
-    }
-
-    it('should fail if the producer is not connected', async () => {
-      await expect(producer.sendTransaction({} as any)).rejects.toThrowError(
-        new Error('Producer is not currently connected, did you forget to call connect()?')
-      )
-    })
-
-    it('should fail if produce fails', async () => {
-      mockKafkaProducer.send.mockRejectedValueOnce(new Error('Failed to send'))
-
-      await producer.connect()
-
-      await expect(producer.sendTransaction(mockRequest, topic)).rejects.toThrowError(new Error('Failed to send'))
-    })
-
-    it('should send a transaction successfully', async () => {
-      mockKafkaProducer.send.mockResolvedValueOnce([mockResult])
-
-      await producer.connect()
-      const result = await producer.sendTransaction(mockRequest, topic)
-
-      expect(mockKafkaProducer.send).toHaveBeenCalledWith({ topic, messages: [marshalTransactionRequest(mockRequest)] })
-      expect(result).toEqual(requestId)
-    })
-
-    it('should send a transaction request with default parameters', async () => {
-      const request = {
-        from: mockFrom,
-        contractName: 'contractName',
-        chain: 'chain'
-      }
-      mockKafkaProducer.send.mockResolvedValueOnce([mockResult])
-
-      await producer.connect()
-      const result = await producer.sendTransaction(request, topic)
-
-      expect(mockKafkaProducer.send).toHaveBeenCalledWith({ topic, messages: [marshalTransactionRequest(request)] })
-      expect(result).toEqual(expect.any(String))
-    })
-  })
-
-  describe('sendRawTransaction', () => {
-    beforeEach(() => {
-      mockKafkaProducer.send.mockResolvedValueOnce([mockResult])
-    })
-
-    it('should fail if the producer is not connected', async () => {
-      await expect(producer.sendRawTransaction({} as any)).rejects.toThrowError(
-        new Error('Producer is not currently connected, did you forget to call connect()?')
-      )
-    })
-
-    it('should send a raw transaction successfully', async () => {
-      const request = {
-        id: requestId,
-        extraData,
-        chain: 'chain',
-        signedTransaction: mockSignedTx
-      }
-
-      await producer.connect()
-      const result = await producer.sendRawTransaction(request, topic)
-
-      expect(mockKafkaProducer.send).toHaveBeenCalledWith({ topic, messages: [marshalRawTransactionRequest(request)] })
-      expect(result).toEqual(requestId)
-    })
-
-    it('should send a transaction request with default parameters', async () => {
-      const request = {
-        signedTransaction: mockSignedTx,
-        chain: 'chain'
-      }
-
-      await producer.connect()
-      const result = await producer.sendRawTransaction(request, topic)
-
-      expect(mockKafkaProducer.send).toHaveBeenCalledWith({ topic, messages: [marshalRawTransactionRequest(request)] })
-      expect(result).toEqual(expect.any(String))
-    })
-  })
-
   describe('generateAccount', () => {
     beforeEach(() => {
       mockKafkaProducer.send.mockResolvedValueOnce([mockResult])
@@ -210,7 +118,7 @@ describe('Producer', () => {
       await producer.connect()
       const result = await producer.generateAccount(request, topic)
 
-      expect(mockKafkaProducer.send).toHaveBeenCalledWith({ topic, messages: [marshalGenerateAccountRequest(request)] })
+      expect(mockKafkaProducer.send).toHaveBeenCalledWith({ topic, messages: [marshalRequest(request)] })
       expect(result).toEqual(request.id)
     })
 
