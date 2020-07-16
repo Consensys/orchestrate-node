@@ -1,7 +1,5 @@
-import createMockInstance from 'jest-create-mock-instance'
-
-import { HttpClient } from '../client/http'
-import { IFaucet, IHttpGETRequest, IHttpPOSTRequest, IRegisterFaucetRequest } from '../types'
+import { IFaucet, IRegisterFaucetRequest } from '../types'
+import { IHttpGETRequest, IHttpPOSTRequest } from '../types/IHttpClient'
 
 import { FaucetRegistry } from './FaucetRegistry'
 

@@ -1,5 +1,5 @@
-import { HttpClient } from '../client/http'
-import { IChain, IHttpGETRequest, IHttpPOSTRequest, IRegisterChainRequest } from '../types'
+import { IChain, IRegisterChainRequest } from '../types'
+import { IHttpGETRequest, IHttpPOSTRequest } from '../types/IHttpClient'
 
 import { ChainRegistry } from './ChainRegistry'
 

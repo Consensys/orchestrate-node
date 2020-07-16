@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 
-import { IHttpError, IHttpGETRequest, IHttpPOSTRequest } from '../types'
+import { IHttpError, IHttpGETRequest, IHttpPOSTRequest } from '../types/IHttpClient'
 
 import { HttpClient } from './http'
 
