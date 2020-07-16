@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Code examples | Orchestrate SDK Documentation - v2.3.0</title>
-	<meta name="description" content="Documentation for Orchestrate SDK Documentation - v2.3.0">
+	<title>Code examples | Orchestrate SDK Documentation - v3.0.0</title>
+	<meta name="description" content="Documentation for Orchestrate SDK Documentation - v3.0.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../../assets/css/main.css">
 	<link rel="stylesheet" href="../../assets/css/pages.css">
@@ -23,7 +23,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../../index.html" class="title">Orchestrate SDK Documentation - v2.3.0</a>
+					<a href="../../index.html" class="title">Orchestrate SDK Documentation - v3.0.0</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -106,10 +106,15 @@
 				</a>
 				<p>Run the following examples in the order displayed in this page:</p>
 				<ol>
-					<li>Prepare for transactions examples</li>
-					<li>Await for transactions examples</li>
-					<li>Create and send smart contract transactions examples</li>
-					<li>Create and send value transaction example</li>
+					<li>Prepare Orchestrate environment</li>
+					<li>Consume transactions</li>
+					<li>Deploy new smart contract</li>
+					<li>Send raw transactions</li>
+					<li>Send contract transactions (to the deployed smart contract)</li>
+					<li>Send one time key transactions</li>
+					<li>Send private transactions (deploy a new private contract)</li>
+					<li>Transfer value (ETH transfer)</li>
+					<li>Search for sent transactions and get their status</li>
 				</ol>
 				<a href="#prepare-environment" id="prepare-environment" style="color: inherit; text-decoration: none;">
 					<h3>Prepare environment</h3>
@@ -128,8 +133,8 @@
 						<p>Run <code>npm run example:register-faucet</code>.</p>
 					</li>
 				</ul>
-				<a href="#consume-transaction-responses" id="consume-transaction-responses" style="color: inherit; text-decoration: none;">
-					<h3>Consume transaction responses</h3>
+				<a href="#consume-transactions" id="consume-transactions" style="color: inherit; text-decoration: none;">
+					<h3>Consume transactions</h3>
 				</a>
 				<ul>
 					<li><p><strong>consume</strong>: Start listener for Orchestrate kafka channels to pull transaction events and display the transaction receipt.</p>
@@ -137,10 +142,13 @@
 						<p>Keep it running to visualise the following transaction examples receipts.</p>
 					</li>
 				</ul>
-				<a href="#besu-transactions-examples" id="besu-transactions-examples" style="color: inherit; text-decoration: none;">
-					<h3>Besu transactions examples</h3>
+				<a href="#send-transactions" id="send-transactions" style="color: inherit; text-decoration: none;">
+					<h3>Send transactions</h3>
 				</a>
 				<ul>
+					<li><p><strong>deploy-contract</strong>: send a deploy contract transaction to deploy the pre-registered ERC20 smart contract</p>
+						<p>Run <code>npm run example:deploy-contract</code>.</p>
+					</li>
 					<li><p><strong>send-raw-tx</strong>: send raw transaction to transfer 1 ETH from an account to another.</p>
 						<p>Run <code>npm run example:send-raw-tx</code>.</p>
 					</li>
@@ -150,37 +158,21 @@
 					<li><p><strong>send-onetimekey-tx</strong>: use a disposable anonymous account to publish a simple ERC20 token smart contract.</p>
 						<p>Run <code>npm run example:send-onetimekey-tx</code>.</p>
 					</li>
-				</ul>
-				<a href="#quorum-private-transactions-examples" id="quorum-private-transactions-examples" style="color: inherit; text-decoration: none;">
-					<h3>Quorum private transactions examples</h3>
-				</a>
-				<ul>
-					<li><p><strong>send-private-tx</strong>: send a Quorum private transaction to publish a simple ERC20 token smart contract.</p>
+					<li><p><strong>send-private-tx</strong>: send an Orion private transaction to publish a simple ERC20 token smart contract.</p>
 						<p>Run <code>npm run example:send-private-tx</code>.</p>
 					</li>
+					<li><p><strong>send-transfer</strong>: transfer ETH to other accounts</p>
+						<p>Run <code>npm run example:send-transfer</code>.</p>
+					</li>
 				</ul>
-				<a href="#transaction-scheduler-examples" id="transaction-scheduler-examples" style="color: inherit; text-decoration: none;">
-					<h3>Transaction Scheduler examples</h3>
+				<a href="#search-transactions" id="search-transactions" style="color: inherit; text-decoration: none;">
+					<h3>Search transactions</h3>
 				</a>
 				<ul>
-					<li><p><strong>deploy-contract</strong>: send a deploy contract transaction to deploy the pre-registered ERC20 smart contract</p>
-						<p>Run <code>npm run example:tx-scheduler:deploy-contract</code>.</p>
-					</li>
-					<li><p><strong>send-tx</strong>: send a contract transaction to interact with your deployed contracts</p>
-						<p>Run <code>npm run example:tx-scheduler:send-tx</code>.</p>
-					</li>
-					<li><p><strong>send-transfer</strong>: send a transfer transaction to other accounts</p>
+					<li><p><strong>search</strong>: fetch your completed or pending transactions using their ids or idempotency_keys</p>
+						<p>Run <code>npm run example:search</code>.</p>
 					</li>
 				</ul>
-				<p>Run <code>npm run example:tx-scheduler:send-transfer</code>.</p>
-				<ul>
-					<li><strong>send-raw-tx</strong>: send a raw transaction</li>
-				</ul>
-				<p>Run <code>npm run example:tx-scheduler:send-raw</code>.</p>
-				<ul>
-					<li><strong>search</strong>: fetch your completed or pending transactions using their ids or idempotency_keys</li>
-				</ul>
-				<p>Run <code>npm run example:tx-scheduler:search</code>.</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
