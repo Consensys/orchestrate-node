@@ -108,7 +108,7 @@ Run the following examples in the order displayed in this page:
 
   Run `npm run example:send-transfer`.
 
-* **send-transfer-priority**: transfer ETH to other accounts with a high priority
+* **send-transfer-with-priority**: transfer ETH to other accounts with a high priority
 
   Run `npm run example:send-transfer-with-priority`.
 
