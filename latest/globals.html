@@ -68,6 +68,7 @@
 							<h3>Enumerations</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-enum"><a href="enums/eventtype.html" class="tsd-kind-icon">Event<wbr>Type</a></li>
+								<li class="tsd-kind-enum"><a href="enums/priority.html" class="tsd-kind-icon">Priority</a></li>
 								<li class="tsd-kind-enum"><a href="enums/protocoltype.html" class="tsd-kind-icon">Protocol<wbr>Type</a></li>
 							</ul>
 						</section>
@@ -86,7 +87,6 @@
 						<section class="tsd-index-section ">
 							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-interface"><a href="interfaces/iannotationsrequest.html" class="tsd-kind-icon">IAnnotations<wbr>Request</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/iannotationsresponse.html" class="tsd-kind-icon">IAnnotations<wbr>Response</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/ibaserequest.html" class="tsd-kind-icon">IBase<wbr>Request</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/ibasetransactionparams.html" class="tsd-kind-icon">IBase<wbr>Transaction<wbr>Params</a></li>
@@ -143,7 +143,7 @@
 					<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>TIMEOUT_<wbr>ACCOUNT_<wbr>GENERATOR<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">10000</span><span class="tsd-signature-symbol"> = 10000</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/3658353/src/kafka/constants.ts#L7">src/kafka/constants.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/b7c3df1/src/kafka/constants.ts#L7">src/kafka/constants.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -153,7 +153,7 @@
 					<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>TOPIC_<wbr>ACCOUNT_<wbr>GENERATED<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"topic-account-generated"</span><span class="tsd-signature-symbol"> = &quot;topic-account-generated&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/3658353/src/kafka/constants.ts#L3">src/kafka/constants.ts:3</a></li>
+							<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/b7c3df1/src/kafka/constants.ts#L3">src/kafka/constants.ts:3</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -163,7 +163,7 @@
 					<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>TOPIC_<wbr>ACCOUNT_<wbr>GENERATOR<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"topic-account-generator"</span><span class="tsd-signature-symbol"> = &quot;topic-account-generator&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/3658353/src/kafka/constants.ts#L2">src/kafka/constants.ts:2</a></li>
+							<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/b7c3df1/src/kafka/constants.ts#L2">src/kafka/constants.ts:2</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -173,7 +173,7 @@
 					<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>TOPIC_<wbr>TX_<wbr>DECODED<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"topic-tx-decoded"</span><span class="tsd-signature-symbol"> = &quot;topic-tx-decoded&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/3658353/src/kafka/constants.ts#L4">src/kafka/constants.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/b7c3df1/src/kafka/constants.ts#L4">src/kafka/constants.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -183,7 +183,7 @@
 					<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>TOPIC_<wbr>TX_<wbr>RECOVER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"topic-tx-recover"</span><span class="tsd-signature-symbol"> = &quot;topic-tx-recover&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/3658353/src/kafka/constants.ts#L5">src/kafka/constants.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/b7c3df1/src/kafka/constants.ts#L5">src/kafka/constants.ts:5</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -215,6 +215,9 @@
 						<a href="enums/eventtype.html" class="tsd-kind-icon">Event<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-enum">
+						<a href="enums/priority.html" class="tsd-kind-icon">Priority</a>
+					</li>
+					<li class=" tsd-kind-enum">
 						<a href="enums/protocoltype.html" class="tsd-kind-icon">Protocol<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -237,9 +240,6 @@
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/transactionclient.html" class="tsd-kind-icon">Transaction<wbr>Client</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/iannotationsrequest.html" class="tsd-kind-icon">IAnnotations<wbr>Request</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/iannotationsresponse.html" class="tsd-kind-icon">IAnnotations<wbr>Response</a>
