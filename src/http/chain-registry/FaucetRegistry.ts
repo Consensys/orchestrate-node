@@ -2,7 +2,7 @@
  * Class that enables interaction with the Chain Registry ('/faucets`)
  */
 
-import { HttpClient } from '../client/http'
+import { HttpClient } from '../HttpClient'
 import { IFaucet, IRegisterFaucetRequest } from '../types'
 import { IHttpGETRequest, IHttpPOSTRequest, IHttpResponse } from '../types/IHttpClient'
 

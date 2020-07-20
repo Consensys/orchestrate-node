@@ -1,8 +1,8 @@
 /**
- * Class that enables interaction with the TxScheduler ('/transactions')
+ * Class that enables interaction with the Transaction Scheduler ('/transactions')
  */
 
-import { HttpClient } from '../client/http'
+import { HttpClient } from '../HttpClient'
 import {
   IDeployContractRequest,
   ISearchRequest,
@@ -17,7 +17,7 @@ export class TransactionClient {
   private client: HttpClient
 
   /**
-   * Creates a new TxSchedulerTransaction instance
+   * Creates a new TransactionClient instance
    *
    * @param txSchedulerHost - URL and port of the Transaction Scheduler service
    */
@@ -29,6 +29,7 @@ export class TransactionClient {
 
   /**
    * Fetch a transaction by UUID
+   *
    * @param txUUID transaction UUID
    * @param authToken Bearer token. Required when multi-tenancy is enabled
    */
@@ -48,10 +49,11 @@ export class TransactionClient {
 
   /**
    * Search for transactions
+   *
    * @param searchRequest transaction request data
    * @param authToken Bearer token. Required when multi-tenancy is enabled
    */
-  public async search(searchRequest: ISearchRequest, authToken?: string): Promise<[ITransactionResponse]> {
+  public async search(searchRequest: ISearchRequest, authToken?: string): Promise<ITransactionResponse[]> {
     const req: IHttpGETRequest = {
       path: '/transactions',
       query: searchRequest,
@@ -68,6 +70,7 @@ export class TransactionClient {
 
   /**
    * Deploy contract request
+   *
    * @param deployRequest deploy contract request data
    * @param idempotencyKey Optional transaction unique identifier
    * @param authToken Bearer token. Required when multi-tenancy is enabled
@@ -86,6 +89,7 @@ export class TransactionClient {
 
   /**
    * Send contract transaction request
+   *
    * @param sendRequest transaction request data
    * @param idempotencyKey Optional transaction unique identifier
    * @param authToken Bearer token. Required when multi-tenancy is enabled
@@ -104,6 +108,7 @@ export class TransactionClient {
 
   /**
    * Send raw transaction request
+   *
    * @param sendRawRequest raw transaction request data
    * @param idempotencyKey Optional transaction unique identifier
    * @param authToken Bearer token. Required when multi-tenancy is enabled
@@ -122,6 +127,7 @@ export class TransactionClient {
 
   /**
    * Send transfer transaction request
+   *
    * @param transferRequest transfer transaction request data
    * @param idempotencyKey Optional transaction unique identifier
    * @param authToken Bearer token. Required when multi-tenancy is enabled
@@ -138,7 +144,7 @@ export class TransactionClient {
     }
   }
 
-  private async _postRequest(path: string, data: any, idempotencyKey?: string, authToken?: string): Promise<any> {
+  private async _postRequest<T>(path: string, data: any, idempotencyKey?: string, authToken?: string): Promise<T> {
     const req: IHttpPOSTRequest = {
       path,
       data,

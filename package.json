@@ -33,6 +33,7 @@
     "example:send-onetimekey-tx": "ts-node examples/send-onetimekey-tx",
     "example:send-private-tx": "ts-node examples/send-private-tx",
     "example:send-transfer": "ts-node examples/send-transfer",
+    "example:send-transfer-with-priority": "ts-node examples/send-transfer-with-priority",
     "example:search": "ts-node examples/search"
   },
   "repository": {
