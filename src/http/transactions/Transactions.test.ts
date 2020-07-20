@@ -54,7 +54,7 @@ const mockHTTPClient = {
   post: jest.fn()
 }
 
-jest.mock('../client/http', () => ({
+jest.mock('../HttpClient', () => ({
   HttpClient: jest.fn().mockImplementation(() => mockHTTPClient)
 }))
 
