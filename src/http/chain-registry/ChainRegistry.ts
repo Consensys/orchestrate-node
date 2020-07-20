@@ -3,7 +3,8 @@
  */
 
 import { HttpClient } from '../client/http'
-import { IChain, IHttpGETRequest, IHttpPOSTRequest, IHttpResponse, IRegisterChainRequest } from '../types'
+import { IChain, IRegisterChainRequest } from '../types'
+import { IHttpGETRequest, IHttpPOSTRequest, IHttpResponse } from '../types/IHttpClient'
 
 export class ChainRegistry {
   private client: HttpClient

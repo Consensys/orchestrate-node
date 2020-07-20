@@ -3,7 +3,8 @@
  */
 
 import { HttpClient } from '../client/http'
-import { IFaucet, IHttpGETRequest, IHttpPOSTRequest, IHttpResponse, IRegisterFaucetRequest } from '../types'
+import { IFaucet, IRegisterFaucetRequest } from '../types'
+import { IHttpGETRequest, IHttpPOSTRequest, IHttpResponse } from '../types/IHttpClient'
 
 export class FaucetRegistry {
   private client: HttpClient

@@ -1,30 +1,27 @@
 // tslint:disable: no-console
 
-import { Producer } from '../../src'
+import * as util from 'util'
+
+import { TransactionClient } from '../../src'
 
 export const start = async () => {
   try {
-    const producer = new Producer(['localhost:9092'])
-    await producer.connect()
+    const txScheduler = new TransactionClient('http://localhost:8041')
 
-    // Deploy a new SimpleToken contract
-    // const envelopeId = await producer.sendTransaction({
-    //   chain: 'besu',
-    //   contractName: 'SimpleToken',
-    //   methodSignature: 'transfer(address,uint256)',
-    //   args: ['0x7e654d251da770a068413677967f6d3ea2fea9e5', 5000],
-    //   from: '0x7e654d251da770a068413677967f6d3ea2fea9e4', // Default Orchestrate account in development mode
-    //   to: '0xe5ce65038f9d1c841a33CC816eE674F8a0E31E74'
-    // })
+    const res = await txScheduler.send(
+      {
+        chain: 'MyChain',
+        params: {
+          from: '0x7e654d251da770a068413677967f6d3ea2fea9e4', // Default Orchestrate account in development mode
+          to: '{DEPLOYED_CONTRACT_ADDRESS}',
+          methodSignature: 'transfer(address,uint256)',
+          args: ['0x6009608a02a7a15fd6689d6dad560c44e9ab61ff', 5000]
+        }
+      },
+      'ExampleSendTransaction'
+    )
 
-    const envelopeId = await producer.sendTransaction({
-      chain: 'besu',
-      contractName: 'SimpleToken',
-      methodSignature: 'constructor()',
-      from: '0x7e654d251da770a068413677967f6d3ea2fea9e4' // Default Orchestrate account in development mode
-    })
-
-    console.log(`Envelope ID: ${envelopeId}`)
+    console.log(util.inspect(res, false, null, true))
   } catch (error) {
     console.error(error)
   }

@@ -1,5 +1,8 @@
-import { IRequest } from './IRequest'
+import { IContextLabels } from './IContextLabels'
 
-export interface IGenerateAccountRequest extends IRequest {
+export interface IGenerateAccountRequest {
+  id?: string
+  contextLabels?: IContextLabels
+  authToken?: string
   chain?: string
 }
