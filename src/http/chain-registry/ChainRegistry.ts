@@ -2,7 +2,7 @@
  * Class that enables interaction with the Chain Registry ('/chains`)
  */
 
-import { HttpClient } from '../client/http'
+import { HttpClient } from '../HttpClient'
 import { IChain, IRegisterChainRequest } from '../types'
 import { IHttpGETRequest, IHttpPOSTRequest, IHttpResponse } from '../types/IHttpClient'
 

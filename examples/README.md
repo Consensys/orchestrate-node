@@ -53,7 +53,8 @@ Run the following examples in the order displayed in this page:
 6. Send one time key transactions
 7. Send private transactions (deploy a new private contract)
 8. Transfer value (ETH transfer)
-9. Search for sent transactions and get their status
+9. Transfer value (ETH transfer) in a high priority transaction
+10. Search for sent transactions and get their status
 
 ### Prepare environment
 
@@ -106,6 +107,10 @@ Run the following examples in the order displayed in this page:
 * **send-transfer**: transfer ETH to other accounts
 
   Run `npm run example:send-transfer`.
+
+* **send-transfer-priority**: transfer ETH to other accounts with a high priority
+
+  Run `npm run example:send-transfer-priority`.
 
 ### Search transactions
 

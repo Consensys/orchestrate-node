@@ -1,9 +1,8 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import * as querystring from 'querystring'
 
-import { IHttpClientConfig, IHttpError, IHttpGETRequest, IHttpPOSTRequest, IHttpResponse } from '../types/IHttpClient'
-
-import { HttpResponseError } from './httpErr'
+import { HttpResponseError } from './errors/HttpResponseError'
+import { IHttpClientConfig, IHttpError, IHttpGETRequest, IHttpPOSTRequest, IHttpResponse } from './types/IHttpClient'
 
 /**
  * @hidden

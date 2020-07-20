@@ -1,16 +1,15 @@
 import { ParsedUrlQueryInput } from 'querystring'
 
-import { IAnnotationsRequest } from './IAnnotations'
 import { IScheduleResponse } from './ISchedule'
+import { Priority } from './Priority'
+import { ProtocolType } from './ProtocolType'
 
 export interface ISendTransactionRequest extends IBaseRequest {
   params: ITransactionParams
-  annotations?: IAnnotationsRequest
 }
 
 export interface IDeployContractRequest extends IBaseRequest {
   params: IDeployContractParams
-  annotations?: IAnnotationsRequest
 }
 
 export interface ISendRawRequest extends IBaseRequest {
@@ -26,6 +25,7 @@ export interface ITransferRequest extends IBaseRequest {
     value: string
     gas?: string
     gasPrice?: string
+    priority?: Priority
   }
 }
 
@@ -49,12 +49,14 @@ interface IBaseRequest {
 interface ITransactionParams extends IBaseTransactionParams, IPrivateTransactionParams {
   methodSignature: string
   oneTimeKey?: boolean
+  priority?: Priority
 }
 
 interface IDeployContractParams extends IBaseTransactionParams, IPrivateTransactionParams {
   contractName: string
   contractTag?: string
   oneTimeKey?: boolean
+  priority?: Priority
 }
 
 export interface IETHTransactionParams extends IBaseTransactionParams, IPrivateTransactionParams {
@@ -72,7 +74,7 @@ interface IBaseTransactionParams {
 }
 
 interface IPrivateTransactionParams {
-  protocol?: string
+  protocol?: ProtocolType
   privateFrom?: string
   privateFor?: string[]
   privacyGroupId?: string
