@@ -18,7 +18,7 @@ export const start = async () => {
           priority: Priority.VeryHigh
         }
       },
-      'ExampleTransfer'
+      'ExampleTransferPriority'
     )
 
     console.log(cutil.inspect(res, false, null, true))
