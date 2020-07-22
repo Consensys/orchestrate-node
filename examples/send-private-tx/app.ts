@@ -6,7 +6,7 @@ import { ProtocolType, TransactionClient } from '../../src'
 
 export const start = async () => {
   try {
-    const txClient = new TransactionClient('http://localhost:8041')
+    const txClient = new TransactionClient('http://localhost:8031')
 
     const res = await txClient.deployContract(
       {
