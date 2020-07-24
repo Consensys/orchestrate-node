@@ -7,10 +7,10 @@ import { TransactionClient } from '../../src'
 
 export const start = async () => {
   try {
-    const txClient = new TransactionClient('http://localhost:8041')
+    const txClient = new TransactionClient('http://localhost:8031')
 
     // For development usage only, never expose your private key!
-    const privateKey = '0x56202652fdffd802b7252a456dbd8f3ecc0352bbde76c23b40afe8aebd714e2e'
+    const privateKey = '0x5FBB50BFF6DFAD35C4A374C9237BA2F7EAED9C6868E0108CB259B62D68029B1A'
     const wallet = new Wallet(privateKey)
 
     console.log('Generated address:', wallet.address)
@@ -25,7 +25,7 @@ export const start = async () => {
 
     const res = await txClient.sendRaw(
       {
-        chain: 'MyChain',
+        chain: 'besu',
         params: {
           raw: signedTransaction
         }
