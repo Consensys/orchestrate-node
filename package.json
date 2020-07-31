@@ -1,6 +1,6 @@
 {
   "name": "pegasys-orchestrate",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "The PegaSys Orchestrate library provides convenient access to the PegaSys Orchestrate API from applications written in server-side JavaScript",
   "main": "lib/index.js",
   "files": [
@@ -66,34 +66,34 @@
   },
   "homepage": "https://pegasyseng.github.io/orchestrate-node/",
   "dependencies": {
-    "@grpc/grpc-js": "^1.1.2",
-    "axios": "^0.19.2",
-    "commander": "^5.1.0",
-    "ethers": "^4.0.47",
+    "@grpc/grpc-js": "~1.1.1",
+    "axios": "~0.19.2",
+    "commander": "~5.1.0",
+    "ethers": "~5.0.7",
     "kafkajs": "~1.12.0",
-    "protobufjs": "^6.9.0",
-    "typedoc-plugin-pages": "~1.0.1",
-    "querystring": "^0.2.0",
+    "protobufjs": "~6.9.0",
+    "querystring": "~0.2.0",
     "uuid": "~8.2.0"
   },
   "devDependencies": {
     "@types/bn.js": "~4.11.6",
     "@types/jest": "~26.0.0",
-    "@types/uuid": "^8.0.0",
-    "axios-mock-adapter": "^1.18.1",
-    "husky": "^4.2.5",
-    "jest": "^26.0.1",
+    "@types/uuid": "~8.0.0",
+    "axios-mock-adapter": "~1.18.1",
+    "husky": "~4.2.5",
+    "jest": "~26.0.1",
     "jest-create-mock-instance": "~1.1.0",
     "lint-staged": "~10.2.11",
-    "minimist": "^1.2.5",
+    "minimist": "~1.2.5",
     "prettier": "~2.0.5",
-    "rimraf": "^3.0.2",
-    "ts-jest": "^26.1.0",
+    "rimraf": "~3.0.2",
+    "ts-jest": "~26.1.0",
     "ts-node": "~8.10.2",
     "tslint": "~6.1.2",
     "tslint-config-prettier": "~1.18.0",
-    "typedoc": "^0.17.7",
-    "typescript": "^3.9.5"
+    "typedoc": "~0.17.7",
+    "typescript": "~3.9.5",
+    "typedoc-plugin-pages": "~1.0.1"
   },
   "husky": {
     "hooks": {
