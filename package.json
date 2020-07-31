@@ -69,11 +69,11 @@
     "@grpc/grpc-js": "^1.1.1",
     "axios": "^0.19.2",
     "commander": "^5.1.0",
-    "ethers": "^4.0.47",
+    "ethers": "^5.0.7",
     "kafkajs": "~1.12.0",
     "protobufjs": "^6.9.0",
-    "typedoc-plugin-pages": "~1.0.1",
     "querystring": "^0.2.0",
+    "typedoc-plugin-pages": "~1.0.1",
     "uuid": "~8.2.0"
   },
   "devDependencies": {
