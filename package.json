@@ -71,7 +71,7 @@
     "commander": "~5.1.0",
     "ethers": "~5.0.7",
     "kafkajs": "~1.12.0",
-    "protobufjs": "~6.9.0",
+    "protobufjs": "~6.10.0",
     "querystring": "~0.2.0",
     "uuid": "~8.2.0"
   },
