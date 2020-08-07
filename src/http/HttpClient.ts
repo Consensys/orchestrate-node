@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
-import * as querystring from 'querystring'
+import * as qs from 'qs'
 
 import { HttpResponseError } from './errors/HttpResponseError'
 import { IHttpClientConfig, IHttpError, IHttpGETRequest, IHttpPOSTRequest, IHttpResponse } from './types/IHttpClient'
@@ -20,7 +20,7 @@ export class HttpClient {
   public async get(req: IHttpGETRequest, headers?: object): Promise<IHttpResponse> {
     let path = req.path
     if (req.query) {
-      path += `?${querystring.stringify(req.query)}`
+      path += `?${qs.stringify(req.query, { arrayFormat: 'comma' })}`
     }
 
     try {

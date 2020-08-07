@@ -12,7 +12,7 @@ export const start = async () => {
     // const res = await txClient.get('87a5722a-0cfb-4cc9-a382-013965b36cb2')
 
     const res = await txClient.search({
-      idempotencyKeys: ['ExampleDeployContract', 'ExampleSendTransaction']
+      idempotency_keys: ['ExampleDeployContract', 'ExampleSendTransaction']
     })
 
     console.log(util.inspect(res, false, null, true))

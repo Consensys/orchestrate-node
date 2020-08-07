@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## 3.0.2 (unreleased)
+
+### 🛠 Bug fixes
+
+- Fixes a search of transactions by idempotency key issue
+
+## 3.0.1 (31-07-2020)
+
+### 🛠 Bug fixes
+
+- Fixes a security issue by upgrading ethers to version 5
+
 ## 2.3.0 (2020-07-08)
 
 ### 🆕 Features

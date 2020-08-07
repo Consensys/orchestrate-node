@@ -1,4 +1,4 @@
-import { ParsedUrlQueryInput } from 'querystring'
+import { ParsedQs } from 'qs'
 
 /**
  * @hidden
@@ -13,7 +13,7 @@ export interface IHttpClientConfig {
  */
 export interface IHttpGETRequest {
   path: string
-  query?: ParsedUrlQueryInput
+  query?: ParsedQs
   authToken?: string
 }
 
