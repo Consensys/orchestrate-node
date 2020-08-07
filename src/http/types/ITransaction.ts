@@ -1,4 +1,4 @@
-import { ParsedUrlQueryInput } from 'querystring'
+import { ParsedQs } from 'qs'
 
 import { IScheduleResponse } from './ISchedule'
 import { Priority } from './Priority'
@@ -29,8 +29,8 @@ export interface ITransferRequest extends IBaseRequest {
   }
 }
 
-export interface ISearchRequest extends ParsedUrlQueryInput {
-  idempotencyKeys: string[]
+export interface ISearchRequest extends ParsedQs {
+  idempotency_keys: string[]
 }
 
 export interface ITransactionResponse {

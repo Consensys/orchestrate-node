@@ -109,7 +109,7 @@ describe('TxSchedulerClient', () => {
   describe('search', () => {
     it('should fetch filtered transaction successfully', async () => {
       const creq: ISearchRequest = {
-        idempotencyKeys: [mockTransactionResp.idempotencyKey]
+        idempotency_keys: [mockTransactionResp.idempotencyKey]
       }
       const req: IHttpGETRequest = {
         path: `/transactions`,
@@ -131,7 +131,7 @@ describe('TxSchedulerClient', () => {
 
     it('should fail to filter transactions', async () => {
       const creq: ISearchRequest = {
-        idempotencyKeys: [mockTransactionResp.idempotencyKey]
+        idempotency_keys: [mockTransactionResp.idempotencyKey]
       }
       const req: IHttpGETRequest = {
         path: `/transactions`,
