@@ -18,7 +18,7 @@ import { TransactionClient } from './Transactions'
 const mockJobLogRes: ILog = {
   message: 'Job Created',
   status: 'CREATED',
-  createdAt: new Date()
+  at: new Date()
 }
 
 const mockJobRes: IJobResponse = {
@@ -28,7 +28,8 @@ const mockJobRes: IJobResponse = {
   transaction: {},
   status: 'STARTED',
   type: 'eth://ethereum/transaction',
-  createdAt: new Date()
+  createdAt: new Date(),
+  updatedAt: new Date()
 }
 
 const mockScheduleRes: IScheduleResponse = {
@@ -42,6 +43,7 @@ const mockETHParams: IETHTransactionParams = {}
 const mockTransactionResp: ITransactionResponse = {
   uuid: 'transactionUUID',
   idempotencyKey: 'idempotencyKey',
+  chain: 'MyChain',
   params: mockETHParams,
   schedule: mockScheduleRes,
   createdAt: new Date()

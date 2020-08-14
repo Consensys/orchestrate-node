@@ -13,7 +13,7 @@ export const start = async () => {
         chain: 'besu',
         params: {
           from: '0x7e654d251da770a068413677967f6d3ea2fea9e4', // Default Orchestrate account in development mode
-          to: '0xe5ce65038f9d1c841a33CC816eE674F8a0E31E74',
+          to: '{DEPLOYED_CONTRACT_ADDRESS}',
           methodSignature: 'transfer(address,uint256)',
           args: ['0x6009608a02a7a15fd6689d6dad560c44e9ab61ff', 5000]
         }
