@@ -1,4 +1,6 @@
-export interface IAnnotationsResponse {
+import { Priority } from './Priority'
+
+export interface IAnnotations {
   oneTimeKey?: boolean
-  chainID?: string
+  priority?: Priority
 }

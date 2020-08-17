@@ -1,15 +1,31 @@
 import { ParsedQs } from 'qs'
 
+import { IAnnotations } from './IAnnotations'
 import { IScheduleResponse } from './ISchedule'
 import { Priority } from './Priority'
 import { ProtocolType } from './ProtocolType'
 
+interface IBaseRequest {
+  chain: string
+  labels?: object
+}
+
 export interface ISendTransactionRequest extends IBaseRequest {
   params: ITransactionParams
+}
+interface ITransactionParams extends IBaseTransactionParams, IPrivateTransactionParams {
+  to: string
+  methodSignature: string
+  annotations?: IAnnotations
 }
 
 export interface IDeployContractRequest extends IBaseRequest {
   params: IDeployContractParams
+}
+interface IDeployContractParams extends IBaseTransactionParams, IPrivateTransactionParams {
+  contractName: string
+  contractTag?: string
+  annotations?: IAnnotations
 }
 
 export interface ISendRawRequest extends IBaseRequest {
@@ -36,37 +52,18 @@ export interface ISearchRequest extends ParsedQs {
 export interface ITransactionResponse {
   uuid: string
   idempotencyKey: string
+  chain: string
   params: IETHTransactionParams
   schedule: IScheduleResponse
   createdAt: Date
 }
 
-interface IBaseRequest {
-  chain: string
-  labels?: object
-}
-
-interface ITransactionParams extends IBaseTransactionParams, IPrivateTransactionParams {
-  methodSignature: string
-  oneTimeKey?: boolean
-  priority?: Priority
-}
-
-interface IDeployContractParams extends IBaseTransactionParams, IPrivateTransactionParams {
-  contractName: string
-  contractTag?: string
-  oneTimeKey?: boolean
-  priority?: Priority
-}
-
 export interface IETHTransactionParams extends IBaseTransactionParams, IPrivateTransactionParams {
   raw?: string
-  nonce?: string
 }
 
 interface IBaseTransactionParams {
   from?: string
-  to?: string
   value?: string
   gas?: string
   gasPrice?: string
