@@ -7,8 +7,8 @@ export const start = async () => {
     const chainRegistry = new ChainRegistry('http://localhost:8011')
 
     await chainRegistry.registerChain({
-      name: 'MyChain',
-      urls: ['http://geth:8545'],
+      name: 'besu',
+      urls: ['http://validator2:8545'],
       listener: {
         externalTxEnabled: true,
         backoffDuration: '5s',

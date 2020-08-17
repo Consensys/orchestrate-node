@@ -16,7 +16,7 @@ export const start = async () => {
     console.log('Generated address:', wallet.address)
 
     // We send 1 ETH to some other account
-    const signedTransaction = await wallet.sign({
+    const signedTransaction = await wallet.signTransaction({
       nonce: 0,
       gasLimit: 21000,
       to: '0xdbb881a51cd4023e4400cef3ef73046743f08da3',
