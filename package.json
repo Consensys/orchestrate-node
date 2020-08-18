@@ -73,7 +73,7 @@
     "kafkajs": "~1.12.0",
     "protobufjs": "~6.9.0",
     "qs": "~6.9.4",
-    "uuid": "~8.2.0"
+    "uuid": "~8.3.0"
   },
   "devDependencies": {
     "@types/bn.js": "~4.11.6",
