@@ -1,27 +1,26 @@
 # Orchestrate Node SDK CLI reference
 
-In addition to the programatic API provided by the library, you can run some actions directly from
+In addition to the programmatic API provided by the library, you can run some actions directly from
 the command line using the `pegasys-orchestrate` module.
 
 ## Important requirement
 
-**Pegasys Orchestrate SDK requires Orchestrate to be installed.**
+**The Orchestrate SDK requires Orchestrate to be installed.**
 
-Orchestrate is only available for PegaSys Orchestrate customers and partners.
+> **Important:** Orchestrate is only available for Orchestrate customers and
+> [ConsenSys partners](https://consensys.net/solutions/partnerships/).
+>
+> [Contact ConsenSys](https://codefi.consensys.net/orchestrate-get-in-touch) if you want to purchase Orchestrate
+> or are interested in our [partner program](https://consensys.net/solutions/partnerships/).
+>
+> If you are already a partner or customer but we did not provide the credentials to access the
+> Docker registry, send an email from your company email to [orchestrate@consensys.net](mailto:orchestrate@consensys.net).
+>
+> You can use this Quickstart only if you have received these credentials from ConsenSys to connect to the registry.
+>
+> **You cannot continue without the registry credentials.**
 
-[Contact PegaSys](https://pegasys.tech/contact/) if you want to purchase [Orchestrate](https://pegasys.tech/orchestrate/)
-or are interested in our partner program.
-
-If you are already a partner or customer but we did not provide the credentials to install Orchestrate,
-request access on [Pegasys Zendesk support site](http://pegasys.zendesk.com/).
-
-To access [Pegasys Zendesk support site](http://pegasys.zendesk.com/), create an account with your
-company email or login using an existing Pegasys Zendesk account.
-
-Alternatively, send an email from your company email to
-[support@pegasys.tech](mailto:support@pegasys.tech?subject=Orchestrate+Node+SDK).
-
-**You cannot continue without the registry credentials.**
+> **Tip** Try a free trial of Orchestrate with the [Quorum Dev Quickstart](https://github.com/PegaSysEng/quorum-dev-quickstart#iv-orchestrate-network-). 
 
 ## Install pegasys-orchestrate
 
