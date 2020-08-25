@@ -45,4 +45,4 @@ For a global understanding of Orchestrate, not only this SDK, refer to the
 >
 > **You cannot continue without the registry credentials.**
 
-> **Tip** Try a free trial of Orchestrate with the [Quorum Dev Quickstart](https://github.com/PegaSysEng/quorum-dev-quickstart#iv-orchestrate-network-). 
+> **Tip** Try a free trial of Orchestrate with the [Quorum Dev Quickstart](https://github.com/PegaSysEng/quorum-dev-quickstart/tree/master/files/orchestrate). 
