@@ -2,11 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-## 3.0.2 (unreleased)
+## 3.1.0 (unreleased)
 
 ### 🛠 Bug fixes
 
 - Fixes a search of transactions by idempotency key issue
+- Adapt transaction request interfaces to include gasPricePolicy
 
 ## 3.0.1 (31-07-2020)
 
