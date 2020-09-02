@@ -15,7 +15,9 @@ export const start = async () => {
           from: '0x7e654d251da770a068413677967f6d3ea2fea9e4', // Default Orchestrate account in development mode
           to: '0x6009608a02a7a15fd6689d6dad560c44e9ab61ff',
           value: '100000000',
-          priority: Priority.VeryHigh
+          gasPricePolicy: {
+            priority: Priority.VeryHigh
+          }
         }
       },
       'ExampleTransferPriority'

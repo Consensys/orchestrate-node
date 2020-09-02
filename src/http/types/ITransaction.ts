@@ -1,8 +1,7 @@
 import { ParsedQs } from 'qs'
 
-import { IAnnotations } from './IAnnotations'
+import { IGasPricePolicy } from './IGasPricePolicy'
 import { IScheduleResponse } from './ISchedule'
-import { Priority } from './Priority'
 import { ProtocolType } from './ProtocolType'
 
 interface IBaseRequest {
@@ -16,7 +15,8 @@ export interface ISendTransactionRequest extends IBaseRequest {
 interface ITransactionParams extends IBaseTransactionParams, IPrivateTransactionParams {
   to: string
   methodSignature: string
-  annotations?: IAnnotations
+  gasPricePolicy?: IGasPricePolicy
+  oneTimeKey?: boolean
 }
 
 export interface IDeployContractRequest extends IBaseRequest {
@@ -25,7 +25,8 @@ export interface IDeployContractRequest extends IBaseRequest {
 interface IDeployContractParams extends IBaseTransactionParams, IPrivateTransactionParams {
   contractName: string
   contractTag?: string
-  annotations?: IAnnotations
+  gasPricePolicy?: IGasPricePolicy
+  oneTimeKey?: boolean
 }
 
 export interface ISendRawRequest extends IBaseRequest {
@@ -41,7 +42,7 @@ export interface ITransferRequest extends IBaseRequest {
     value: string
     gas?: string
     gasPrice?: string
-    priority?: Priority
+    gasPricePolicy?: IGasPricePolicy
   }
 }
 
