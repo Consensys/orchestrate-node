@@ -8,9 +8,9 @@ this project.
 | Everyone            | none                                         | anybody with a belly button |
 | Member              | everyone who contributes - code or otherwise | Orchestrate org member      |
 | Approver            | approve accepting contributions              | write permissions on master |
-| Project Sponsor     | contribute developer resources               | PegaSys                     |
-| Project Evangelist  | promote the project                          | PegaSys                     |
-| Benevolent Dictator | decision tie-breaker                         | PegaSys                     |
+| Project Sponsor     | contribute developer resources               | ConsenSys                     |
+| Project Evangelist  | promote the project                          | ConsenSys                     |
+| Benevolent Dictator | decision tie-breaker                         | ConsenSys                     |
 
 ## Everyone
 
@@ -84,7 +84,7 @@ Code approvers are members that have signed an ICLA and have been granted additi
 
 The Project Sponsor role provides a user with the ability to contribute additional developer resources to the project. Project Sponsors must sign the ICLA.
 
-**Defined by:** PegaSys
+**Defined by:** ConsenSys
 
 ### Requirements
 
@@ -99,7 +99,7 @@ The Project Sponsor role provides a user with the ability to contribute addition
 ## Project Evangelist
 
 The Project Evangelist role is for those who wish to promote the project to the outside world, but not actively contribute to it.  
-**Defined by:** PegaSys
+**Defined by:** ConsenSys
 
 ### Requirements
 

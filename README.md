@@ -35,7 +35,7 @@ For a global understanding of PegaSys Orchestrate, not only this SDK, refer to t
 
 Orchestrate is only available for PegaSys Orchestrate customers and partners.
 
-[Contact PegaSys](https://pegasys.tech/contact/) if you want to purchase [Orchestrate](https://pegasys.tech/orchestrate/)
+[Contact ConsenSys](https://codefi.consensys.net/orchestrate-get-in-touch) if you want to purchase [Orchestrate](https://codefi.consensys.net/orchestrate)
 or are interested in our partner program.
 
 If you are already a partner or customer but we did not provide the credentials to install Orchestrate,
@@ -45,6 +45,6 @@ To access [Pegasys Zendesk support site](http://pegasys.zendesk.com/), create an
 company email or login using an existing Pegasys Zendesk account.
 
 Alternatively, send an email from your company email to
-[support@pegasys.tech](mailto:support@pegasys.tech?subject=Orchestrate+Node+SDK).
+[orchestrate@consensys.net](mailto:orchestrate@consensys.net?subject=Orchestrate+Node+SDK).
 
 **You cannot continue without the registry credentials.**
