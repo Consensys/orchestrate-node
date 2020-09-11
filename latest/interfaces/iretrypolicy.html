@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IBaseRequest | Orchestrate SDK Documentation - v3.1.0</title>
+	<title>IRetryPolicy | Orchestrate SDK Documentation - v3.1.0</title>
 	<meta name="description" content="Documentation for Orchestrate SDK Documentation - v3.1.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -53,10 +53,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="ibaserequest.html">IBaseRequest</a>
+					<a href="iretrypolicy.html">IRetryPolicy</a>
 				</li>
 			</ul>
-			<h1>Interface IBaseRequest</h1>
+			<h1>Interface IRetryPolicy</h1>
 		</div>
 	</div>
 </header>
@@ -67,21 +67,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IBaseRequest</span>
-						<ul class="tsd-hierarchy">
-							<li>
-								<a href="isendtransactionrequest.html" class="tsd-signature-type">ISendTransactionRequest</a>
-							</li>
-							<li>
-								<a href="ideploycontractrequest.html" class="tsd-signature-type">IDeployContractRequest</a>
-							</li>
-							<li>
-								<a href="isendrawrequest.html" class="tsd-signature-type">ISendRawRequest</a>
-							</li>
-							<li>
-								<a href="itransferrequest.html" class="tsd-signature-type">ITransferRequest</a>
-							</li>
-						</ul>
+						<span class="target">IRetryPolicy</span>
 					</li>
 				</ul>
 			</section>
@@ -92,8 +78,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ibaserequest.html#chain" class="tsd-kind-icon">chain</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ibaserequest.html#labels" class="tsd-kind-icon">labels</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iretrypolicy.html#increment" class="tsd-kind-icon">increment</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iretrypolicy.html#interval" class="tsd-kind-icon">interval</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iretrypolicy.html#limit" class="tsd-kind-icon">limit</a></li>
 							</ul>
 						</section>
 					</div>
@@ -102,22 +89,32 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="chain" class="tsd-anchor"></a>
-					<h3>chain</h3>
-					<div class="tsd-signature tsd-kind-icon">chain<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="increment" class="tsd-anchor"></a>
+					<h3>increment</h3>
+					<div class="tsd-signature tsd-kind-icon">increment<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/26bafa6/src/http/types/ITransaction.ts#L8">src/http/types/ITransaction.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/26bafa6/src/http/types/IGasPricePolicy.ts#L9">src/http/types/IGasPricePolicy.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="labels" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> labels</h3>
-					<div class="tsd-signature tsd-kind-icon">labels<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span></div>
+					<a name="interval" class="tsd-anchor"></a>
+					<h3>interval</h3>
+					<div class="tsd-signature tsd-kind-icon">interval<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/26bafa6/src/http/types/ITransaction.ts#L9">src/http/types/ITransaction.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/26bafa6/src/http/types/IGasPricePolicy.ts#L11">src/http/types/IGasPricePolicy.ts:11</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="limit" class="tsd-anchor"></a>
+					<h3>limit</h3>
+					<div class="tsd-signature tsd-kind-icon">limit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/PegaSysEng/orchestrate-node/blob/26bafa6/src/http/types/IGasPricePolicy.ts#L10">src/http/types/IGasPricePolicy.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -145,13 +142,16 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="ibaserequest.html" class="tsd-kind-icon">IBase<wbr>Request</a>
+						<a href="iretrypolicy.html" class="tsd-kind-icon">IRetry<wbr>Policy</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="ibaserequest.html#chain" class="tsd-kind-icon">chain</a>
+								<a href="iretrypolicy.html#increment" class="tsd-kind-icon">increment</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="ibaserequest.html#labels" class="tsd-kind-icon">labels</a>
+								<a href="iretrypolicy.html#interval" class="tsd-kind-icon">interval</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="iretrypolicy.html#limit" class="tsd-kind-icon">limit</a>
 							</li>
 						</ul>
 					</li>
