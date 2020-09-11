@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 3.1.1 (Unreleased)
+
+### 🆕 Features
+
+- Adding interfaces to create transactions with a gas price retry policy with an increment, limit and interval
+
 
 ## 3.1.0 (2020-09-02)
 
