@@ -22,11 +22,11 @@ Welcome to the Orchestrate repositories! The following is a set of guidelines fo
 
 ## Code of Conduct
 
-This project and everyone participating in it is governed by the [Orchestrate Code of Conduct](CODE-OF-CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [private@pegasys.tech].
+This project and everyone participating in it is governed by the [Orchestrate Code of Conduct](CODE-OF-CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [private-quorum@consensys.net].
 
 ## I just have a quick question
 
-Send us an email at [support@pegasys.tech] and that's the fastest way to get an answer.
+Send us an email at [orchestrate@consensys.net](mailto:orchestrate@consensys.net) and that's the fastest way to get an answer.
 
 ## How To Contribute
 
@@ -122,5 +122,5 @@ Code style will be checked automatically during a build.
 - Provide a summary on the first line with more details on additional lines as needed
 - Reference issues and pull requests liberally
 
-[private@pegasys.tech]: mailto:private@pegasys.tech
+[private-quorum@consensys.net]: mailto:private-quorum@consensys.net
 [cla.md]: /CLA.md
