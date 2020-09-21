@@ -1,4 +1,4 @@
-import * as KakfaJS from 'kafkajs'
+import * as KafkaJS from 'kafkajs'
 
 import { DEFAULT_TIMEOUT_ACCOUNT_GENERATOR, DEFAULT_TOPIC_ACCOUNT_GENERATED } from '../constants'
 import { Consumer, ResponseMessage } from '../consumer'
@@ -26,9 +26,9 @@ export class AccountGenerator {
    */
   constructor(
     brokers: string[],
-    kafkaConfig?: Omit<KakfaJS.KafkaConfig, 'brokers'>,
-    producerConfig?: KakfaJS.ProducerConfig,
-    consumerConfig?: KakfaJS.ConsumerConfig
+    kafkaConfig?: Omit<KafkaJS.KafkaConfig, 'brokers'>,
+    producerConfig?: KafkaJS.ProducerConfig,
+    consumerConfig?: KafkaJS.ConsumerConfig
   ) {
     this.producer = new Producer(brokers, { clientId: 'wallet-generator-sdk-producer', ...kafkaConfig }, producerConfig)
 

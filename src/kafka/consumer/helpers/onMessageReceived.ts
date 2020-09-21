@@ -1,4 +1,4 @@
-import * as KakfaJS from 'kafkajs'
+import * as KafkaJS from 'kafkajs'
 
 import { unmarshalEnvelope } from '../../helpers'
 import { EventType } from '../../types'
@@ -11,7 +11,7 @@ import { ResponseMessage } from '../ResponseMessage'
  * @param payload Kafka message
  * @param consumer Orchestrate Consumer
  */
-export function onMessageReceived(payload: KakfaJS.EachMessagePayload, consumer: Consumer) {
+export function onMessageReceived(payload: KafkaJS.EachMessagePayload, consumer: Consumer) {
   const { topic, partition, message } = payload
 
   const responseMessage = new ResponseMessage(consumer, {

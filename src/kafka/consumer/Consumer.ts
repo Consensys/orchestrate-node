@@ -1,4 +1,4 @@
-import * as KakfaJS from 'kafkajs'
+import * as KafkaJS from 'kafkajs'
 
 import { DEFAULT_TOPIC_TX_DECODED, DEFAULT_TOPIC_TX_RECOVER } from '../constants'
 import { KafkaClient } from '../KafkaClient'
@@ -10,7 +10,7 @@ import { onMessageReceived } from './helpers'
  * Consumes and decodes Orchestrate messages
  */
 export class Consumer extends KafkaClient {
-  private readonly consumer: KakfaJS.Consumer
+  private readonly consumer: KafkaJS.Consumer
   private readonly topics: string[]
 
   /**
@@ -24,8 +24,8 @@ export class Consumer extends KafkaClient {
   constructor(
     brokers: string[],
     topics = [DEFAULT_TOPIC_TX_DECODED, DEFAULT_TOPIC_TX_RECOVER],
-    kafkaConfig?: Omit<KakfaJS.KafkaConfig, 'brokers'>,
-    consumerConfig?: KakfaJS.ConsumerConfig
+    kafkaConfig?: Omit<KafkaJS.KafkaConfig, 'brokers'>,
+    consumerConfig?: KafkaJS.ConsumerConfig
   ) {
     super({ clientId: 'orchestrate-sdk-consumer', ...kafkaConfig, brokers })
     this.topics = topics
