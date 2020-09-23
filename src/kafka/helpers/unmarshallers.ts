@@ -9,7 +9,7 @@ export function unmarshalEnvelope(data: Buffer): IResponseValue {
     id: envelopeMessage.id!,
     txContext: parseTxContext(envelopeMessage.transaction),
     receipt: parseReceipt(envelopeMessage.receipt),
-    jobId: envelopeMessage.jobId!,
+    jobUUID: envelopeMessage.jobUUID!,
     errors: parseErrors(envelopeMessage.errors),
     chain: envelopeMessage.chain,
     contextLabels: envelopeMessage.contextLabels!

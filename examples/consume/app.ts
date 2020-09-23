@@ -11,7 +11,7 @@ const consume = async (consumer: Consumer) => {
 
     console.log('Message received !', {
       Id: value.id,
-      jobId: value.jobId,
+      jobUUID: value.jobUUID,
       offset,
       topic,
       chain: value.chain

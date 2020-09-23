@@ -2,12 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-## 3.1.1 (Unreleased)
+## 3.1.1 (2020-09-29)
 
 ### 🆕 Features
 
 - Adding interfaces to create transactions with a gas price retry policy with an increment, limit and interval
-- Adds job ID to the transaction response
+- Adds job UUID to the transaction response
 
 ## 3.1.0 (2020-09-02)
 

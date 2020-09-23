@@ -18,7 +18,7 @@ const mockPrivateFor = ['testPrivateFor']
 const mockPrivacyGroupId = 'testPrivateGroupID'
 export const mockTxResponse = {
   id: 'id',
-  jobId: 'jobId',
+  jobUUID: 'jobUUID',
   transaction: {
     from: mockFrom,
     contract: 'myContract[contractTag]',
@@ -63,7 +63,7 @@ describe('unmarshallers', () => {
     it('should unmarshal an envelope successfully', () => {
       const expectedValue: IResponseValue = {
         id: mockTxResponse.id,
-        jobId: mockTxResponse.jobId,
+        jobUUID: mockTxResponse.jobUUID,
         errors: mockTxResponse.errors,
         contextLabels: mockTxResponse.contextLabels,
         receipt: {

@@ -113,7 +113,7 @@ message TxResponse {
 
     // ID of the Job created as part of transaction request
     // e.g 15276759-bbc6-4ead-ad51-ddfecf79cf09
-    string jobId = 8;
+    string jobUUID = 8;
 
     // [option]
     map<string, string> context_labels = 3;

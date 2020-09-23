@@ -17397,7 +17397,7 @@
              * @interface ITxResponse
              * @property {Object.<string,string>|null} [headers] TxResponse headers
              * @property {string|null} [id] TxResponse id
-             * @property {string|null} [jobId] TxResponse jobId
+             * @property {string|null} [jobUUID] TxResponse jobUUID
              * @property {Object.<string,string>|null} [contextLabels] TxResponse contextLabels
              * @property {ethereum.ITransaction|null} [transaction] TxResponse transaction
              * @property {ethereum.IReceipt|null} [receipt] TxResponse receipt
@@ -17440,12 +17440,12 @@
             TxResponse.prototype.id = "";
     
             /**
-             * TxResponse jobId.
-             * @member {string} jobId
+             * TxResponse jobUUID.
+             * @member {string} jobUUID
              * @memberof tx.TxResponse
              * @instance
              */
-            TxResponse.prototype.jobId = "";
+            TxResponse.prototype.jobUUID = "";
     
             /**
              * TxResponse contextLabels.
@@ -17528,8 +17528,8 @@
                         $root.error.Error.encode(message.errors[i], writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
                 if (message.chain != null && Object.hasOwnProperty.call(message, "chain"))
                     writer.uint32(/* id 7, wireType 2 =*/58).string(message.chain);
-                if (message.jobId != null && Object.hasOwnProperty.call(message, "jobId"))
-                    writer.uint32(/* id 8, wireType 2 =*/66).string(message.jobId);
+                if (message.jobUUID != null && Object.hasOwnProperty.call(message, "jobUUID"))
+                    writer.uint32(/* id 8, wireType 2 =*/66).string(message.jobUUID);
                 return writer;
             };
     
@@ -17590,7 +17590,7 @@
                         message.id = reader.string();
                         break;
                     case 8:
-                        message.jobId = reader.string();
+                        message.jobUUID = reader.string();
                         break;
                     case 3:
                         if (message.contextLabels === $util.emptyObject)
@@ -17674,9 +17674,9 @@
                 if (message.id != null && message.hasOwnProperty("id"))
                     if (!$util.isString(message.id))
                         return "id: string expected";
-                if (message.jobId != null && message.hasOwnProperty("jobId"))
-                    if (!$util.isString(message.jobId))
-                        return "jobId: string expected";
+                if (message.jobUUID != null && message.hasOwnProperty("jobUUID"))
+                    if (!$util.isString(message.jobUUID))
+                        return "jobUUID: string expected";
                 if (message.contextLabels != null && message.hasOwnProperty("contextLabels")) {
                     if (!$util.isObject(message.contextLabels))
                         return "contextLabels: object expected";
@@ -17731,8 +17731,8 @@
                 }
                 if (object.id != null)
                     message.id = String(object.id);
-                if (object.jobId != null)
-                    message.jobId = String(object.jobId);
+                if (object.jobUUID != null)
+                    message.jobUUID = String(object.jobUUID);
                 if (object.contextLabels) {
                     if (typeof object.contextLabels !== "object")
                         throw TypeError(".tx.TxResponse.contextLabels: object expected");
@@ -17789,7 +17789,7 @@
                     object.transaction = null;
                     object.receipt = null;
                     object.chain = "";
-                    object.jobId = "";
+                    object.jobUUID = "";
                 }
                 var keys2;
                 if (message.headers && (keys2 = Object.keys(message.headers)).length) {
@@ -17815,8 +17815,8 @@
                 }
                 if (message.chain != null && message.hasOwnProperty("chain"))
                     object.chain = message.chain;
-                if (message.jobId != null && message.hasOwnProperty("jobId"))
-                    object.jobId = message.jobId;
+                if (message.jobUUID != null && message.hasOwnProperty("jobUUID"))
+                    object.jobUUID = message.jobUUID;
                 return object;
             };
     
