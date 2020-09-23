@@ -4,6 +4,7 @@ import { ITransactionContext } from './ITransactionContext'
 
 export interface IResponseValue {
   id: string
+  jobId: string
   txContext?: ITransactionContext
   receipt?: IReceipt
   errors?: IError[]

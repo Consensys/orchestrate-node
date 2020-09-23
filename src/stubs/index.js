@@ -14442,7 +14442,7 @@
             Error.decode = function decode(reader, length) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.error.Error(), key;
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.error.Error(), key, value;
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
@@ -14456,12 +14456,26 @@
                         message.component = reader.string();
                         break;
                     case 4:
-                        reader.skip().pos++;
                         if (message.extra === $util.emptyObject)
                             message.extra = {};
-                        key = reader.string();
-                        reader.pos++;
-                        message.extra[key] = reader.string();
+                        var end2 = reader.uint32() + reader.pos;
+                        key = "";
+                        value = "";
+                        while (reader.pos < end2) {
+                            var tag2 = reader.uint32();
+                            switch (tag2 >>> 3) {
+                            case 1:
+                                key = reader.string();
+                                break;
+                            case 2:
+                                value = reader.string();
+                                break;
+                            default:
+                                reader.skipType(tag2 & 7);
+                                break;
+                            }
+                        }
+                        message.extra[key] = value;
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -14823,7 +14837,7 @@
             Log.decode = function decode(reader, length) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ethereum.Log(), key;
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ethereum.Log(), key, value;
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
@@ -14842,12 +14856,26 @@
                         message.event = reader.string();
                         break;
                     case 5:
-                        reader.skip().pos++;
                         if (message.decodedData === $util.emptyObject)
                             message.decodedData = {};
-                        key = reader.string();
-                        reader.pos++;
-                        message.decodedData[key] = reader.string();
+                        var end2 = reader.uint32() + reader.pos;
+                        key = "";
+                        value = "";
+                        while (reader.pos < end2) {
+                            var tag2 = reader.uint32();
+                            switch (tag2 >>> 3) {
+                            case 1:
+                                key = reader.string();
+                                break;
+                            case 2:
+                                value = reader.string();
+                                break;
+                            default:
+                                reader.skipType(tag2 & 7);
+                                break;
+                            }
+                        }
+                        message.decodedData[key] = value;
                         break;
                     case 6:
                         message.blockNumber = reader.uint64();
@@ -16260,17 +16288,31 @@
             TxRequest.decode = function decode(reader, length) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.tx.TxRequest(), key;
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.tx.TxRequest(), key, value;
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1:
-                        reader.skip().pos++;
                         if (message.headers === $util.emptyObject)
                             message.headers = {};
-                        key = reader.string();
-                        reader.pos++;
-                        message.headers[key] = reader.string();
+                        var end2 = reader.uint32() + reader.pos;
+                        key = "";
+                        value = "";
+                        while (reader.pos < end2) {
+                            var tag2 = reader.uint32();
+                            switch (tag2 >>> 3) {
+                            case 1:
+                                key = reader.string();
+                                break;
+                            case 2:
+                                value = reader.string();
+                                break;
+                            default:
+                                reader.skipType(tag2 & 7);
+                                break;
+                            }
+                        }
+                        message.headers[key] = value;
                         break;
                     case 2:
                         message.chain = reader.string();
@@ -16285,12 +16327,26 @@
                         message.id = reader.string();
                         break;
                     case 6:
-                        reader.skip().pos++;
                         if (message.contextLabels === $util.emptyObject)
                             message.contextLabels = {};
-                        key = reader.string();
-                        reader.pos++;
-                        message.contextLabels[key] = reader.string();
+                        var end2 = reader.uint32() + reader.pos;
+                        key = "";
+                        value = "";
+                        while (reader.pos < end2) {
+                            var tag2 = reader.uint32();
+                            switch (tag2 >>> 3) {
+                            case 1:
+                                key = reader.string();
+                                break;
+                            case 2:
+                                value = reader.string();
+                                break;
+                            default:
+                                reader.skipType(tag2 & 7);
+                                break;
+                            }
+                        }
+                        message.contextLabels[key] = value;
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -16608,7 +16664,7 @@
             TxEnvelope.decode = function decode(reader, length) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.tx.TxEnvelope(), key;
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.tx.TxEnvelope(), key, value;
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
@@ -16619,12 +16675,26 @@
                         message.txResponse = $root.tx.TxResponse.decode(reader, reader.uint32());
                         break;
                     case 1:
-                        reader.skip().pos++;
                         if (message.internalLabels === $util.emptyObject)
                             message.internalLabels = {};
-                        key = reader.string();
-                        reader.pos++;
-                        message.internalLabels[key] = reader.string();
+                        var end2 = reader.uint32() + reader.pos;
+                        key = "";
+                        value = "";
+                        while (reader.pos < end2) {
+                            var tag2 = reader.uint32();
+                            switch (tag2 >>> 3) {
+                            case 1:
+                                key = reader.string();
+                                break;
+                            case 2:
+                                value = reader.string();
+                                break;
+                            default:
+                                reader.skipType(tag2 & 7);
+                                break;
+                            }
+                        }
+                        message.internalLabels[key] = value;
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -17327,6 +17397,7 @@
              * @interface ITxResponse
              * @property {Object.<string,string>|null} [headers] TxResponse headers
              * @property {string|null} [id] TxResponse id
+             * @property {string|null} [jobId] TxResponse jobId
              * @property {Object.<string,string>|null} [contextLabels] TxResponse contextLabels
              * @property {ethereum.ITransaction|null} [transaction] TxResponse transaction
              * @property {ethereum.IReceipt|null} [receipt] TxResponse receipt
@@ -17367,6 +17438,14 @@
              * @instance
              */
             TxResponse.prototype.id = "";
+    
+            /**
+             * TxResponse jobId.
+             * @member {string} jobId
+             * @memberof tx.TxResponse
+             * @instance
+             */
+            TxResponse.prototype.jobId = "";
     
             /**
              * TxResponse contextLabels.
@@ -17449,6 +17528,8 @@
                         $root.error.Error.encode(message.errors[i], writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
                 if (message.chain != null && Object.hasOwnProperty.call(message, "chain"))
                     writer.uint32(/* id 7, wireType 2 =*/58).string(message.chain);
+                if (message.jobId != null && Object.hasOwnProperty.call(message, "jobId"))
+                    writer.uint32(/* id 8, wireType 2 =*/66).string(message.jobId);
                 return writer;
             };
     
@@ -17479,28 +17560,59 @@
             TxResponse.decode = function decode(reader, length) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.tx.TxResponse(), key;
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.tx.TxResponse(), key, value;
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1:
-                        reader.skip().pos++;
                         if (message.headers === $util.emptyObject)
                             message.headers = {};
-                        key = reader.string();
-                        reader.pos++;
-                        message.headers[key] = reader.string();
+                        var end2 = reader.uint32() + reader.pos;
+                        key = "";
+                        value = "";
+                        while (reader.pos < end2) {
+                            var tag2 = reader.uint32();
+                            switch (tag2 >>> 3) {
+                            case 1:
+                                key = reader.string();
+                                break;
+                            case 2:
+                                value = reader.string();
+                                break;
+                            default:
+                                reader.skipType(tag2 & 7);
+                                break;
+                            }
+                        }
+                        message.headers[key] = value;
                         break;
                     case 2:
                         message.id = reader.string();
                         break;
+                    case 8:
+                        message.jobId = reader.string();
+                        break;
                     case 3:
-                        reader.skip().pos++;
                         if (message.contextLabels === $util.emptyObject)
                             message.contextLabels = {};
-                        key = reader.string();
-                        reader.pos++;
-                        message.contextLabels[key] = reader.string();
+                        var end2 = reader.uint32() + reader.pos;
+                        key = "";
+                        value = "";
+                        while (reader.pos < end2) {
+                            var tag2 = reader.uint32();
+                            switch (tag2 >>> 3) {
+                            case 1:
+                                key = reader.string();
+                                break;
+                            case 2:
+                                value = reader.string();
+                                break;
+                            default:
+                                reader.skipType(tag2 & 7);
+                                break;
+                            }
+                        }
+                        message.contextLabels[key] = value;
                         break;
                     case 4:
                         message.transaction = $root.ethereum.Transaction.decode(reader, reader.uint32());
@@ -17562,6 +17674,9 @@
                 if (message.id != null && message.hasOwnProperty("id"))
                     if (!$util.isString(message.id))
                         return "id: string expected";
+                if (message.jobId != null && message.hasOwnProperty("jobId"))
+                    if (!$util.isString(message.jobId))
+                        return "jobId: string expected";
                 if (message.contextLabels != null && message.hasOwnProperty("contextLabels")) {
                     if (!$util.isObject(message.contextLabels))
                         return "contextLabels: object expected";
@@ -17616,6 +17731,8 @@
                 }
                 if (object.id != null)
                     message.id = String(object.id);
+                if (object.jobId != null)
+                    message.jobId = String(object.jobId);
                 if (object.contextLabels) {
                     if (typeof object.contextLabels !== "object")
                         throw TypeError(".tx.TxResponse.contextLabels: object expected");
@@ -17672,6 +17789,7 @@
                     object.transaction = null;
                     object.receipt = null;
                     object.chain = "";
+                    object.jobId = "";
                 }
                 var keys2;
                 if (message.headers && (keys2 = Object.keys(message.headers)).length) {
@@ -17697,6 +17815,8 @@
                 }
                 if (message.chain != null && message.hasOwnProperty("chain"))
                     object.chain = message.chain;
+                if (message.jobId != null && message.hasOwnProperty("jobId"))
+                    object.jobId = message.jobId;
                 return object;
             };
     
