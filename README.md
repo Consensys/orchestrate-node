@@ -7,9 +7,9 @@
 [![CircleCI](https://img.shields.io/circleci/build/gh/PegaSysEng/orchestrate-node?token=b950a12c7c5f1ba8ae60273360c99d832301057a)](https://circleci.com/gh/PegaSysEng/orchestrate-node)
 [![Known Vulnerabilities](https://snyk.io/test/github/PegaSysEng/orchestrate-node/badge.svg?targetFile=package.json)](https://snyk.io/test/github/PegaSysEng/orchestrate-node?targetFile=package.json)
 
-# PegaSys-Orchestrate Node.js Library
+# Orchestrate Node.js Library
 
-The PegaSys Orchestrate library provides convenient access to the PegaSys Orchestrate API from applications written in server-side JavaScript
+The Orchestrate library provides convenient access to the Orchestrate API from applications written in server-side JavaScript
 
 ## Compatibility
 
@@ -26,25 +26,24 @@ The PegaSys Orchestrate library provides convenient access to the PegaSys Orches
 
 ## Orchestrate documentation
 
-For a global understanding of PegaSys Orchestrate, not only this SDK, refer to the
-[PegaSys Orchestrate documentation.](https://docs.orchestrate.pegasys.tech/)
+For a global understanding of Orchestrate, not only this SDK, refer to the
+[Orchestrate documentation.](https://docs.orchestrate.consensys.net/)
 
 ## Important requirement
 
-**Pegasys Orchestrate SDK requires Orchestrate to be installed.**
+**The Orchestrate SDK requires Orchestrate to be installed.**
 
-Orchestrate is only available for PegaSys Orchestrate customers and partners.
+> **Important:** Orchestrate is only available for Orchestrate customers and
+> [ConsenSys partners](https://consensys.net/solutions/partnerships/).
+>
+> [Contact ConsenSys](https://codefi.consensys.net/orchestrate-get-in-touch) if you want to purchase Orchestrate
+> or are interested in our [partner program](https://consensys.net/solutions/partnerships/).
+>
+> If you are already a partner or customer but we did not provide the credentials to access the
+> Docker registry, send an email from your company email to [orchestrate@consensys.net](mailto:orchestrate@consensys.net).
+>
+> You can use this Quickstart only if you have received these credentials from ConsenSys to connect to the registry.
+>
+> **You cannot continue without the registry credentials.**
 
-[Contact ConsenSys](https://codefi.consensys.net/orchestrate-get-in-touch) if you want to purchase [Orchestrate](https://codefi.consensys.net/orchestrate)
-or are interested in our partner program.
-
-If you are already a partner or customer but we did not provide the credentials to install Orchestrate,
-request access on [Pegasys Zendesk support site](http://pegasys.zendesk.com/).
-
-To access [Pegasys Zendesk support site](http://pegasys.zendesk.com/), create an account with your
-company email or login using an existing Pegasys Zendesk account.
-
-Alternatively, send an email from your company email to
-[orchestrate@consensys.net](mailto:orchestrate@consensys.net?subject=Orchestrate+Node+SDK).
-
-**You cannot continue without the registry credentials.**
+> **Tip** Try a free trial of Orchestrate with the [Quorum Dev Quickstart](https://github.com/PegaSysEng/quorum-dev-quickstart/tree/master/files/orchestrate). 

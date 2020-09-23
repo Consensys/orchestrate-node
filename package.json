@@ -34,7 +34,8 @@
     "example:send-private-tx": "ts-node examples/send-private-tx",
     "example:send-transfer": "ts-node examples/send-transfer",
     "example:send-transfer-with-priority": "ts-node examples/send-transfer-with-priority",
-    "example:search": "ts-node examples/search"
+    "example:search": "ts-node examples/search",
+    "example:gasprice-retry": "ts-node examples/gasprice-retry"
   },
   "repository": {
     "type": "git",
