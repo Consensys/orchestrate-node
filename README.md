@@ -13,16 +13,17 @@ The Orchestrate library provides convenient access to the Orchestrate API from a
 
 ## Compatibility
 
-| SDK versions        | Orchestrate versions         |
-| ------------------- | ---------------------------- |
-| master/HEAD         | Orchestrate v2.3.x or higher |
-| SDK v3.1.x          | Orchestrate v2.3.x or higher |
-| SDK v3.0.x          | Orchestrate v2.3.x-rcX       |
-| SDK v2.3.x          | Orchestrate v2.1.x or higher |
-| SDK v2.2.x          | Orchestrate v2.1.x or higher |
-| SDK v2.1.x          | Orchestrate v2.1.x or higher |
-| SDK v2.0.x          | Orchestrate v2.0.x           |
-| SDK v1.0.x or lower | Orchestrate v1.0.x or lower  |
+| SDK versions        | Orchestrate versions       |
+| ------------------- | -------------------------- |
+| master/HEAD         | Orchestrate v2.4 or higher |
+| SDK v3.1.1          | Orchestrate v2.4 or higher |
+| SDK v3.1.x          | Orchestrate v2.3 or higher |
+| SDK v3.0.x          | Orchestrate v2.3-rcX       |
+| SDK v2.3.x          | Orchestrate v2.1 or higher |
+| SDK v2.2.x          | Orchestrate v2.1 or higher |
+| SDK v2.1.x          | Orchestrate v2.1 or higher |
+| SDK v2.0.x          | Orchestrate v2.0           |
+| SDK v1.0.x or lower | Orchestrate v1.0 or lower  |
 
 ## Orchestrate documentation
 
@@ -46,4 +47,4 @@ For a global understanding of Orchestrate, not only this SDK, refer to the
 >
 > **You cannot continue without the registry credentials.**
 
-> **Tip** Try a free trial of Orchestrate with the [Quorum Dev Quickstart](https://github.com/PegaSysEng/quorum-dev-quickstart/tree/master/files/orchestrate). 
+> **Tip** Try a free trial of Orchestrate with the [Quorum Dev Quickstart](https://github.com/PegaSysEng/quorum-dev-quickstart/tree/master/files/orchestrate).
