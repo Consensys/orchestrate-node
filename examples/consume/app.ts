@@ -9,7 +9,14 @@ const consume = async (consumer: Consumer) => {
   consumer.on(EventType.Response, async (message: ResponseMessage) => {
     const { offset, topic, value } = message.content()
 
-    console.log('Message received !', { envelopeId: value.id, offset, topic, chain: value.chain })
+    console.log('Message received !', {
+      Id: value.id,
+      jobUUID: value.jobUUID,
+      offset,
+      topic,
+      chain: value.chain
+    })
+
     if (value.errors && value.errors.length !== 0) {
       console.log('Transaction failed!', { errors: value.errors, txContext: value.txContext })
     } else {
