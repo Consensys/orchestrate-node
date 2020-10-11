@@ -6875,6 +6875,9 @@ export namespace tx {
         /** TxResponse id */
         id?: (string|null);
 
+        /** TxResponse jobUUID */
+        jobUUID?: (string|null);
+
         /** TxResponse contextLabels */
         contextLabels?: ({ [k: string]: string }|null);
 
@@ -6905,6 +6908,9 @@ export namespace tx {
 
         /** TxResponse id. */
         public id: string;
+
+        /** TxResponse jobUUID. */
+        public jobUUID: string;
 
         /** TxResponse contextLabels. */
         public contextLabels: { [k: string]: string };

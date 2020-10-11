@@ -1,6 +1,6 @@
 {
   "name": "pegasys-orchestrate",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "The PegaSys Orchestrate library provides convenient access to the PegaSys Orchestrate API from applications written in server-side JavaScript",
   "main": "lib/index.js",
   "files": [
@@ -67,7 +67,7 @@
   },
   "homepage": "https://pegasyseng.github.io/orchestrate-node/",
   "dependencies": {
-    "@grpc/grpc-js": "~1.1.4",
+    "@grpc/grpc-js": "~1.1.5",
     "axios": "~0.20.0",
     "commander": "~5.1.0",
     "ethers": "~5.0.8",
