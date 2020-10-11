@@ -1,12 +1,12 @@
 import { EventEmitter } from 'events'
-import * as KakfaJS from 'kafkajs'
+import * as KafkaJS from 'kafkajs'
 
 /**
  * @hidden
  * Kafka client abstract class
  */
 export abstract class KafkaClient extends EventEmitter {
-  protected readonly kafka: KakfaJS.Kafka
+  protected readonly kafka: KafkaJS.Kafka
   protected readonly brokers: string[]
   protected isReady = false
 
@@ -16,11 +16,11 @@ export abstract class KafkaClient extends EventEmitter {
    * @param brokers - List of brokers to connect to
    * @param kafkaConfig - Kafka client configuration
    */
-  protected constructor(kafkaConfig: KakfaJS.KafkaConfig) {
+  protected constructor(kafkaConfig: KafkaJS.KafkaConfig) {
     super()
 
     this.brokers = kafkaConfig.brokers
-    this.kafka = new KakfaJS.Kafka({
+    this.kafka = new KafkaJS.Kafka({
       clientId: 'orchestrate-sdk',
       ...kafkaConfig
     })

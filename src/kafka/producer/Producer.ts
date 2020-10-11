@@ -1,4 +1,4 @@
-import * as KakfaJS from 'kafkajs'
+import * as KafkaJS from 'kafkajs'
 import { v4 as uuidv4 } from 'uuid'
 
 import { DEFAULT_TOPIC_ACCOUNT_GENERATOR } from '../constants'
@@ -11,7 +11,7 @@ import { IGenerateAccountRequest } from '../types'
  * Class used to send messages to Orchestrate
  */
 export class Producer extends KafkaClient {
-  private readonly producer: KakfaJS.Producer
+  private readonly producer: KafkaJS.Producer
 
   /**
    * Creates a new instance of the Producer
@@ -23,8 +23,8 @@ export class Producer extends KafkaClient {
 
   constructor(
     brokers: string[],
-    kafkaConfig?: Omit<KakfaJS.KafkaConfig, 'brokers'>,
-    producerConfig?: KakfaJS.ProducerConfig
+    kafkaConfig?: Omit<KafkaJS.KafkaConfig, 'brokers'>,
+    producerConfig?: KafkaJS.ProducerConfig
   ) {
     super({ clientId: 'orchestrate-sdk-producer', ...kafkaConfig, brokers })
     this.producer = this.kafka.producer(producerConfig)
@@ -57,7 +57,7 @@ export class Producer extends KafkaClient {
    * @param topic - topic
    * @param message - Kafka message
    */
-  public async produce(topic: string, message: KakfaJS.Message): Promise<KakfaJS.RecordMetadata> {
+  public async produce(topic: string, message: KafkaJS.Message): Promise<KafkaJS.RecordMetadata> {
     this.checkReadiness()
 
     try {
