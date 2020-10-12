@@ -16,7 +16,7 @@ export function onMessageReceived(payload: KafkaJS.EachMessagePayload, consumer:
 
   const responseMessage = new ResponseMessage(consumer, {
     ...message,
-    key: message.key.toString(),
+    key: message.key?.toString(),
     value: unmarshalEnvelope(message.value),
     topic,
     partition
