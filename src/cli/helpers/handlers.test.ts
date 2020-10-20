@@ -1,10 +1,4 @@
-import {
-  generateAccountHandler,
-  getCatalogHandler,
-  getContractHandler,
-  getTagsHandler,
-  registerContractHandler
-} from './handlers'
+import { getCatalogHandler, getContractHandler, getTagsHandler, registerContractHandler } from './handlers'
 
 const mockContractRegistry = {
   getCatalog: jest.fn(),
@@ -13,21 +7,9 @@ const mockContractRegistry = {
   register: jest.fn()
 }
 
-const mockAccountGenerator = {
-  connect: jest.fn(),
-  disconnect: jest.fn(),
-  generateAccount: jest.fn()
-}
-
-const mockProducer = {}
-
 jest.mock('fs')
 jest.mock('../../grpc', () => ({
   ContractRegistry: jest.fn().mockImplementation(() => mockContractRegistry)
-}))
-jest.mock('../../kafka', () => ({
-  Producer: jest.fn().mockImplementation(() => mockProducer),
-  AccountGenerator: jest.fn().mockImplementation(() => mockAccountGenerator)
 }))
 
 const mockEndpoint = 'endpoint:5000'
@@ -209,37 +191,6 @@ describe('handlers', () => {
         bytecode: mockArtifact.bytecode,
         deployedBytecode: mockArtifact.deployedBytecode
       })
-    })
-  })
-
-  describe('generateAccountHandler', () => {
-    const mockChain = 'chain'
-
-    it('should return and not fail if account generator fails', async () => {
-      mockAccountGenerator.generateAccount.mockRejectedValueOnce(new Error())
-
-      await generateAccountHandler({
-        endpoint: mockEndpoint
-      })
-
-      expect(mockAccountGenerator.connect).toHaveBeenCalled()
-      expect(mockAccountGenerator.generateAccount).toHaveBeenCalled()
-      expect(mockAccountGenerator.disconnect).toHaveBeenCalled()
-    })
-
-    it('should call the handler successfully', async () => {
-      mockAccountGenerator.generateAccount.mockResolvedValueOnce('address')
-
-      await generateAccountHandler({
-        endpoint: mockEndpoint,
-        chain: mockChain
-      })
-
-      expect(mockAccountGenerator.connect).toHaveBeenCalled()
-      expect(mockAccountGenerator.generateAccount).toHaveBeenCalledWith({
-        chain: mockChain
-      })
-      expect(mockAccountGenerator.disconnect).toHaveBeenCalled()
     })
   })
 })

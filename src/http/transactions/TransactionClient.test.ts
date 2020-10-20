@@ -7,13 +7,13 @@ import {
   ISearchRequest,
   ISendRawRequest,
   ISendTransactionRequest,
-  ITransactionResponse,
+  ITransaction,
   ITransferRequest,
   ProtocolType
 } from '../types'
 import { IHttpGETRequest, IHttpPOSTRequest } from '../types/IHttpClient'
 
-import { TransactionClient } from './Transactions'
+import { TransactionClient } from './TransactionClient'
 
 const mockJobLogRes: ILog = {
   message: 'Job Created',
@@ -40,7 +40,7 @@ const mockScheduleRes: IScheduleResponse = {
 
 const mockETHParams: IETHTransactionParams = {}
 
-const mockTransactionResp: ITransactionResponse = {
+const mockTransactionResp: ITransaction = {
   uuid: 'transactionUUID',
   idempotencyKey: 'idempotencyKey',
   chain: 'MyChain',

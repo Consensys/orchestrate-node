@@ -16,7 +16,3 @@ export interface IGetContractOptions extends IEndpointOptions {
 export interface IGetTagsOptions extends IEndpointOptions {
   name: string
 }
-
-export interface IGenerateAccountsOptions extends IEndpointOptions {
-  chain?: string
-}

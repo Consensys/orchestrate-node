@@ -8,7 +8,7 @@ import {
   ISearchRequest,
   ISendRawRequest,
   ISendTransactionRequest,
-  ITransactionResponse,
+  ITransaction,
   ITransferRequest
 } from '../types'
 import { IHttpGETRequest, IHttpPOSTRequest, IHttpResponse } from '../types/IHttpClient'
@@ -33,7 +33,7 @@ export class TransactionClient {
    * @param txUUID transaction UUID
    * @param authToken Bearer token. Required when multi-tenancy is enabled
    */
-  public async get(txUUID: string, authToken?: string): Promise<ITransactionResponse> {
+  public async get(txUUID: string, authToken?: string): Promise<ITransaction> {
     const req: IHttpGETRequest = {
       path: `/transactions/${txUUID}`,
       authToken
@@ -53,7 +53,7 @@ export class TransactionClient {
    * @param searchRequest transaction request data
    * @param authToken Bearer token. Required when multi-tenancy is enabled
    */
-  public async search(searchRequest: ISearchRequest, authToken?: string): Promise<ITransactionResponse[]> {
+  public async search(searchRequest: ISearchRequest, authToken?: string): Promise<ITransaction[]> {
     const req: IHttpGETRequest = {
       path: '/transactions',
       query: searchRequest,
@@ -79,7 +79,7 @@ export class TransactionClient {
     deployRequest: IDeployContractRequest,
     idempotencyKey?: string,
     authToken?: string
-  ): Promise<ITransactionResponse> {
+  ): Promise<ITransaction> {
     try {
       return await this._postRequest('/transactions/deploy-contract', deployRequest, idempotencyKey, authToken)
     } catch (e) {
@@ -98,7 +98,7 @@ export class TransactionClient {
     sendRequest: ISendTransactionRequest,
     idempotencyKey?: string,
     authToken?: string
-  ): Promise<ITransactionResponse> {
+  ): Promise<ITransaction> {
     try {
       return await this._postRequest('/transactions/send', sendRequest, idempotencyKey, authToken)
     } catch (e) {
@@ -117,7 +117,7 @@ export class TransactionClient {
     sendRawRequest: ISendRawRequest,
     idempotencyKey?: string,
     authToken?: string
-  ): Promise<ITransactionResponse> {
+  ): Promise<ITransaction> {
     try {
       return await this._postRequest('/transactions/send-raw', sendRawRequest, idempotencyKey, authToken)
     } catch (e) {
@@ -136,7 +136,7 @@ export class TransactionClient {
     transferRequest: ITransferRequest,
     idempotencyKey?: string,
     authToken?: string
-  ): Promise<ITransactionResponse> {
+  ): Promise<ITransaction> {
     try {
       return await this._postRequest('/transactions/transfer', transferRequest, idempotencyKey, authToken)
     } catch (e) {

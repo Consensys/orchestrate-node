@@ -1,23 +1,21 @@
 // tslint:disable: no-console
 
-import { AccountGenerator } from '../../src'
+import * as util from 'util'
+
+import { IdentityClient } from '../../src'
 
 export const start = async () => {
   try {
-    const accountGenerator = new AccountGenerator(['localhost:9092'], undefined, undefined, {
-      groupId: 'example-account'
-    })
+    const identityClient = new IdentityClient('http://localhost:8041')
 
-    await accountGenerator.connect()
-    const addresses = await Promise.all([
-      accountGenerator.generateAccount(),
-      accountGenerator.generateAccount(),
-      accountGenerator.generateAccount(),
-      accountGenerator.generateAccount()
+    const accounts = await Promise.all([
+      identityClient.createAccount({ alias: 'account_1' }),
+      identityClient.createAccount({ alias: 'account_2' }),
+      identityClient.createAccount({ alias: 'account_3' }),
+      identityClient.createAccount({ alias: 'account_4' })
     ])
-    await accountGenerator.disconnect()
 
-    console.log(addresses)
+    console.log(util.inspect(accounts, false, null, true))
   } catch (error) {
     console.error(error)
   }
