@@ -10,9 +10,9 @@ export const start = async () => {
 
     const accounts = await Promise.all([
       identityClient.createAccount({ alias: 'account_1' }),
-      identityClient.createAccount({ alias: 'account_2' }),
-      identityClient.createAccount({ alias: 'account_3' }),
-      identityClient.createAccount({ alias: 'account_4' })
+      identityClient.createAccount(),
+      identityClient.createAccount(),
+      identityClient.createAccount()
     ])
 
     console.log(util.inspect(accounts, false, null, true))

@@ -1,17 +1,17 @@
 export interface IAccount {
-  alias: string
-  address?: string
+  alias?: string
+  address: string
   publicKey: string
   compressedPublicKey: string
   tenantID: string
   active: boolean
-  attributes: object
+  attributes?: object
   createdAt: Date
   updatedAt: Date
 }
 
 export interface ICreateAccountRequest {
-  alias: string
+  alias?: string
   chain?: string
   attributes?: object
 }

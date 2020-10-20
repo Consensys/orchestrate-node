@@ -28,7 +28,7 @@ export class IdentityClient {
    */
   public async createAccount(request?: ICreateAccountRequest, authToken?: string): Promise<IAccount> {
     try {
-      return await this._postRequest('/identities', request || {}, authToken)
+      return await this._postRequest('/accounts', request || {}, authToken)
     } catch (e) {
       throw e
     }
@@ -42,7 +42,7 @@ export class IdentityClient {
    */
   public async importAccount(request: IImportAccountRequest, authToken?: string): Promise<IAccount> {
     try {
-      return await this._postRequest('/identities/import', request, authToken)
+      return await this._postRequest('/accounts/import', request, authToken)
     } catch (e) {
       throw e
     }

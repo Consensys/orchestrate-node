@@ -1,13 +1,17 @@
-import { ICreateIdentityRequest, IIdentity, IImportIdentityRequest } from '../types'
+import { IAccount, ICreateAccountRequest, IImportAccountRequest } from '../types'
 import { IHttpPOSTRequest } from '../types/IHttpClient'
 
 import { IdentityClient } from './IdentityClient'
 
-const mockIdentityResp: IIdentity = {
+const mockAccountResp: IAccount = {
+  alias: 'myAlias',
+  tenantID: '_',
+  active: true,
   address: '0xaddress',
   publicKey: '0xpublicKey',
   compressedPublicKey: '0xcompressedPublicKey',
-  namespace: 'namespace'
+  createdAt: new Date(),
+  updatedAt: new Date()
 }
 
 const authToken = 'MyTenantAuthToken'
@@ -33,8 +37,8 @@ describe('IdentityClient', () => {
     jest.restoreAllMocks()
   })
 
-  describe('create', () => {
-    const creq: ICreateIdentityRequest = {
+  describe('createAccount', () => {
+    const creq: ICreateAccountRequest = {
       chain: 'MyChain',
       alias: 'MyAlias',
       attributes: {
@@ -43,35 +47,53 @@ describe('IdentityClient', () => {
       }
     }
 
-    it('should create a new identity successfully', async () => {
+    it('should create a new account successfully', async () => {
       const req: IHttpPOSTRequest = {
-        path: `/identities`,
+        path: `/accounts`,
         data: creq,
         authToken
       }
 
       mockHTTPClient.post.mockResolvedValueOnce({
-        data: mockIdentityResp,
+        data: mockAccountResp,
         status: 200,
         headers: {}
       })
 
-      const data = await identityClient.create(creq, authToken)
+      const data = await identityClient.createAccount(creq, authToken)
 
       expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
-      expect(data).toEqual(mockIdentityResp)
+      expect(data).toEqual(mockAccountResp)
+    })
+
+    it('should create a new account successfully with empty request', async () => {
+      const req: IHttpPOSTRequest = {
+        path: `/accounts`,
+        data: {}
+      }
+
+      mockHTTPClient.post.mockResolvedValueOnce({
+        data: mockAccountResp,
+        status: 200,
+        headers: {}
+      })
+
+      const data = await identityClient.createAccount()
+
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
+      expect(data).toEqual(mockAccountResp)
     })
 
     it('should fail to create an account', async () => {
       const req: IHttpPOSTRequest = {
-        path: `/identities`,
+        path: `/accounts`,
         data: creq
       }
 
       const err = new Error('MyError')
       mockHTTPClient.post.mockRejectedValueOnce(err)
       try {
-        await identityClient.create(creq)
+        await identityClient.createAccount(creq)
         fail('expected failed request')
       } catch (e) {
         expect(e).toEqual(err)
@@ -81,8 +103,8 @@ describe('IdentityClient', () => {
     })
   })
 
-  describe('import', () => {
-    const creq: IImportIdentityRequest = {
+  describe('importAccount', () => {
+    const creq: IImportAccountRequest = {
       chain: 'MyChain',
       alias: 'MyAlias',
       attributes: {
@@ -92,35 +114,35 @@ describe('IdentityClient', () => {
       privateKey: '0xprivateKey'
     }
 
-    it('should import an identity successfully', async () => {
+    it('should import an account successfully', async () => {
       const req: IHttpPOSTRequest = {
-        path: `/identities/import`,
+        path: `/accounts/import`,
         data: creq,
         authToken
       }
 
       mockHTTPClient.post.mockResolvedValueOnce({
-        data: mockIdentityResp,
+        data: mockAccountResp,
         status: 200,
         headers: {}
       })
 
-      const data = await identityClient.import(creq, authToken)
+      const data = await identityClient.importAccount(creq, authToken)
 
       expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
-      expect(data).toEqual(mockIdentityResp)
+      expect(data).toEqual(mockAccountResp)
     })
 
     it('should fail to import an account', async () => {
       const req: IHttpPOSTRequest = {
-        path: `/identities/import`,
+        path: `/accounts/import`,
         data: creq
       }
 
       const err = new Error('MyError')
       mockHTTPClient.post.mockRejectedValueOnce(err)
       try {
-        await identityClient.import(creq)
+        await identityClient.importAccount(creq)
         fail('expected failed request')
       } catch (e) {
         expect(e).toEqual(err)
