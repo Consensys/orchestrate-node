@@ -1,1 +1,1 @@
-export * from './Transactions'
+export * from './TransactionClient'
