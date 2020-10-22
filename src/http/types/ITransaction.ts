@@ -50,7 +50,7 @@ export interface ISearchRequest extends ParsedQs {
   idempotency_keys: string[]
 }
 
-export interface ITransactionResponse {
+export interface ITransaction {
   uuid: string
   idempotencyKey: string
   chain: string

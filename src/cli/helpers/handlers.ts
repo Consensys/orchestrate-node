@@ -3,15 +3,8 @@
 import { readFileSync } from 'fs'
 
 import { ContractRegistry } from '../../grpc'
-import { AccountGenerator } from '../../kafka'
 
-import {
-  IEndpointOptions,
-  IGenerateAccountsOptions,
-  IGetContractOptions,
-  IGetTagsOptions,
-  IRegisterContractOptions
-} from './types'
+import { IEndpointOptions, IGetContractOptions, IGetTagsOptions, IRegisterContractOptions } from './types'
 
 export async function getCatalogHandler(options: IEndpointOptions) {
   const registry = new ContractRegistry(options.endpoint)
@@ -83,20 +76,4 @@ const checkArtifact = (artifact: any) => {
   }
 
   return true
-}
-
-export async function generateAccountHandler(options: IGenerateAccountsOptions) {
-  const accountGenerator = new AccountGenerator([options.endpoint])
-
-  try {
-    await accountGenerator.connect()
-    const address = await accountGenerator.generateAccount({
-      chain: options.chain
-    })
-    console.log(address)
-  } catch (error) {
-    console.log(`Failed to generate account: ${error}`)
-  } finally {
-    await accountGenerator.disconnect()
-  }
 }

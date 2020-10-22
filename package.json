@@ -1,7 +1,7 @@
 {
   "name": "pegasys-orchestrate",
-  "version": "3.1.2",
-  "description": "The PegaSys Orchestrate library provides convenient access to the PegaSys Orchestrate API from applications written in server-side JavaScript",
+  "version": "4.0.0",
+  "description": "The PegaSys Orchestrate library provides convenient access to the Codefi Orchestrate API from applications written in server-side JavaScript",
   "main": "lib/index.js",
   "files": [
     "lib"
@@ -24,6 +24,7 @@
     "generate:docs": "typedoc --options typedoc.json",
     "example:register-contract": "ts-node examples/register-contract",
     "example:generate-account": "ts-node examples/generate-account",
+    "example:import-account": "ts-node examples/import-account",
     "example:register-chain": "ts-node examples/register-chain",
     "example:register-faucet": "ts-node examples/register-faucet",
     "example:consume": "ts-node examples/consume",
