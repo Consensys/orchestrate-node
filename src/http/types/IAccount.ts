@@ -1,3 +1,5 @@
+import { ParsedQs } from 'qs'
+
 export interface IAccount {
   alias?: string
   address: string
@@ -18,4 +20,13 @@ export interface ICreateAccountRequest {
 
 export interface IImportAccountRequest extends ICreateAccountRequest {
   privateKey: string
+}
+
+export interface ISearchAccountsRequest extends ParsedQs {
+  aliases: string[]
+}
+
+export interface IUpdateAccountRequest {
+  alias: string
+  attributes: object
 }

@@ -9,7 +9,10 @@ export const start = async () => {
     const identityClient = new IdentityClient('http://localhost:8041')
 
     const privateKey = 'f368b15ea01bafd199d4d39daee2b1d281bf78193c590ef79c233016b3b43f81'
-    const account = await identityClient.importAccount({ privateKey })
+    const response = await identityClient.importAccount({ privateKey })
+
+    // Just to showcase the get request
+    const account = await identityClient.get(response.address)
 
     console.log(util.inspect(account, false, null, true))
   } catch (error) {

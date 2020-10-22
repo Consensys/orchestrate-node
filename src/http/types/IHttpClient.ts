@@ -29,6 +29,11 @@ export interface IHttpPOSTRequest {
 /**
  * @hidden
  */
+export interface IHttpPATCHRequest extends IHttpPOSTRequest {}
+
+/**
+ * @hidden
+ */
 export interface IHttpResponse {
   status: number
   headers: any

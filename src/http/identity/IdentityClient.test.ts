@@ -1,5 +1,11 @@
-import { IAccount, ICreateAccountRequest, IImportAccountRequest } from '../types'
-import { IHttpPOSTRequest } from '../types/IHttpClient'
+import {
+  IAccount,
+  ICreateAccountRequest,
+  IImportAccountRequest,
+  ISearchAccountsRequest,
+  IUpdateAccountRequest
+} from '../types'
+import { IHttpGETRequest, IHttpPATCHRequest, IHttpPOSTRequest } from '../types/IHttpClient'
 
 import { IdentityClient } from './IdentityClient'
 
@@ -18,7 +24,8 @@ const authToken = 'MyTenantAuthToken'
 
 const mockHTTPClient = {
   get: jest.fn(),
-  post: jest.fn()
+  post: jest.fn(),
+  patch: jest.fn()
 }
 
 jest.mock('../HttpClient', () => ({
@@ -35,6 +42,85 @@ describe('IdentityClient', () => {
   afterEach(() => {
     jest.clearAllMocks()
     jest.restoreAllMocks()
+  })
+
+  describe('search', () => {
+    it('should fetch filtered accounts successfully', async () => {
+      const creq: ISearchAccountsRequest = {
+        aliases: ['alias']
+      }
+      const req: IHttpGETRequest = {
+        path: `/accounts`,
+        query: creq,
+        authToken
+      }
+
+      mockHTTPClient.get.mockResolvedValueOnce({
+        data: [mockAccountResp],
+        status: 200,
+        headers: {}
+      })
+
+      const data = await identityClient.search(creq, authToken)
+
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(data).toEqual([mockAccountResp])
+    })
+
+    it('should fail to filter accounts', async () => {
+      const req: IHttpGETRequest = {
+        path: `/accounts`
+      }
+
+      const err = new Error('MyError')
+      mockHTTPClient.get.mockRejectedValueOnce(err)
+      try {
+        await identityClient.search()
+        fail('expected failed request')
+      } catch (e) {
+        expect(e).toEqual(err)
+      }
+
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+    })
+  })
+
+  describe('get', () => {
+    it('should fetch one account by address successfully', async () => {
+      const address = '0xaddress'
+      const req: IHttpGETRequest = {
+        path: `/accounts/${address}`
+      }
+
+      mockHTTPClient.get.mockResolvedValueOnce({
+        data: mockAccountResp,
+        status: 200,
+        headers: {}
+      })
+      const data = await identityClient.get(address)
+
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(data).toEqual(mockAccountResp)
+    })
+
+    it('should fail to fetch one account by address', async () => {
+      const address = '0xaddress'
+      const req: IHttpGETRequest = {
+        path: `/accounts/${address}`,
+        authToken
+      }
+      const err = new Error('MyError')
+
+      mockHTTPClient.get.mockRejectedValueOnce(err)
+      try {
+        await identityClient.get(address, authToken)
+        fail('expected failed request')
+      } catch (e) {
+        expect(e).toEqual(err)
+      }
+
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+    })
   })
 
   describe('createAccount', () => {
@@ -149,6 +235,94 @@ describe('IdentityClient', () => {
       }
 
       expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
+    })
+  })
+
+  describe('sign', () => {
+    const address = '0xaddress'
+    const signature = '0xsignature'
+    const data = 'my data to sign'
+
+    it('should sign a message successfully', async () => {
+      const req: IHttpPOSTRequest = {
+        path: `/accounts/${address}/sign`,
+        data: { data },
+        authToken
+      }
+
+      mockHTTPClient.post.mockResolvedValueOnce({
+        data: signature,
+        status: 200,
+        headers: {}
+      })
+
+      const response = await identityClient.sign(address, data, authToken)
+
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
+      expect(response).toEqual(signature)
+    })
+
+    it('should fail to sign a message', async () => {
+      const req: IHttpPOSTRequest = {
+        path: `/accounts/${address}/sign`,
+        data: { data }
+      }
+
+      const err = new Error('MyError')
+      mockHTTPClient.post.mockRejectedValueOnce(err)
+      try {
+        await identityClient.sign(address, 'my data to sign')
+        fail('expected failed request')
+      } catch (e) {
+        expect(e).toEqual(err)
+      }
+
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
+    })
+  })
+
+  describe('update', () => {
+    const address = '0xaddress'
+    const creq: IUpdateAccountRequest = {
+      alias: 'MyAlias',
+      attributes: { attr1: 'val1' }
+    }
+
+    it('should update an account successfully', async () => {
+      const req: IHttpPATCHRequest = {
+        path: `/accounts/${address}`,
+        data: creq,
+        authToken
+      }
+
+      mockHTTPClient.patch.mockResolvedValueOnce({
+        data: mockAccountResp,
+        status: 200,
+        headers: {}
+      })
+
+      const data = await identityClient.update(address, creq, authToken)
+
+      expect(mockHTTPClient.patch).toHaveBeenCalledWith(req)
+      expect(data).toEqual(mockAccountResp)
+    })
+
+    it('should fail to update an account', async () => {
+      const req: IHttpPATCHRequest = {
+        path: `/accounts/${address}`,
+        data: creq
+      }
+
+      const err = new Error('MyError')
+      mockHTTPClient.patch.mockRejectedValueOnce(err)
+      try {
+        await identityClient.update(address, creq)
+        fail('expected failed request')
+      } catch (e) {
+        expect(e).toEqual(err)
+      }
+
+      expect(mockHTTPClient.patch).toHaveBeenCalledWith(req)
     })
   })
 })

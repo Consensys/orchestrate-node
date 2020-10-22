@@ -2,7 +2,14 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import * as qs from 'qs'
 
 import { HttpResponseError } from './errors/HttpResponseError'
-import { IHttpClientConfig, IHttpError, IHttpGETRequest, IHttpPOSTRequest, IHttpResponse } from './types/IHttpClient'
+import {
+  IHttpClientConfig,
+  IHttpError,
+  IHttpGETRequest,
+  IHttpPATCHRequest,
+  IHttpPOSTRequest,
+  IHttpResponse
+} from './types/IHttpClient'
 
 /**
  * @hidden
@@ -33,6 +40,14 @@ export class HttpClient {
   public async post(req: IHttpPOSTRequest, headers?: object): Promise<IHttpResponse> {
     try {
       return HttpClient.parseResponse(await axios.post(req.path, req.data, this.requestConfig(req, headers)))
+    } catch (e) {
+      throw HttpClient.parseErrResponse(e)
+    }
+  }
+
+  public async patch(req: IHttpPATCHRequest, headers?: object): Promise<IHttpResponse> {
+    try {
+      return HttpClient.parseResponse(await axios.patch(req.path, req.data, this.requestConfig(req, headers)))
     } catch (e) {
       throw HttpClient.parseErrResponse(e)
     }
