@@ -1,14 +1,14 @@
 import { getCatalogHandler, getContractHandler, getTagsHandler, registerContractHandler } from './handlers'
 
 const mockContractRegistry = {
-  getCatalog: jest.fn(),
+  list: jest.fn(),
   get: jest.fn(),
   getTags: jest.fn(),
   register: jest.fn()
 }
 
 jest.mock('fs')
-jest.mock('../../grpc', () => ({
+jest.mock('../../http', () => ({
   ContractRegistry: jest.fn().mockImplementation(() => mockContractRegistry)
 }))
 
@@ -19,23 +19,23 @@ const mockTag = 'v1'
 describe('handlers', () => {
   describe('getCatalogHandler', () => {
     it('should return and not fail if registry fails', async () => {
-      mockContractRegistry.getCatalog.mockRejectedValueOnce(new Error())
+      mockContractRegistry.list.mockRejectedValueOnce(new Error())
 
       await getCatalogHandler({
         endpoint: mockEndpoint
       })
 
-      expect(mockContractRegistry.getCatalog).toHaveBeenCalled()
+      expect(mockContractRegistry.list).toHaveBeenCalled()
     })
 
     it('should call the handler successfully', async () => {
-      mockContractRegistry.getCatalog.mockResolvedValueOnce(['contract0', 'contract1'])
+      mockContractRegistry.list.mockResolvedValueOnce(['contract0', 'contract1'])
 
       await getCatalogHandler({
         endpoint: mockEndpoint
       })
 
-      expect(mockContractRegistry.getCatalog).toHaveBeenCalled()
+      expect(mockContractRegistry.list).toHaveBeenCalled()
     })
   })
 
