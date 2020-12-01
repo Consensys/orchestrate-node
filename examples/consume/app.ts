@@ -24,7 +24,7 @@ const consume = async (consumer: Consumer) => {
     }
 
     // We commit every message
-    await message.commit()
+    // await message.commit()
     console.log('Message committed')
   })
 
