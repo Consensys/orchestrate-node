@@ -2,7 +2,7 @@
 
 import { readFileSync } from 'fs'
 
-import { ContractRegistry } from '../../grpc'
+import { ContractRegistry } from '../../http'
 
 import { IEndpointOptions, IGetContractOptions, IGetTagsOptions, IRegisterContractOptions } from './types'
 
@@ -10,7 +10,7 @@ export async function getCatalogHandler(options: IEndpointOptions) {
   const registry = new ContractRegistry(options.endpoint)
 
   try {
-    const catalog = await registry.getCatalog()
+    const catalog = await registry.list()
     console.log(catalog)
   } catch (error) {
     console.log(`Failed to get catalog: ${error}`)

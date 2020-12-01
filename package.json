@@ -68,10 +68,9 @@
   },
   "homepage": "https://pegasyseng.github.io/orchestrate-node/",
   "dependencies": {
-    "@grpc/grpc-js": "~1.1.8",
     "axios": "~0.20.0",
     "commander": "~5.1.0",
-    "ethers": "~5.0.14",
+    "ethers": "~5.0.19",
     "kafkajs": "~1.12.0",
     "protobufjs": "~6.10.1",
     "qs": "~6.9.4",
