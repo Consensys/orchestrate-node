@@ -68,7 +68,7 @@
   },
   "homepage": "https://pegasyseng.github.io/orchestrate-node/",
   "dependencies": {
-    "axios": "~0.20.0",
+    "axios": "~0.21.0",
     "commander": "~5.1.0",
     "ethers": "~5.0.19",
     "kafkajs": "~1.12.0",
