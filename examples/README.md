@@ -55,6 +55,8 @@ Run the following examples in the order displayed in this page:
 8. Transfer value (ETH transfer)
 9. Transfer value (ETH transfer) in a high priority transaction
 10. Search for sent transactions and get their status
+11. Sign and verify an arbitrary payload
+12. Sign and verify a typed data message
 
 ### Prepare environment
 
@@ -117,3 +119,13 @@ Run the following examples in the order displayed in this page:
 - **search**: fetch your completed or pending transactions using their ids or idempotency_keys
 
   Run `npm run example:search`.
+
+### Sign payload and verify signature
+
+- **sign-verify**: Create an account, signs data and verifies the signature
+
+  Run `npm run example:sign-verify`.
+
+- **sign-verify-typed-data**: Create an account, signs typed data and verifies the signature
+
+  Run `npm run example:sign-verify-typed-data`.

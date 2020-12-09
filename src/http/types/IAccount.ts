@@ -43,7 +43,7 @@ export interface ISignTypedDataRequest {
     [key: string]: {
       name: string
       type: string
-    }
+    }[]
   }
   message: object
   messageType: string
