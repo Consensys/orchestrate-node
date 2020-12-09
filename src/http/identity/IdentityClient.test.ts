@@ -3,7 +3,10 @@ import {
   ICreateAccountRequest,
   IImportAccountRequest,
   ISearchAccountsRequest,
-  IUpdateAccountRequest
+  ISignTypedDataRequest,
+  IUpdateAccountRequest,
+  IVerifySignatureRequest,
+  IVerifyTypedDataSignatureRequest
 } from '../types'
 import { IHttpGETRequest, IHttpPATCHRequest, IHttpPOSTRequest } from '../types/IHttpClient'
 
@@ -323,6 +326,155 @@ describe('IdentityClient', () => {
       }
 
       expect(mockHTTPClient.patch).toHaveBeenCalledWith(req)
+    })
+  })
+
+  describe('signTypedData', () => {
+    const address = '0xaddress'
+    const signature = '0xsignature'
+    const request: ISignTypedDataRequest = {
+      domainSeparator: {
+        chainID: 1,
+        name: 'myApp',
+        salt: 'mySalt',
+        version: 'v1.0.0'
+      },
+      message: {},
+      messageType: '',
+      types: {}
+    }
+
+    it('should sign a message successfully', async () => {
+      const req: IHttpPOSTRequest = {
+        path: `/accounts/${address}/sign-typed-data`,
+        data: request,
+        authToken
+      }
+
+      mockHTTPClient.post.mockResolvedValueOnce({
+        data: signature,
+        status: 200,
+        headers: {}
+      })
+
+      const response = await identityClient.signTypedData(address, request, authToken)
+
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
+      expect(response).toEqual(signature)
+    })
+
+    it('should fail to sign a typed data message', async () => {
+      const req: IHttpPOSTRequest = {
+        path: `/accounts/${address}/sign-typed-data`,
+        data: request
+      }
+
+      const err = new Error('MyError')
+      mockHTTPClient.post.mockRejectedValueOnce(err)
+      try {
+        await identityClient.signTypedData(address, request)
+        fail('expected failed request')
+      } catch (e) {
+        expect(e).toEqual(err)
+      }
+
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
+    })
+  })
+
+  describe('verifySignature', () => {
+    const request: IVerifySignatureRequest = {
+      data: 'my data to sign',
+      address: '0xaddress',
+      signature: '0xsignature'
+    }
+
+    it('should verify a signature successfully', async () => {
+      const req: IHttpPOSTRequest = {
+        path: `/accounts/verify-signature`,
+        data: request,
+        authToken
+      }
+
+      mockHTTPClient.post.mockResolvedValueOnce({
+        status: 204,
+        headers: {}
+      })
+
+      await identityClient.verifySignature(request, authToken)
+
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
+    })
+
+    it('should fail to verify a signature', async () => {
+      const req: IHttpPOSTRequest = {
+        path: `/accounts/verify-signature`,
+        data: request
+      }
+
+      const err = new Error('MyError')
+      mockHTTPClient.post.mockRejectedValueOnce(err)
+      try {
+        await identityClient.verifySignature(request)
+        fail('expected failed request')
+      } catch (e) {
+        expect(e).toEqual(err)
+      }
+
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
+    })
+  })
+
+  describe('verifyTypedDataSignature', () => {
+    const request: IVerifyTypedDataSignatureRequest = {
+      data: {
+        domainSeparator: {
+          chainID: 1,
+          name: 'myApp',
+          salt: 'mySalt',
+          version: 'v1.0.0'
+        },
+        message: {},
+        messageType: '',
+        types: {}
+      },
+      address: '0xaddress',
+      signature: '0xsignature'
+    }
+
+    it('should verify a typed message successfully', async () => {
+      const req: IHttpPOSTRequest = {
+        path: `/accounts/verify-typed-data-signature`,
+        data: request,
+        authToken
+      }
+
+      mockHTTPClient.post.mockResolvedValueOnce({
+        status: 204,
+        headers: {}
+      })
+
+      await identityClient.verifyTypedDataSignature(request, authToken)
+
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
+    })
+
+    it('should fail to verify a typed data message', async () => {
+      const req: IHttpPOSTRequest = {
+        path: `/accounts/verify-typed-data-signature`,
+        data: request
+      }
+
+      const err = new Error('MyError')
+      mockHTTPClient.post.mockRejectedValueOnce(err)
+      try {
+        await identityClient.verifyTypedDataSignature(request)
+        fail('expected failed request')
+      } catch (e) {
+        expect(e).toEqual(err)
+      }
+
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(req)
     })
   })
 })

@@ -30,3 +30,33 @@ export interface IUpdateAccountRequest {
   alias: string
   attributes: object
 }
+
+export interface ISignTypedDataRequest {
+  domainSeparator: {
+    name: string
+    version: string
+    chainID: number
+    verifyingContract?: string
+    salt?: string
+  }
+  types: {
+    [key: string]: {
+      name: string
+      type: string
+    }
+  }
+  message: object
+  messageType: string
+}
+
+export interface IVerifyTypedDataSignatureRequest {
+  data: ISignTypedDataRequest
+  signature: string
+  address: string
+}
+
+export interface IVerifySignatureRequest {
+  data: string
+  signature: string
+  address: string
+}
