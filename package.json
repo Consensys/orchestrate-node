@@ -36,7 +36,9 @@
     "example:send-transfer": "ts-node examples/send-transfer",
     "example:send-transfer-with-priority": "ts-node examples/send-transfer-with-priority",
     "example:search": "ts-node examples/search",
-    "example:gasprice-retry": "ts-node examples/gasprice-retry"
+    "example:gasprice-retry": "ts-node examples/gasprice-retry",
+    "example:sign-verify": "ts-node examples/sign-verify",
+    "example:sign-verify-typed-data": "ts-node examples/sign-verify-typed-data"
   },
   "repository": {
     "type": "git",

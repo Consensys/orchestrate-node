@@ -8,7 +8,10 @@ import {
   ICreateAccountRequest,
   IImportAccountRequest,
   ISearchAccountsRequest,
-  IUpdateAccountRequest
+  ISignTypedDataRequest,
+  IUpdateAccountRequest,
+  IVerifySignatureRequest,
+  IVerifyTypedDataSignatureRequest
 } from '../types'
 import { IHttpGETRequest, IHttpPATCHRequest, IHttpPOSTRequest, IHttpResponse } from '../types/IHttpClient'
 
@@ -98,6 +101,7 @@ export class IdentityClient {
   /**
    * Signs a message using a registered Ethereum account
    *
+   * @param address account's Ethereum address
    * @param data payload to sign
    * @param authToken Bearer token. Required when multi-tenancy is enabled
    */
@@ -112,12 +116,56 @@ export class IdentityClient {
   /**
    * Updates an account's information
    *
+   * @param address account's Ethereum address
    * @param request update request data
    * @param authToken Bearer token. Required when multi-tenancy is enabled
    */
   public async update(address: string, request: IUpdateAccountRequest, authToken?: string): Promise<string> {
     try {
       return await this.patchRequest(`/accounts/${address}`, request, authToken)
+    } catch (e) {
+      throw e
+    }
+  }
+
+  /**
+   * Signs a typed data message using a registered Ethereum account
+   *
+   * @param address account's Ethereum address
+   * @param request sign typed data request
+   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   */
+  public async signTypedData(address: string, request: ISignTypedDataRequest, authToken?: string): Promise<string> {
+    try {
+      return await this.postRequest(`/accounts/${address}/sign-typed-data`, request, authToken)
+    } catch (e) {
+      throw e
+    }
+  }
+
+  /**
+   * Verifies the signature of a message
+   *
+   * @param request update request data
+   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   */
+  public async verifySignature(request: IVerifySignatureRequest, authToken?: string): Promise<void> {
+    try {
+      await this.postRequest(`/accounts/verify-signature`, request, authToken)
+    } catch (e) {
+      throw e
+    }
+  }
+
+  /**
+   * Verifies the signature of a typed data message
+   *
+   * @param request update request data
+   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   */
+  public async verifyTypedDataSignature(request: IVerifyTypedDataSignatureRequest, authToken?: string): Promise<void> {
+    try {
+      await this.postRequest(`/accounts/verify-typed-data-signature`, request, authToken)
     } catch (e) {
       throw e
     }
