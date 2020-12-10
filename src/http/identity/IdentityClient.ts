@@ -129,7 +129,7 @@ export class IdentityClient {
   }
 
   /**
-   * Updates an account's information
+   * Signs a typed data message using a registered Ethereum account
    *
    * @param address account's Ethereum address
    * @param request sign typed data request
@@ -144,7 +144,7 @@ export class IdentityClient {
   }
 
   /**
-   * Updates an account's information
+   * Verifies the signature of a message
    *
    * @param request update request data
    * @param authToken Bearer token. Required when multi-tenancy is enabled
@@ -158,7 +158,7 @@ export class IdentityClient {
   }
 
   /**
-   * Updates an account's information
+   * Verifies the signature of a typed data message
    *
    * @param request update request data
    * @param authToken Bearer token. Required when multi-tenancy is enabled
