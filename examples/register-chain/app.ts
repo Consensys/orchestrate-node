@@ -1,12 +1,12 @@
 // tslint:disable: no-console
 
-import { ChainRegistry } from '../../src'
+import { OrchestrateClient } from '../../src'
 
 export const start = async () => {
   try {
-    const chainRegistry = new ChainRegistry('http://localhost:8011')
+    const client = new OrchestrateClient('http://localhost:8031')
 
-    await chainRegistry.registerChain({
+    await client.registerChain({
       name: 'besu',
       urls: ['http://validator2:8545'],
       listener: {
@@ -16,7 +16,7 @@ export const start = async () => {
       }
     })
 
-    const chains = await chainRegistry.chains()
+    const chains = await client.searchChains()
     console.log(chains)
   } catch (error) {
     console.error(error)

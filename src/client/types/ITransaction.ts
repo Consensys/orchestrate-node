@@ -46,7 +46,7 @@ export interface ITransferRequest extends IBaseRequest {
   }
 }
 
-export interface ISearchRequest extends ParsedQs {
+export interface ISearchTransactionRequest extends ParsedQs {
   idempotency_keys: string[]
 }
 

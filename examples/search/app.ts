@@ -2,16 +2,16 @@
 
 import * as util from 'util'
 
-import { TransactionClient } from '../../src'
+import { OrchestrateClient } from '../../src'
 
 export const start = async () => {
   try {
-    const txClient = new TransactionClient('http://localhost:8031')
+    const client = new OrchestrateClient('http://localhost:8031')
 
     // Note: next statement is an example of how to get a transaction by UUID
     // const res = await txClient.get('87a5722a-0cfb-4cc9-a382-013965b36cb2')
 
-    const res = await txClient.search({
+    const res = await client.searchTransactions({
       idempotency_keys: ['ExampleDeployContract', 'ExampleSendTransaction']
     })
 

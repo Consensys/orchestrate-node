@@ -1,2 +1,2 @@
 export * from './kafka'
-export * from './http'
+export * from './client'

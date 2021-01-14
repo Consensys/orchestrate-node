@@ -2,13 +2,13 @@
 
 import * as util from 'util'
 
-import { TransactionClient } from '../../src'
+import { OrchestrateClient } from '../../src'
 
 export const start = async () => {
   try {
-    const txScheduler = new TransactionClient('http://localhost:8031')
+    const client = new OrchestrateClient('http://localhost:8031')
 
-    const res = await txScheduler.deployContract(
+    const res = await client.deployContract(
       {
         chain: 'besu',
         labels: {},
