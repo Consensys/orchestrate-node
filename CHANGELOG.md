@@ -9,6 +9,8 @@ All notable changes to this project will be documented in this file.
 - Add Identity Management API to the SDK to enable fine-grained management of Ethereum accounts
 - Removes `AccountGenerator` class and usages in the SDK and examples
 - Removes account generation using the CLI
+- Merges all clients into a single client named `OrchestrateClient`
+- Modifies client function names (ex: send --> sendTransaction)
 
 ## 3.1.2 (2020-10-12)
 

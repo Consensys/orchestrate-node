@@ -2,17 +2,17 @@
 
 import * as util from 'util'
 
-import { IdentityClient } from '../../src'
+import { OrchestrateClient } from '../../src'
 
 export const start = async () => {
   try {
-    const identityClient = new IdentityClient('http://localhost:8041')
+    const client = new OrchestrateClient('http://localhost:8031')
 
     const accounts = await Promise.all([
-      identityClient.createAccount({ alias: 'account_1' }),
-      identityClient.createAccount(),
-      identityClient.createAccount(),
-      identityClient.createAccount()
+      client.createAccount({ alias: 'account_1' }),
+      client.createAccount(),
+      client.createAccount(),
+      client.createAccount()
     ])
 
     console.log(util.inspect(accounts, false, null, true))

@@ -13,18 +13,18 @@ The Orchestrate library provides convenient access to the Orchestrate API from a
 
 ## Compatibility
 
-| SDK versions        | Orchestrate versions       |
-| ------------------- | -------------------------- |
-| master/HEAD         | Orchestrate v2.6 or higher |
-| SDK v4.0.x          | Orchestrate v2.6 or higher |
-| SDK v3.1.1          | Orchestrate v2.4 or higher |
-| SDK v3.1.x          | Orchestrate v2.3 or higher |
-| SDK v3.0.x          | Orchestrate v2.3-rcX       |
-| SDK v2.3.x          | Orchestrate v2.1 or higher |
-| SDK v2.2.x          | Orchestrate v2.1 or higher |
-| SDK v2.1.x          | Orchestrate v2.1 or higher |
-| SDK v2.0.x          | Orchestrate v2.0           |
-| SDK v1.0.x or lower | Orchestrate v1.0 or lower  |
+| SDK versions        | Orchestrate versions          |
+| ------------------- | ----------------------------- |
+| master/HEAD         | Orchestrate v21.1.0 or higher |
+| SDK v4.0.x          | Orchestrate v21.1.0 or higher |
+| SDK v3.1.1          | Orchestrate v2.4 or higher    |
+| SDK v3.1.x          | Orchestrate v2.3 or higher    |
+| SDK v3.0.x          | Orchestrate v2.3-rcX          |
+| SDK v2.3.x          | Orchestrate v2.1 or higher    |
+| SDK v2.2.x          | Orchestrate v2.1 or higher    |
+| SDK v2.1.x          | Orchestrate v2.1 or higher    |
+| SDK v2.0.x          | Orchestrate v2.0              |
+| SDK v1.0.x or lower | Orchestrate v1.0 or lower     |
 
 ## Orchestrate documentation
 

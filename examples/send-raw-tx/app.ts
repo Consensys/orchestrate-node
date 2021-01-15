@@ -3,11 +3,11 @@
 import { utils, Wallet } from 'ethers'
 import * as cutil from 'util'
 
-import { TransactionClient } from '../../src'
+import { OrchestrateClient } from '../../src'
 
 export const start = async () => {
   try {
-    const txClient = new TransactionClient('http://localhost:8031')
+    const client = new OrchestrateClient('http://localhost:8031')
 
     // For development usage only, never expose your private key!
     const privateKey = '0x5FBB50BFF6DFAD35C4A374C9237BA2F7EAED9C6868E0108CB259B62D68029B1A'
@@ -23,7 +23,7 @@ export const start = async () => {
       value: utils.parseEther('1')
     })
 
-    const res = await txClient.sendRaw(
+    const res = await client.sendRawTransaction(
       {
         chain: 'besu',
         params: {

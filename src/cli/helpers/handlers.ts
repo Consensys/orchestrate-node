@@ -2,15 +2,15 @@
 
 import { readFileSync } from 'fs'
 
-import { ContractRegistry } from '../../http'
+import { OrchestrateClient } from '../../client'
 
 import { IEndpointOptions, IGetContractOptions, IGetTagsOptions, IRegisterContractOptions } from './types'
 
 export async function getCatalogHandler(options: IEndpointOptions) {
-  const registry = new ContractRegistry(options.endpoint)
+  const registry = new OrchestrateClient(options.endpoint)
 
   try {
-    const catalog = await registry.list()
+    const catalog = await registry.getContractsCatalog()
     console.log(catalog)
   } catch (error) {
     console.log(`Failed to get catalog: ${error}`)
@@ -18,10 +18,10 @@ export async function getCatalogHandler(options: IEndpointOptions) {
 }
 
 export async function getContractHandler(options: IGetContractOptions) {
-  const registry = new ContractRegistry(options.endpoint)
+  const registry = new OrchestrateClient(options.endpoint)
 
   try {
-    const contract = await registry.get(options.name, options.tag)
+    const contract = await registry.getContract(options.name, options.tag)
     console.log(contract)
   } catch (error) {
     console.log(`Failed to get contract: ${error}`)
@@ -29,10 +29,10 @@ export async function getContractHandler(options: IGetContractOptions) {
 }
 
 export async function getTagsHandler(options: IGetTagsOptions) {
-  const registry = new ContractRegistry(options.endpoint)
+  const registry = new OrchestrateClient(options.endpoint)
 
   try {
-    const tags = await registry.getTags(options.name)
+    const tags = await registry.getContractTags(options.name)
     console.log(tags)
   } catch (error) {
     console.log(`Failed to get tags: ${error}`)
@@ -40,7 +40,7 @@ export async function getTagsHandler(options: IGetTagsOptions) {
 }
 
 export async function registerContractHandler(options: IRegisterContractOptions) {
-  const registry = new ContractRegistry(options.endpoint)
+  const registry = new OrchestrateClient(options.endpoint)
 
   let artifact
 
@@ -48,7 +48,7 @@ export async function registerContractHandler(options: IRegisterContractOptions)
     artifact = JSON.parse(readFileSync(options.filepath).toString())
     checkArtifact(artifact)
 
-    await registry.register({
+    await registry.registerContract({
       name: options.name,
       tag: options.tag,
       abi: artifact.abi,
