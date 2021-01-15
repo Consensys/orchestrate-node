@@ -13,7 +13,7 @@ export const start = async () => {
         chain: 'besu',
         labels: {},
         params: {
-          from: '0x7e654d251da770a068413677967f6d3ea2fea9e4', // Default Orchestrate account in development mode
+          from: '[ETH_ACCOUNT]',
           contractName: 'SimpleToken'
         }
       },

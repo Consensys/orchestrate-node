@@ -6,7 +6,8 @@ import { HttpClient } from './HttpClient'
 import * as types from './types'
 import { IHttpGETRequest, IHttpResponse } from './types/IHttpClient'
 
-const TRANSACTIONS_ENDPOINT: string = 'transactions'
+const TRANSACTIONS_ENDPOINT: string = '/transactions'
+const CONTRACTS_ENDPOINT: string = '/contracts'
 
 export class OrchestrateClient {
   private client: HttpClient
@@ -28,7 +29,7 @@ export class OrchestrateClient {
    */
   public async getTransaction(txUUID: string, authToken?: string): Promise<types.ITransaction> {
     const req: IHttpGETRequest = {
-      path: `/${TRANSACTIONS_ENDPOINT}/${txUUID}`,
+      path: `${TRANSACTIONS_ENDPOINT}/${txUUID}`,
       authToken
     }
 
@@ -51,7 +52,7 @@ export class OrchestrateClient {
     authToken?: string
   ): Promise<types.ITransaction[]> {
     const req: IHttpGETRequest = {
-      path: `/${TRANSACTIONS_ENDPOINT}`,
+      path: TRANSACTIONS_ENDPOINT,
       query: searchRequest,
       authToken
     }
@@ -78,10 +79,10 @@ export class OrchestrateClient {
   ): Promise<types.ITransaction> {
     try {
       return await this._postWithIdempotencyKey(
-        `/${TRANSACTIONS_ENDPOINT}/deploy-contract`,
+        `${TRANSACTIONS_ENDPOINT}/deploy-contract`,
         deployRequest,
-        idempotencyKey,
-        authToken
+        authToken,
+        idempotencyKey
       )
     } catch (e) {
       throw e
@@ -101,12 +102,7 @@ export class OrchestrateClient {
     authToken?: string
   ): Promise<types.ITransaction> {
     try {
-      return await this._postWithIdempotencyKey(
-        `/${TRANSACTIONS_ENDPOINT}/send`,
-        sendRequest,
-        authToken,
-        idempotencyKey
-      )
+      return await this._postWithIdempotencyKey(`${TRANSACTIONS_ENDPOINT}/send`, sendRequest, authToken, idempotencyKey)
     } catch (e) {
       throw e
     }
@@ -126,7 +122,7 @@ export class OrchestrateClient {
   ): Promise<types.ITransaction> {
     try {
       return await this._postWithIdempotencyKey(
-        `/${TRANSACTIONS_ENDPOINT}/send-raw`,
+        `${TRANSACTIONS_ENDPOINT}/send-raw`,
         sendRawRequest,
         authToken,
         idempotencyKey
@@ -150,7 +146,7 @@ export class OrchestrateClient {
   ): Promise<types.ITransaction> {
     try {
       return await this._postWithIdempotencyKey(
-        `/${TRANSACTIONS_ENDPOINT}/transfer`,
+        `${TRANSACTIONS_ENDPOINT}/transfer`,
         transferRequest,
         authToken,
         idempotencyKey
@@ -185,8 +181,7 @@ export class OrchestrateClient {
    */
   public async registerChain(chainRequest: types.IRegisterChainRequest, authToken?: string): Promise<types.IChain> {
     try {
-      const res: IHttpResponse = await this.client.post('/chains', chainRequest, authToken)
-      return res.data
+      return await this.client.post('/chains', chainRequest, authToken)
     } catch (e) {
       throw e
     }
@@ -229,7 +224,7 @@ export class OrchestrateClient {
    */
   public async getContractsCatalog(authToken?: string): Promise<string[]> {
     const req: IHttpGETRequest = {
-      path: '/contracts',
+      path: CONTRACTS_ENDPOINT,
       authToken
     }
 
@@ -250,7 +245,7 @@ export class OrchestrateClient {
    */
   public async getContractTags(name: string, authToken?: string): Promise<string[]> {
     const req: IHttpGETRequest = {
-      path: `/contracts/${name}`,
+      path: `${CONTRACTS_ENDPOINT}/${name}`,
       authToken
     }
 
@@ -272,7 +267,7 @@ export class OrchestrateClient {
    */
   public async getContract(name: string, tag?: string, authToken?: string): Promise<types.IContract> {
     const req: IHttpGETRequest = {
-      path: `/contracts/${name}/${tag || 'latest'}`,
+      path: `${CONTRACTS_ENDPOINT}/${name}/${tag || 'latest'}`,
       authToken
     }
 
@@ -292,9 +287,9 @@ export class OrchestrateClient {
   public async registerContract(
     contractRequest: types.IRegisterContractRequest,
     authToken?: string
-  ): Promise<types.IChain> {
+  ): Promise<types.IContract> {
     try {
-      return await this.client.post('/contracts', contractRequest, authToken)
+      return await this.client.post(CONTRACTS_ENDPOINT, contractRequest, authToken)
     } catch (e) {
       throw e
     }

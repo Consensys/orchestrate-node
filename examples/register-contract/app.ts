@@ -5,16 +5,16 @@ import { SimpleToken } from '../artifacts/SimpleToken'
 
 export const start = async () => {
   try {
-    const client = new OrchestrateClient('localhost:8031')
+    const client = new OrchestrateClient('http://localhost:8031')
 
-    await client.registerContract({
+    const contract = await client.registerContract({
       name: 'SimpleToken',
       abi: SimpleToken.abi,
       bytecode: SimpleToken.bytecode,
       deployedBytecode: SimpleToken.deployedBytecode
     })
 
-    console.log(await client.getContractsCatalog())
+    console.log(contract)
   } catch (error) {
     console.error(error)
   }

@@ -12,7 +12,7 @@ export const start = async () => {
       {
         chain: 'besu',
         params: {
-          to: '0x4a435585d27cd7e6dae2c714be8e414b5fd7d257',
+          to: '[DEPLOYED_CONTRACT_ADDRESS]',
           methodSignature: 'transfer(address,uint256)',
           args: ['0x6009608a02a7a15fd6689d6dad560c44e9ab61ff', 5000],
           oneTimeKey: true

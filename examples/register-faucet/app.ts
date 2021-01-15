@@ -6,17 +6,16 @@ export const start = async () => {
   try {
     const client = new OrchestrateClient('http://localhost:8031')
 
-    await client.registerFaucet({
-      name: 'faucet1',
-      chainRule: '9b3c85ef-6443-46e6-a7af-9e74a40ceb60',
-      creditorAccount: '0x6230592812dE2E256D1512504c3E8A3C49975f07',
+    const faucet = await client.registerFaucet({
+      name: 'faucet',
+      chainRule: '[CHAIN_UUID]',
+      creditorAccount: '[FUNDED_ACCOUNT]',
       amount: '60000000000000000',
       maxBalance: '100000000000000000',
       cooldown: '10s'
     })
 
-    const faucets = await client.searchFaucets()
-    console.log(faucets)
+    console.log(faucet)
   } catch (error) {
     console.error(error)
   }

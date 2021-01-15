@@ -12,7 +12,7 @@ export const start = async () => {
       {
         chain: 'besu',
         params: {
-          from: '0x7e654d251da770a068413677967f6d3ea2fea9e4', // Default Orchestrate account in development mode
+          from: '[ETH_ACCOUNT]',
           to: '0x6009608a02a7a15fd6689d6dad560c44e9ab61ff',
           value: '100000000',
           gasPricePolicy: {
