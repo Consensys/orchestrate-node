@@ -19,7 +19,7 @@ describe('HttpClient', () => {
   const host: string = 'http://localhost:8011'
   const mockedAxios = new MockAdapter(axios)
 
-  describe('get request', () => {
+  describe('get', () => {
     beforeAll(() => {
       httpClient = new HttpClient({ host })
     })
@@ -72,7 +72,7 @@ describe('HttpClient', () => {
     })
   })
 
-  describe('post request', () => {
+  describe('post', () => {
     const globalToken = 'globalToken'
 
     beforeAll(() => {
@@ -80,11 +80,6 @@ describe('HttpClient', () => {
     })
 
     it('should send a successful post request', async () => {
-      const req: IHttpPOSTRequest = {
-        path: '/path',
-        data: { dkey: 'value' }
-      }
-
       const expectedRes = {
         ...axiosBaseRes,
         data: { dkey: 'value' }
@@ -92,7 +87,7 @@ describe('HttpClient', () => {
 
       mockedAxios
         .onPost(
-          `${host}${req.path}`,
+          `${host}/path`,
           undefined,
           expect.objectContaining({
             Authorization: `Bearer ${globalToken}`,
@@ -101,22 +96,15 @@ describe('HttpClient', () => {
         )
         .replyOnce(expectedRes.status, expectedRes.data, expectedRes.headers)
 
-      const actualRes = await httpClient.post(req)
+      const actualRes = await httpClient.post('/path', { dkey: 'value' })
 
-      expect(actualRes.status).toEqual(expectedRes.status)
-      expect(actualRes.data).toEqual(expectedRes.data)
-      expect(actualRes.headers).toEqual(expectedRes.headers)
+      expect(actualRes).toEqual(expectedRes.data)
     })
 
     it('should send failure post request', async () => {
-      const req: IHttpPOSTRequest = {
-        path: '/path',
-        data: { dkey: 'value' }
-      }
-
       mockedAxios
         .onPost(
-          `${host}${req.path}`,
+          `${host}/path`,
           undefined,
           expect.objectContaining({
             Authorization: `Bearer ${globalToken}`,
@@ -128,7 +116,61 @@ describe('HttpClient', () => {
         })
 
       try {
-        await httpClient.post(req)
+        await httpClient.post('/path', { dkey: 'value' })
+        fail('request is expected to fail')
+      } catch (e) {
+        const err = e as IHttpError
+        expect(err.message).toEqual('Error: unexpected error')
+        expect(err.status).toEqual(500)
+      }
+    })
+  })
+
+  describe('patch', () => {
+    const globalToken = 'globalToken'
+
+    beforeAll(() => {
+      httpClient = new HttpClient({ host, authToken: globalToken })
+    })
+
+    it('should send a successful patch request', async () => {
+      const expectedRes = {
+        ...axiosBaseRes,
+        data: { dkey: 'value' }
+      }
+
+      mockedAxios
+        .onPatch(
+          `${host}/path`,
+          undefined,
+          expect.objectContaining({
+            Authorization: `Bearer ${globalToken}`,
+            'Content-Type': 'application/json'
+          })
+        )
+        .replyOnce(expectedRes.status, expectedRes.data, expectedRes.headers)
+
+      const actualRes = await httpClient.patch('/path', { dkey: 'value' })
+
+      expect(actualRes).toEqual(expectedRes.data)
+    })
+
+    it('should send failure patch request', async () => {
+      mockedAxios
+        .onPatch(
+          `${host}/path`,
+          undefined,
+          expect.objectContaining({
+            Authorization: `Bearer ${globalToken}`,
+            'Content-Type': 'application/json'
+          })
+        )
+        .replyOnce(() => {
+          throw new Error('unexpected error')
+        })
+
+      try {
+        await httpClient.patch('/path', { dkey: 'value' })
         fail('request is expected to fail')
       } catch (e) {
         const err = e as IHttpError

@@ -2,13 +2,13 @@
 
 import * as cutil from 'util'
 
-import { ProtocolType, TransactionClient } from '../../src'
+import { OrchestrateClient, ProtocolType } from '../../src'
 
 export const start = async () => {
   try {
-    const txClient = new TransactionClient('http://localhost:8031')
+    const client = new OrchestrateClient('http://localhost:8031')
 
-    const res = await txClient.deployContract(
+    const res = await client.deployContract(
       {
         chain: 'besu',
         params: {

@@ -2,19 +2,18 @@
 
 import * as cutil from 'util'
 
-import { TransactionClient } from '../../src'
-import { Priority } from '../../src/http/types/Priority'
+import { OrchestrateClient, Priority } from '../../src'
 
 export const start = async () => {
   try {
-    const txClient = new TransactionClient('http://localhost:8031')
+    const client = new OrchestrateClient('http://localhost:8031')
 
     // Try to send a transfer transaction with a lower gas price than the network requires.
     // This strategy might lower the transaction fee but also increases the risk of not being mined.
     // To mitigate this risk we also add a retry policy of the gas price.
     // The low priority will set the gas price 20% lower than what the node return as gas price of the network.
     // The retry policy will increment the gas price by 10% every 10s until reaching 40% increase.
-    const res = await txClient.transfer(
+    const res = await client.transfer(
       {
         chain: 'besu',
         params: {

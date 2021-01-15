@@ -1,15 +1,15 @@
 import { getCatalogHandler, getContractHandler, getTagsHandler, registerContractHandler } from './handlers'
 
-const mockContractRegistry = {
-  list: jest.fn(),
-  get: jest.fn(),
-  getTags: jest.fn(),
-  register: jest.fn()
+const mockOrchestrateClient = {
+  getContractsCatalog: jest.fn(),
+  getContract: jest.fn(),
+  getContractTags: jest.fn(),
+  registerContract: jest.fn()
 }
 
 jest.mock('fs')
-jest.mock('../../http', () => ({
-  ContractRegistry: jest.fn().mockImplementation(() => mockContractRegistry)
+jest.mock('../../client', () => ({
+  OrchestrateClient: jest.fn().mockImplementation(() => mockOrchestrateClient)
 }))
 
 const mockEndpoint = 'endpoint:5000'
@@ -19,40 +19,40 @@ const mockTag = 'v1'
 describe('handlers', () => {
   describe('getCatalogHandler', () => {
     it('should return and not fail if registry fails', async () => {
-      mockContractRegistry.list.mockRejectedValueOnce(new Error())
+      mockOrchestrateClient.getContractsCatalog.mockRejectedValueOnce(new Error())
 
       await getCatalogHandler({
         endpoint: mockEndpoint
       })
 
-      expect(mockContractRegistry.list).toHaveBeenCalled()
+      expect(mockOrchestrateClient.getContractsCatalog).toHaveBeenCalled()
     })
 
     it('should call the handler successfully', async () => {
-      mockContractRegistry.list.mockResolvedValueOnce(['contract0', 'contract1'])
+      mockOrchestrateClient.getContractsCatalog.mockResolvedValueOnce(['contract0', 'contract1'])
 
       await getCatalogHandler({
         endpoint: mockEndpoint
       })
 
-      expect(mockContractRegistry.list).toHaveBeenCalled()
+      expect(mockOrchestrateClient.getContractsCatalog).toHaveBeenCalled()
     })
   })
 
   describe('getContractHandler', () => {
     it('should return and not fail if registry fails', async () => {
-      mockContractRegistry.get.mockRejectedValueOnce(new Error())
+      mockOrchestrateClient.getContract.mockRejectedValueOnce(new Error())
 
       await getContractHandler({
         endpoint: mockEndpoint,
         name: mockName
       })
 
-      expect(mockContractRegistry.get).toHaveBeenCalled()
+      expect(mockOrchestrateClient.getContract).toHaveBeenCalled()
     })
 
     it('should call the handler successfully', async () => {
-      mockContractRegistry.get.mockResolvedValueOnce('0xbytecodeHash')
+      mockOrchestrateClient.getContract.mockResolvedValueOnce('0xbytecodeHash')
 
       await getContractHandler({
         endpoint: mockEndpoint,
@@ -60,31 +60,31 @@ describe('handlers', () => {
         tag: mockTag
       })
 
-      expect(mockContractRegistry.get).toHaveBeenCalledWith(mockName, mockTag)
+      expect(mockOrchestrateClient.getContract).toHaveBeenCalledWith(mockName, mockTag)
     })
   })
 
   describe('getTagsHandler', () => {
     it('should return and not fail if registry fails', async () => {
-      mockContractRegistry.getTags.mockRejectedValueOnce(new Error())
+      mockOrchestrateClient.getContractTags.mockRejectedValueOnce(new Error())
 
       await getTagsHandler({
         endpoint: mockEndpoint,
         name: mockName
       })
 
-      expect(mockContractRegistry.getTags).toHaveBeenCalled()
+      expect(mockOrchestrateClient.getContractTags).toHaveBeenCalled()
     })
 
     it('should call the handler successfully', async () => {
-      mockContractRegistry.getTags.mockResolvedValueOnce('0xbytecodeHash')
+      mockOrchestrateClient.getContractTags.mockResolvedValueOnce('0xbytecodeHash')
 
       await getTagsHandler({
         endpoint: mockEndpoint,
         name: mockName
       })
 
-      expect(mockContractRegistry.getTags).toHaveBeenCalledWith(mockName)
+      expect(mockOrchestrateClient.getContractTags).toHaveBeenCalledWith(mockName)
     })
   })
 
@@ -130,7 +130,7 @@ describe('handlers', () => {
       })
 
       expect(fs.readFileSync).toHaveBeenCalledWith(mockFilepath)
-      expect(mockContractRegistry.register).not.toHaveBeenCalled()
+      expect(mockOrchestrateClient.registerContract).not.toHaveBeenCalled()
     })
 
     it('should throw if no ABI in the artifacts', async () => {
@@ -143,7 +143,7 @@ describe('handlers', () => {
         filepath: mockFilepath
       })
 
-      expect(mockContractRegistry.register).not.toHaveBeenCalled()
+      expect(mockOrchestrateClient.registerContract).not.toHaveBeenCalled()
     })
 
     it('should throw if no bytecode in the artifacts', async () => {
@@ -156,7 +156,7 @@ describe('handlers', () => {
         filepath: mockFilepath
       })
 
-      expect(mockContractRegistry.register).not.toHaveBeenCalled()
+      expect(mockOrchestrateClient.registerContract).not.toHaveBeenCalled()
     })
 
     it('should throw if no deployedBytecode in the artifacts', async () => {
@@ -171,7 +171,7 @@ describe('handlers', () => {
         filepath: mockFilepath
       })
 
-      expect(mockContractRegistry.register).not.toHaveBeenCalled()
+      expect(mockOrchestrateClient.registerContract).not.toHaveBeenCalled()
     })
 
     it('should call the handler successfully', async () => {
@@ -184,7 +184,7 @@ describe('handlers', () => {
         filepath: mockFilepath
       })
 
-      expect(mockContractRegistry.register).toHaveBeenCalledWith({
+      expect(mockOrchestrateClient.registerContract).toHaveBeenCalledWith({
         name: mockName,
         tag: mockTag,
         abi: mockArtifact.abi,
