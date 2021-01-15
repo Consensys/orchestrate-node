@@ -12,7 +12,7 @@ export const start = async () => {
     const response = await client.importAccount({ privateKey })
 
     // Just to showcase the get request
-    const account = await client.get(response.address)
+    const account = await client.getAccount(response.address)
 
     console.log(util.inspect(account, false, null, true))
   } catch (error) {
