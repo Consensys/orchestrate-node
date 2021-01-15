@@ -30,12 +30,6 @@ describe('Consumer', () => {
     consumer = new Consumer(brokers, topics)
   })
 
-  describe('getBrokers', () => {
-    it('should return the kafka host successfully', () => {
-      expect(consumer.getBrokers()).toEqual(brokers)
-    })
-  })
-
   describe('getTopics', () => {
     it('should return the topics successfully', () => {
       expect(consumer.getTopics()).toEqual(topics)

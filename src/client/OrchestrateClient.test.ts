@@ -396,11 +396,8 @@ describe('OrchestrateClient', () => {
       }
 
       try {
-        mockHTTPClient.post.mockResolvedValueOnce({
-          data: mockChain,
-          status: 200,
-          headers: {}
-        })
+        mockHTTPClient.post.mockResolvedValueOnce(mockChain)
+
         const res = await client.registerChain(chain)
         expect(res).toEqual(mockChain)
       } catch (e) {
@@ -416,11 +413,7 @@ describe('OrchestrateClient', () => {
         urls: ['localhost:8545']
       }
 
-      mockHTTPClient.post.mockResolvedValueOnce({
-        data: mockChain,
-        status: 200,
-        headers: {}
-      })
+      mockHTTPClient.post.mockResolvedValueOnce(mockChain)
 
       try {
         const res = await client.registerChain(chain, authToken)
