@@ -1,13 +1,13 @@
 // tslint:disable: no-console
 
-import { IdentityClient, ISignTypedDataRequest } from '../../src'
+import { ISignTypedDataRequest, OrchestrateClient } from '../../src'
 
 export const start = async () => {
   try {
-    const identityClient = new IdentityClient('http://localhost:8041')
+    const client = new OrchestrateClient('http://localhost:8031')
 
     const privateKey = 'f368b15ea01bafd199d4d39daee2b1d281bf78193c590ef79c233016b3b43f89'
-    const account = await identityClient.importAccount({ privateKey })
+    const account = await client.importAccount({ privateKey })
 
     const data: ISignTypedDataRequest = {
       messageType: 'Mail',
@@ -57,9 +57,9 @@ export const start = async () => {
         ]
       }
     }
-    const signature = await identityClient.signTypedData(account.address, data)
+    const signature = await client.signTypedData(account.address, data)
 
-    await identityClient.verifyTypedDataSignature({ address: account.address, data, signature })
+    await client.verifyTypedDataSignature({ address: account.address, data, signature })
 
     console.log('signature ', signature, 'verified successfully')
   } catch (error) {

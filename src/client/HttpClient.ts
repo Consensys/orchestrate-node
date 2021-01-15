@@ -37,17 +37,29 @@ export class HttpClient {
     }
   }
 
-  public async post(req: IHttpPOSTRequest, headers?: object): Promise<IHttpResponse> {
+  public async post<T>(path: string, data: any, authToken?: string, headers?: object): Promise<T> {
+    const req: IHttpPOSTRequest = {
+      path,
+      data,
+      authToken
+    }
+
     try {
-      return HttpClient.parseResponse(await axios.post(req.path, req.data, this.requestConfig(req, headers)))
+      return HttpClient.parseResponse(await axios.post(req.path, req.data, this.requestConfig(req, headers))).data
     } catch (e) {
       throw HttpClient.parseErrResponse(e)
     }
   }
 
-  public async patch(req: IHttpPATCHRequest, headers?: object): Promise<IHttpResponse> {
+  public async patch<T>(path: string, data: any, authToken?: string, headers?: object): Promise<T> {
+    const req: IHttpPATCHRequest = {
+      path,
+      data,
+      authToken
+    }
+
     try {
-      return HttpClient.parseResponse(await axios.patch(req.path, req.data, this.requestConfig(req, headers)))
+      return HttpClient.parseResponse(await axios.patch(req.path, req.data, this.requestConfig(req, headers))).data
     } catch (e) {
       throw HttpClient.parseErrResponse(e)
     }

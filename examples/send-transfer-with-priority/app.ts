@@ -2,13 +2,13 @@
 
 import * as cutil from 'util'
 
-import { Priority, TransactionClient } from '../../src'
+import { OrchestrateClient, Priority } from '../../src'
 
 export const start = async () => {
   try {
-    const txClient = new TransactionClient('http://localhost:8031')
+    const client = new OrchestrateClient('http://localhost:8031')
 
-    const res = await txClient.transfer(
+    const res = await client.transfer(
       {
         chain: 'besu',
         params: {
