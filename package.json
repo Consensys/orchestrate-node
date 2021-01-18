@@ -97,7 +97,8 @@
     "tslint-config-prettier": "~1.18.0",
     "typedoc": "~0.17.7",
     "typedoc-plugin-pages": "~1.0.1",
-    "typescript": "~3.9.5"
+    "typescript": "~3.9.5",
+    "node-notifier": ">=8.0.1"
   },
   "husky": {
     "hooks": {
