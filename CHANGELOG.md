@@ -2,15 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
-## 4.0.0 (unreleased)
+## 4.0.0 (2021-01-25)
 
 ### 🆕 Features
 
-- Add Identity Management API to the SDK to enable fine-grained management of Ethereum accounts
-- Removes `AccountGenerator` class and usages in the SDK and examples
-- Removes account generation using the CLI
-- Merges all clients into a single client named `OrchestrateClient`
-- Modifies client function names (sendTransaction, searchTransactions, registerContract, getContractsCatalog, getContractTags, getContract)
+- New Identity Management API to enable fine-grained management of Ethereum accounts
+- Support for remote transaction signing, random payload signing and signature verify
+- New unified API client, **OrchestrateClient`**
+
+### ⚠ BREAKING CHANGES
+
+- Remove support for account generation using the kafka. Removes `AccountGenerator` class and usages
+- Remove support for contract-registry GRPC
+- Remove account generation using CLI
+- Remove client API classes TransactionClient, FaucetRegistry, ContractRegistry and ChainRegistry
+- Renamed client API methods:
+  - send(...) -> sendTransaction(...)
+  - search() -> searchTransactions(...)
+  - register(...) -> registerContract(...)
+  - getCatalog(...) -> getContractsCatalog(...)
+  - getTags(...) -> getContractTags(...)
 
 ## 3.1.2 (2020-10-12)
 
