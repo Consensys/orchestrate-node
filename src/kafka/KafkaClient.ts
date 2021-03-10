@@ -1,5 +1,6 @@
 import { EventEmitter } from 'events'
 import * as KafkaJS from 'kafkajs'
+import { BrokersFunction } from 'kafkajs'
 
 /**
  * @hidden
@@ -7,7 +8,7 @@ import * as KafkaJS from 'kafkajs'
  */
 export abstract class KafkaClient extends EventEmitter {
   protected readonly kafka: KafkaJS.Kafka
-  protected readonly brokers: string[]
+  protected readonly brokers: string[] | BrokersFunction
   protected isReady = false
 
   /**
@@ -29,7 +30,7 @@ export abstract class KafkaClient extends EventEmitter {
   /**
    * Returns the Kafka brokers
    */
-  public getBrokers(): string[] {
+  public getBrokers(): string[] | BrokersFunction {
     return this.brokers
   }
 
