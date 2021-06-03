@@ -11,6 +11,9 @@ export const start = async () => {
       urls: ['http://validator2:8545'],
       listener: {
         fromBlock: 'latest'
+      },
+      labels: {
+        my_label: 'testing labels'
       }
     })
 

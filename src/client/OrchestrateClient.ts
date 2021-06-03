@@ -188,6 +188,24 @@ export class OrchestrateClient {
   }
 
   /**
+   * Update a registered chain
+   * @param chainUUID uuid of registered chain
+   * @param chainRequest register chain request data
+   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   */
+  public async updateChain(
+    chainUUID: string,
+    chainRequest: types.IUpdateChainRequest,
+    authToken?: string
+  ): Promise<types.IChain> {
+    try {
+      return await this.client.patch(`/chains/${chainUUID}`, chainRequest, authToken)
+    } catch (e) {
+      throw e
+    }
+  }
+
+  /**
    * Fetch list of registered faucets
    * @param authToken Bearer token. Required when multi-tenancy is enabled
    */
