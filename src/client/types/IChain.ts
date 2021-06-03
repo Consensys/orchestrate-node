@@ -11,6 +11,22 @@ export interface IRegisterChainRequest {
     url: string
     type: string
   }
+  labels?: object
+}
+
+export interface IUpdateChainRequest {
+  name: string
+  listener?: {
+    depth?: number
+    currentBlock?: string
+    backoffDuration?: string
+    externalTxEnabled?: boolean
+  }
+  privateTxManager?: {
+    url: string
+    type: string
+  }
+  labels?: object
 }
 
 export interface IChain {
@@ -24,6 +40,7 @@ export interface IChain {
   listenerBackOffDuration?: string
   ListenerExternalTxEnabled?: boolean
   privateTxManagers?: IPrivateTxManager[]
+  labels?: object
   createdAt: Date
   updatedAt: Date
 }

@@ -13,6 +13,9 @@ const mockChain: types.IChain = {
   tenantID: 'tenantID',
   urls: ['endpoint:8545'],
   uuid: 'uuid',
+  labels: {
+    label: 'value'
+  },
   createdAt: new Date(),
   updatedAt: new Date()
 }
@@ -392,7 +395,10 @@ describe('OrchestrateClient', () => {
     it('should register a new chain successfully', async () => {
       const chain: types.IRegisterChainRequest = {
         name: 'chainName',
-        urls: ['localhost:8545']
+        urls: ['localhost:8545'],
+        labels: {
+          label: 'value'
+        }
       }
 
       try {
@@ -410,7 +416,10 @@ describe('OrchestrateClient', () => {
     it('should register a new chain with jwt successfully', async () => {
       const chain: types.IRegisterChainRequest = {
         name: 'chainName',
-        urls: ['localhost:8545']
+        urls: ['localhost:8545'],
+        labels: {
+          label: 'value'
+        }
       }
 
       mockHTTPClient.post.mockResolvedValueOnce(mockChain)
@@ -463,6 +472,69 @@ describe('OrchestrateClient', () => {
       }
 
       expect(mockHTTPClient.post).toHaveBeenCalledWith('/chains', chain, undefined)
+    })
+  })
+
+  describe('updateChain', () => {
+    it('should update a new chain successfully', async () => {
+      const chain: types.IUpdateChainRequest = {
+        name: 'chainName2',
+        labels: {
+          label2: 'value2'
+        }
+      }
+
+      mockHTTPClient.patch.mockResolvedValueOnce(mockChain)
+
+      try {
+        const res = await client.updateChain(mockChain.uuid, chain)
+        expect(res).toEqual(mockChain)
+      } catch (e) {
+        fail(e)
+      }
+
+      expect(mockHTTPClient.patch).toHaveBeenCalledWith(`/chains/${mockChain.uuid}`, chain, undefined)
+    })
+
+    it('should update a new chain with jwt successfully', async () => {
+      const chain: types.IUpdateChainRequest = {
+        name: 'chainName3',
+        labels: {
+          label3: 'value3'
+        }
+      }
+
+      mockHTTPClient.patch.mockResolvedValueOnce(mockChain)
+
+      try {
+        const res = await client.updateChain(mockChain.uuid, chain, authToken)
+        expect(res).toEqual(mockChain)
+      } catch (e) {
+        fail(e)
+      }
+
+      expect(mockHTTPClient.patch).toHaveBeenCalledWith(`/chains/${mockChain.uuid}`, chain, authToken)
+    })
+
+    it('should to register a new chain and return and error', async () => {
+      const chain: types.IUpdateChainRequest = {
+        name: 'chainName'
+      }
+
+      const err = new Error('fail message')
+      try {
+        mockHTTPClient.patch.mockRejectedValueOnce({
+          data: err,
+          status: 500,
+          headers: {}
+        })
+        await client.updateChain(mockChain.uuid, chain)
+        fail(`expected to fail`)
+      } catch (e) {
+        expect(e.data).toEqual(err)
+      }
+
+      expect(mockHTTPClient.patch).toHaveBeenCalledWith(`/chains/${mockChain.uuid}`, chain, undefined)
     })
   })
 
