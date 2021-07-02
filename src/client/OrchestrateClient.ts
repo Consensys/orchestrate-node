@@ -206,6 +206,19 @@ export class OrchestrateClient {
   }
 
   /**
+   * Delete a registered chain
+   * @param chainUUID uuid of registered chain
+   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   */
+  public async deleteChain(chainUUID: string, authToken?: string): Promise<types.IChain> {
+    try {
+      return await this.client.delete(`/chains/${chainUUID}`, authToken)
+    } catch (e) {
+      throw e
+    }
+  }
+
+  /**
    * Fetch list of registered faucets
    * @param authToken Bearer token. Required when multi-tenancy is enabled
    */
