@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## 4.1.1 (2021-07-02)
+
+### 🛠 Bug fixes
+
+- Missing support for delete chain
+
+## 4.1.0 (2021-06-3)
+
+### 🆕 Features
+
+- Support for chain's metadata
+
 ## 4.0.0 (2021-01-25)
 
 ### 🆕 Features

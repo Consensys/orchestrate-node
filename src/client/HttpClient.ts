@@ -65,6 +65,19 @@ export class HttpClient {
     }
   }
 
+  public async delete<T>(path: string, authToken?: string, headers?: object): Promise<T> {
+    const req: IHttpPATCHRequest = {
+      path,
+      authToken
+    }
+
+    try {
+      return HttpClient.parseResponse(await axios.delete(req.path, this.requestConfig(req, headers))).data
+    } catch (e) {
+      throw HttpClient.parseErrResponse(e)
+    }
+  }
+
   protected requestConfig(req: IHttpPOSTRequest | IHttpGETRequest, headers?: object): AxiosRequestConfig {
     const cfg: AxiosRequestConfig = {
       baseURL: this.baseURL,

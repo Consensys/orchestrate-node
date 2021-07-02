@@ -100,7 +100,8 @@ const authToken = 'MyTenantAuthToken'
 const mockHTTPClient = {
   get: jest.fn(),
   post: jest.fn(),
-  patch: jest.fn()
+  patch: jest.fn(),
+  delete: jest.fn()
 }
 
 jest.mock('./HttpClient', () => ({
@@ -516,7 +517,7 @@ describe('OrchestrateClient', () => {
       expect(mockHTTPClient.patch).toHaveBeenCalledWith(`/chains/${mockChain.uuid}`, chain, authToken)
     })
 
-    it('should to register a new chain and return and error', async () => {
+    it('should to update a registered chain and return and error', async () => {
       const chain: types.IUpdateChainRequest = {
         name: 'chainName'
       }
@@ -535,6 +536,16 @@ describe('OrchestrateClient', () => {
       }
 
       expect(mockHTTPClient.patch).toHaveBeenCalledWith(`/chains/${mockChain.uuid}`, chain, undefined)
+    })
+
+    it('should to delete a chain successfully', async () => {
+      try {
+        await client.deleteChain(mockChain.uuid)
+      } catch (e) {
+        fail(e)
+      }
+
+      expect(mockHTTPClient.delete).toHaveBeenCalledWith(`/chains/${mockChain.uuid}`, undefined)
     })
   })
 
