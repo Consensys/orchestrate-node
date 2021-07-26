@@ -17,77 +17,69 @@ import {
  */
 export class HttpClient {
   protected readonly baseURL: string
-  protected readonly authToken?: string
 
   public constructor(config: IHttpClientConfig) {
     this.baseURL = config.host
-    this.authToken = config.authToken
   }
 
-  public async get(req: IHttpGETRequest, headers?: object): Promise<IHttpResponse> {
+  public async get(req: IHttpGETRequest, authToken?: string, headers?: object): Promise<IHttpResponse> {
     let path = req.path
     if (req.query) {
       path += `?${qs.stringify(req.query, { arrayFormat: 'comma' })}`
     }
 
     try {
-      return HttpClient.parseResponse(await axios.get(path, this.requestConfig(req, headers)))
+      return HttpClient.parseResponse(await axios.get(path, this.requestConfig(req, authToken, headers)))
     } catch (e) {
       throw HttpClient.parseErrResponse(e)
     }
   }
 
   public async post<T>(path: string, data: any, authToken?: string, headers?: object): Promise<T> {
-    const req: IHttpPOSTRequest = {
-      path,
-      data,
-      authToken
-    }
+    const req: IHttpPOSTRequest = { path, data }
 
     try {
-      return HttpClient.parseResponse(await axios.post(req.path, req.data, this.requestConfig(req, headers))).data
+      return HttpClient.parseResponse(await axios.post(req.path, req.data, this.requestConfig(req, authToken, headers)))
+        .data
     } catch (e) {
       throw HttpClient.parseErrResponse(e)
     }
   }
 
   public async patch<T>(path: string, data: any, authToken?: string, headers?: object): Promise<T> {
-    const req: IHttpPATCHRequest = {
-      path,
-      data,
-      authToken
-    }
+    const req: IHttpPATCHRequest = { path, data }
 
     try {
-      return HttpClient.parseResponse(await axios.patch(req.path, req.data, this.requestConfig(req, headers))).data
+      return HttpClient.parseResponse(
+        await axios.patch(req.path, req.data, this.requestConfig(req, authToken, headers))
+      ).data
     } catch (e) {
       throw HttpClient.parseErrResponse(e)
     }
   }
 
   public async delete<T>(path: string, authToken?: string, headers?: object): Promise<T> {
-    const req: IHttpPATCHRequest = {
-      path,
-      authToken
-    }
+    const req: IHttpPATCHRequest = { path }
 
     try {
-      return HttpClient.parseResponse(await axios.delete(req.path, this.requestConfig(req, headers))).data
+      return HttpClient.parseResponse(await axios.delete(req.path, this.requestConfig(req, authToken, headers))).data
     } catch (e) {
       throw HttpClient.parseErrResponse(e)
     }
   }
 
-  protected requestConfig(req: IHttpPOSTRequest | IHttpGETRequest, headers?: object): AxiosRequestConfig {
+  protected requestConfig(
+    req: IHttpPOSTRequest | IHttpGETRequest,
+    authToken?: string,
+    headers?: object
+  ): AxiosRequestConfig {
     const cfg: AxiosRequestConfig = {
       baseURL: this.baseURL,
       headers: headers || {}
     }
 
-    if (req.authToken) {
-      cfg.headers.Authorization = `Bearer ${req.authToken}`
-    } else if (this.authToken) {
-      cfg.headers.Authorization = `Bearer ${this.authToken}`
+    if (authToken) {
+      cfg.headers.Authorization = `Bearer ${authToken}`
     }
 
     const reqP = req as IHttpPOSTRequest
