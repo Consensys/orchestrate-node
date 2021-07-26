@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 
 import { HttpClient } from './HttpClient'
-import { IHttpError, IHttpGETRequest, IHttpPOSTRequest } from './types/IHttpClient'
+import { IHttpError, IHttpGETRequest } from './types/IHttpClient'
 
 const axiosBaseRes: AxiosResponse = {
   status: 200,
@@ -36,7 +36,7 @@ describe('HttpClient', () => {
       }
 
       mockedAxios
-        .onGet(`${host}${req.path}?dkey=value`, '')
+        .onGet(`${host}${req.path}?dkey=value`)
         .replyOnce(expectedRes.status, expectedRes.data, expectedRes.headers)
 
       const actualRes = await httpClient.get(req)
@@ -116,8 +116,6 @@ describe('HttpClient', () => {
   })
 
   describe('patch', () => {
-    const globalToken = 'globalToken'
-
     beforeAll(() => {
       httpClient = new HttpClient({ host })
     })
