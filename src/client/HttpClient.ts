@@ -17,11 +17,9 @@ import {
  */
 export class HttpClient {
   protected readonly baseURL: string
-  protected readonly authToken?: string
 
   public constructor(config: IHttpClientConfig) {
     this.baseURL = config.host
-    this.authToken = config.authToken
   }
 
   public async get(req: IHttpGETRequest, headers?: object): Promise<IHttpResponse> {
@@ -37,12 +35,8 @@ export class HttpClient {
     }
   }
 
-  public async post<T>(path: string, data: any, authToken?: string, headers?: object): Promise<T> {
-    const req: IHttpPOSTRequest = {
-      path,
-      data,
-      authToken
-    }
+  public async post<T>(path: string, data: any, headers?: object): Promise<T> {
+    const req: IHttpPOSTRequest = { path, data }
 
     try {
       return HttpClient.parseResponse(await axios.post(req.path, req.data, this.requestConfig(req, headers))).data
@@ -51,12 +45,8 @@ export class HttpClient {
     }
   }
 
-  public async patch<T>(path: string, data: any, authToken?: string, headers?: object): Promise<T> {
-    const req: IHttpPATCHRequest = {
-      path,
-      data,
-      authToken
-    }
+  public async patch<T>(path: string, data: any, headers?: object): Promise<T> {
+    const req: IHttpPATCHRequest = { path, data }
 
     try {
       return HttpClient.parseResponse(await axios.patch(req.path, req.data, this.requestConfig(req, headers))).data
@@ -65,11 +55,8 @@ export class HttpClient {
     }
   }
 
-  public async delete<T>(path: string, authToken?: string, headers?: object): Promise<T> {
-    const req: IHttpPATCHRequest = {
-      path,
-      authToken
-    }
+  public async delete<T>(path: string, headers?: object): Promise<T> {
+    const req: IHttpPATCHRequest = { path }
 
     try {
       return HttpClient.parseResponse(await axios.delete(req.path, this.requestConfig(req, headers))).data
@@ -82,12 +69,6 @@ export class HttpClient {
     const cfg: AxiosRequestConfig = {
       baseURL: this.baseURL,
       headers: headers || {}
-    }
-
-    if (req.authToken) {
-      cfg.headers.Authorization = `Bearer ${req.authToken}`
-    } else if (this.authToken) {
-      cfg.headers.Authorization = `Bearer ${this.authToken}`
     }
 
     const reqP = req as IHttpPOSTRequest

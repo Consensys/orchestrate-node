@@ -2,6 +2,8 @@
  * Class that enables interaction with the Orchestrate API
  */
 
+import { IHeaders } from 'kafkajs'
+
 import { HttpClient } from './HttpClient'
 import * as types from './types'
 import { IHttpGETRequest, IHttpResponse } from './types/IHttpClient'
@@ -25,16 +27,15 @@ export class OrchestrateClient {
    * Fetch a transaction by UUID
    *
    * @param txUUID transaction UUID
-   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    */
-  public async getTransaction(txUUID: string, authToken?: string): Promise<types.ITransaction> {
+  public async getTransaction(txUUID: string, headers?: IHeaders): Promise<types.ITransaction> {
     const req: IHttpGETRequest = {
-      path: `${TRANSACTIONS_ENDPOINT}/${txUUID}`,
-      authToken
+      path: `${TRANSACTIONS_ENDPOINT}/${txUUID}`
     }
 
     try {
-      const res: IHttpResponse = await this.client.get(req)
+      const res: IHttpResponse = await this.client.get(req, headers)
       return res.data
     } catch (e) {
       throw e
@@ -45,20 +46,19 @@ export class OrchestrateClient {
    * Search for transactions
    *
    * @param searchRequest transaction search request data
-   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    */
   public async searchTransactions(
     searchRequest: types.ISearchTransactionRequest,
-    authToken?: string
+    headers?: IHeaders
   ): Promise<types.ITransaction[]> {
     const req: IHttpGETRequest = {
       path: TRANSACTIONS_ENDPOINT,
-      query: searchRequest,
-      authToken
+      query: searchRequest
     }
 
     try {
-      const res: IHttpResponse = await this.client.get(req)
+      const res: IHttpResponse = await this.client.get(req, headers)
       return res.data
     } catch (e) {
       throw e
@@ -70,18 +70,18 @@ export class OrchestrateClient {
    *
    * @param deployRequest deploy contract request data
    * @param idempotencyKey Optional transaction unique identifier
-   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    */
   public async deployContract(
     deployRequest: types.IDeployContractRequest,
     idempotencyKey?: string,
-    authToken?: string
+    headers?: IHeaders
   ): Promise<types.ITransaction> {
     try {
       return await this._postWithIdempotencyKey(
         `${TRANSACTIONS_ENDPOINT}/deploy-contract`,
         deployRequest,
-        authToken,
+        headers || {},
         idempotencyKey
       )
     } catch (e) {
@@ -94,15 +94,20 @@ export class OrchestrateClient {
    *
    * @param sendRequest transaction request data
    * @param idempotencyKey Optional transaction unique identifier
-   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    */
   public async sendTransaction(
     sendRequest: types.ISendTransactionRequest,
     idempotencyKey?: string,
-    authToken?: string
+    headers?: IHeaders
   ): Promise<types.ITransaction> {
     try {
-      return await this._postWithIdempotencyKey(`${TRANSACTIONS_ENDPOINT}/send`, sendRequest, authToken, idempotencyKey)
+      return await this._postWithIdempotencyKey(
+        `${TRANSACTIONS_ENDPOINT}/send`,
+        sendRequest,
+        headers || {},
+        idempotencyKey
+      )
     } catch (e) {
       throw e
     }
@@ -113,18 +118,18 @@ export class OrchestrateClient {
    *
    * @param sendRawRequest raw transaction request data
    * @param idempotencyKey Optional transaction unique identifier
-   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    */
   public async sendRawTransaction(
     sendRawRequest: types.ISendRawRequest,
     idempotencyKey?: string,
-    authToken?: string
+    headers?: IHeaders
   ): Promise<types.ITransaction> {
     try {
       return await this._postWithIdempotencyKey(
         `${TRANSACTIONS_ENDPOINT}/send-raw`,
         sendRawRequest,
-        authToken,
+        headers || {},
         idempotencyKey
       )
     } catch (e) {
@@ -137,18 +142,18 @@ export class OrchestrateClient {
    *
    * @param transferRequest transfer transaction request data
    * @param idempotencyKey Optional transaction unique identifier
-   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    */
   public async transfer(
     transferRequest: types.ITransferRequest,
     idempotencyKey?: string,
-    authToken?: string
+    headers?: IHeaders
   ): Promise<types.ITransaction> {
     try {
       return await this._postWithIdempotencyKey(
         `${TRANSACTIONS_ENDPOINT}/transfer`,
         transferRequest,
-        authToken,
+        headers || {},
         idempotencyKey
       )
     } catch (e) {
@@ -158,16 +163,15 @@ export class OrchestrateClient {
 
   /**
    * Fetch list of registered chains
-   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    */
-  public async searchChains(authToken?: string): Promise<types.IChain[]> {
+  public async searchChains(headers?: IHeaders): Promise<types.IChain[]> {
     const req: IHttpGETRequest = {
-      path: '/chains',
-      authToken
+      path: '/chains'
     }
 
     try {
-      const res: IHttpResponse = await this.client.get(req)
+      const res: IHttpResponse = await this.client.get(req, headers)
       return res.data
     } catch (e) {
       throw e
@@ -177,11 +181,11 @@ export class OrchestrateClient {
   /**
    * Register a new chain
    * @param chainRequest register chain request data
-   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    */
-  public async registerChain(chainRequest: types.IRegisterChainRequest, authToken?: string): Promise<types.IChain> {
+  public async registerChain(chainRequest: types.IRegisterChainRequest, headers?: IHeaders): Promise<types.IChain> {
     try {
-      return await this.client.post('/chains', chainRequest, authToken)
+      return await this.client.post('/chains', chainRequest, headers)
     } catch (e) {
       throw e
     }
@@ -191,15 +195,15 @@ export class OrchestrateClient {
    * Update a registered chain
    * @param chainUUID uuid of registered chain
    * @param chainRequest register chain request data
-   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    */
   public async updateChain(
     chainUUID: string,
     chainRequest: types.IUpdateChainRequest,
-    authToken?: string
+    headers?: IHeaders
   ): Promise<types.IChain> {
     try {
-      return await this.client.patch(`/chains/${chainUUID}`, chainRequest, authToken)
+      return await this.client.patch(`/chains/${chainUUID}`, chainRequest, headers)
     } catch (e) {
       throw e
     }
@@ -208,11 +212,11 @@ export class OrchestrateClient {
   /**
    * Delete a registered chain
    * @param chainUUID uuid of registered chain
-   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    */
-  public async deleteChain(chainUUID: string, authToken?: string): Promise<types.IChain> {
+  public async deleteChain(chainUUID: string, headers?: IHeaders): Promise<types.IChain> {
     try {
-      return await this.client.delete(`/chains/${chainUUID}`, authToken)
+      return await this.client.delete(`/chains/${chainUUID}`, headers)
     } catch (e) {
       throw e
     }
@@ -220,16 +224,13 @@ export class OrchestrateClient {
 
   /**
    * Fetch list of registered faucets
-   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    */
-  public async searchFaucets(authToken?: string): Promise<types.IFaucet[]> {
-    const req: IHttpGETRequest = {
-      path: '/faucets',
-      authToken
-    }
+  public async searchFaucets(headers?: IHeaders): Promise<types.IFaucet[]> {
+    const req: IHttpGETRequest = { path: '/faucets' }
 
     try {
-      const res: IHttpResponse = await this.client.get(req)
+      const res: IHttpResponse = await this.client.get(req, headers)
       return res.data
     } catch (e) {
       throw e
@@ -239,11 +240,11 @@ export class OrchestrateClient {
   /**
    * Register a faucet account
    * @param faucetRequest register faucet request data
-   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    */
-  public async registerFaucet(faucetRequest: types.IRegisterFaucetRequest, authToken?: string): Promise<types.IFaucet> {
+  public async registerFaucet(faucetRequest: types.IRegisterFaucetRequest, headers?: IHeaders): Promise<types.IFaucet> {
     try {
-      return await this.client.post('/faucets', faucetRequest, authToken)
+      return await this.client.post('/faucets', faucetRequest, headers)
     } catch (e) {
       throw e
     }
@@ -251,16 +252,15 @@ export class OrchestrateClient {
 
   /**
    * Fetch a list of registered contract names
-   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    */
-  public async getContractsCatalog(authToken?: string): Promise<string[]> {
+  public async getContractsCatalog(headers?: IHeaders): Promise<string[]> {
     const req: IHttpGETRequest = {
-      path: CONTRACTS_ENDPOINT,
-      authToken
+      path: CONTRACTS_ENDPOINT
     }
 
     try {
-      const res: IHttpResponse = await this.client.get(req)
+      const res: IHttpResponse = await this.client.get(req, headers)
       return res.data
     } catch (e) {
       throw e
@@ -271,17 +271,16 @@ export class OrchestrateClient {
    * Gets all the tags of a contract by name
    *
    * @param name - Contract name
-   * @param authToken - authorization token
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    * @returns the tags of the contract
    */
-  public async getContractTags(name: string, authToken?: string): Promise<string[]> {
+  public async getContractTags(name: string, headers?: IHeaders): Promise<string[]> {
     const req: IHttpGETRequest = {
-      path: `${CONTRACTS_ENDPOINT}/${name}`,
-      authToken
+      path: `${CONTRACTS_ENDPOINT}/${name}`
     }
 
     try {
-      const res: IHttpResponse = await this.client.get(req)
+      const res: IHttpResponse = await this.client.get(req, headers)
       return res.data
     } catch (e) {
       throw e
@@ -293,17 +292,14 @@ export class OrchestrateClient {
    *
    * @param name - Contract name
    * @param tag - Contract tag
-   * @param authToken - authorization token
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    * @returns the contract details
    */
-  public async getContract(name: string, tag?: string, authToken?: string): Promise<types.IContract> {
-    const req: IHttpGETRequest = {
-      path: `${CONTRACTS_ENDPOINT}/${name}/${tag || 'latest'}`,
-      authToken
-    }
+  public async getContract(name: string, tag?: string, headers?: IHeaders): Promise<types.IContract> {
+    const req: IHttpGETRequest = { path: `${CONTRACTS_ENDPOINT}/${name}/${tag || 'latest'}` }
 
     try {
-      const res: IHttpResponse = await this.client.get(req)
+      const res: IHttpResponse = await this.client.get(req, headers)
       return res.data
     } catch (e) {
       throw e
@@ -313,14 +309,14 @@ export class OrchestrateClient {
   /**
    * Register a new contract
    * @param contractRequest register contract request payload
-   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    */
   public async registerContract(
     contractRequest: types.IRegisterContractRequest,
-    authToken?: string
+    headers?: IHeaders
   ): Promise<types.IContract> {
     try {
-      return await this.client.post(CONTRACTS_ENDPOINT, contractRequest, authToken)
+      return await this.client.post(CONTRACTS_ENDPOINT, contractRequest, headers)
     } catch (e) {
       throw e
     }
@@ -330,20 +326,19 @@ export class OrchestrateClient {
    * Search for accounts
    *
    * @param searchRequest accounts search filters
-   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    */
   public async searchAccounts(
     searchRequest?: types.ISearchAccountsRequest,
-    authToken?: string
+    headers?: IHeaders
   ): Promise<types.IAccount[]> {
     const req: IHttpGETRequest = {
       path: '/accounts',
-      query: searchRequest,
-      authToken
+      query: searchRequest
     }
 
     try {
-      const res: IHttpResponse = await this.client.get(req)
+      const res: IHttpResponse = await this.client.get(req, headers)
       return res.data
     } catch (e) {
       throw e
@@ -354,16 +349,13 @@ export class OrchestrateClient {
    * Fetch an account by address
    *
    * @param address account's Ethereum address
-   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    */
-  public async getAccount(address: string, authToken?: string): Promise<types.IAccount> {
-    const req: IHttpGETRequest = {
-      path: `/accounts/${address}`,
-      authToken
-    }
+  public async getAccount(address: string, headers?: IHeaders): Promise<types.IAccount> {
+    const req: IHttpGETRequest = { path: `/accounts/${address}` }
 
     try {
-      const res: IHttpResponse = await this.client.get(req)
+      const res: IHttpResponse = await this.client.get(req, headers)
       return res.data
     } catch (e) {
       throw e
@@ -374,11 +366,11 @@ export class OrchestrateClient {
    * Creates a new account
    *
    * @param request account creation request data
-   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    */
-  public async createAccount(request?: types.ICreateAccountRequest, authToken?: string): Promise<types.IAccount> {
+  public async createAccount(request?: types.ICreateAccountRequest, headers?: IHeaders): Promise<types.IAccount> {
     try {
-      return await this.client.post('/accounts', request || {}, authToken)
+      return await this.client.post('/accounts', request || {}, headers)
     } catch (e) {
       throw e
     }
@@ -388,11 +380,11 @@ export class OrchestrateClient {
    * Imports an account
    *
    * @param request account import request data
-   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    */
-  public async importAccount(request: types.IImportAccountRequest, authToken?: string): Promise<types.IAccount> {
+  public async importAccount(request: types.IImportAccountRequest, headers?: IHeaders): Promise<types.IAccount> {
     try {
-      return await this.client.post('/accounts/import', request, authToken)
+      return await this.client.post('/accounts/import', request, headers)
     } catch (e) {
       throw e
     }
@@ -403,11 +395,11 @@ export class OrchestrateClient {
    *
    * @param address account's Ethereum address
    * @param data payload to sign
-   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    */
-  public async sign(address: string, data: string, authToken?: string): Promise<string> {
+  public async sign(address: string, data: string, headers?: IHeaders): Promise<string> {
     try {
-      return await this.client.post(`/accounts/${address}/sign`, { data }, authToken)
+      return await this.client.post(`/accounts/${address}/sign`, { data }, headers)
     } catch (e) {
       throw e
     }
@@ -418,15 +410,15 @@ export class OrchestrateClient {
    *
    * @param address account's Ethereum address
    * @param request update request data
-   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    */
   public async updateAccount(
     address: string,
     request: types.IUpdateAccountRequest,
-    authToken?: string
+    headers?: IHeaders
   ): Promise<string> {
     try {
-      return await this.client.patch(`/accounts/${address}`, request, authToken)
+      return await this.client.patch(`/accounts/${address}`, request, headers)
     } catch (e) {
       throw e
     }
@@ -437,15 +429,15 @@ export class OrchestrateClient {
    *
    * @param address account's Ethereum address
    * @param request sign typed data request
-   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    */
   public async signTypedData(
     address: string,
     request: types.ISignTypedDataRequest,
-    authToken?: string
+    headers?: IHeaders
   ): Promise<string> {
     try {
-      return await this.client.post(`/accounts/${address}/sign-typed-data`, request, authToken)
+      return await this.client.post(`/accounts/${address}/sign-typed-data`, request, headers)
     } catch (e) {
       throw e
     }
@@ -455,11 +447,11 @@ export class OrchestrateClient {
    * Verifies the signature of a message
    *
    * @param request update request data
-   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    */
-  public async verifySignature(request: types.IVerifySignatureRequest, authToken?: string): Promise<void> {
+  public async verifySignature(request: types.IVerifySignatureRequest, headers?: IHeaders): Promise<void> {
     try {
-      await this.client.post(`/accounts/verify-signature`, request, authToken)
+      await this.client.post(`/accounts/verify-signature`, request, headers)
     } catch (e) {
       throw e
     }
@@ -469,14 +461,14 @@ export class OrchestrateClient {
    * Verifies the signature of a typed data message
    *
    * @param request update request data
-   * @param authToken Bearer token. Required when multi-tenancy is enabled
+   * @param headers HTTP request headers. Authorization is required when using multi-tenancy
    */
   public async verifyTypedDataSignature(
     request: types.IVerifyTypedDataSignatureRequest,
-    authToken?: string
+    headers?: IHeaders
   ): Promise<void> {
     try {
-      await this.client.post(`/accounts/verify-typed-data-signature`, request, authToken)
+      await this.client.post(`/accounts/verify-typed-data-signature`, request, headers)
     } catch (e) {
       throw e
     }
@@ -485,14 +477,14 @@ export class OrchestrateClient {
   private async _postWithIdempotencyKey<T>(
     path: string,
     data: any,
-    authToken?: string,
+    headers: IHeaders,
     idempotencyKey?: string
   ): Promise<T> {
-    const headers: { 'X-Idempotency-Key'?: string } = {}
+    const newHeaders = { ...headers }
     if (idempotencyKey) {
-      headers['X-Idempotency-Key'] = idempotencyKey
+      newHeaders['X-Idempotency-Key'] = idempotencyKey
     }
 
-    return await this.client.post(path, data, authToken, headers)
+    return await this.client.post(path, data, newHeaders)
   }
 }

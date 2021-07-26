@@ -26,7 +26,6 @@ describe('HttpClient', () => {
 
     it('should send a successful get request', async () => {
       const req: IHttpGETRequest = {
-        authToken: 'authToken',
         path: '/path',
         query: { dkey: 'value' }
       }
@@ -37,13 +36,7 @@ describe('HttpClient', () => {
       }
 
       mockedAxios
-        .onGet(
-          `${host}${req.path}?dkey=value`,
-          '',
-          expect.objectContaining({
-            Authorization: `Bearer ${req.authToken}`
-          })
-        )
+        .onGet(`${host}${req.path}?dkey=value`, '')
         .replyOnce(expectedRes.status, expectedRes.data, expectedRes.headers)
 
       const actualRes = await httpClient.get(req)
@@ -73,10 +66,8 @@ describe('HttpClient', () => {
   })
 
   describe('post', () => {
-    const globalToken = 'globalToken'
-
     beforeAll(() => {
-      httpClient = new HttpClient({ host, authToken: globalToken })
+      httpClient = new HttpClient({ host })
     })
 
     it('should send a successful post request', async () => {
@@ -90,7 +81,6 @@ describe('HttpClient', () => {
           `${host}/path`,
           undefined,
           expect.objectContaining({
-            Authorization: `Bearer ${globalToken}`,
             'Content-Type': 'application/json'
           })
         )
@@ -107,7 +97,6 @@ describe('HttpClient', () => {
           `${host}/path`,
           undefined,
           expect.objectContaining({
-            Authorization: `Bearer ${globalToken}`,
             'Content-Type': 'application/json'
           })
         )
@@ -130,7 +119,7 @@ describe('HttpClient', () => {
     const globalToken = 'globalToken'
 
     beforeAll(() => {
-      httpClient = new HttpClient({ host, authToken: globalToken })
+      httpClient = new HttpClient({ host })
     })
 
     it('should send a successful patch request', async () => {
@@ -144,7 +133,6 @@ describe('HttpClient', () => {
           `${host}/path`,
           undefined,
           expect.objectContaining({
-            Authorization: `Bearer ${globalToken}`,
             'Content-Type': 'application/json'
           })
         )
@@ -161,7 +149,6 @@ describe('HttpClient', () => {
           `${host}/path`,
           undefined,
           expect.objectContaining({
-            Authorization: `Bearer ${globalToken}`,
             'Content-Type': 'application/json'
           })
         )

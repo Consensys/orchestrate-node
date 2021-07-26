@@ -95,7 +95,9 @@ const mockTransactionResp: types.ITransaction = {
   createdAt: new Date()
 }
 
-const authToken = 'MyTenantAuthToken'
+const headers: types.IHeaders = {
+  Authorization: 'MyTenantAuthToken'
+}
 
 const mockHTTPClient = {
   get: jest.fn(),
@@ -133,26 +135,25 @@ describe('OrchestrateClient', () => {
       })
       const data = await client.getTransaction(mockTransactionResp.uuid)
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, undefined)
       expect(data).toEqual(mockTransactionResp)
     })
 
     it('should fail to fetch one transaction by UUID', async () => {
       const req: IHttpGETRequest = {
-        path: `/transactions/${mockTransactionResp.uuid}`,
-        authToken
+        path: `/transactions/${mockTransactionResp.uuid}`
       }
       const err = new Error('MyError')
 
       mockHTTPClient.get.mockRejectedValueOnce(err)
       try {
-        await client.getTransaction(mockTransactionResp.uuid, authToken)
+        await client.getTransaction(mockTransactionResp.uuid, headers)
         fail('expected failed request')
       } catch (e) {
         expect(e).toEqual(err)
       }
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, headers)
     })
   })
 
@@ -163,8 +164,7 @@ describe('OrchestrateClient', () => {
       }
       const req: IHttpGETRequest = {
         path: `/transactions`,
-        query: creq,
-        authToken
+        query: creq
       }
 
       mockHTTPClient.get.mockResolvedValueOnce({
@@ -173,9 +173,9 @@ describe('OrchestrateClient', () => {
         headers: {}
       })
 
-      const data = await client.searchTransactions(creq, authToken)
+      const data = await client.searchTransactions(creq, headers)
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, headers)
       expect(data).toEqual([mockTransactionResp])
     })
 
@@ -191,13 +191,13 @@ describe('OrchestrateClient', () => {
       const err = new Error('MyError')
       mockHTTPClient.get.mockRejectedValueOnce(err)
       try {
-        await client.searchTransactions(creq)
+        await client.searchTransactions(creq, headers)
         fail('expected failed request')
       } catch (e) {
         expect(e).toEqual(err)
       }
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, headers)
     })
   })
 
@@ -215,7 +215,7 @@ describe('OrchestrateClient', () => {
 
       const data = await client.deployContract(creq)
 
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/transactions/deploy-contract`, creq, undefined, {})
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/transactions/deploy-contract`, creq, {})
       expect(data).toEqual(mockTransactionResp)
     })
   })
@@ -236,7 +236,7 @@ describe('OrchestrateClient', () => {
 
       const data = await client.sendTransaction(creq, mockTransactionResp.idempotencyKey)
 
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/transactions/send`, creq, undefined, {
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/transactions/send`, creq, {
         'X-Idempotency-Key': mockTransactionResp.idempotencyKey
       })
       expect(data).toEqual(mockTransactionResp)
@@ -262,7 +262,7 @@ describe('OrchestrateClient', () => {
 
       const data = await client.sendTransaction(creq, mockTransactionResp.idempotencyKey)
 
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/transactions/send`, creq, undefined, {
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/transactions/send`, creq, {
         'X-Idempotency-Key': mockTransactionResp.idempotencyKey
       })
       expect(data).toEqual(mockTransactionResp)
@@ -280,9 +280,10 @@ describe('OrchestrateClient', () => {
 
       mockHTTPClient.post.mockResolvedValueOnce(mockTransactionResp)
 
-      const data = await client.sendRawTransaction(creq, mockTransactionResp.idempotencyKey, authToken)
+      const data = await client.sendRawTransaction(creq, mockTransactionResp.idempotencyKey, headers)
 
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/transactions/send-raw`, creq, authToken, {
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/transactions/send-raw`, creq, {
+        ...headers,
         'X-Idempotency-Key': mockTransactionResp.idempotencyKey
       })
       expect(data).toEqual(mockTransactionResp)
@@ -302,9 +303,9 @@ describe('OrchestrateClient', () => {
 
       mockHTTPClient.post.mockResolvedValueOnce(mockTransactionResp)
 
-      const data = await client.transfer(creq, undefined, authToken)
+      const data = await client.transfer(creq, undefined, headers)
 
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/transactions/transfer`, creq, authToken, {})
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/transactions/transfer`, creq, headers)
       expect(data).toEqual(mockTransactionResp)
     })
 
@@ -327,7 +328,7 @@ describe('OrchestrateClient', () => {
         expect(e).toEqual(err)
       }
 
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/transactions/transfer`, creq, undefined, {})
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/transactions/transfer`, creq, {})
     })
   })
 
@@ -344,13 +345,12 @@ describe('OrchestrateClient', () => {
       })
       client.searchChains()
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, undefined)
     })
 
     it('should fetch chains with jwt successfully', async () => {
       const req: IHttpGETRequest = {
-        path: '/chains',
-        authToken
+        path: '/chains'
       }
 
       try {
@@ -359,19 +359,18 @@ describe('OrchestrateClient', () => {
           status: 200,
           headers: {}
         })
-        const res = await client.searchChains(authToken)
+        const res = await client.searchChains(headers)
         expect(res).toEqual([mockChain])
       } catch (e) {
         fail(e)
       }
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, headers)
     })
 
     it('should fetch chains with jwt with errors', async () => {
       const req: IHttpGETRequest = {
-        path: '/chains',
-        authToken
+        path: '/chains'
       }
 
       const err = new Error('fail message')
@@ -381,14 +380,14 @@ describe('OrchestrateClient', () => {
           status: 500,
           headers: {}
         })
-        await client.searchChains(authToken)
+        await client.searchChains(headers)
         fail('expected to fail')
       } catch (e) {
         expect(e.data).toEqual(err)
         expect(e.status).toEqual(500)
       }
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, headers)
     })
   })
 
@@ -426,13 +425,13 @@ describe('OrchestrateClient', () => {
       mockHTTPClient.post.mockResolvedValueOnce(mockChain)
 
       try {
-        const res = await client.registerChain(chain, authToken)
+        const res = await client.registerChain(chain, headers)
         expect(res).toEqual(mockChain)
       } catch (e) {
         fail(e)
       }
 
-      expect(mockHTTPClient.post).toHaveBeenCalledWith('/chains', chain, authToken)
+      expect(mockHTTPClient.post).toHaveBeenCalledWith('/chains', chain, headers)
     })
 
     it('should to register a new chain and return and error', async () => {
@@ -508,13 +507,13 @@ describe('OrchestrateClient', () => {
       mockHTTPClient.patch.mockResolvedValueOnce(mockChain)
 
       try {
-        const res = await client.updateChain(mockChain.uuid, chain, authToken)
+        const res = await client.updateChain(mockChain.uuid, chain, headers)
         expect(res).toEqual(mockChain)
       } catch (e) {
         fail(e)
       }
 
-      expect(mockHTTPClient.patch).toHaveBeenCalledWith(`/chains/${mockChain.uuid}`, chain, authToken)
+      expect(mockHTTPClient.patch).toHaveBeenCalledWith(`/chains/${mockChain.uuid}`, chain, headers)
     })
 
     it('should to update a registered chain and return and error', async () => {
@@ -567,13 +566,12 @@ describe('OrchestrateClient', () => {
         fail(e)
       }
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, undefined)
     })
 
     it('should fetch a faucets with jwt successfully', async () => {
       const req: IHttpPOSTRequest = {
-        path: '/faucets',
-        authToken
+        path: '/faucets'
       }
 
       try {
@@ -582,19 +580,18 @@ describe('OrchestrateClient', () => {
           headers: {},
           data: [mockFaucet]
         })
-        const res = await client.searchFaucets(authToken)
+        const res = await client.searchFaucets(headers)
         expect(res).toEqual([mockFaucet])
       } catch (e) {
         fail(e)
       }
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, headers)
     })
 
     it('should fetch faucets with jwt with errors', async () => {
       const req: IHttpGETRequest = {
-        path: '/faucets',
-        authToken
+        path: '/faucets'
       }
 
       const err = new Error('fail message')
@@ -604,14 +601,14 @@ describe('OrchestrateClient', () => {
           status: 500,
           headers: {}
         })
-        await client.searchFaucets(authToken)
+        await client.searchFaucets(headers)
         fail('expected to fail')
       } catch (e) {
         expect(e.data).toEqual(err)
         expect(e.status).toEqual(500)
       }
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, headers)
     })
   })
 
@@ -645,13 +642,13 @@ describe('OrchestrateClient', () => {
 
       try {
         mockHTTPClient.post.mockResolvedValueOnce(mockFaucet)
-        const res = await client.registerFaucet(faucet, authToken)
+        const res = await client.registerFaucet(faucet, headers)
         expect(res).toEqual(mockFaucet)
       } catch (e) {
         fail(e)
       }
 
-      expect(mockHTTPClient.post).toHaveBeenCalledWith('/faucets', faucet, authToken)
+      expect(mockHTTPClient.post).toHaveBeenCalledWith('/faucets', faucet, headers)
     })
 
     it('should register a new faucet with errors', async () => {
@@ -693,13 +690,12 @@ describe('OrchestrateClient', () => {
       })
       await client.getContractsCatalog()
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, undefined)
     })
 
     it('should fetch contracts with jwt successfully', async () => {
       const req: IHttpGETRequest = {
-        path: '/contracts',
-        authToken
+        path: '/contracts'
       }
 
       try {
@@ -708,19 +704,18 @@ describe('OrchestrateClient', () => {
           status: 200,
           headers: {}
         })
-        const res = await client.getContractsCatalog(authToken)
+        const res = await client.getContractsCatalog(headers)
         expect(res).toEqual([mockContract.name])
       } catch (e) {
         fail(e)
       }
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, headers)
     })
 
     it('should fetch contracts with jwt with errors', async () => {
       const req: IHttpGETRequest = {
-        path: '/contracts',
-        authToken
+        path: '/contracts'
       }
 
       const err = new Error('fail message')
@@ -730,14 +725,14 @@ describe('OrchestrateClient', () => {
           status: 500,
           headers: {}
         })
-        await client.getContractsCatalog(authToken)
+        await client.getContractsCatalog(headers)
         fail('expected to fail')
       } catch (e) {
         expect(e.data).toEqual(err)
         expect(e.status).toEqual(500)
       }
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, headers)
     })
   })
 
@@ -756,13 +751,12 @@ describe('OrchestrateClient', () => {
       })
       await client.getContractTags(name)
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, undefined)
     })
 
     it('should fetch tags with jwt successfully', async () => {
       const req: IHttpGETRequest = {
-        path: `/contracts/${name}`,
-        authToken
+        path: `/contracts/${name}`
       }
 
       try {
@@ -771,19 +765,18 @@ describe('OrchestrateClient', () => {
           status: 200,
           headers: {}
         })
-        const res = await client.getContractTags(name, authToken)
+        const res = await client.getContractTags(name, headers)
         expect(res).toEqual([mockContract.tag])
       } catch (e) {
         fail(e)
       }
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, headers)
     })
 
     it('should fail with an error if call fails', async () => {
       const req: IHttpGETRequest = {
-        path: `/contracts/${name}`,
-        authToken
+        path: `/contracts/${name}`
       }
 
       const err = new Error('fail message')
@@ -793,14 +786,14 @@ describe('OrchestrateClient', () => {
           status: 500,
           headers: {}
         })
-        await client.getContractTags(name, authToken)
+        await client.getContractTags(name, headers)
         fail('expected to fail')
       } catch (e) {
         expect(e.data).toEqual(err)
         expect(e.status).toEqual(500)
       }
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, headers)
     })
   })
 
@@ -820,13 +813,12 @@ describe('OrchestrateClient', () => {
       })
       await client.getContract(name, tag)
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, undefined)
     })
 
     it('should fetch contract with jwt successfully', async () => {
       const req: IHttpGETRequest = {
-        path: `/contracts/${name}/${tag}`,
-        authToken
+        path: `/contracts/${name}/${tag}`
       }
 
       try {
@@ -835,19 +827,18 @@ describe('OrchestrateClient', () => {
           status: 200,
           headers: {}
         })
-        const res = await client.getContract(name, tag, authToken)
+        const res = await client.getContract(name, tag, headers)
         expect(res).toEqual(mockContract)
       } catch (e) {
         fail(e)
       }
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, headers)
     })
 
     it('should fetch contract with latest tag', async () => {
       const req: IHttpGETRequest = {
-        path: `/contracts/${name}/latest`,
-        authToken
+        path: `/contracts/${name}/latest`
       }
 
       try {
@@ -856,19 +847,18 @@ describe('OrchestrateClient', () => {
           status: 200,
           headers: {}
         })
-        const res = await client.getContract(name, undefined, authToken)
+        const res = await client.getContract(name, undefined, headers)
         expect(res).toEqual(mockContract)
       } catch (e) {
         fail(e)
       }
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, headers)
     })
 
     it('should fail with an error if call fails', async () => {
       const req: IHttpGETRequest = {
-        path: `/contracts/${name}/${tag}`,
-        authToken
+        path: `/contracts/${name}/${tag}`
       }
 
       const err = new Error('fail message')
@@ -878,14 +868,14 @@ describe('OrchestrateClient', () => {
           status: 500,
           headers: {}
         })
-        await client.getContract(name, tag, authToken)
+        await client.getContract(name, tag, headers)
         fail('expected to fail')
       } catch (e) {
         expect(e.data).toEqual(err)
         expect(e.status).toEqual(500)
       }
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, headers)
     })
   })
 
@@ -914,13 +904,13 @@ describe('OrchestrateClient', () => {
       mockHTTPClient.post.mockResolvedValueOnce(mockContract)
 
       try {
-        const res = await client.registerContract(contract, authToken)
+        const res = await client.registerContract(contract, headers)
         expect(res).toEqual(mockContract)
       } catch (e) {
         fail(e)
       }
 
-      expect(mockHTTPClient.post).toHaveBeenCalledWith('/contracts', contract, authToken)
+      expect(mockHTTPClient.post).toHaveBeenCalledWith('/contracts', contract, headers)
     })
 
     it('should fail with an error if call fails', async () => {
@@ -948,8 +938,7 @@ describe('OrchestrateClient', () => {
       }
       const req: IHttpGETRequest = {
         path: `/accounts`,
-        query: creq,
-        authToken
+        query: creq
       }
 
       mockHTTPClient.get.mockResolvedValueOnce({
@@ -958,9 +947,9 @@ describe('OrchestrateClient', () => {
         headers: {}
       })
 
-      const data = await client.searchAccounts(creq, authToken)
+      const data = await client.searchAccounts(creq, headers)
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, headers)
       expect(data).toEqual([mockAccountResp])
     })
 
@@ -978,7 +967,7 @@ describe('OrchestrateClient', () => {
         expect(e).toEqual(err)
       }
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, undefined)
     })
   })
 
@@ -996,27 +985,26 @@ describe('OrchestrateClient', () => {
       })
       const data = await client.getAccount(address)
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, undefined)
       expect(data).toEqual(mockAccountResp)
     })
 
     it('should fail to fetch one account by address', async () => {
       const address = '0xaddress'
       const req: IHttpGETRequest = {
-        path: `/accounts/${address}`,
-        authToken
+        path: `/accounts/${address}`
       }
       const err = new Error('MyError')
 
       mockHTTPClient.get.mockRejectedValueOnce(err)
       try {
-        await client.getAccount(address, authToken)
+        await client.getAccount(address, headers)
         fail('expected failed request')
       } catch (e) {
         expect(e).toEqual(err)
       }
 
-      expect(mockHTTPClient.get).toHaveBeenCalledWith(req)
+      expect(mockHTTPClient.get).toHaveBeenCalledWith(req, headers)
     })
   })
 
@@ -1033,9 +1021,9 @@ describe('OrchestrateClient', () => {
     it('should create a new account successfully', async () => {
       mockHTTPClient.post.mockResolvedValueOnce(mockAccountResp)
 
-      const data = await client.createAccount(creq, authToken)
+      const data = await client.createAccount(creq, headers)
 
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts`, creq, authToken)
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts`, creq, headers)
       expect(data).toEqual(mockAccountResp)
     })
 
@@ -1076,9 +1064,9 @@ describe('OrchestrateClient', () => {
     it('should import an account successfully', async () => {
       mockHTTPClient.post.mockResolvedValueOnce(mockAccountResp)
 
-      const data = await client.importAccount(creq, authToken)
+      const data = await client.importAccount(creq, headers)
 
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts/import`, creq, authToken)
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts/import`, creq, headers)
       expect(data).toEqual(mockAccountResp)
     })
 
@@ -1104,9 +1092,9 @@ describe('OrchestrateClient', () => {
     it('should sign a message successfully', async () => {
       mockHTTPClient.post.mockResolvedValueOnce(signature)
 
-      const response = await client.sign(address, data, authToken)
+      const response = await client.sign(address, data, headers)
 
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts/${address}/sign`, { data }, authToken)
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts/${address}/sign`, { data }, headers)
       expect(response).toEqual(signature)
     })
 
@@ -1134,9 +1122,9 @@ describe('OrchestrateClient', () => {
     it('should update an account successfully', async () => {
       mockHTTPClient.patch.mockResolvedValueOnce(mockAccountResp)
 
-      const data = await client.updateAccount(address, creq, authToken)
+      const data = await client.updateAccount(address, creq, headers)
 
-      expect(mockHTTPClient.patch).toHaveBeenCalledWith(`/accounts/${address}`, creq, authToken)
+      expect(mockHTTPClient.patch).toHaveBeenCalledWith(`/accounts/${address}`, creq, headers)
       expect(data).toEqual(mockAccountResp)
     })
 
@@ -1172,9 +1160,9 @@ describe('OrchestrateClient', () => {
     it('should sign a message successfully', async () => {
       mockHTTPClient.post.mockResolvedValueOnce(signature)
 
-      const response = await client.signTypedData(address, request, authToken)
+      const response = await client.signTypedData(address, request, headers)
 
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts/${address}/sign-typed-data`, request, authToken)
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts/${address}/sign-typed-data`, request, headers)
       expect(response).toEqual(signature)
     })
 
@@ -1205,9 +1193,9 @@ describe('OrchestrateClient', () => {
         headers: {}
       })
 
-      await client.verifySignature(request, authToken)
+      await client.verifySignature(request, headers)
 
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts/verify-signature`, request, authToken)
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts/verify-signature`, request, headers)
     })
 
     it('should fail to verify a signature', async () => {
@@ -1247,9 +1235,9 @@ describe('OrchestrateClient', () => {
         headers: {}
       })
 
-      await client.verifyTypedDataSignature(request, authToken)
+      await client.verifyTypedDataSignature(request, headers)
 
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts/verify-typed-data-signature`, request, authToken)
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts/verify-typed-data-signature`, request, headers)
     })
 
     it('should fail to verify a typed data message', async () => {
