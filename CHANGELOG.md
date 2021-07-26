@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 5.0.0 (2021-06-3)
+
+### 🆕 Features
+
+- Replaces usage of `authToken` by a `headers` parameter.
+
 ## 4.1.1 (2021-07-02)
 
 ### 🛠 Bug fixes
