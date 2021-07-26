@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 
 import { HttpClient } from './HttpClient'
-import { IHttpError, IHttpGETRequest, IHttpPOSTRequest } from './types/IHttpClient'
+import { IHttpError, IHttpGETRequest } from './types/IHttpClient'
 
 const axiosBaseRes: AxiosResponse = {
   status: 200,
@@ -26,7 +26,6 @@ describe('HttpClient', () => {
 
     it('should send a successful get request', async () => {
       const req: IHttpGETRequest = {
-        authToken: 'authToken',
         path: '/path',
         query: { dkey: 'value' }
       }
@@ -37,13 +36,7 @@ describe('HttpClient', () => {
       }
 
       mockedAxios
-        .onGet(
-          `${host}${req.path}?dkey=value`,
-          '',
-          expect.objectContaining({
-            Authorization: `Bearer ${req.authToken}`
-          })
-        )
+        .onGet(`${host}${req.path}?dkey=value`)
         .replyOnce(expectedRes.status, expectedRes.data, expectedRes.headers)
 
       const actualRes = await httpClient.get(req)
@@ -73,10 +66,8 @@ describe('HttpClient', () => {
   })
 
   describe('post', () => {
-    const globalToken = 'globalToken'
-
     beforeAll(() => {
-      httpClient = new HttpClient({ host, authToken: globalToken })
+      httpClient = new HttpClient({ host })
     })
 
     it('should send a successful post request', async () => {
@@ -90,7 +81,6 @@ describe('HttpClient', () => {
           `${host}/path`,
           undefined,
           expect.objectContaining({
-            Authorization: `Bearer ${globalToken}`,
             'Content-Type': 'application/json'
           })
         )
@@ -107,7 +97,6 @@ describe('HttpClient', () => {
           `${host}/path`,
           undefined,
           expect.objectContaining({
-            Authorization: `Bearer ${globalToken}`,
             'Content-Type': 'application/json'
           })
         )
@@ -127,10 +116,8 @@ describe('HttpClient', () => {
   })
 
   describe('patch', () => {
-    const globalToken = 'globalToken'
-
     beforeAll(() => {
-      httpClient = new HttpClient({ host, authToken: globalToken })
+      httpClient = new HttpClient({ host })
     })
 
     it('should send a successful patch request', async () => {
@@ -144,7 +131,6 @@ describe('HttpClient', () => {
           `${host}/path`,
           undefined,
           expect.objectContaining({
-            Authorization: `Bearer ${globalToken}`,
             'Content-Type': 'application/json'
           })
         )
@@ -161,7 +147,6 @@ describe('HttpClient', () => {
           `${host}/path`,
           undefined,
           expect.objectContaining({
-            Authorization: `Bearer ${globalToken}`,
             'Content-Type': 'application/json'
           })
         )
@@ -171,6 +156,54 @@ describe('HttpClient', () => {
 
       try {
         await httpClient.patch('/path', { dkey: 'value' })
+        fail('request is expected to fail')
+      } catch (e) {
+        const err = e as IHttpError
+        expect(err.message).toEqual('Error: unexpected error')
+        expect(err.status).toEqual(500)
+      }
+    })
+  })
+
+  describe('delete', () => {
+    beforeAll(() => {
+      httpClient = new HttpClient({ host })
+    })
+
+    it('should send a successful delete request', async () => {
+      const expectedRes = {
+        ...axiosBaseRes,
+        data: { dkey: 'value' }
+      }
+
+      mockedAxios
+        .onDelete(
+          `${host}/path`,
+          expect.objectContaining({
+            'Content-Type': 'application/json'
+          })
+        )
+        .replyOnce(expectedRes.status, expectedRes.data, expectedRes.headers)
+
+      const actualRes = await httpClient.delete('/path', 'myAuthToken')
+
+      expect(actualRes).toEqual(expectedRes.data)
+    })
+
+    it('should send failure delete request', async () => {
+      mockedAxios
+        .onDelete(
+          `${host}/path`,
+          expect.objectContaining({
+            'Content-Type': 'application/json'
+          })
+        )
+        .replyOnce(() => {
+          throw new Error('unexpected error')
+        })
+
+      try {
+        await httpClient.delete('/path')
         fail('request is expected to fail')
       } catch (e) {
         const err = e as IHttpError

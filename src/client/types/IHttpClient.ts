@@ -5,7 +5,6 @@ import { ParsedQs } from 'qs'
  */
 export interface IHttpClientConfig {
   host: string
-  authToken?: string
 }
 
 /**
@@ -14,7 +13,6 @@ export interface IHttpClientConfig {
 export interface IHttpGETRequest {
   path: string
   query?: ParsedQs
-  authToken?: string
 }
 
 /**
@@ -23,7 +21,6 @@ export interface IHttpGETRequest {
 export interface IHttpPOSTRequest {
   path: string
   data?: object
-  authToken?: string
 }
 
 /**

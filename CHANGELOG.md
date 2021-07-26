@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 4.2.0 (2021-06-3)
+
+### 🆕 Features
+
+- Adds new `headers` parameter to every method enabling users to pass complex headers such as `X-Tenant-ID`.
+
 ## 4.1.1 (2021-07-02)
 
 ### 🛠 Bug fixes
