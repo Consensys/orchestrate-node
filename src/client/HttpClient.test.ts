@@ -164,4 +164,52 @@ describe('HttpClient', () => {
       }
     })
   })
+
+  describe('delete', () => {
+    beforeAll(() => {
+      httpClient = new HttpClient({ host })
+    })
+
+    it('should send a successful delete request', async () => {
+      const expectedRes = {
+        ...axiosBaseRes,
+        data: { dkey: 'value' }
+      }
+
+      mockedAxios
+        .onDelete(
+          `${host}/path`,
+          expect.objectContaining({
+            'Content-Type': 'application/json'
+          })
+        )
+        .replyOnce(expectedRes.status, expectedRes.data, expectedRes.headers)
+
+      const actualRes = await httpClient.delete('/path', 'myAuthToken')
+
+      expect(actualRes).toEqual(expectedRes.data)
+    })
+
+    it('should send failure delete request', async () => {
+      mockedAxios
+        .onDelete(
+          `${host}/path`,
+          expect.objectContaining({
+            'Content-Type': 'application/json'
+          })
+        )
+        .replyOnce(() => {
+          throw new Error('unexpected error')
+        })
+
+      try {
+        await httpClient.delete('/path')
+        fail('request is expected to fail')
+      } catch (e) {
+        const err = e as IHttpError
+        expect(err.message).toEqual('Error: unexpected error')
+        expect(err.status).toEqual(500)
+      }
+    })
+  })
 })
