@@ -235,7 +235,7 @@ export class OrchestrateClient {
    * @param authToken Bearer token. Required when multi-tenancy is enabled
    * @param headers HTTP request headers.
    */
-  public async deleteChain(chainUUID: string, authToken?: string, headers?: IHeaders): Promise<types.IChain> {
+  public async deleteChain(chainUUID: string, authToken?: string, headers?: IHeaders): Promise<void> {
     try {
       return await this.client.delete(`/chains/${chainUUID}`, authToken, headers)
     } catch (e) {
