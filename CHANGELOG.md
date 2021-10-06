@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 4.2.1 (2021-10-06)
+
+### 🛠 Bug fixes
+
+- Fix return value of delete chain
+- Security issues with package updates
+
 ## 4.2.0 (2021-06-3)
 
 ### 🆕 Features
@@ -12,7 +19,7 @@ All notable changes to this project will be documented in this file.
 
 ### 🛠 Bug fixes
 
-- Missing support for delete chain
+- Added support for delete chain
 
 ## 4.1.0 (2021-06-3)
 
