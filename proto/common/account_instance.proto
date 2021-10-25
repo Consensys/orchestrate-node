@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/orchestrate.git/types/common";
+option go_package = "github.com/consensys/orchestrate/types/common";
 
 package common;
 
-// Information about an account on a chain 
+// Information about an account on a chain
 message AccountInstance {
     // Chain ID of the chain
     string chain_id = 1;

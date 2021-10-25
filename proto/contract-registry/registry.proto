@@ -6,7 +6,7 @@ import "types/abi/abi.proto";
 import "types/common/account_instance.proto";
 
 
-option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/orchestrate.git/types/contract-registry";
+option go_package = "github.com/consensys/orchestrate/types/contract-registry";
 
 package contractregistry;
 
@@ -141,7 +141,7 @@ message GetMethodsBySelectorRequest {
 message GetMethodsBySelectorResponse {
     // Contains the ABI of the exact method if the deployed contract has a known bytecode
     string method = 1;
-    // Contains the ABIs of the potential methods(s) if the deployed contract is not known 
+    // Contains the ABIs of the potential methods(s) if the deployed contract is not known
     repeated string defaultMethods = 2;
 }
 
@@ -158,7 +158,7 @@ message GetEventsBySigHashRequest {
 message GetEventsBySigHashResponse {
     // Contains the ABI of the exact event if the deployed contract has a known bytecode
     string event = 1;
-    // Contains the ABIs of the potential event(s) if the deployed contract is not known 
+    // Contains the ABIs of the potential event(s) if the deployed contract is not known
     repeated string defaultEvents = 2;
 }
 

@@ -8,7 +8,7 @@ export const start = async () => {
   try {
     const client = new OrchestrateClient('http://localhost:8031')
 
-    const privateKey = 'f368b15ea01bafd199d4d39daee2b1d281bf78193c590ef79c233016b3b43f81'
+    const privateKey = '0x86b021ccb810f26a30445b85f71e4c1596a11a97ddf9b9e348ac93d1da6735bc'
     const response = await client.importAccount({ privateKey })
 
     // Just to showcase the get request

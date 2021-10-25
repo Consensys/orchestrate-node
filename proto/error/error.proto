@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/orchestrate.git/types/error";
+option go_package = "github.com/consensys/orchestrate/types/error";
 
 package error;
 
@@ -12,7 +12,7 @@ message Error {
     // Error Code of the error
     uint64 code = 2;
 
-    // Component 
+    // Component
     string component = 3;
 
     // Extra information

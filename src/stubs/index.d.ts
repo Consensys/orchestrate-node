@@ -6173,6 +6173,9 @@ export namespace ethereum {
         /** Receipt cumulativeGasUsed */
         cumulativeGasUsed?: (number|Long|null);
 
+        /** Receipt effectiveGasPrice */
+        effectiveGasPrice?: (string|null);
+
         /** Receipt revertReason */
         revertReason?: (string|null);
 
@@ -6230,6 +6233,9 @@ export namespace ethereum {
 
         /** Receipt cumulativeGasUsed. */
         public cumulativeGasUsed: (number|Long);
+
+        /** Receipt effectiveGasPrice. */
+        public effectiveGasPrice: string;
 
         /** Receipt revertReason. */
         public revertReason: string;
@@ -6346,6 +6352,18 @@ export namespace ethereum {
 
         /** Transaction txHash */
         txHash?: (string|null);
+
+        /** Transaction gasFeeCap */
+        gasFeeCap?: (string|null);
+
+        /** Transaction gasTipCap */
+        gasTipCap?: (string|null);
+
+        /** Transaction accessList */
+        accessList?: (ethereum.IAccessTuple[]|null);
+
+        /** Transaction txType */
+        txType?: (string|null);
     }
 
     /** Represents a Transaction. */
@@ -6383,6 +6401,18 @@ export namespace ethereum {
 
         /** Transaction txHash. */
         public txHash: string;
+
+        /** Transaction gasFeeCap. */
+        public gasFeeCap: string;
+
+        /** Transaction gasTipCap. */
+        public gasTipCap: string;
+
+        /** Transaction accessList. */
+        public accessList: ethereum.IAccessTuple[];
+
+        /** Transaction txType. */
+        public txType: string;
 
         /**
          * Creates a new Transaction instance using the specified properties.
@@ -6450,6 +6480,102 @@ export namespace ethereum {
 
         /**
          * Converts this Transaction to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of an AccessTuple. */
+    interface IAccessTuple {
+
+        /** AccessTuple address */
+        address?: (string|null);
+
+        /** AccessTuple storageKeys */
+        storageKeys?: (string[]|null);
+    }
+
+    /** Represents an AccessTuple. */
+    class AccessTuple implements IAccessTuple {
+
+        /**
+         * Constructs a new AccessTuple.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: ethereum.IAccessTuple);
+
+        /** AccessTuple address. */
+        public address: string;
+
+        /** AccessTuple storageKeys. */
+        public storageKeys: string[];
+
+        /**
+         * Creates a new AccessTuple instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns AccessTuple instance
+         */
+        public static create(properties?: ethereum.IAccessTuple): ethereum.AccessTuple;
+
+        /**
+         * Encodes the specified AccessTuple message. Does not implicitly {@link ethereum.AccessTuple.verify|verify} messages.
+         * @param message AccessTuple message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: ethereum.IAccessTuple, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified AccessTuple message, length delimited. Does not implicitly {@link ethereum.AccessTuple.verify|verify} messages.
+         * @param message AccessTuple message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: ethereum.IAccessTuple, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an AccessTuple message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns AccessTuple
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): ethereum.AccessTuple;
+
+        /**
+         * Decodes an AccessTuple message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns AccessTuple
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): ethereum.AccessTuple;
+
+        /**
+         * Verifies an AccessTuple message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an AccessTuple message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns AccessTuple
+         */
+        public static fromObject(object: { [k: string]: any }): ethereum.AccessTuple;
+
+        /**
+         * Creates a plain object from an AccessTuple message. Also converts values to other types if specified.
+         * @param message AccessTuple
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: ethereum.AccessTuple, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this AccessTuple to JSON.
          * @returns JSON object
          */
         public toJSON(): { [k: string]: any };

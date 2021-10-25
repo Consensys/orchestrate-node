@@ -15155,6 +15155,7 @@
              * @property {Array.<ethereum.ILog>|null} [logs] Receipt logs
              * @property {number|Long|null} [gasUsed] Receipt gasUsed
              * @property {number|Long|null} [cumulativeGasUsed] Receipt cumulativeGasUsed
+             * @property {string|null} [effectiveGasPrice] Receipt effectiveGasPrice
              * @property {string|null} [revertReason] Receipt revertReason
              * @property {string|null} [output] Receipt output
              * @property {string|null} [privateFrom] Receipt privateFrom
@@ -15268,6 +15269,14 @@
             Receipt.prototype.cumulativeGasUsed = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
             /**
+             * Receipt effectiveGasPrice.
+             * @member {string} effectiveGasPrice
+             * @memberof ethereum.Receipt
+             * @instance
+             */
+            Receipt.prototype.effectiveGasPrice = "";
+    
+            /**
              * Receipt revertReason.
              * @member {string} revertReason
              * @memberof ethereum.Receipt
@@ -15354,17 +15363,19 @@
                     writer.uint32(/* id 12, wireType 0 =*/96).uint64(message.gasUsed);
                 if (message.cumulativeGasUsed != null && Object.hasOwnProperty.call(message, "cumulativeGasUsed"))
                     writer.uint32(/* id 13, wireType 0 =*/104).uint64(message.cumulativeGasUsed);
+                if (message.effectiveGasPrice != null && Object.hasOwnProperty.call(message, "effectiveGasPrice"))
+                    writer.uint32(/* id 14, wireType 2 =*/114).string(message.effectiveGasPrice);
                 if (message.revertReason != null && Object.hasOwnProperty.call(message, "revertReason"))
-                    writer.uint32(/* id 14, wireType 2 =*/114).string(message.revertReason);
+                    writer.uint32(/* id 15, wireType 2 =*/122).string(message.revertReason);
                 if (message.output != null && Object.hasOwnProperty.call(message, "output"))
-                    writer.uint32(/* id 15, wireType 2 =*/122).string(message.output);
+                    writer.uint32(/* id 16, wireType 2 =*/130).string(message.output);
                 if (message.privateFrom != null && Object.hasOwnProperty.call(message, "privateFrom"))
-                    writer.uint32(/* id 16, wireType 2 =*/130).string(message.privateFrom);
+                    writer.uint32(/* id 17, wireType 2 =*/138).string(message.privateFrom);
                 if (message.privateFor != null && message.privateFor.length)
                     for (var i = 0; i < message.privateFor.length; ++i)
-                        writer.uint32(/* id 17, wireType 2 =*/138).string(message.privateFor[i]);
+                        writer.uint32(/* id 18, wireType 2 =*/146).string(message.privateFor[i]);
                 if (message.privacyGroupId != null && Object.hasOwnProperty.call(message, "privacyGroupId"))
-                    writer.uint32(/* id 18, wireType 2 =*/146).string(message.privacyGroupId);
+                    writer.uint32(/* id 19, wireType 2 =*/154).string(message.privacyGroupId);
                 return writer;
             };
     
@@ -15435,20 +15446,23 @@
                         message.cumulativeGasUsed = reader.uint64();
                         break;
                     case 14:
-                        message.revertReason = reader.string();
+                        message.effectiveGasPrice = reader.string();
                         break;
                     case 15:
-                        message.output = reader.string();
+                        message.revertReason = reader.string();
                         break;
                     case 16:
-                        message.privateFrom = reader.string();
+                        message.output = reader.string();
                         break;
                     case 17:
+                        message.privateFrom = reader.string();
+                        break;
+                    case 18:
                         if (!(message.privateFor && message.privateFor.length))
                             message.privateFor = [];
                         message.privateFor.push(reader.string());
                         break;
-                    case 18:
+                    case 19:
                         message.privacyGroupId = reader.string();
                         break;
                     default:
@@ -15525,6 +15539,9 @@
                 if (message.cumulativeGasUsed != null && message.hasOwnProperty("cumulativeGasUsed"))
                     if (!$util.isInteger(message.cumulativeGasUsed) && !(message.cumulativeGasUsed && $util.isInteger(message.cumulativeGasUsed.low) && $util.isInteger(message.cumulativeGasUsed.high)))
                         return "cumulativeGasUsed: integer|Long expected";
+                if (message.effectiveGasPrice != null && message.hasOwnProperty("effectiveGasPrice"))
+                    if (!$util.isString(message.effectiveGasPrice))
+                        return "effectiveGasPrice: string expected";
                 if (message.revertReason != null && message.hasOwnProperty("revertReason"))
                     if (!$util.isString(message.revertReason))
                         return "revertReason: string expected";
@@ -15624,6 +15641,8 @@
                         message.cumulativeGasUsed = object.cumulativeGasUsed;
                     else if (typeof object.cumulativeGasUsed === "object")
                         message.cumulativeGasUsed = new $util.LongBits(object.cumulativeGasUsed.low >>> 0, object.cumulativeGasUsed.high >>> 0).toNumber(true);
+                if (object.effectiveGasPrice != null)
+                    message.effectiveGasPrice = String(object.effectiveGasPrice);
                 if (object.revertReason != null)
                     message.revertReason = String(object.revertReason);
                 if (object.output != null)
@@ -15690,6 +15709,7 @@
                         object.cumulativeGasUsed = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                     } else
                         object.cumulativeGasUsed = options.longs === String ? "0" : 0;
+                    object.effectiveGasPrice = "";
                     object.revertReason = "";
                     object.output = "";
                     object.privateFrom = "";
@@ -15735,6 +15755,8 @@
                         object.cumulativeGasUsed = options.longs === String ? String(message.cumulativeGasUsed) : message.cumulativeGasUsed;
                     else
                         object.cumulativeGasUsed = options.longs === String ? $util.Long.prototype.toString.call(message.cumulativeGasUsed) : options.longs === Number ? new $util.LongBits(message.cumulativeGasUsed.low >>> 0, message.cumulativeGasUsed.high >>> 0).toNumber(true) : message.cumulativeGasUsed;
+                if (message.effectiveGasPrice != null && message.hasOwnProperty("effectiveGasPrice"))
+                    object.effectiveGasPrice = message.effectiveGasPrice;
                 if (message.revertReason != null && message.hasOwnProperty("revertReason"))
                     object.revertReason = message.revertReason;
                 if (message.output != null && message.hasOwnProperty("output"))
@@ -15780,6 +15802,10 @@
              * @property {string|null} [data] Transaction data
              * @property {string|null} [raw] Transaction raw
              * @property {string|null} [txHash] Transaction txHash
+             * @property {string|null} [gasFeeCap] Transaction gasFeeCap
+             * @property {string|null} [gasTipCap] Transaction gasTipCap
+             * @property {Array.<ethereum.IAccessTuple>|null} [accessList] Transaction accessList
+             * @property {string|null} [txType] Transaction txType
              */
     
             /**
@@ -15791,6 +15817,7 @@
              * @param {ethereum.ITransaction=} [properties] Properties to set
              */
             function Transaction(properties) {
+                this.accessList = [];
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null)
@@ -15870,6 +15897,38 @@
             Transaction.prototype.txHash = "";
     
             /**
+             * Transaction gasFeeCap.
+             * @member {string} gasFeeCap
+             * @memberof ethereum.Transaction
+             * @instance
+             */
+            Transaction.prototype.gasFeeCap = "";
+    
+            /**
+             * Transaction gasTipCap.
+             * @member {string} gasTipCap
+             * @memberof ethereum.Transaction
+             * @instance
+             */
+            Transaction.prototype.gasTipCap = "";
+    
+            /**
+             * Transaction accessList.
+             * @member {Array.<ethereum.IAccessTuple>} accessList
+             * @memberof ethereum.Transaction
+             * @instance
+             */
+            Transaction.prototype.accessList = $util.emptyArray;
+    
+            /**
+             * Transaction txType.
+             * @member {string} txType
+             * @memberof ethereum.Transaction
+             * @instance
+             */
+            Transaction.prototype.txType = "";
+    
+            /**
              * Creates a new Transaction instance using the specified properties.
              * @function create
              * @memberof ethereum.Transaction
@@ -15911,6 +15970,15 @@
                     writer.uint32(/* id 8, wireType 2 =*/66).string(message.raw);
                 if (message.txHash != null && Object.hasOwnProperty.call(message, "txHash"))
                     writer.uint32(/* id 9, wireType 2 =*/74).string(message.txHash);
+                if (message.gasFeeCap != null && Object.hasOwnProperty.call(message, "gasFeeCap"))
+                    writer.uint32(/* id 17, wireType 2 =*/138).string(message.gasFeeCap);
+                if (message.gasTipCap != null && Object.hasOwnProperty.call(message, "gasTipCap"))
+                    writer.uint32(/* id 18, wireType 2 =*/146).string(message.gasTipCap);
+                if (message.accessList != null && message.accessList.length)
+                    for (var i = 0; i < message.accessList.length; ++i)
+                        $root.ethereum.AccessTuple.encode(message.accessList[i], writer.uint32(/* id 19, wireType 2 =*/154).fork()).ldelim();
+                if (message.txType != null && Object.hasOwnProperty.call(message, "txType"))
+                    writer.uint32(/* id 20, wireType 2 =*/162).string(message.txType);
                 return writer;
             };
     
@@ -15971,6 +16039,20 @@
                         break;
                     case 9:
                         message.txHash = reader.string();
+                        break;
+                    case 17:
+                        message.gasFeeCap = reader.string();
+                        break;
+                    case 18:
+                        message.gasTipCap = reader.string();
+                        break;
+                    case 19:
+                        if (!(message.accessList && message.accessList.length))
+                            message.accessList = [];
+                        message.accessList.push($root.ethereum.AccessTuple.decode(reader, reader.uint32()));
+                        break;
+                    case 20:
+                        message.txType = reader.string();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -16034,6 +16116,24 @@
                 if (message.txHash != null && message.hasOwnProperty("txHash"))
                     if (!$util.isString(message.txHash))
                         return "txHash: string expected";
+                if (message.gasFeeCap != null && message.hasOwnProperty("gasFeeCap"))
+                    if (!$util.isString(message.gasFeeCap))
+                        return "gasFeeCap: string expected";
+                if (message.gasTipCap != null && message.hasOwnProperty("gasTipCap"))
+                    if (!$util.isString(message.gasTipCap))
+                        return "gasTipCap: string expected";
+                if (message.accessList != null && message.hasOwnProperty("accessList")) {
+                    if (!Array.isArray(message.accessList))
+                        return "accessList: array expected";
+                    for (var i = 0; i < message.accessList.length; ++i) {
+                        var error = $root.ethereum.AccessTuple.verify(message.accessList[i]);
+                        if (error)
+                            return "accessList." + error;
+                    }
+                }
+                if (message.txType != null && message.hasOwnProperty("txType"))
+                    if (!$util.isString(message.txType))
+                        return "txType: string expected";
                 return null;
             };
     
@@ -16067,6 +16167,22 @@
                     message.raw = String(object.raw);
                 if (object.txHash != null)
                     message.txHash = String(object.txHash);
+                if (object.gasFeeCap != null)
+                    message.gasFeeCap = String(object.gasFeeCap);
+                if (object.gasTipCap != null)
+                    message.gasTipCap = String(object.gasTipCap);
+                if (object.accessList) {
+                    if (!Array.isArray(object.accessList))
+                        throw TypeError(".ethereum.Transaction.accessList: array expected");
+                    message.accessList = [];
+                    for (var i = 0; i < object.accessList.length; ++i) {
+                        if (typeof object.accessList[i] !== "object")
+                            throw TypeError(".ethereum.Transaction.accessList: object expected");
+                        message.accessList[i] = $root.ethereum.AccessTuple.fromObject(object.accessList[i]);
+                    }
+                }
+                if (object.txType != null)
+                    message.txType = String(object.txType);
                 return message;
             };
     
@@ -16083,6 +16199,8 @@
                 if (!options)
                     options = {};
                 var object = {};
+                if (options.arrays || options.defaults)
+                    object.accessList = [];
                 if (options.defaults) {
                     object.from = "";
                     object.nonce = "";
@@ -16093,6 +16211,9 @@
                     object.data = "";
                     object.raw = "";
                     object.txHash = "";
+                    object.gasFeeCap = "";
+                    object.gasTipCap = "";
+                    object.txType = "";
                 }
                 if (message.from != null && message.hasOwnProperty("from"))
                     object.from = message.from;
@@ -16112,6 +16233,17 @@
                     object.raw = message.raw;
                 if (message.txHash != null && message.hasOwnProperty("txHash"))
                     object.txHash = message.txHash;
+                if (message.gasFeeCap != null && message.hasOwnProperty("gasFeeCap"))
+                    object.gasFeeCap = message.gasFeeCap;
+                if (message.gasTipCap != null && message.hasOwnProperty("gasTipCap"))
+                    object.gasTipCap = message.gasTipCap;
+                if (message.accessList && message.accessList.length) {
+                    object.accessList = [];
+                    for (var j = 0; j < message.accessList.length; ++j)
+                        object.accessList[j] = $root.ethereum.AccessTuple.toObject(message.accessList[j], options);
+                }
+                if (message.txType != null && message.hasOwnProperty("txType"))
+                    object.txType = message.txType;
                 return object;
             };
     
@@ -16127,6 +16259,232 @@
             };
     
             return Transaction;
+        })();
+    
+        ethereum.AccessTuple = (function() {
+    
+            /**
+             * Properties of an AccessTuple.
+             * @memberof ethereum
+             * @interface IAccessTuple
+             * @property {string|null} [address] AccessTuple address
+             * @property {Array.<string>|null} [storageKeys] AccessTuple storageKeys
+             */
+    
+            /**
+             * Constructs a new AccessTuple.
+             * @memberof ethereum
+             * @classdesc Represents an AccessTuple.
+             * @implements IAccessTuple
+             * @constructor
+             * @param {ethereum.IAccessTuple=} [properties] Properties to set
+             */
+            function AccessTuple(properties) {
+                this.storageKeys = [];
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * AccessTuple address.
+             * @member {string} address
+             * @memberof ethereum.AccessTuple
+             * @instance
+             */
+            AccessTuple.prototype.address = "";
+    
+            /**
+             * AccessTuple storageKeys.
+             * @member {Array.<string>} storageKeys
+             * @memberof ethereum.AccessTuple
+             * @instance
+             */
+            AccessTuple.prototype.storageKeys = $util.emptyArray;
+    
+            /**
+             * Creates a new AccessTuple instance using the specified properties.
+             * @function create
+             * @memberof ethereum.AccessTuple
+             * @static
+             * @param {ethereum.IAccessTuple=} [properties] Properties to set
+             * @returns {ethereum.AccessTuple} AccessTuple instance
+             */
+            AccessTuple.create = function create(properties) {
+                return new AccessTuple(properties);
+            };
+    
+            /**
+             * Encodes the specified AccessTuple message. Does not implicitly {@link ethereum.AccessTuple.verify|verify} messages.
+             * @function encode
+             * @memberof ethereum.AccessTuple
+             * @static
+             * @param {ethereum.IAccessTuple} message AccessTuple message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            AccessTuple.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.address != null && Object.hasOwnProperty.call(message, "address"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.address);
+                if (message.storageKeys != null && message.storageKeys.length)
+                    for (var i = 0; i < message.storageKeys.length; ++i)
+                        writer.uint32(/* id 2, wireType 2 =*/18).string(message.storageKeys[i]);
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified AccessTuple message, length delimited. Does not implicitly {@link ethereum.AccessTuple.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof ethereum.AccessTuple
+             * @static
+             * @param {ethereum.IAccessTuple} message AccessTuple message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            AccessTuple.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes an AccessTuple message from the specified reader or buffer.
+             * @function decode
+             * @memberof ethereum.AccessTuple
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {ethereum.AccessTuple} AccessTuple
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            AccessTuple.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ethereum.AccessTuple();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.address = reader.string();
+                        break;
+                    case 2:
+                        if (!(message.storageKeys && message.storageKeys.length))
+                            message.storageKeys = [];
+                        message.storageKeys.push(reader.string());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes an AccessTuple message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof ethereum.AccessTuple
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {ethereum.AccessTuple} AccessTuple
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            AccessTuple.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies an AccessTuple message.
+             * @function verify
+             * @memberof ethereum.AccessTuple
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            AccessTuple.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.address != null && message.hasOwnProperty("address"))
+                    if (!$util.isString(message.address))
+                        return "address: string expected";
+                if (message.storageKeys != null && message.hasOwnProperty("storageKeys")) {
+                    if (!Array.isArray(message.storageKeys))
+                        return "storageKeys: array expected";
+                    for (var i = 0; i < message.storageKeys.length; ++i)
+                        if (!$util.isString(message.storageKeys[i]))
+                            return "storageKeys: string[] expected";
+                }
+                return null;
+            };
+    
+            /**
+             * Creates an AccessTuple message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof ethereum.AccessTuple
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {ethereum.AccessTuple} AccessTuple
+             */
+            AccessTuple.fromObject = function fromObject(object) {
+                if (object instanceof $root.ethereum.AccessTuple)
+                    return object;
+                var message = new $root.ethereum.AccessTuple();
+                if (object.address != null)
+                    message.address = String(object.address);
+                if (object.storageKeys) {
+                    if (!Array.isArray(object.storageKeys))
+                        throw TypeError(".ethereum.AccessTuple.storageKeys: array expected");
+                    message.storageKeys = [];
+                    for (var i = 0; i < object.storageKeys.length; ++i)
+                        message.storageKeys[i] = String(object.storageKeys[i]);
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from an AccessTuple message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof ethereum.AccessTuple
+             * @static
+             * @param {ethereum.AccessTuple} message AccessTuple
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            AccessTuple.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults)
+                    object.storageKeys = [];
+                if (options.defaults)
+                    object.address = "";
+                if (message.address != null && message.hasOwnProperty("address"))
+                    object.address = message.address;
+                if (message.storageKeys && message.storageKeys.length) {
+                    object.storageKeys = [];
+                    for (var j = 0; j < message.storageKeys.length; ++j)
+                        object.storageKeys[j] = message.storageKeys[j];
+                }
+                return object;
+            };
+    
+            /**
+             * Converts this AccessTuple to JSON.
+             * @function toJSON
+             * @memberof ethereum.AccessTuple
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            AccessTuple.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return AccessTuple;
         })();
     
         return ethereum;

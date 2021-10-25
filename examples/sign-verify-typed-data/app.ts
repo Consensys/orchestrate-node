@@ -6,14 +6,14 @@ export const start = async () => {
   try {
     const client = new OrchestrateClient('http://localhost:8031')
 
-    const privateKey = 'f368b15ea01bafd199d4d39daee2b1d281bf78193c590ef79c233016b3b43f89'
+    const privateKey = '0xf368b15ea01bafd199d4d39daee2b1d281bf78193c590ef79c233016b3b43f89'
     const account = await client.importAccount({ privateKey })
 
     const data: ISignTypedDataRequest = {
       messageType: 'Mail',
       domainSeparator: {
         name: 'orchestrate',
-        version: 'v2.6.0',
+        version: 'v21.10.0',
         chainID: 1337,
         verifyingContract: '0x905B88EFf8Bda1543d4d6f4aA05afef143D27E18'
       },

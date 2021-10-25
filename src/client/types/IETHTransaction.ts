@@ -6,6 +6,10 @@ export interface IETHTransaction {
   nonce?: string
   gas?: string
   gasPrice?: string
+  maxFeePerGas?: string
+  transactionType?: string
+  maxPriorityFeePerGas?: string
+  accessList?: any[]
   data?: string
   raw?: string
   privateFrom?: string

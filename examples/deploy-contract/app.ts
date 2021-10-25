@@ -14,7 +14,8 @@ export const start = async () => {
         labels: {},
         params: {
           from: '[ETH_ACCOUNT]',
-          contractName: 'SimpleToken'
+          contractName: 'SimpleToken',
+          maxPriorityFeePerGas: '1500000000'
         }
       },
       'ExampleDeployContract'

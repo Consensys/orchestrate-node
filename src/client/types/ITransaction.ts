@@ -42,6 +42,9 @@ export interface ITransferRequest extends IBaseRequest {
     value: string
     gas?: string
     gasPrice?: string
+    maxFeePerGas?: string
+    maxPriorityFeePerGas?: string
+    transactionType?: string
     gasPricePolicy?: IGasPricePolicy
   }
 }
@@ -68,6 +71,10 @@ interface IBaseTransactionParams {
   value?: string
   gas?: string
   gasPrice?: string
+  maxFeePerGas?: string
+  maxPriorityFeePerGas?: string
+  transactionType?: string
+  accessList?: any[]
   args?: any[]
 }
 
