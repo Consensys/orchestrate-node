@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IETHTransactionParams | Orchestrate SDK Documentation - v4.2.0</title>
-	<meta name="description" content="Documentation for Orchestrate SDK Documentation - v4.2.0">
+	<title>IETHTransactionParams | Orchestrate SDK Documentation - v5.0.0</title>
+	<meta name="description" content="Documentation for Orchestrate SDK Documentation - v5.0.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 	<link rel="stylesheet" href="../assets/css/pages.css">
@@ -23,7 +23,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">Orchestrate SDK Documentation - v4.2.0</a>
+					<a href="../index.html" class="title">Orchestrate SDK Documentation - v5.0.0</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -86,15 +86,19 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iethtransactionparams.html#accesslist" class="tsd-kind-icon">access<wbr>List</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iethtransactionparams.html#args" class="tsd-kind-icon">args</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iethtransactionparams.html#from" class="tsd-kind-icon">from</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iethtransactionparams.html#gas" class="tsd-kind-icon">gas</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iethtransactionparams.html#gasprice" class="tsd-kind-icon">gas<wbr>Price</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iethtransactionparams.html#maxfeepergas" class="tsd-kind-icon">max<wbr>Fee<wbr>Per<wbr>Gas</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iethtransactionparams.html#maxpriorityfeepergas" class="tsd-kind-icon">max<wbr>Priority<wbr>Fee<wbr>Per<wbr>Gas</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iethtransactionparams.html#privacygroupid" class="tsd-kind-icon">privacy<wbr>Group<wbr>Id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iethtransactionparams.html#privatefor" class="tsd-kind-icon">private<wbr>For</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iethtransactionparams.html#privatefrom" class="tsd-kind-icon">private<wbr>From</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iethtransactionparams.html#protocol" class="tsd-kind-icon">protocol</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iethtransactionparams.html#raw" class="tsd-kind-icon">raw</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iethtransactionparams.html#transactiontype" class="tsd-kind-icon">transaction<wbr>Type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iethtransactionparams.html#value" class="tsd-kind-icon">value</a></li>
 							</ul>
 						</section>
@@ -104,13 +108,24 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="accesslist" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> access<wbr>List</h3>
+					<div class="tsd-signature tsd-kind-icon">access<wbr>List<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="itransactionparams.html">ITransactionParams</a>.<a href="itransactionparams.html#accesslist">accessList</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/64151d4/src/client/types/ITransaction.ts#L77">src/client/types/ITransaction.ts:77</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="args" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> args</h3>
 					<div class="tsd-signature tsd-kind-icon">args<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="itransactionparams.html">ITransactionParams</a>.<a href="itransactionparams.html#args">args</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/7e5d35d/src/client/types/ITransaction.ts#L71">src/client/types/ITransaction.ts:71</a></li>
+							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/64151d4/src/client/types/ITransaction.ts#L78">src/client/types/ITransaction.ts:78</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -121,7 +136,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="itransactionparams.html">ITransactionParams</a>.<a href="itransactionparams.html#from">from</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/7e5d35d/src/client/types/ITransaction.ts#L67">src/client/types/ITransaction.ts:67</a></li>
+							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/64151d4/src/client/types/ITransaction.ts#L70">src/client/types/ITransaction.ts:70</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -132,7 +147,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="itransactionparams.html">ITransactionParams</a>.<a href="itransactionparams.html#gas">gas</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/7e5d35d/src/client/types/ITransaction.ts#L69">src/client/types/ITransaction.ts:69</a></li>
+							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/64151d4/src/client/types/ITransaction.ts#L72">src/client/types/ITransaction.ts:72</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -143,7 +158,29 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="itransactionparams.html">ITransactionParams</a>.<a href="itransactionparams.html#gasprice">gasPrice</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/7e5d35d/src/client/types/ITransaction.ts#L70">src/client/types/ITransaction.ts:70</a></li>
+							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/64151d4/src/client/types/ITransaction.ts#L73">src/client/types/ITransaction.ts:73</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="maxfeepergas" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> max<wbr>Fee<wbr>Per<wbr>Gas</h3>
+					<div class="tsd-signature tsd-kind-icon">max<wbr>Fee<wbr>Per<wbr>Gas<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="itransactionparams.html">ITransactionParams</a>.<a href="itransactionparams.html#maxfeepergas">maxFeePerGas</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/64151d4/src/client/types/ITransaction.ts#L74">src/client/types/ITransaction.ts:74</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="maxpriorityfeepergas" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> max<wbr>Priority<wbr>Fee<wbr>Per<wbr>Gas</h3>
+					<div class="tsd-signature tsd-kind-icon">max<wbr>Priority<wbr>Fee<wbr>Per<wbr>Gas<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="itransactionparams.html">ITransactionParams</a>.<a href="itransactionparams.html#maxpriorityfeepergas">maxPriorityFeePerGas</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/64151d4/src/client/types/ITransaction.ts#L75">src/client/types/ITransaction.ts:75</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -154,7 +191,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="itransactionparams.html">ITransactionParams</a>.<a href="itransactionparams.html#privacygroupid">privacyGroupId</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/7e5d35d/src/client/types/ITransaction.ts#L78">src/client/types/ITransaction.ts:78</a></li>
+							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/64151d4/src/client/types/ITransaction.ts#L85">src/client/types/ITransaction.ts:85</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -165,7 +202,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="itransactionparams.html">ITransactionParams</a>.<a href="itransactionparams.html#privatefor">privateFor</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/7e5d35d/src/client/types/ITransaction.ts#L77">src/client/types/ITransaction.ts:77</a></li>
+							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/64151d4/src/client/types/ITransaction.ts#L84">src/client/types/ITransaction.ts:84</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -176,7 +213,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="itransactionparams.html">ITransactionParams</a>.<a href="itransactionparams.html#privatefrom">privateFrom</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/7e5d35d/src/client/types/ITransaction.ts#L76">src/client/types/ITransaction.ts:76</a></li>
+							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/64151d4/src/client/types/ITransaction.ts#L83">src/client/types/ITransaction.ts:83</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -187,7 +224,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="itransactionparams.html">ITransactionParams</a>.<a href="itransactionparams.html#protocol">protocol</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/7e5d35d/src/client/types/ITransaction.ts#L75">src/client/types/ITransaction.ts:75</a></li>
+							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/64151d4/src/client/types/ITransaction.ts#L82">src/client/types/ITransaction.ts:82</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -197,7 +234,18 @@
 					<div class="tsd-signature tsd-kind-icon">raw<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/7e5d35d/src/client/types/ITransaction.ts#L63">src/client/types/ITransaction.ts:63</a></li>
+							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/64151d4/src/client/types/ITransaction.ts#L66">src/client/types/ITransaction.ts:66</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="transactiontype" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> transaction<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">transaction<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="itransactionparams.html">ITransactionParams</a>.<a href="itransactionparams.html#transactiontype">transactionType</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/64151d4/src/client/types/ITransaction.ts#L76">src/client/types/ITransaction.ts:76</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -208,7 +256,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="itransactionparams.html">ITransactionParams</a>.<a href="itransactionparams.html#value">value</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/7e5d35d/src/client/types/ITransaction.ts#L68">src/client/types/ITransaction.ts:68</a></li>
+							<li>Defined in <a href="https://github.com/ConsenSys/orchestrate-node/blob/64151d4/src/client/types/ITransaction.ts#L71">src/client/types/ITransaction.ts:71</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -239,6 +287,9 @@
 						<a href="iethtransactionparams.html" class="tsd-kind-icon">IETHTransaction<wbr>Params</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="iethtransactionparams.html#accesslist" class="tsd-kind-icon">access<wbr>List</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="iethtransactionparams.html#args" class="tsd-kind-icon">args</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
@@ -249,6 +300,12 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="iethtransactionparams.html#gasprice" class="tsd-kind-icon">gas<wbr>Price</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="iethtransactionparams.html#maxfeepergas" class="tsd-kind-icon">max<wbr>Fee<wbr>Per<wbr>Gas</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="iethtransactionparams.html#maxpriorityfeepergas" class="tsd-kind-icon">max<wbr>Priority<wbr>Fee<wbr>Per<wbr>Gas</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="iethtransactionparams.html#privacygroupid" class="tsd-kind-icon">privacy<wbr>Group<wbr>Id</a>
@@ -264,6 +321,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="iethtransactionparams.html#raw" class="tsd-kind-icon">raw</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="iethtransactionparams.html#transactiontype" class="tsd-kind-icon">transaction<wbr>Type</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="iethtransactionparams.html#value" class="tsd-kind-icon">value</a>
