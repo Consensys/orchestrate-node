@@ -1089,14 +1089,19 @@ describe('OrchestrateClient', () => {
   describe('sign', () => {
     const address = '0xaddress'
     const signature = '0xsignature'
-    const data = 'my data to sign'
+    const message = 'my data to sign'
 
     it('should sign a message successfully', async () => {
       mockHTTPClient.post.mockResolvedValueOnce(signature)
 
-      const response = await client.signMessage(address, data, authToken, headers)
+      const response = await client.signMessage(address, message, authToken, headers)
 
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts/${address}/sign`, { data }, authToken, headers)
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(
+        `/accounts/${address}/sign-message`,
+        { message },
+        authToken,
+        headers
+      )
       expect(response).toEqual(signature)
     })
 
@@ -1110,7 +1115,12 @@ describe('OrchestrateClient', () => {
         expect(e).toEqual(err)
       }
 
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts/${address}/sign`, { data }, undefined, undefined)
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(
+        `/accounts/${address}/sign-message`,
+        { message },
+        undefined,
+        undefined
+      )
     })
   })
 
@@ -1207,7 +1217,7 @@ describe('OrchestrateClient', () => {
 
       await client.verifyMessage(request, authToken, headers)
 
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts/verify-signature`, request, authToken, headers)
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts/verify-message`, request, authToken, headers)
     })
 
     it('should fail to verify a signature', async () => {
@@ -1220,7 +1230,7 @@ describe('OrchestrateClient', () => {
         expect(e).toEqual(err)
       }
 
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts/verify-signature`, request, undefined, undefined)
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts/verify-message`, request, undefined, undefined)
     })
   })
 
