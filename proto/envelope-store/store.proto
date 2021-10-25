@@ -6,7 +6,7 @@ import "google/protobuf/timestamp.proto";
 import "protoc-gen-swagger/options/annotations.proto";
 import "types/tx/tx.proto";
 
-option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/orchestrate.git/types/envelope-store";
+option go_package = "github.com/consensys/orchestrate/types/envelope-store";
 
 package envelopestore;
 

@@ -15,15 +15,15 @@ export const start = async () => {
   try {
     const client = new OrchestrateClient('http://localhost:8031')
 
-    const privateKey = 'f368b15ea01bafd199d4d39daee2b1d281bf78193c590ef79c233016b3b43f81'
+    const privateKey = '0xf368b15ea01bafd199d4d39daee2b1d281bf78193c590ef79c233016b3b43f81'
     const account = await client.importAccount({ privateKey })
 
-    const data = convertToHex('my data to sign')
-    const signature = await client.sign(account.address, data)
+    const message = convertToHex('my data to sign')
+    const signature = await client.signMessage(account.address, message)
 
-    await client.verifySignature({
+    await client.verifyMessage({
       address: account.address,
-      data,
+      data: message,
       signature
     })
 

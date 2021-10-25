@@ -448,9 +448,9 @@ export class OrchestrateClient {
    * @param authToken Bearer token. Required when multi-tenancy is enabled
    * @param headers HTTP request headers.
    */
-  public async sign(address: string, data: string, authToken?: string, headers?: IHeaders): Promise<string> {
+  public async signMessage(address: string, message: string, authToken?: string, headers?: IHeaders): Promise<string> {
     try {
-      return await this.client.post(`/accounts/${address}/sign`, { data }, authToken, headers)
+      return await this.client.post(`/accounts/${address}/sign-message`, { message }, authToken, headers)
     } catch (e) {
       throw e
     }
@@ -505,13 +505,13 @@ export class OrchestrateClient {
    * @param authToken Bearer token. Required when multi-tenancy is enabled
    * @param headers HTTP request headers.
    */
-  public async verifySignature(
-    request: types.IVerifySignatureRequest,
+  public async verifyMessage(
+    request: types.IVerifyMessageRequest,
     authToken?: string,
     headers?: IHeaders
   ): Promise<void> {
     try {
-      await this.client.post(`/accounts/verify-signature`, request, authToken, headers)
+      await this.client.post(`/accounts/verify-message`, request, authToken, headers)
     } catch (e) {
       throw e
     }

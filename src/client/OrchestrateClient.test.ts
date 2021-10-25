@@ -1089,14 +1089,19 @@ describe('OrchestrateClient', () => {
   describe('sign', () => {
     const address = '0xaddress'
     const signature = '0xsignature'
-    const data = 'my data to sign'
+    const message = 'my data to sign'
 
     it('should sign a message successfully', async () => {
       mockHTTPClient.post.mockResolvedValueOnce(signature)
 
-      const response = await client.sign(address, data, authToken, headers)
+      const response = await client.signMessage(address, message, authToken, headers)
 
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts/${address}/sign`, { data }, authToken, headers)
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(
+        `/accounts/${address}/sign-message`,
+        { message },
+        authToken,
+        headers
+      )
       expect(response).toEqual(signature)
     })
 
@@ -1104,13 +1109,18 @@ describe('OrchestrateClient', () => {
       const err = new Error('MyError')
       mockHTTPClient.post.mockRejectedValueOnce(err)
       try {
-        await client.sign(address, 'my data to sign')
+        await client.signMessage(address, 'my data to sign')
         fail('expected failed request')
       } catch (e) {
         expect(e).toEqual(err)
       }
 
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts/${address}/sign`, { data }, undefined, undefined)
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(
+        `/accounts/${address}/sign-message`,
+        { message },
+        undefined,
+        undefined
+      )
     })
   })
 
@@ -1193,7 +1203,7 @@ describe('OrchestrateClient', () => {
   })
 
   describe('verifySignature', () => {
-    const request: types.IVerifySignatureRequest = {
+    const request: types.IVerifyMessageRequest = {
       data: 'my data to sign',
       address: '0xaddress',
       signature: '0xsignature'
@@ -1205,22 +1215,22 @@ describe('OrchestrateClient', () => {
         headers: {}
       })
 
-      await client.verifySignature(request, authToken, headers)
+      await client.verifyMessage(request, authToken, headers)
 
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts/verify-signature`, request, authToken, headers)
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts/verify-message`, request, authToken, headers)
     })
 
     it('should fail to verify a signature', async () => {
       const err = new Error('MyError')
       mockHTTPClient.post.mockRejectedValueOnce(err)
       try {
-        await client.verifySignature(request)
+        await client.verifyMessage(request)
         fail('expected failed request')
       } catch (e) {
         expect(e).toEqual(err)
       }
 
-      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts/verify-signature`, request, undefined, undefined)
+      expect(mockHTTPClient.post).toHaveBeenCalledWith(`/accounts/verify-message`, request, undefined, undefined)
     })
   })
 

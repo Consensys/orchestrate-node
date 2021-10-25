@@ -55,7 +55,7 @@ export interface IVerifyTypedDataSignatureRequest {
   address: string
 }
 
-export interface IVerifySignatureRequest {
+export interface IVerifyMessageRequest {
   data: string
   signature: string
   address: string

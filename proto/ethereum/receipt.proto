@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "gitlab.com/ConsenSys/client/fr/core-stack/orchestrate.git/types/ethereum";
+option go_package = "github.com/consensys/orchestrate/pkg/types/ethereum";
 
 package ethereum;
 
@@ -81,8 +81,11 @@ message Receipt {
     // QUANTITY - The total amount of gas used when this transaction was executed in the block.
     uint64 cumulative_gas_used = 13;
 
+    // Equal to the actual gas price paid for inclusion
+    string effective_gas_price = 14;
+
     // DATA - Revert reason if the transaction failed
-    string revert_reason = 14;
+    string revert_reason = 15;
 
     ///////////////////////
     // PRIVATE TX FIELDS //
@@ -90,17 +93,16 @@ message Receipt {
 
     // DATA - RLP-encoded return value of a contract call for Orion Priv Tx
     // Provisional till we migrate to TransactionManager Jobs
-    string output = 15;
+    string output = 16;
 
     // DATA (32 bytes) - Orion public key of the sender.
     // e.g A1aVtMxLCUHmBVHXoZzzBgPbW/wj5axDpW9X8l91SGo=
-    string privateFrom = 16;
+    string privateFrom = 17;
+
+    // e.g [Ko2bVqD+nNlNYL5EE7y3IdOnviftjiizpjRt+HTuFBs=]
+    repeated string privateFor = 18;
 
     // DATA (32 bytes) - Orion public keys or privacy group ID of the recipients.
     // e.g Ko2bVqD+nNlNYL5EE7y3IdOnviftjiizpjRt+HTuFBs=
-    repeated string privateFor = 17;
-
-    // DATA (32 bytes) - Orion public keys or privacy group ID of the recipients.
-    // e.g Ko2bVqD+nNlNYL5EE7y3IdOnviftjiizpjRt+HTuFBs=
-    string privacyGroupId = 18;
+    string privacyGroupId = 19;
 }

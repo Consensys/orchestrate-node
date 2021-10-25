@@ -25,6 +25,9 @@ function parseTxContext(transaction?: ethereum.ITransaction | null): ITransactio
       value: parseString(transaction.value),
       gas: parseStringNumber(transaction.gas),
       gasPrice: parseString(transaction.gasPrice),
+      gasTipCap: parseString(transaction.gasTipCap),
+      gasFeeCap: parseString(transaction.gasFeeCap),
+      txType: parseString(transaction.txType),
       input: parseString(transaction.data),
       raw: parseString(transaction.raw),
       txHash: parseString(transaction.txHash)
@@ -45,6 +48,7 @@ function parseReceipt(receipt?: ethereum.IReceipt | null): IReceipt | undefined 
       contractAddress: parseString(receipt.contractAddress),
       gasUsed: parseNumber(receipt.gasUsed),
       cumulativeGasUsed: parseNumber(receipt.cumulativeGasUsed),
+      effectiveGasPrice: parseString(receipt.effectiveGasPrice),
       postState: parseString(receipt.postState),
       bloom: parseString(receipt.bloom),
       logs: parseLogs(receipt.logs),
