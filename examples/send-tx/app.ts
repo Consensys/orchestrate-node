@@ -15,7 +15,6 @@ export const start = async () => {
           from: '[ETH_ACCOUNT]',
           to: '[DEPLOYED_CONTRACT_ADDRESS]',
           methodSignature: 'transfer(address,uint256)',
-          maxFeePerGas: '1500000',
           args: ['0x6009608a02a7a15fd6689d6dad560c44e9ab61ff', 5000]
         }
       },

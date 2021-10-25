@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file.
 
 ### ⚠ BREAKING CHANGES
 
-- Replaced removed `/accounts/{address}/sign` and `/accounts/{address}/verify-signature` in favor of `/accounts/{address}/sign-message` and `/accounts/verify-message` accordingly to EIP-191 standards
+- Removed `/accounts/{address}/sign` and `/accounts/{address}/verify-signature` in favor of `/accounts/{address}/sign-message` and `/accounts/verify-message` accordingly to EIP-191 standards
 
 ## 4.2.1 (2021-10-06)
 
