@@ -14,7 +14,9 @@ export interface IETHTransaction {
   raw?: string
   privateFrom?: string
   privateFor?: string[]
+  mandatoryFor?: string[]
   privateGroupId?: string
+  privacyFlag?: number
   createdAt?: Date
   updatedAt?: Date
 }
