@@ -82,5 +82,7 @@ interface IPrivateTransactionParams {
   protocol?: ProtocolType
   privateFrom?: string
   privateFor?: string[]
+  mandatoryFor?: string[]
   privacyGroupId?: string
+  privacyFlag?: number
 }
