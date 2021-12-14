@@ -15161,6 +15161,8 @@
              * @property {string|null} [privateFrom] Receipt privateFrom
              * @property {Array.<string>|null} [privateFor] Receipt privateFor
              * @property {string|null} [privacyGroupId] Receipt privacyGroupId
+             * @property {string|null} [contractName] Receipt contractName
+             * @property {string|null} [contractTag] Receipt contractTag
              */
     
             /**
@@ -15317,6 +15319,22 @@
             Receipt.prototype.privacyGroupId = "";
     
             /**
+             * Receipt contractName.
+             * @member {string} contractName
+             * @memberof ethereum.Receipt
+             * @instance
+             */
+            Receipt.prototype.contractName = "";
+    
+            /**
+             * Receipt contractTag.
+             * @member {string} contractTag
+             * @memberof ethereum.Receipt
+             * @instance
+             */
+            Receipt.prototype.contractTag = "";
+    
+            /**
              * Creates a new Receipt instance using the specified properties.
              * @function create
              * @memberof ethereum.Receipt
@@ -15376,6 +15394,10 @@
                         writer.uint32(/* id 18, wireType 2 =*/146).string(message.privateFor[i]);
                 if (message.privacyGroupId != null && Object.hasOwnProperty.call(message, "privacyGroupId"))
                     writer.uint32(/* id 19, wireType 2 =*/154).string(message.privacyGroupId);
+                if (message.contractName != null && Object.hasOwnProperty.call(message, "contractName"))
+                    writer.uint32(/* id 20, wireType 2 =*/162).string(message.contractName);
+                if (message.contractTag != null && Object.hasOwnProperty.call(message, "contractTag"))
+                    writer.uint32(/* id 21, wireType 2 =*/170).string(message.contractTag);
                 return writer;
             };
     
@@ -15464,6 +15486,12 @@
                         break;
                     case 19:
                         message.privacyGroupId = reader.string();
+                        break;
+                    case 20:
+                        message.contractName = reader.string();
+                        break;
+                    case 21:
+                        message.contractTag = reader.string();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -15561,6 +15589,12 @@
                 if (message.privacyGroupId != null && message.hasOwnProperty("privacyGroupId"))
                     if (!$util.isString(message.privacyGroupId))
                         return "privacyGroupId: string expected";
+                if (message.contractName != null && message.hasOwnProperty("contractName"))
+                    if (!$util.isString(message.contractName))
+                        return "contractName: string expected";
+                if (message.contractTag != null && message.hasOwnProperty("contractTag"))
+                    if (!$util.isString(message.contractTag))
+                        return "contractTag: string expected";
                 return null;
             };
     
@@ -15658,6 +15692,10 @@
                 }
                 if (object.privacyGroupId != null)
                     message.privacyGroupId = String(object.privacyGroupId);
+                if (object.contractName != null)
+                    message.contractName = String(object.contractName);
+                if (object.contractTag != null)
+                    message.contractTag = String(object.contractTag);
                 return message;
             };
     
@@ -15714,6 +15752,8 @@
                     object.output = "";
                     object.privateFrom = "";
                     object.privacyGroupId = "";
+                    object.contractName = "";
+                    object.contractTag = "";
                 }
                 if (message.txHash != null && message.hasOwnProperty("txHash"))
                     object.txHash = message.txHash;
@@ -15770,6 +15810,10 @@
                 }
                 if (message.privacyGroupId != null && message.hasOwnProperty("privacyGroupId"))
                     object.privacyGroupId = message.privacyGroupId;
+                if (message.contractName != null && message.hasOwnProperty("contractName"))
+                    object.contractName = message.contractName;
+                if (message.contractTag != null && message.hasOwnProperty("contractTag"))
+                    object.contractTag = message.contractTag;
                 return object;
             };
     
@@ -16511,6 +16555,7 @@
              * @property {tx.IParams|null} [params] TxRequest params
              * @property {string|null} [id] TxRequest id
              * @property {Object.<string,string>|null} [contextLabels] TxRequest contextLabels
+             * @property {tx.JobType|null} [jobType] TxRequest jobType
              */
     
             /**
@@ -16579,6 +16624,14 @@
             TxRequest.prototype.contextLabels = $util.emptyObject;
     
             /**
+             * TxRequest jobType.
+             * @member {tx.JobType} jobType
+             * @memberof tx.TxRequest
+             * @instance
+             */
+            TxRequest.prototype.jobType = 0;
+    
+            /**
              * Creates a new TxRequest instance using the specified properties.
              * @function create
              * @memberof tx.TxRequest
@@ -16616,6 +16669,8 @@
                 if (message.contextLabels != null && Object.hasOwnProperty.call(message, "contextLabels"))
                     for (var keys = Object.keys(message.contextLabels), i = 0; i < keys.length; ++i)
                         writer.uint32(/* id 6, wireType 2 =*/50).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.contextLabels[keys[i]]).ldelim();
+                if (message.jobType != null && Object.hasOwnProperty.call(message, "jobType"))
+                    writer.uint32(/* id 7, wireType 0 =*/56).int32(message.jobType);
                 return writer;
             };
     
@@ -16706,6 +16761,9 @@
                         }
                         message.contextLabels[key] = value;
                         break;
+                    case 7:
+                        message.jobType = reader.int32();
+                        break;
                     default:
                         reader.skipType(tag & 7);
                         break;
@@ -16778,6 +16836,18 @@
                         if (!$util.isString(message.contextLabels[key[i]]))
                             return "contextLabels: string{k:string} expected";
                 }
+                if (message.jobType != null && message.hasOwnProperty("jobType"))
+                    switch (message.jobType) {
+                    default:
+                        return "jobType: enum value expected";
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                        break;
+                    }
                 return null;
             };
     
@@ -16834,6 +16904,32 @@
                     for (var keys = Object.keys(object.contextLabels), i = 0; i < keys.length; ++i)
                         message.contextLabels[keys[i]] = String(object.contextLabels[keys[i]]);
                 }
+                switch (object.jobType) {
+                case "ETH_TX":
+                case 0:
+                    message.jobType = 0;
+                    break;
+                case "ETH_RAW_TX":
+                case 1:
+                    message.jobType = 1;
+                    break;
+                case "ETH_EEA_MARKING_TX":
+                case 2:
+                    message.jobType = 2;
+                    break;
+                case "ETH_EEA_PRIVATE_TX":
+                case 3:
+                    message.jobType = 3;
+                    break;
+                case "ETH_TESSERA_MARKING_TX":
+                case 4:
+                    message.jobType = 4;
+                    break;
+                case "ETH_TESSERA_PRIVATE_TX":
+                case 5:
+                    message.jobType = 5;
+                    break;
+                }
                 return message;
             };
     
@@ -16859,6 +16955,7 @@
                     object.method = options.enums === String ? "ETH_SENDRAWTRANSACTION" : 0;
                     object.params = null;
                     object.id = "";
+                    object.jobType = options.enums === String ? "ETH_TX" : 0;
                 }
                 var keys2;
                 if (message.headers && (keys2 = Object.keys(message.headers)).length) {
@@ -16879,6 +16976,8 @@
                     for (var j = 0; j < keys2.length; ++j)
                         object.contextLabels[keys2[j]] = message.contextLabels[keys2[j]];
                 }
+                if (message.jobType != null && message.hasOwnProperty("jobType"))
+                    object.jobType = options.enums === String ? $root.tx.JobType[message.jobType] : message.jobType;
                 return object;
             };
     
@@ -17217,6 +17316,28 @@
             return values;
         })();
     
+        /**
+         * JobType enum.
+         * @name tx.JobType
+         * @enum {number}
+         * @property {number} ETH_TX=0 ETH_TX value
+         * @property {number} ETH_RAW_TX=1 ETH_RAW_TX value
+         * @property {number} ETH_EEA_MARKING_TX=2 ETH_EEA_MARKING_TX value
+         * @property {number} ETH_EEA_PRIVATE_TX=3 ETH_EEA_PRIVATE_TX value
+         * @property {number} ETH_TESSERA_MARKING_TX=4 ETH_TESSERA_MARKING_TX value
+         * @property {number} ETH_TESSERA_PRIVATE_TX=5 ETH_TESSERA_PRIVATE_TX value
+         */
+        tx.JobType = (function() {
+            var valuesById = {}, values = Object.create(valuesById);
+            values[valuesById[0] = "ETH_TX"] = 0;
+            values[valuesById[1] = "ETH_RAW_TX"] = 1;
+            values[valuesById[2] = "ETH_EEA_MARKING_TX"] = 2;
+            values[valuesById[3] = "ETH_EEA_PRIVATE_TX"] = 3;
+            values[valuesById[4] = "ETH_TESSERA_MARKING_TX"] = 4;
+            values[valuesById[5] = "ETH_TESSERA_PRIVATE_TX"] = 5;
+            return values;
+        })();
+    
         tx.Params = (function() {
     
             /**
@@ -17227,17 +17348,23 @@
              * @property {string|null} [to] Params to
              * @property {string|null} [gas] Params gas
              * @property {string|null} [gasPrice] Params gasPrice
+             * @property {string|null} [gasFeeCap] Params gasFeeCap
+             * @property {string|null} [gasTipCap] Params gasTipCap
              * @property {string|null} [value] Params value
              * @property {string|null} [nonce] Params nonce
              * @property {string|null} [data] Params data
+             * @property {string|null} [transactionType] Params transactionType
+             * @property {Array.<ethereum.IAccessTuple>|null} [accessList] Params accessList
+             * @property {string|null} [raw] Params raw
              * @property {string|null} [contract] Params contract
              * @property {string|null} [methodSignature] Params methodSignature
              * @property {Array.<string>|null} [args] Params args
-             * @property {string|null} [raw] Params raw
              * @property {Array.<string>|null} [privateFor] Params privateFor
              * @property {string|null} [privateFrom] Params privateFrom
              * @property {string|null} [privateTxType] Params privateTxType
              * @property {string|null} [privacyGroupId] Params privacyGroupId
+             * @property {Array.<string>|null} [mandatoryFor] Params mandatoryFor
+             * @property {number|null} [privacyFlag] Params privacyFlag
              */
     
             /**
@@ -17249,8 +17376,10 @@
              * @param {tx.IParams=} [properties] Properties to set
              */
             function Params(properties) {
+                this.accessList = [];
                 this.args = [];
                 this.privateFor = [];
+                this.mandatoryFor = [];
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null)
@@ -17290,6 +17419,22 @@
             Params.prototype.gasPrice = "";
     
             /**
+             * Params gasFeeCap.
+             * @member {string} gasFeeCap
+             * @memberof tx.Params
+             * @instance
+             */
+            Params.prototype.gasFeeCap = "";
+    
+            /**
+             * Params gasTipCap.
+             * @member {string} gasTipCap
+             * @memberof tx.Params
+             * @instance
+             */
+            Params.prototype.gasTipCap = "";
+    
+            /**
              * Params value.
              * @member {string} value
              * @memberof tx.Params
@@ -17314,6 +17459,30 @@
             Params.prototype.data = "";
     
             /**
+             * Params transactionType.
+             * @member {string} transactionType
+             * @memberof tx.Params
+             * @instance
+             */
+            Params.prototype.transactionType = "";
+    
+            /**
+             * Params accessList.
+             * @member {Array.<ethereum.IAccessTuple>} accessList
+             * @memberof tx.Params
+             * @instance
+             */
+            Params.prototype.accessList = $util.emptyArray;
+    
+            /**
+             * Params raw.
+             * @member {string} raw
+             * @memberof tx.Params
+             * @instance
+             */
+            Params.prototype.raw = "";
+    
+            /**
              * Params contract.
              * @member {string} contract
              * @memberof tx.Params
@@ -17336,14 +17505,6 @@
              * @instance
              */
             Params.prototype.args = $util.emptyArray;
-    
-            /**
-             * Params raw.
-             * @member {string} raw
-             * @memberof tx.Params
-             * @instance
-             */
-            Params.prototype.raw = "";
     
             /**
              * Params privateFor.
@@ -17378,6 +17539,22 @@
             Params.prototype.privacyGroupId = "";
     
             /**
+             * Params mandatoryFor.
+             * @member {Array.<string>} mandatoryFor
+             * @memberof tx.Params
+             * @instance
+             */
+            Params.prototype.mandatoryFor = $util.emptyArray;
+    
+            /**
+             * Params privacyFlag.
+             * @member {number} privacyFlag
+             * @memberof tx.Params
+             * @instance
+             */
+            Params.prototype.privacyFlag = 0;
+    
+            /**
              * Creates a new Params instance using the specified properties.
              * @function create
              * @memberof tx.Params
@@ -17409,30 +17586,44 @@
                     writer.uint32(/* id 4, wireType 2 =*/34).string(message.gas);
                 if (message.gasPrice != null && Object.hasOwnProperty.call(message, "gasPrice"))
                     writer.uint32(/* id 5, wireType 2 =*/42).string(message.gasPrice);
+                if (message.gasFeeCap != null && Object.hasOwnProperty.call(message, "gasFeeCap"))
+                    writer.uint32(/* id 6, wireType 2 =*/50).string(message.gasFeeCap);
+                if (message.gasTipCap != null && Object.hasOwnProperty.call(message, "gasTipCap"))
+                    writer.uint32(/* id 7, wireType 2 =*/58).string(message.gasTipCap);
                 if (message.value != null && Object.hasOwnProperty.call(message, "value"))
-                    writer.uint32(/* id 6, wireType 2 =*/50).string(message.value);
+                    writer.uint32(/* id 8, wireType 2 =*/66).string(message.value);
                 if (message.nonce != null && Object.hasOwnProperty.call(message, "nonce"))
-                    writer.uint32(/* id 7, wireType 2 =*/58).string(message.nonce);
+                    writer.uint32(/* id 9, wireType 2 =*/74).string(message.nonce);
                 if (message.data != null && Object.hasOwnProperty.call(message, "data"))
-                    writer.uint32(/* id 8, wireType 2 =*/66).string(message.data);
+                    writer.uint32(/* id 10, wireType 2 =*/82).string(message.data);
+                if (message.transactionType != null && Object.hasOwnProperty.call(message, "transactionType"))
+                    writer.uint32(/* id 11, wireType 2 =*/90).string(message.transactionType);
+                if (message.accessList != null && message.accessList.length)
+                    for (var i = 0; i < message.accessList.length; ++i)
+                        $root.ethereum.AccessTuple.encode(message.accessList[i], writer.uint32(/* id 12, wireType 2 =*/98).fork()).ldelim();
+                if (message.raw != null && Object.hasOwnProperty.call(message, "raw"))
+                    writer.uint32(/* id 13, wireType 2 =*/106).string(message.raw);
                 if (message.contract != null && Object.hasOwnProperty.call(message, "contract"))
-                    writer.uint32(/* id 9, wireType 2 =*/74).string(message.contract);
+                    writer.uint32(/* id 14, wireType 2 =*/114).string(message.contract);
                 if (message.methodSignature != null && Object.hasOwnProperty.call(message, "methodSignature"))
-                    writer.uint32(/* id 10, wireType 2 =*/82).string(message.methodSignature);
+                    writer.uint32(/* id 15, wireType 2 =*/122).string(message.methodSignature);
                 if (message.args != null && message.args.length)
                     for (var i = 0; i < message.args.length; ++i)
-                        writer.uint32(/* id 11, wireType 2 =*/90).string(message.args[i]);
-                if (message.raw != null && Object.hasOwnProperty.call(message, "raw"))
-                    writer.uint32(/* id 12, wireType 2 =*/98).string(message.raw);
+                        writer.uint32(/* id 16, wireType 2 =*/130).string(message.args[i]);
                 if (message.privateFor != null && message.privateFor.length)
                     for (var i = 0; i < message.privateFor.length; ++i)
-                        writer.uint32(/* id 13, wireType 2 =*/106).string(message.privateFor[i]);
+                        writer.uint32(/* id 17, wireType 2 =*/138).string(message.privateFor[i]);
                 if (message.privateFrom != null && Object.hasOwnProperty.call(message, "privateFrom"))
-                    writer.uint32(/* id 14, wireType 2 =*/114).string(message.privateFrom);
+                    writer.uint32(/* id 18, wireType 2 =*/146).string(message.privateFrom);
                 if (message.privateTxType != null && Object.hasOwnProperty.call(message, "privateTxType"))
-                    writer.uint32(/* id 15, wireType 2 =*/122).string(message.privateTxType);
+                    writer.uint32(/* id 19, wireType 2 =*/154).string(message.privateTxType);
                 if (message.privacyGroupId != null && Object.hasOwnProperty.call(message, "privacyGroupId"))
-                    writer.uint32(/* id 16, wireType 2 =*/130).string(message.privacyGroupId);
+                    writer.uint32(/* id 20, wireType 2 =*/162).string(message.privacyGroupId);
+                if (message.mandatoryFor != null && message.mandatoryFor.length)
+                    for (var i = 0; i < message.mandatoryFor.length; ++i)
+                        writer.uint32(/* id 21, wireType 2 =*/170).string(message.mandatoryFor[i]);
+                if (message.privacyFlag != null && Object.hasOwnProperty.call(message, "privacyFlag"))
+                    writer.uint32(/* id 22, wireType 0 =*/176).int32(message.privacyFlag);
                 return writer;
             };
     
@@ -17480,41 +17671,63 @@
                         message.gasPrice = reader.string();
                         break;
                     case 6:
-                        message.value = reader.string();
+                        message.gasFeeCap = reader.string();
                         break;
                     case 7:
-                        message.nonce = reader.string();
+                        message.gasTipCap = reader.string();
                         break;
                     case 8:
-                        message.data = reader.string();
+                        message.value = reader.string();
                         break;
                     case 9:
-                        message.contract = reader.string();
+                        message.nonce = reader.string();
                         break;
                     case 10:
-                        message.methodSignature = reader.string();
+                        message.data = reader.string();
                         break;
                     case 11:
+                        message.transactionType = reader.string();
+                        break;
+                    case 12:
+                        if (!(message.accessList && message.accessList.length))
+                            message.accessList = [];
+                        message.accessList.push($root.ethereum.AccessTuple.decode(reader, reader.uint32()));
+                        break;
+                    case 13:
+                        message.raw = reader.string();
+                        break;
+                    case 14:
+                        message.contract = reader.string();
+                        break;
+                    case 15:
+                        message.methodSignature = reader.string();
+                        break;
+                    case 16:
                         if (!(message.args && message.args.length))
                             message.args = [];
                         message.args.push(reader.string());
                         break;
-                    case 12:
-                        message.raw = reader.string();
-                        break;
-                    case 13:
+                    case 17:
                         if (!(message.privateFor && message.privateFor.length))
                             message.privateFor = [];
                         message.privateFor.push(reader.string());
                         break;
-                    case 14:
+                    case 18:
                         message.privateFrom = reader.string();
                         break;
-                    case 15:
+                    case 19:
                         message.privateTxType = reader.string();
                         break;
-                    case 16:
+                    case 20:
                         message.privacyGroupId = reader.string();
+                        break;
+                    case 21:
+                        if (!(message.mandatoryFor && message.mandatoryFor.length))
+                            message.mandatoryFor = [];
+                        message.mandatoryFor.push(reader.string());
+                        break;
+                    case 22:
+                        message.privacyFlag = reader.int32();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -17563,6 +17776,12 @@
                 if (message.gasPrice != null && message.hasOwnProperty("gasPrice"))
                     if (!$util.isString(message.gasPrice))
                         return "gasPrice: string expected";
+                if (message.gasFeeCap != null && message.hasOwnProperty("gasFeeCap"))
+                    if (!$util.isString(message.gasFeeCap))
+                        return "gasFeeCap: string expected";
+                if (message.gasTipCap != null && message.hasOwnProperty("gasTipCap"))
+                    if (!$util.isString(message.gasTipCap))
+                        return "gasTipCap: string expected";
                 if (message.value != null && message.hasOwnProperty("value"))
                     if (!$util.isString(message.value))
                         return "value: string expected";
@@ -17572,6 +17791,21 @@
                 if (message.data != null && message.hasOwnProperty("data"))
                     if (!$util.isString(message.data))
                         return "data: string expected";
+                if (message.transactionType != null && message.hasOwnProperty("transactionType"))
+                    if (!$util.isString(message.transactionType))
+                        return "transactionType: string expected";
+                if (message.accessList != null && message.hasOwnProperty("accessList")) {
+                    if (!Array.isArray(message.accessList))
+                        return "accessList: array expected";
+                    for (var i = 0; i < message.accessList.length; ++i) {
+                        var error = $root.ethereum.AccessTuple.verify(message.accessList[i]);
+                        if (error)
+                            return "accessList." + error;
+                    }
+                }
+                if (message.raw != null && message.hasOwnProperty("raw"))
+                    if (!$util.isString(message.raw))
+                        return "raw: string expected";
                 if (message.contract != null && message.hasOwnProperty("contract"))
                     if (!$util.isString(message.contract))
                         return "contract: string expected";
@@ -17585,9 +17819,6 @@
                         if (!$util.isString(message.args[i]))
                             return "args: string[] expected";
                 }
-                if (message.raw != null && message.hasOwnProperty("raw"))
-                    if (!$util.isString(message.raw))
-                        return "raw: string expected";
                 if (message.privateFor != null && message.hasOwnProperty("privateFor")) {
                     if (!Array.isArray(message.privateFor))
                         return "privateFor: array expected";
@@ -17604,6 +17835,16 @@
                 if (message.privacyGroupId != null && message.hasOwnProperty("privacyGroupId"))
                     if (!$util.isString(message.privacyGroupId))
                         return "privacyGroupId: string expected";
+                if (message.mandatoryFor != null && message.hasOwnProperty("mandatoryFor")) {
+                    if (!Array.isArray(message.mandatoryFor))
+                        return "mandatoryFor: array expected";
+                    for (var i = 0; i < message.mandatoryFor.length; ++i)
+                        if (!$util.isString(message.mandatoryFor[i]))
+                            return "mandatoryFor: string[] expected";
+                }
+                if (message.privacyFlag != null && message.hasOwnProperty("privacyFlag"))
+                    if (!$util.isInteger(message.privacyFlag))
+                        return "privacyFlag: integer expected";
                 return null;
             };
     
@@ -17627,12 +17868,30 @@
                     message.gas = String(object.gas);
                 if (object.gasPrice != null)
                     message.gasPrice = String(object.gasPrice);
+                if (object.gasFeeCap != null)
+                    message.gasFeeCap = String(object.gasFeeCap);
+                if (object.gasTipCap != null)
+                    message.gasTipCap = String(object.gasTipCap);
                 if (object.value != null)
                     message.value = String(object.value);
                 if (object.nonce != null)
                     message.nonce = String(object.nonce);
                 if (object.data != null)
                     message.data = String(object.data);
+                if (object.transactionType != null)
+                    message.transactionType = String(object.transactionType);
+                if (object.accessList) {
+                    if (!Array.isArray(object.accessList))
+                        throw TypeError(".tx.Params.accessList: array expected");
+                    message.accessList = [];
+                    for (var i = 0; i < object.accessList.length; ++i) {
+                        if (typeof object.accessList[i] !== "object")
+                            throw TypeError(".tx.Params.accessList: object expected");
+                        message.accessList[i] = $root.ethereum.AccessTuple.fromObject(object.accessList[i]);
+                    }
+                }
+                if (object.raw != null)
+                    message.raw = String(object.raw);
                 if (object.contract != null)
                     message.contract = String(object.contract);
                 if (object.methodSignature != null)
@@ -17644,8 +17903,6 @@
                     for (var i = 0; i < object.args.length; ++i)
                         message.args[i] = String(object.args[i]);
                 }
-                if (object.raw != null)
-                    message.raw = String(object.raw);
                 if (object.privateFor) {
                     if (!Array.isArray(object.privateFor))
                         throw TypeError(".tx.Params.privateFor: array expected");
@@ -17659,6 +17916,15 @@
                     message.privateTxType = String(object.privateTxType);
                 if (object.privacyGroupId != null)
                     message.privacyGroupId = String(object.privacyGroupId);
+                if (object.mandatoryFor) {
+                    if (!Array.isArray(object.mandatoryFor))
+                        throw TypeError(".tx.Params.mandatoryFor: array expected");
+                    message.mandatoryFor = [];
+                    for (var i = 0; i < object.mandatoryFor.length; ++i)
+                        message.mandatoryFor[i] = String(object.mandatoryFor[i]);
+                }
+                if (object.privacyFlag != null)
+                    message.privacyFlag = object.privacyFlag | 0;
                 return message;
             };
     
@@ -17676,23 +17942,29 @@
                     options = {};
                 var object = {};
                 if (options.arrays || options.defaults) {
+                    object.accessList = [];
                     object.args = [];
                     object.privateFor = [];
+                    object.mandatoryFor = [];
                 }
                 if (options.defaults) {
                     object.from = "";
                     object.to = "";
                     object.gas = "";
                     object.gasPrice = "";
+                    object.gasFeeCap = "";
+                    object.gasTipCap = "";
                     object.value = "";
                     object.nonce = "";
                     object.data = "";
+                    object.transactionType = "";
+                    object.raw = "";
                     object.contract = "";
                     object.methodSignature = "";
-                    object.raw = "";
                     object.privateFrom = "";
                     object.privateTxType = "";
                     object.privacyGroupId = "";
+                    object.privacyFlag = 0;
                 }
                 if (message.from != null && message.hasOwnProperty("from"))
                     object.from = message.from;
@@ -17702,12 +17974,25 @@
                     object.gas = message.gas;
                 if (message.gasPrice != null && message.hasOwnProperty("gasPrice"))
                     object.gasPrice = message.gasPrice;
+                if (message.gasFeeCap != null && message.hasOwnProperty("gasFeeCap"))
+                    object.gasFeeCap = message.gasFeeCap;
+                if (message.gasTipCap != null && message.hasOwnProperty("gasTipCap"))
+                    object.gasTipCap = message.gasTipCap;
                 if (message.value != null && message.hasOwnProperty("value"))
                     object.value = message.value;
                 if (message.nonce != null && message.hasOwnProperty("nonce"))
                     object.nonce = message.nonce;
                 if (message.data != null && message.hasOwnProperty("data"))
                     object.data = message.data;
+                if (message.transactionType != null && message.hasOwnProperty("transactionType"))
+                    object.transactionType = message.transactionType;
+                if (message.accessList && message.accessList.length) {
+                    object.accessList = [];
+                    for (var j = 0; j < message.accessList.length; ++j)
+                        object.accessList[j] = $root.ethereum.AccessTuple.toObject(message.accessList[j], options);
+                }
+                if (message.raw != null && message.hasOwnProperty("raw"))
+                    object.raw = message.raw;
                 if (message.contract != null && message.hasOwnProperty("contract"))
                     object.contract = message.contract;
                 if (message.methodSignature != null && message.hasOwnProperty("methodSignature"))
@@ -17717,8 +18002,6 @@
                     for (var j = 0; j < message.args.length; ++j)
                         object.args[j] = message.args[j];
                 }
-                if (message.raw != null && message.hasOwnProperty("raw"))
-                    object.raw = message.raw;
                 if (message.privateFor && message.privateFor.length) {
                     object.privateFor = [];
                     for (var j = 0; j < message.privateFor.length; ++j)
@@ -17730,6 +18013,13 @@
                     object.privateTxType = message.privateTxType;
                 if (message.privacyGroupId != null && message.hasOwnProperty("privacyGroupId"))
                     object.privacyGroupId = message.privacyGroupId;
+                if (message.mandatoryFor && message.mandatoryFor.length) {
+                    object.mandatoryFor = [];
+                    for (var j = 0; j < message.mandatoryFor.length; ++j)
+                        object.mandatoryFor[j] = message.mandatoryFor[j];
+                }
+                if (message.privacyFlag != null && message.hasOwnProperty("privacyFlag"))
+                    object.privacyFlag = message.privacyFlag;
                 return object;
             };
     

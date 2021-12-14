@@ -2,7 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
-## 5.0.0 (WIP)
+## 5.2.0 (WIP)
+
+### 🆕 Features
+
+- Support for contract name and tag in transaction receipts
+
+## 5.1.0 (2021-10-29)
+
+### 🆕 Features
+
+- Support for go-quorum privacy privacy enhancements: `privacyFlags`, `mandatoryFor`
+- Support for go-quorum private transaction with optional `privateFrom`.
+
+## 5.0.0 (2021-10-25)
 
 ### 🆕 Features
 

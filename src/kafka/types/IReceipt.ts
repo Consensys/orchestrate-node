@@ -18,4 +18,6 @@ export interface IReceipt {
   privateFrom?: string
   privateFor?: string[]
   privacyGroupId?: string
+  contractName?: string
+  contractTag?: string
 }
