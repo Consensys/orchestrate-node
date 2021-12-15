@@ -6190,6 +6190,12 @@ export namespace ethereum {
 
         /** Receipt privacyGroupId */
         privacyGroupId?: (string|null);
+
+        /** Receipt contractName */
+        contractName?: (string|null);
+
+        /** Receipt contractTag */
+        contractTag?: (string|null);
     }
 
     /** Represents a Receipt. */
@@ -6251,6 +6257,12 @@ export namespace ethereum {
 
         /** Receipt privacyGroupId. */
         public privacyGroupId: string;
+
+        /** Receipt contractName. */
+        public contractName: string;
+
+        /** Receipt contractTag. */
+        public contractTag: string;
 
         /**
          * Creates a new Receipt instance using the specified properties.
@@ -6605,6 +6617,9 @@ export namespace tx {
 
         /** TxRequest contextLabels */
         contextLabels?: ({ [k: string]: string }|null);
+
+        /** TxRequest jobType */
+        jobType?: (tx.JobType|null);
     }
 
     /** Represents a TxRequest. */
@@ -6633,6 +6648,9 @@ export namespace tx {
 
         /** TxRequest contextLabels. */
         public contextLabels: { [k: string]: string };
+
+        /** TxRequest jobType. */
+        public jobType: tx.JobType;
 
         /**
          * Creates a new TxRequest instance using the specified properties.
@@ -6818,6 +6836,16 @@ export namespace tx {
         EEA_SENDPRIVATETRANSACTION = 3
     }
 
+    /** JobType enum. */
+    enum JobType {
+        ETH_TX = 0,
+        ETH_RAW_TX = 1,
+        ETH_EEA_MARKING_TX = 2,
+        ETH_EEA_PRIVATE_TX = 3,
+        ETH_TESSERA_MARKING_TX = 4,
+        ETH_TESSERA_PRIVATE_TX = 5
+    }
+
     /** Properties of a Params. */
     interface IParams {
 
@@ -6833,6 +6861,12 @@ export namespace tx {
         /** Params gasPrice */
         gasPrice?: (string|null);
 
+        /** Params gasFeeCap */
+        gasFeeCap?: (string|null);
+
+        /** Params gasTipCap */
+        gasTipCap?: (string|null);
+
         /** Params value */
         value?: (string|null);
 
@@ -6842,6 +6876,15 @@ export namespace tx {
         /** Params data */
         data?: (string|null);
 
+        /** Params transactionType */
+        transactionType?: (string|null);
+
+        /** Params accessList */
+        accessList?: (ethereum.IAccessTuple[]|null);
+
+        /** Params raw */
+        raw?: (string|null);
+
         /** Params contract */
         contract?: (string|null);
 
@@ -6850,9 +6893,6 @@ export namespace tx {
 
         /** Params args */
         args?: (string[]|null);
-
-        /** Params raw */
-        raw?: (string|null);
 
         /** Params privateFor */
         privateFor?: (string[]|null);
@@ -6865,6 +6905,12 @@ export namespace tx {
 
         /** Params privacyGroupId */
         privacyGroupId?: (string|null);
+
+        /** Params mandatoryFor */
+        mandatoryFor?: (string[]|null);
+
+        /** Params privacyFlag */
+        privacyFlag?: (number|null);
     }
 
     /** Represents a Params. */
@@ -6888,6 +6934,12 @@ export namespace tx {
         /** Params gasPrice. */
         public gasPrice: string;
 
+        /** Params gasFeeCap. */
+        public gasFeeCap: string;
+
+        /** Params gasTipCap. */
+        public gasTipCap: string;
+
         /** Params value. */
         public value: string;
 
@@ -6897,6 +6949,15 @@ export namespace tx {
         /** Params data. */
         public data: string;
 
+        /** Params transactionType. */
+        public transactionType: string;
+
+        /** Params accessList. */
+        public accessList: ethereum.IAccessTuple[];
+
+        /** Params raw. */
+        public raw: string;
+
         /** Params contract. */
         public contract: string;
 
@@ -6905,9 +6966,6 @@ export namespace tx {
 
         /** Params args. */
         public args: string[];
-
-        /** Params raw. */
-        public raw: string;
 
         /** Params privateFor. */
         public privateFor: string[];
@@ -6920,6 +6978,12 @@ export namespace tx {
 
         /** Params privacyGroupId. */
         public privacyGroupId: string;
+
+        /** Params mandatoryFor. */
+        public mandatoryFor: string[];
+
+        /** Params privacyFlag. */
+        public privacyFlag: number;
 
         /**
          * Creates a new Params instance using the specified properties.

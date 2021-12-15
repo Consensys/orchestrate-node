@@ -7,6 +7,9 @@ All notable changes to this project will be documented in this file.
 ### 🆕 Features
 
 - Support for new transaction pricing mechanism (eip-1559)
+- Support for go-quorum privacy privacy enhancements: `privacyFlags`, `mandatoryFor`
+- Support for go-quorum private transaction with optional `privateFrom`.
+- Support for contract name and tag in transaction receipts
 
 ### ⚠ BREAKING CHANGES
 
