@@ -16,9 +16,6 @@ The Orchestrate library provides convenient access to the Orchestrate API from a
 | SDK versions        | Orchestrate versions                  |
 | ------------------- | ------------------------------------- |
 | master/HEAD         | Orchestrate v21.11.0-alpha2 or higher |
-| SDK v5.2.x          | Orchestrate v21.11.0-alpha2 or higher |
-| SDK v5.1.x          | Orchestrate v21.10.0-alpha3 or higher |
-| SDK v5.0.x          | Orchestrate v21.10.0-alpha1 or higher |
 | SDK v4.1.x          | Orchestrate v21.1.5 or higher         |
 | SDK v4.0.x          | Orchestrate v21.1.0 or higher         |
 | SDK v3.1.1          | Orchestrate v2.4 or higher            |
