@@ -10,8 +10,8 @@ export const start = async () => {
       name: 'faucet',
       chainRule: '[CHAIN_UUID]',
       creditorAccount: '[FUNDED_ACCOUNT]',
-      amount: '60000000000000000',
-      maxBalance: '100000000000000000',
+      amount: '0xD529AE9E860000',
+      maxBalance: '0x100000000000000000',
       cooldown: '10s'
     })
 

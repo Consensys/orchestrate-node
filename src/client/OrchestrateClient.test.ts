@@ -254,7 +254,7 @@ describe('OrchestrateClient', () => {
           to: '0xContractAddr',
           methodSignature: 'transfer(address, unit256)',
           args: ['0xToAddr', '1000'],
-          protocol: types.ProtocolType.Orion,
+          protocol: types.ProtocolType.EEA,
           privateFor: ['0xpubkey1', '0xpubkey2'],
           privateFrom: '0xpubkey'
         }
