@@ -14,7 +14,7 @@ export const start = async () => {
         params: {
           from: '[ETH_ACCOUNT]',
           to: '0x6009608a02a7a15fd6689d6dad560c44e9ab61ff',
-          value: '100000000'
+          value: '0x5F5E100'
         }
       },
       'ExampleTransfer'
