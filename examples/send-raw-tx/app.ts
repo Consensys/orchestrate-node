@@ -20,7 +20,7 @@ export const start = async () => {
       nonce: 0,
       gasLimit: 21000,
       to: '0xdbb881a51cd4023e4400cef3ef73046743f08da3',
-      value: utils.parseEther('1')
+      value: utils.parseEther('1').toHexString()
     })
 
     const res = await client.sendRawTransaction(

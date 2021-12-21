@@ -1,6 +1,6 @@
 {
   "name": "pegasys-orchestrate",
-  "version": "5.1.0",
+  "version": "6.0.1",
   "description": "The PegaSys Orchestrate library provides convenient access to the Codefi Orchestrate API from applications written in server-side JavaScript",
   "main": "lib/index.js",
   "files": [
@@ -72,7 +72,7 @@
   "dependencies": {
     "axios": "~0.21.3",
     "commander": "~5.1.0",
-    "ethers": "~5.4.7",
+    "ethers": "~5.5.1",
     "kafkajs": "~1.15.0",
     "protobufjs": "~6.11.2",
     "qs": "~6.10.1",

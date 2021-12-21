@@ -24,7 +24,7 @@ commands:
           key: node-cache-{{ checksum "package-lock.json" }}
 
   publish_doc:
-    description: "publish doc to gihub pages"
+    description: "publish doc to github pages"
     steps:
       - checkout
       - attach_workspace:

@@ -2,15 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
-## 5.0.0 (WIP)
+## 6.0.0 (2021-12-20)
 
 ### 🆕 Features
 
 - Support for new transaction pricing mechanism (eip-1559)
+- Support for go-quorum privacy privacy enhancements: `privacyFlags`, `mandatoryFor`
+- Support for go-quorum private transaction with optional `privateFrom`.
+- Support for contract name and tag in transaction receipts
 
 ### ⚠ BREAKING CHANGES
 
 - Removed `/accounts/{address}/sign` and `/accounts/{address}/verify-signature` in favor of `/accounts/{address}/sign-message` and `/accounts/verify-message` accordingly to EIP-191 standards
+
+## 5.0.0 (DEPRECATED)
+
+Deprecated version
 
 ## 4.2.1 (2021-10-06)
 
