@@ -19,7 +19,7 @@ export const start = async () => {
     const account = await client.importAccount({ privateKey })
 
     const message = convertToHex('my data to sign')
-    const signature = await client.signMessage(account.address, message)
+    const signature = await client.signMessage(account.address, { message })
 
     await client.verifyMessage({
       address: account.address,

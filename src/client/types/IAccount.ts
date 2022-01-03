@@ -8,6 +8,7 @@ export interface IAccount {
   tenantID: string
   active: boolean
   attributes?: object
+  storeID?: string
   createdAt: Date
   updatedAt: Date
 }
@@ -16,10 +17,12 @@ export interface ICreateAccountRequest {
   alias?: string
   chain?: string
   attributes?: object
+  storeID?: string
 }
 
 export interface IImportAccountRequest extends ICreateAccountRequest {
   privateKey: string
+  storeID?: string
 }
 
 export interface ISearchAccountsRequest extends ParsedQs {
@@ -29,6 +32,12 @@ export interface ISearchAccountsRequest extends ParsedQs {
 export interface IUpdateAccountRequest {
   alias: string
   attributes: object
+  storeID?: string
+}
+
+export interface ISignMessageRequest {
+  message: string
+  storeID?: string
 }
 
 export interface ISignTypedDataRequest {
@@ -47,6 +56,7 @@ export interface ISignTypedDataRequest {
   }
   message: object
   messageType: string
+  storeID?: string
 }
 
 export interface IVerifyTypedDataSignatureRequest {
