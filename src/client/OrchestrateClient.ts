@@ -444,13 +444,18 @@ export class OrchestrateClient {
    * Signs a message using a registered Ethereum account
    *
    * @param address account's Ethereum address
-   * @param data payload to sign
+   * @param request sign message request
    * @param authToken Bearer token. Required when multi-tenancy is enabled
    * @param headers HTTP request headers.
    */
-  public async signMessage(address: string, message: string, authToken?: string, headers?: IHeaders): Promise<string> {
+  public async signMessage(
+    address: string,
+    request: types.ISignMessageRequest,
+    authToken?: string,
+    headers?: IHeaders
+  ): Promise<string> {
     try {
-      return await this.client.post(`/accounts/${address}/sign-message`, { message }, authToken, headers)
+      return await this.client.post(`/accounts/${address}/sign-message`, request, authToken, headers)
     } catch (e) {
       throw e
     }
