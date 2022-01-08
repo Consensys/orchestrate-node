@@ -1,6 +1,9 @@
 ---
 version: 2.1
 
+orbs:
+  codecov: codecov/codecov@3.2.2
+
 executors:
   node_executor:
     docker:
@@ -101,6 +104,11 @@ jobs:
       - run:
           name: Unit tests
           command: npm run test:coverage
+      - codecov/upload:
+          file: coverage/coverage-final.json
+      - store_artifacts:
+          path: ./coverage/coverage-final.json
+          destination: coverage.json
 
   publishSdk:
     executor: node_executor

@@ -4,7 +4,8 @@
 [![npm](https://img.shields.io/npm/v/pegasys-orchestrate)](https://www.npmjs.com/package/pegasys-orchestrate)
 [![npm](https://img.shields.io/npm/dw/pegasys-orchestrate)](https://www.npmjs.com/package/pegasys-orchestrate)
 
-[![CircleCI](https://img.shields.io/circleci/build/gh/PegaSysEng/orchestrate-node?token=b950a12c7c5f1ba8ae60273360c99d832301057a)](https://circleci.com/gh/PegaSysEng/orchestrate-node)
+[![CircleCI](https://img.shields.io/circleci/build/gh/ConsenSys/orchestrate-node?token=b950a12c7c5f1ba8ae60273360c99d832301057a)](https://circleci.com/gh/ConsenSys/orchestrate-node)
+[![codecov](https://codecov.io/gh/ConsenSys/orchestrate-node/branch/main/graph/badge.svg)](https://codecov.io/gh/ConsenSys/orchestrate-node)
 [![Known Vulnerabilities](https://snyk.io/test/github/PegaSysEng/orchestrate-node/badge.svg?targetFile=package.json)](https://snyk.io/test/github/PegaSysEng/orchestrate-node?targetFile=package.json)
 
 # Orchestrate Node.js Library
