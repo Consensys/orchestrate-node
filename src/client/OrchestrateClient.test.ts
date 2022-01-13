@@ -229,7 +229,8 @@ describe('OrchestrateClient', () => {
         params: {
           from: '0xFromAddr',
           to: '0xContractAddr',
-          methodSignature: 'transfer(address, unit256)',
+          contractName: 'Contract',
+          methodSignature: 'transfer(address,unit256)',
           args: ['0xToAddr', '1000']
         }
       }
@@ -252,9 +253,10 @@ describe('OrchestrateClient', () => {
         params: {
           from: '0xFromAddr',
           to: '0xContractAddr',
-          methodSignature: 'transfer(address, unit256)',
+          contractName: 'Contract',
+          methodSignature: 'transfer(address,unit256)',
           args: ['0xToAddr', '1000'],
-          protocol: types.ProtocolType.Orion,
+          protocol: types.ProtocolType.EEA,
           privateFor: ['0xpubkey1', '0xpubkey2'],
           privateFrom: '0xpubkey'
         }

@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## 5.0.0 (WIP)
+## 5.1.0 (2022-01-13)
+
+### 🆕 Features
+
+- Support for Orchestrate v21.12.1 by adding the `contractTag` and `contractName` field to the `ISendTransactionRequest` object.
+
+## 5.0.0 (2021-12-13)
 
 ### 🆕 Features
 
