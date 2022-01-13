@@ -1096,7 +1096,7 @@ describe('OrchestrateClient', () => {
     it('should sign a message successfully', async () => {
       mockHTTPClient.post.mockResolvedValueOnce(signature)
 
-      const response = await client.signMessage(address, message, authToken, headers)
+      const response = await client.signMessage(address, { message }, authToken, headers)
 
       expect(mockHTTPClient.post).toHaveBeenCalledWith(
         `/accounts/${address}/sign-message`,
@@ -1111,7 +1111,7 @@ describe('OrchestrateClient', () => {
       const err = new Error('MyError')
       mockHTTPClient.post.mockRejectedValueOnce(err)
       try {
-        await client.signMessage(address, 'my data to sign')
+        await client.signMessage(address, { message: 'my data to sign' })
         fail('expected failed request')
       } catch (e) {
         expect(e).toEqual(err)

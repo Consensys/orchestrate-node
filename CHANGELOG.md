@@ -2,21 +2,40 @@
 
 All notable changes to this project will be documented in this file.
 
-## 5.1.0 (2022-01-13)
+## 6.1.0 (2022-01-13)
 
 ### 🆕 Features
 
 - Support for Orchestrate v21.12.1 by adding the `contractTag` and `contractName` field to the `ISendTransactionRequest` object.
 
-## 5.0.0 (2021-12-13)
+## 6.0.2 (2022-01-03)
+
+### 🛠 Bug fixes
+
+- Added missing `storeID` parameter to account request types
+
+## 6.0.1 (2021-12-20)
+
+### 🛠 Bug fixes
+
+- Typo on auto generated documentation
+
+## 6.0.0 (2021-12-20)
 
 ### 🆕 Features
 
 - Support for new transaction pricing mechanism (eip-1559)
+- Support for go-quorum privacy privacy enhancements: `privacyFlags`, `mandatoryFor`
+- Support for go-quorum private transaction with optional `privateFrom`.
+- Support for contract name and tag in transaction receipts
 
 ### ⚠ BREAKING CHANGES
 
 - Removed `/accounts/{address}/sign` and `/accounts/{address}/verify-signature` in favor of `/accounts/{address}/sign-message` and `/accounts/verify-message` accordingly to EIP-191 standards
+
+## 5.0.0 (DEPRECATED)
+
+Deprecated version
 
 ## 4.2.1 (2021-10-06)
 

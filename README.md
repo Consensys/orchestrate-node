@@ -4,7 +4,8 @@
 [![npm](https://img.shields.io/npm/v/pegasys-orchestrate)](https://www.npmjs.com/package/pegasys-orchestrate)
 [![npm](https://img.shields.io/npm/dw/pegasys-orchestrate)](https://www.npmjs.com/package/pegasys-orchestrate)
 
-[![CircleCI](https://img.shields.io/circleci/build/gh/PegaSysEng/orchestrate-node?token=b950a12c7c5f1ba8ae60273360c99d832301057a)](https://circleci.com/gh/PegaSysEng/orchestrate-node)
+[![CircleCI](https://img.shields.io/circleci/build/gh/ConsenSys/orchestrate-node?token=b950a12c7c5f1ba8ae60273360c99d832301057a)](https://circleci.com/gh/ConsenSys/orchestrate-node)
+[![codecov](https://codecov.io/gh/ConsenSys/orchestrate-node/branch/master/graph/badge.svg)](https://codecov.io/gh/ConsenSys/orchestrate-node)
 [![Known Vulnerabilities](https://snyk.io/test/github/PegaSysEng/orchestrate-node/badge.svg?targetFile=package.json)](https://snyk.io/test/github/PegaSysEng/orchestrate-node?targetFile=package.json)
 
 # Orchestrate Node.js Library
@@ -15,8 +16,10 @@ The Orchestrate library provides convenient access to the Orchestrate API from a
 
 | SDK versions        | Orchestrate versions           |
 | ------------------- | ------------------------------ |
-| master/HEAD         | Orchestrate v21.10.0 or higher |
-| SDK v5.0.x          | Orchestrate v21.10.0 higher    |
+| master/HEAD         | Orchestrate v21.12.0 or higher |
+| SDK v6.1.x          | Orchestrate v21.12.1 or higher |
+| SDK v6.0.x          | Orchestrate v21.12.0 or higher |
+| ~~SDK v5.x.x~~      | Deprecated                     |
 | SDK v4.1.x          | Orchestrate v21.1.5 or higher  |
 | SDK v4.0.x          | Orchestrate v21.1.0 or higher  |
 | SDK v3.1.1          | Orchestrate v2.4 or higher     |

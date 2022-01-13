@@ -56,7 +56,9 @@ function parseReceipt(receipt?: ethereum.IReceipt | null): IReceipt | undefined 
       output: parseString(receipt.output),
       privateFrom: parseString(receipt.privateFrom),
       privateFor: receipt.privateFor ? receipt.privateFor : undefined,
-      privacyGroupId: parseString(receipt.privacyGroupId)
+      privacyGroupId: parseString(receipt.privacyGroupId),
+      contractName: parseString(receipt.contractName),
+      contractTag: parseString(receipt.contractTag)
     }
   }
 }
