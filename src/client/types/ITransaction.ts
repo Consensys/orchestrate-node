@@ -34,6 +34,9 @@ interface IDeployContractParams extends IBaseTransactionParams, IPrivateTransact
 export interface ISendRawRequest extends IBaseRequest {
   params: {
     raw: string
+    retryPolicy?: {
+      interval: string
+    }
   }
 }
 
