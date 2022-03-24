@@ -2,11 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+
 ## 7.0.0 (WIP)
 
 ### ⚠ BREAKING CHANGES
 
 - Reformatted job notification message
+
+## 6.1.0 (2022-01-13)
+
+### 🆕 Features
+
+- Support for Orchestrate v21.12.1 by adding the `contractTag` and `contractName` field to the `ISendTransactionRequest` object.
 
 ## 6.0.2 (2022-01-03)
 

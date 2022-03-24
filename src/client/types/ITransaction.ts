@@ -14,6 +14,8 @@ export interface ISendTransactionRequest extends IBaseRequest {
 }
 interface ITransactionParams extends IBaseTransactionParams, IPrivateTransactionParams {
   to: string
+  contractName: string
+  contractTag?: string
   methodSignature: string
   gasPricePolicy?: IGasPricePolicy
   oneTimeKey?: boolean
@@ -32,6 +34,9 @@ interface IDeployContractParams extends IBaseTransactionParams, IPrivateTransact
 export interface ISendRawRequest extends IBaseRequest {
   params: {
     raw: string
+    retryPolicy?: {
+      interval: string
+    }
   }
 }
 

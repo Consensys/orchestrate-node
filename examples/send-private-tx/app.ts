@@ -15,8 +15,8 @@ export const start = async () => {
           contractName: 'SimpleToken',
           from: '[ETH_ACCOUNT]',
           protocol: ProtocolType.EEA,
-          privateFor: ['k2zXEin4Ip/qBGlRkJejnGWdP9cjkK+DAvKNW31L2C8='], // Orion default node 2 public key in development mode
-          privateFrom: 'Ko2bVqD+nNlNYL5EE7y3IdOnviftjiizpjRt+HTuFBs=' // Orion default node 1 public key in development mode
+          privateFor: ['QfeDAys9MPDs2XHExtc84jKGHxZg/aj52DTh0vtA3Xc='], // EEA default node 2 public key in development mode
+          privateFrom: 'BULeR8JyUWhiuuCMU/HLA0Q5pzkYT+cHII3ZKBey3Bo=' // EEA default node 1 public key in development mode
         }
       },
       'ExampleSendPrivate'
