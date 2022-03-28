@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+
+## 7.0.0 (WIP)
+
+### ⚠ BREAKING CHANGES
+
+- Reformatted job notification message
+
 ## 6.1.0 (2022-01-13)
 
 ### 🆕 Features

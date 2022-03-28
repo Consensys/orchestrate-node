@@ -1,16 +1,17 @@
 syntax = "proto3";
 
-import "types/error/error.proto";
-import "types/ethereum/receipt.proto";
-import "types/ethereum/transaction.proto";
+import "pkg/types/error/error.proto";
+import "pkg/types/ethereum/receipt.proto";
+import "pkg/types/ethereum/transaction.proto";
 
-option go_package = "github.com/consensys/orchestrate/types/tx";
+option go_package = "github.com/consensys/orchestrate/pkg/types/tx";
 
 package tx;
 
 message TxRequest {
-    // Technical header (optional)
-    map<string, string> headers = 1;
+    // ID of the Request in UUID RFC 4122, ISO/IEC 9834-8:2005 format
+    // e.g a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11
+    string id = 1;
 
     // Name of the Chain as registered on the chain registry
     // e.g. 1 for mainnet, 3 for Ropsten
@@ -22,15 +23,14 @@ message TxRequest {
     // Params for the transaction
     Params params = 4;
 
-    // ID of the Request in UUID RFC 4122, ISO/IEC 9834-8:2005 format
-    // e.g a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11
-    string id = 5;
+    // Type of the job
+    JobType jobType = 5;
+
+    // Technical header (optional)
+    map<string, string> headers = 6;
 
     // [option]
-    map<string, string> context_labels = 6;
-
-    // Type of the job
-    JobType jobType = 7;
+    map<string, string> context_labels = 7;
 }
 
 message TxEnvelope {
@@ -59,10 +59,10 @@ enum Method {
 enum JobType {
     ETH_TX = 0;
     ETH_RAW_TX = 1;
-    ETH_EEA_MARKING_TX = 2;
-    ETH_EEA_PRIVATE_TX = 3;
-    ETH_TESSERA_MARKING_TX = 4;
-    ETH_TESSERA_PRIVATE_TX = 5;
+    EEA_MARKING_TX = 2;
+    EEA_PRIVATE_TX = 3;
+    GO_QUORUM_MARKING_TX = 4;
+    GO_QUORUM_PRIVATE_TX = 5;
 }
 
 message Params {
@@ -134,25 +134,27 @@ message Params {
 }
 
 message TxResponse {
-    // Extra information (optional)
-    map<string, string> headers = 1;
 
     // ID of the Response in UUID RFC 4122, ISO/IEC 9834-8:2005 format
     // e.g a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11
-    string id = 2;
+    string id = 1;
+
+    // Name of the Chain as registered on the chain registry
+    // e.g. 1 for mainnet, 3 for Ropsten
+    string chain = 2;
 
     // ID of the Job created as part of transaction request
     // e.g 15276759-bbc6-4ead-ad51-ddfecf79cf09
-    string jobUUID = 8;
+    string jobUUID = 3;
+
+    // Extra information (optional)
+    map<string, string> headers = 4;
 
     // [option]
-    map<string, string> context_labels = 3;
+    map<string, string> context_labels = 5;
 
-    ethereum.Transaction transaction = 4;
-    ethereum.Receipt receipt = 5;
-    // Name of the Chain as registered on the chain registry
-    // e.g. 1 for mainnet, 3 for Ropsten
-    string chain = 7;
+    ethereum.Transaction transaction = 6;
+    ethereum.Receipt receipt = 7;
 
-    repeated error.Error errors = 6;
+    repeated error.Error errors = 8;
 }

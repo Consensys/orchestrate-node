@@ -2830,19 +2830,19 @@ export namespace google {
             constructor(properties?: google.api.IHttpRule);
 
             /** HttpRule get. */
-            public get: string;
+            public get?: (string|null);
 
             /** HttpRule put. */
-            public put: string;
+            public put?: (string|null);
 
             /** HttpRule post. */
-            public post: string;
+            public post?: (string|null);
 
             /** HttpRule delete. */
-            public delete: string;
+            public delete?: (string|null);
 
             /** HttpRule patch. */
-            public patch: string;
+            public patch?: (string|null);
 
             /** HttpRule custom. */
             public custom?: (google.api.ICustomHttpPattern|null);
@@ -6600,8 +6600,8 @@ export namespace tx {
     /** Properties of a TxRequest. */
     interface ITxRequest {
 
-        /** TxRequest headers */
-        headers?: ({ [k: string]: string }|null);
+        /** TxRequest id */
+        id?: (string|null);
 
         /** TxRequest chain */
         chain?: (string|null);
@@ -6612,14 +6612,14 @@ export namespace tx {
         /** TxRequest params */
         params?: (tx.IParams|null);
 
-        /** TxRequest id */
-        id?: (string|null);
+        /** TxRequest jobType */
+        jobType?: (tx.JobType|null);
+
+        /** TxRequest headers */
+        headers?: ({ [k: string]: string }|null);
 
         /** TxRequest contextLabels */
         contextLabels?: ({ [k: string]: string }|null);
-
-        /** TxRequest jobType */
-        jobType?: (tx.JobType|null);
     }
 
     /** Represents a TxRequest. */
@@ -6631,8 +6631,8 @@ export namespace tx {
          */
         constructor(properties?: tx.ITxRequest);
 
-        /** TxRequest headers. */
-        public headers: { [k: string]: string };
+        /** TxRequest id. */
+        public id: string;
 
         /** TxRequest chain. */
         public chain: string;
@@ -6643,14 +6643,14 @@ export namespace tx {
         /** TxRequest params. */
         public params?: (tx.IParams|null);
 
-        /** TxRequest id. */
-        public id: string;
+        /** TxRequest jobType. */
+        public jobType: tx.JobType;
+
+        /** TxRequest headers. */
+        public headers: { [k: string]: string };
 
         /** TxRequest contextLabels. */
         public contextLabels: { [k: string]: string };
-
-        /** TxRequest jobType. */
-        public jobType: tx.JobType;
 
         /**
          * Creates a new TxRequest instance using the specified properties.
@@ -6840,10 +6840,10 @@ export namespace tx {
     enum JobType {
         ETH_TX = 0,
         ETH_RAW_TX = 1,
-        ETH_EEA_MARKING_TX = 2,
-        ETH_EEA_PRIVATE_TX = 3,
-        ETH_TESSERA_MARKING_TX = 4,
-        ETH_TESSERA_PRIVATE_TX = 5
+        EEA_MARKING_TX = 2,
+        EEA_PRIVATE_TX = 3,
+        GO_QUORUM_MARKING_TX = 4,
+        GO_QUORUM_PRIVATE_TX = 5
     }
 
     /** Properties of a Params. */
@@ -7059,14 +7059,17 @@ export namespace tx {
     /** Properties of a TxResponse. */
     interface ITxResponse {
 
-        /** TxResponse headers */
-        headers?: ({ [k: string]: string }|null);
-
         /** TxResponse id */
         id?: (string|null);
 
+        /** TxResponse chain */
+        chain?: (string|null);
+
         /** TxResponse jobUUID */
         jobUUID?: (string|null);
+
+        /** TxResponse headers */
+        headers?: ({ [k: string]: string }|null);
 
         /** TxResponse contextLabels */
         contextLabels?: ({ [k: string]: string }|null);
@@ -7076,9 +7079,6 @@ export namespace tx {
 
         /** TxResponse receipt */
         receipt?: (ethereum.IReceipt|null);
-
-        /** TxResponse chain */
-        chain?: (string|null);
 
         /** TxResponse errors */
         errors?: (error.IError[]|null);
@@ -7093,14 +7093,17 @@ export namespace tx {
          */
         constructor(properties?: tx.ITxResponse);
 
-        /** TxResponse headers. */
-        public headers: { [k: string]: string };
-
         /** TxResponse id. */
         public id: string;
 
+        /** TxResponse chain. */
+        public chain: string;
+
         /** TxResponse jobUUID. */
         public jobUUID: string;
+
+        /** TxResponse headers. */
+        public headers: { [k: string]: string };
 
         /** TxResponse contextLabels. */
         public contextLabels: { [k: string]: string };
@@ -7110,9 +7113,6 @@ export namespace tx {
 
         /** TxResponse receipt. */
         public receipt?: (ethereum.IReceipt|null);
-
-        /** TxResponse chain. */
-        public chain: string;
 
         /** TxResponse errors. */
         public errors: error.IError[];
