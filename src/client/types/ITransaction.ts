@@ -45,7 +45,7 @@ export interface ITransferRequest extends IBaseRequest {
     from: string
     to: string
     value: string
-    gas?: string
+    gas?: number
     gasPrice?: string
     maxFeePerGas?: string
     maxPriorityFeePerGas?: string
@@ -74,7 +74,7 @@ export interface IETHTransactionParams extends IBaseTransactionParams, IPrivateT
 interface IBaseTransactionParams {
   from?: string
   value?: string
-  gas?: string
+  gas?: number
   gasPrice?: string
   maxFeePerGas?: string
   maxPriorityFeePerGas?: string
