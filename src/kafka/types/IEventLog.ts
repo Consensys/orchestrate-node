@@ -1,6 +1,6 @@
 import { IContextLabels } from './IContextLabels'
 
-export interface ILog {
+export interface IEventLog {
   address?: string
   topics?: string[]
   data?: string
