@@ -72,7 +72,7 @@
   "dependencies": {
     "axios": "~0.21.3",
     "commander": "~5.1.0",
-    "ethers": "~5.5.3",
+    "ethers": "~5.6.8",
     "kafkajs": "~1.15.0",
     "protobufjs": "~6.11.2",
     "qs": "~6.10.3",
