@@ -16549,13 +16549,13 @@
              * Properties of a TxRequest.
              * @memberof tx
              * @interface ITxRequest
-             * @property {string|null} [id] TxRequest id
+             * @property {Object.<string,string>|null} [headers] TxRequest headers
              * @property {string|null} [chain] TxRequest chain
              * @property {tx.Method|null} [method] TxRequest method
              * @property {tx.IParams|null} [params] TxRequest params
-             * @property {tx.JobType|null} [jobType] TxRequest jobType
-             * @property {Object.<string,string>|null} [headers] TxRequest headers
+             * @property {string|null} [id] TxRequest id
              * @property {Object.<string,string>|null} [contextLabels] TxRequest contextLabels
+             * @property {tx.JobType|null} [jobType] TxRequest jobType
              */
     
             /**
@@ -16576,12 +16576,12 @@
             }
     
             /**
-             * TxRequest id.
-             * @member {string} id
+             * TxRequest headers.
+             * @member {Object.<string,string>} headers
              * @memberof tx.TxRequest
              * @instance
              */
-            TxRequest.prototype.id = "";
+            TxRequest.prototype.headers = $util.emptyObject;
     
             /**
              * TxRequest chain.
@@ -16608,20 +16608,12 @@
             TxRequest.prototype.params = null;
     
             /**
-             * TxRequest jobType.
-             * @member {tx.JobType} jobType
+             * TxRequest id.
+             * @member {string} id
              * @memberof tx.TxRequest
              * @instance
              */
-            TxRequest.prototype.jobType = 0;
-    
-            /**
-             * TxRequest headers.
-             * @member {Object.<string,string>} headers
-             * @memberof tx.TxRequest
-             * @instance
-             */
-            TxRequest.prototype.headers = $util.emptyObject;
+            TxRequest.prototype.id = "";
     
             /**
              * TxRequest contextLabels.
@@ -16630,6 +16622,14 @@
              * @instance
              */
             TxRequest.prototype.contextLabels = $util.emptyObject;
+    
+            /**
+             * TxRequest jobType.
+             * @member {tx.JobType} jobType
+             * @memberof tx.TxRequest
+             * @instance
+             */
+            TxRequest.prototype.jobType = 0;
     
             /**
              * Creates a new TxRequest instance using the specified properties.
@@ -16655,22 +16655,22 @@
             TxRequest.encode = function encode(message, writer) {
                 if (!writer)
                     writer = $Writer.create();
-                if (message.id != null && Object.hasOwnProperty.call(message, "id"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
+                if (message.headers != null && Object.hasOwnProperty.call(message, "headers"))
+                    for (var keys = Object.keys(message.headers), i = 0; i < keys.length; ++i)
+                        writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.headers[keys[i]]).ldelim();
                 if (message.chain != null && Object.hasOwnProperty.call(message, "chain"))
                     writer.uint32(/* id 2, wireType 2 =*/18).string(message.chain);
                 if (message.method != null && Object.hasOwnProperty.call(message, "method"))
                     writer.uint32(/* id 3, wireType 0 =*/24).int32(message.method);
                 if (message.params != null && Object.hasOwnProperty.call(message, "params"))
                     $root.tx.Params.encode(message.params, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
-                if (message.jobType != null && Object.hasOwnProperty.call(message, "jobType"))
-                    writer.uint32(/* id 5, wireType 0 =*/40).int32(message.jobType);
-                if (message.headers != null && Object.hasOwnProperty.call(message, "headers"))
-                    for (var keys = Object.keys(message.headers), i = 0; i < keys.length; ++i)
-                        writer.uint32(/* id 6, wireType 2 =*/50).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.headers[keys[i]]).ldelim();
+                if (message.id != null && Object.hasOwnProperty.call(message, "id"))
+                    writer.uint32(/* id 5, wireType 2 =*/42).string(message.id);
                 if (message.contextLabels != null && Object.hasOwnProperty.call(message, "contextLabels"))
                     for (var keys = Object.keys(message.contextLabels), i = 0; i < keys.length; ++i)
-                        writer.uint32(/* id 7, wireType 2 =*/58).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.contextLabels[keys[i]]).ldelim();
+                        writer.uint32(/* id 6, wireType 2 =*/50).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.contextLabels[keys[i]]).ldelim();
+                if (message.jobType != null && Object.hasOwnProperty.call(message, "jobType"))
+                    writer.uint32(/* id 7, wireType 0 =*/56).int32(message.jobType);
                 return writer;
             };
     
@@ -16706,21 +16706,6 @@
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1:
-                        message.id = reader.string();
-                        break;
-                    case 2:
-                        message.chain = reader.string();
-                        break;
-                    case 3:
-                        message.method = reader.int32();
-                        break;
-                    case 4:
-                        message.params = $root.tx.Params.decode(reader, reader.uint32());
-                        break;
-                    case 5:
-                        message.jobType = reader.int32();
-                        break;
-                    case 6:
                         if (message.headers === $util.emptyObject)
                             message.headers = {};
                         var end2 = reader.uint32() + reader.pos;
@@ -16742,7 +16727,19 @@
                         }
                         message.headers[key] = value;
                         break;
-                    case 7:
+                    case 2:
+                        message.chain = reader.string();
+                        break;
+                    case 3:
+                        message.method = reader.int32();
+                        break;
+                    case 4:
+                        message.params = $root.tx.Params.decode(reader, reader.uint32());
+                        break;
+                    case 5:
+                        message.id = reader.string();
+                        break;
+                    case 6:
                         if (message.contextLabels === $util.emptyObject)
                             message.contextLabels = {};
                         var end2 = reader.uint32() + reader.pos;
@@ -16763,6 +16760,9 @@
                             }
                         }
                         message.contextLabels[key] = value;
+                        break;
+                    case 7:
+                        message.jobType = reader.int32();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -16799,9 +16799,14 @@
             TxRequest.verify = function verify(message) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.id != null && message.hasOwnProperty("id"))
-                    if (!$util.isString(message.id))
-                        return "id: string expected";
+                if (message.headers != null && message.hasOwnProperty("headers")) {
+                    if (!$util.isObject(message.headers))
+                        return "headers: object expected";
+                    var key = Object.keys(message.headers);
+                    for (var i = 0; i < key.length; ++i)
+                        if (!$util.isString(message.headers[key[i]]))
+                            return "headers: string{k:string} expected";
+                }
                 if (message.chain != null && message.hasOwnProperty("chain"))
                     if (!$util.isString(message.chain))
                         return "chain: string expected";
@@ -16820,6 +16825,17 @@
                     if (error)
                         return "params." + error;
                 }
+                if (message.id != null && message.hasOwnProperty("id"))
+                    if (!$util.isString(message.id))
+                        return "id: string expected";
+                if (message.contextLabels != null && message.hasOwnProperty("contextLabels")) {
+                    if (!$util.isObject(message.contextLabels))
+                        return "contextLabels: object expected";
+                    var key = Object.keys(message.contextLabels);
+                    for (var i = 0; i < key.length; ++i)
+                        if (!$util.isString(message.contextLabels[key[i]]))
+                            return "contextLabels: string{k:string} expected";
+                }
                 if (message.jobType != null && message.hasOwnProperty("jobType"))
                     switch (message.jobType) {
                     default:
@@ -16832,22 +16848,6 @@
                     case 5:
                         break;
                     }
-                if (message.headers != null && message.hasOwnProperty("headers")) {
-                    if (!$util.isObject(message.headers))
-                        return "headers: object expected";
-                    var key = Object.keys(message.headers);
-                    for (var i = 0; i < key.length; ++i)
-                        if (!$util.isString(message.headers[key[i]]))
-                            return "headers: string{k:string} expected";
-                }
-                if (message.contextLabels != null && message.hasOwnProperty("contextLabels")) {
-                    if (!$util.isObject(message.contextLabels))
-                        return "contextLabels: object expected";
-                    var key = Object.keys(message.contextLabels);
-                    for (var i = 0; i < key.length; ++i)
-                        if (!$util.isString(message.contextLabels[key[i]]))
-                            return "contextLabels: string{k:string} expected";
-                }
                 return null;
             };
     
@@ -16863,8 +16863,13 @@
                 if (object instanceof $root.tx.TxRequest)
                     return object;
                 var message = new $root.tx.TxRequest();
-                if (object.id != null)
-                    message.id = String(object.id);
+                if (object.headers) {
+                    if (typeof object.headers !== "object")
+                        throw TypeError(".tx.TxRequest.headers: object expected");
+                    message.headers = {};
+                    for (var keys = Object.keys(object.headers), i = 0; i < keys.length; ++i)
+                        message.headers[keys[i]] = String(object.headers[keys[i]]);
+                }
                 if (object.chain != null)
                     message.chain = String(object.chain);
                 switch (object.method) {
@@ -16890,6 +16895,15 @@
                         throw TypeError(".tx.TxRequest.params: object expected");
                     message.params = $root.tx.Params.fromObject(object.params);
                 }
+                if (object.id != null)
+                    message.id = String(object.id);
+                if (object.contextLabels) {
+                    if (typeof object.contextLabels !== "object")
+                        throw TypeError(".tx.TxRequest.contextLabels: object expected");
+                    message.contextLabels = {};
+                    for (var keys = Object.keys(object.contextLabels), i = 0; i < keys.length; ++i)
+                        message.contextLabels[keys[i]] = String(object.contextLabels[keys[i]]);
+                }
                 switch (object.jobType) {
                 case "ETH_TX":
                 case 0:
@@ -16899,36 +16913,22 @@
                 case 1:
                     message.jobType = 1;
                     break;
-                case "EEA_MARKING_TX":
+                case "ETH_EEA_MARKING_TX":
                 case 2:
                     message.jobType = 2;
                     break;
-                case "EEA_PRIVATE_TX":
+                case "ETH_EEA_PRIVATE_TX":
                 case 3:
                     message.jobType = 3;
                     break;
-                case "GO_QUORUM_MARKING_TX":
+                case "ETH_TESSERA_MARKING_TX":
                 case 4:
                     message.jobType = 4;
                     break;
-                case "GO_QUORUM_PRIVATE_TX":
+                case "ETH_TESSERA_PRIVATE_TX":
                 case 5:
                     message.jobType = 5;
                     break;
-                }
-                if (object.headers) {
-                    if (typeof object.headers !== "object")
-                        throw TypeError(".tx.TxRequest.headers: object expected");
-                    message.headers = {};
-                    for (var keys = Object.keys(object.headers), i = 0; i < keys.length; ++i)
-                        message.headers[keys[i]] = String(object.headers[keys[i]]);
-                }
-                if (object.contextLabels) {
-                    if (typeof object.contextLabels !== "object")
-                        throw TypeError(".tx.TxRequest.contextLabels: object expected");
-                    message.contextLabels = {};
-                    for (var keys = Object.keys(object.contextLabels), i = 0; i < keys.length; ++i)
-                        message.contextLabels[keys[i]] = String(object.contextLabels[keys[i]]);
                 }
                 return message;
             };
@@ -16951,33 +16951,33 @@
                     object.contextLabels = {};
                 }
                 if (options.defaults) {
-                    object.id = "";
                     object.chain = "";
                     object.method = options.enums === String ? "ETH_SENDRAWTRANSACTION" : 0;
                     object.params = null;
+                    object.id = "";
                     object.jobType = options.enums === String ? "ETH_TX" : 0;
                 }
-                if (message.id != null && message.hasOwnProperty("id"))
-                    object.id = message.id;
-                if (message.chain != null && message.hasOwnProperty("chain"))
-                    object.chain = message.chain;
-                if (message.method != null && message.hasOwnProperty("method"))
-                    object.method = options.enums === String ? $root.tx.Method[message.method] : message.method;
-                if (message.params != null && message.hasOwnProperty("params"))
-                    object.params = $root.tx.Params.toObject(message.params, options);
-                if (message.jobType != null && message.hasOwnProperty("jobType"))
-                    object.jobType = options.enums === String ? $root.tx.JobType[message.jobType] : message.jobType;
                 var keys2;
                 if (message.headers && (keys2 = Object.keys(message.headers)).length) {
                     object.headers = {};
                     for (var j = 0; j < keys2.length; ++j)
                         object.headers[keys2[j]] = message.headers[keys2[j]];
                 }
+                if (message.chain != null && message.hasOwnProperty("chain"))
+                    object.chain = message.chain;
+                if (message.method != null && message.hasOwnProperty("method"))
+                    object.method = options.enums === String ? $root.tx.Method[message.method] : message.method;
+                if (message.params != null && message.hasOwnProperty("params"))
+                    object.params = $root.tx.Params.toObject(message.params, options);
+                if (message.id != null && message.hasOwnProperty("id"))
+                    object.id = message.id;
                 if (message.contextLabels && (keys2 = Object.keys(message.contextLabels)).length) {
                     object.contextLabels = {};
                     for (var j = 0; j < keys2.length; ++j)
                         object.contextLabels[keys2[j]] = message.contextLabels[keys2[j]];
                 }
+                if (message.jobType != null && message.hasOwnProperty("jobType"))
+                    object.jobType = options.enums === String ? $root.tx.JobType[message.jobType] : message.jobType;
                 return object;
             };
     
@@ -17322,19 +17322,19 @@
          * @enum {number}
          * @property {number} ETH_TX=0 ETH_TX value
          * @property {number} ETH_RAW_TX=1 ETH_RAW_TX value
-         * @property {number} EEA_MARKING_TX=2 EEA_MARKING_TX value
-         * @property {number} EEA_PRIVATE_TX=3 EEA_PRIVATE_TX value
-         * @property {number} GO_QUORUM_MARKING_TX=4 GO_QUORUM_MARKING_TX value
-         * @property {number} GO_QUORUM_PRIVATE_TX=5 GO_QUORUM_PRIVATE_TX value
+         * @property {number} ETH_EEA_MARKING_TX=2 ETH_EEA_MARKING_TX value
+         * @property {number} ETH_EEA_PRIVATE_TX=3 ETH_EEA_PRIVATE_TX value
+         * @property {number} ETH_TESSERA_MARKING_TX=4 ETH_TESSERA_MARKING_TX value
+         * @property {number} ETH_TESSERA_PRIVATE_TX=5 ETH_TESSERA_PRIVATE_TX value
          */
         tx.JobType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
             values[valuesById[0] = "ETH_TX"] = 0;
             values[valuesById[1] = "ETH_RAW_TX"] = 1;
-            values[valuesById[2] = "EEA_MARKING_TX"] = 2;
-            values[valuesById[3] = "EEA_PRIVATE_TX"] = 3;
-            values[valuesById[4] = "GO_QUORUM_MARKING_TX"] = 4;
-            values[valuesById[5] = "GO_QUORUM_PRIVATE_TX"] = 5;
+            values[valuesById[2] = "ETH_EEA_MARKING_TX"] = 2;
+            values[valuesById[3] = "ETH_EEA_PRIVATE_TX"] = 3;
+            values[valuesById[4] = "ETH_TESSERA_MARKING_TX"] = 4;
+            values[valuesById[5] = "ETH_TESSERA_PRIVATE_TX"] = 5;
             return values;
         })();
     
@@ -18043,13 +18043,13 @@
              * Properties of a TxResponse.
              * @memberof tx
              * @interface ITxResponse
-             * @property {string|null} [id] TxResponse id
-             * @property {string|null} [chain] TxResponse chain
-             * @property {string|null} [jobUUID] TxResponse jobUUID
              * @property {Object.<string,string>|null} [headers] TxResponse headers
+             * @property {string|null} [id] TxResponse id
+             * @property {string|null} [jobUUID] TxResponse jobUUID
              * @property {Object.<string,string>|null} [contextLabels] TxResponse contextLabels
              * @property {ethereum.ITransaction|null} [transaction] TxResponse transaction
              * @property {ethereum.IReceipt|null} [receipt] TxResponse receipt
+             * @property {string|null} [chain] TxResponse chain
              * @property {Array.<error.IError>|null} [errors] TxResponse errors
              */
     
@@ -18072,6 +18072,14 @@
             }
     
             /**
+             * TxResponse headers.
+             * @member {Object.<string,string>} headers
+             * @memberof tx.TxResponse
+             * @instance
+             */
+            TxResponse.prototype.headers = $util.emptyObject;
+    
+            /**
              * TxResponse id.
              * @member {string} id
              * @memberof tx.TxResponse
@@ -18080,28 +18088,12 @@
             TxResponse.prototype.id = "";
     
             /**
-             * TxResponse chain.
-             * @member {string} chain
-             * @memberof tx.TxResponse
-             * @instance
-             */
-            TxResponse.prototype.chain = "";
-    
-            /**
              * TxResponse jobUUID.
              * @member {string} jobUUID
              * @memberof tx.TxResponse
              * @instance
              */
             TxResponse.prototype.jobUUID = "";
-    
-            /**
-             * TxResponse headers.
-             * @member {Object.<string,string>} headers
-             * @memberof tx.TxResponse
-             * @instance
-             */
-            TxResponse.prototype.headers = $util.emptyObject;
     
             /**
              * TxResponse contextLabels.
@@ -18126,6 +18118,14 @@
              * @instance
              */
             TxResponse.prototype.receipt = null;
+    
+            /**
+             * TxResponse chain.
+             * @member {string} chain
+             * @memberof tx.TxResponse
+             * @instance
+             */
+            TxResponse.prototype.chain = "";
     
             /**
              * TxResponse errors.
@@ -18159,25 +18159,25 @@
             TxResponse.encode = function encode(message, writer) {
                 if (!writer)
                     writer = $Writer.create();
-                if (message.id != null && Object.hasOwnProperty.call(message, "id"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-                if (message.chain != null && Object.hasOwnProperty.call(message, "chain"))
-                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.chain);
-                if (message.jobUUID != null && Object.hasOwnProperty.call(message, "jobUUID"))
-                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.jobUUID);
                 if (message.headers != null && Object.hasOwnProperty.call(message, "headers"))
                     for (var keys = Object.keys(message.headers), i = 0; i < keys.length; ++i)
-                        writer.uint32(/* id 4, wireType 2 =*/34).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.headers[keys[i]]).ldelim();
+                        writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.headers[keys[i]]).ldelim();
+                if (message.id != null && Object.hasOwnProperty.call(message, "id"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.id);
                 if (message.contextLabels != null && Object.hasOwnProperty.call(message, "contextLabels"))
                     for (var keys = Object.keys(message.contextLabels), i = 0; i < keys.length; ++i)
-                        writer.uint32(/* id 5, wireType 2 =*/42).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.contextLabels[keys[i]]).ldelim();
+                        writer.uint32(/* id 3, wireType 2 =*/26).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.contextLabels[keys[i]]).ldelim();
                 if (message.transaction != null && Object.hasOwnProperty.call(message, "transaction"))
-                    $root.ethereum.Transaction.encode(message.transaction, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
+                    $root.ethereum.Transaction.encode(message.transaction, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
                 if (message.receipt != null && Object.hasOwnProperty.call(message, "receipt"))
-                    $root.ethereum.Receipt.encode(message.receipt, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
+                    $root.ethereum.Receipt.encode(message.receipt, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
                 if (message.errors != null && message.errors.length)
                     for (var i = 0; i < message.errors.length; ++i)
-                        $root.error.Error.encode(message.errors[i], writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
+                        $root.error.Error.encode(message.errors[i], writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
+                if (message.chain != null && Object.hasOwnProperty.call(message, "chain"))
+                    writer.uint32(/* id 7, wireType 2 =*/58).string(message.chain);
+                if (message.jobUUID != null && Object.hasOwnProperty.call(message, "jobUUID"))
+                    writer.uint32(/* id 8, wireType 2 =*/66).string(message.jobUUID);
                 return writer;
             };
     
@@ -18213,15 +18213,6 @@
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1:
-                        message.id = reader.string();
-                        break;
-                    case 2:
-                        message.chain = reader.string();
-                        break;
-                    case 3:
-                        message.jobUUID = reader.string();
-                        break;
-                    case 4:
                         if (message.headers === $util.emptyObject)
                             message.headers = {};
                         var end2 = reader.uint32() + reader.pos;
@@ -18243,7 +18234,13 @@
                         }
                         message.headers[key] = value;
                         break;
-                    case 5:
+                    case 2:
+                        message.id = reader.string();
+                        break;
+                    case 8:
+                        message.jobUUID = reader.string();
+                        break;
+                    case 3:
                         if (message.contextLabels === $util.emptyObject)
                             message.contextLabels = {};
                         var end2 = reader.uint32() + reader.pos;
@@ -18265,13 +18262,16 @@
                         }
                         message.contextLabels[key] = value;
                         break;
-                    case 6:
+                    case 4:
                         message.transaction = $root.ethereum.Transaction.decode(reader, reader.uint32());
                         break;
-                    case 7:
+                    case 5:
                         message.receipt = $root.ethereum.Receipt.decode(reader, reader.uint32());
                         break;
-                    case 8:
+                    case 7:
+                        message.chain = reader.string();
+                        break;
+                    case 6:
                         if (!(message.errors && message.errors.length))
                             message.errors = [];
                         message.errors.push($root.error.Error.decode(reader, reader.uint32()));
@@ -18311,15 +18311,6 @@
             TxResponse.verify = function verify(message) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.id != null && message.hasOwnProperty("id"))
-                    if (!$util.isString(message.id))
-                        return "id: string expected";
-                if (message.chain != null && message.hasOwnProperty("chain"))
-                    if (!$util.isString(message.chain))
-                        return "chain: string expected";
-                if (message.jobUUID != null && message.hasOwnProperty("jobUUID"))
-                    if (!$util.isString(message.jobUUID))
-                        return "jobUUID: string expected";
                 if (message.headers != null && message.hasOwnProperty("headers")) {
                     if (!$util.isObject(message.headers))
                         return "headers: object expected";
@@ -18328,6 +18319,12 @@
                         if (!$util.isString(message.headers[key[i]]))
                             return "headers: string{k:string} expected";
                 }
+                if (message.id != null && message.hasOwnProperty("id"))
+                    if (!$util.isString(message.id))
+                        return "id: string expected";
+                if (message.jobUUID != null && message.hasOwnProperty("jobUUID"))
+                    if (!$util.isString(message.jobUUID))
+                        return "jobUUID: string expected";
                 if (message.contextLabels != null && message.hasOwnProperty("contextLabels")) {
                     if (!$util.isObject(message.contextLabels))
                         return "contextLabels: object expected";
@@ -18346,6 +18343,9 @@
                     if (error)
                         return "receipt." + error;
                 }
+                if (message.chain != null && message.hasOwnProperty("chain"))
+                    if (!$util.isString(message.chain))
+                        return "chain: string expected";
                 if (message.errors != null && message.hasOwnProperty("errors")) {
                     if (!Array.isArray(message.errors))
                         return "errors: array expected";
@@ -18370,12 +18370,6 @@
                 if (object instanceof $root.tx.TxResponse)
                     return object;
                 var message = new $root.tx.TxResponse();
-                if (object.id != null)
-                    message.id = String(object.id);
-                if (object.chain != null)
-                    message.chain = String(object.chain);
-                if (object.jobUUID != null)
-                    message.jobUUID = String(object.jobUUID);
                 if (object.headers) {
                     if (typeof object.headers !== "object")
                         throw TypeError(".tx.TxResponse.headers: object expected");
@@ -18383,6 +18377,10 @@
                     for (var keys = Object.keys(object.headers), i = 0; i < keys.length; ++i)
                         message.headers[keys[i]] = String(object.headers[keys[i]]);
                 }
+                if (object.id != null)
+                    message.id = String(object.id);
+                if (object.jobUUID != null)
+                    message.jobUUID = String(object.jobUUID);
                 if (object.contextLabels) {
                     if (typeof object.contextLabels !== "object")
                         throw TypeError(".tx.TxResponse.contextLabels: object expected");
@@ -18400,6 +18398,8 @@
                         throw TypeError(".tx.TxResponse.receipt: object expected");
                     message.receipt = $root.ethereum.Receipt.fromObject(object.receipt);
                 }
+                if (object.chain != null)
+                    message.chain = String(object.chain);
                 if (object.errors) {
                     if (!Array.isArray(object.errors))
                         throw TypeError(".tx.TxResponse.errors: array expected");
@@ -18434,23 +18434,19 @@
                 }
                 if (options.defaults) {
                     object.id = "";
-                    object.chain = "";
-                    object.jobUUID = "";
                     object.transaction = null;
                     object.receipt = null;
+                    object.chain = "";
+                    object.jobUUID = "";
                 }
-                if (message.id != null && message.hasOwnProperty("id"))
-                    object.id = message.id;
-                if (message.chain != null && message.hasOwnProperty("chain"))
-                    object.chain = message.chain;
-                if (message.jobUUID != null && message.hasOwnProperty("jobUUID"))
-                    object.jobUUID = message.jobUUID;
                 var keys2;
                 if (message.headers && (keys2 = Object.keys(message.headers)).length) {
                     object.headers = {};
                     for (var j = 0; j < keys2.length; ++j)
                         object.headers[keys2[j]] = message.headers[keys2[j]];
                 }
+                if (message.id != null && message.hasOwnProperty("id"))
+                    object.id = message.id;
                 if (message.contextLabels && (keys2 = Object.keys(message.contextLabels)).length) {
                     object.contextLabels = {};
                     for (var j = 0; j < keys2.length; ++j)
@@ -18465,6 +18461,10 @@
                     for (var j = 0; j < message.errors.length; ++j)
                         object.errors[j] = $root.error.Error.toObject(message.errors[j], options);
                 }
+                if (message.chain != null && message.hasOwnProperty("chain"))
+                    object.chain = message.chain;
+                if (message.jobUUID != null && message.hasOwnProperty("jobUUID"))
+                    object.jobUUID = message.jobUUID;
                 return object;
             };
     

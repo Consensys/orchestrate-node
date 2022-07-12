@@ -8,6 +8,12 @@ All notable changes to this project will be documented in this file.
 
 - Reformatted job notification message
 
+## 6.2.0 (2022-06-07)
+
+### 🛠 Bug fixes
+
+- Fixed protobuf incompatibility.
+
 ## 6.1.2 (2022-06-07)
 
 ### 🛠 Bug fixes
