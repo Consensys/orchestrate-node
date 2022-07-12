@@ -42,7 +42,7 @@ message Transaction {
     string gas_tip_cap = 18;
 
     repeated AccessTuple access_list = 19;
-
+    
     string tx_type = 20;
     // ADD r, s, v?
 }
@@ -50,6 +50,6 @@ message Transaction {
 
 message AccessTuple {
     string address = 1;
-
+    
     repeated string storageKeys = 2;
 }

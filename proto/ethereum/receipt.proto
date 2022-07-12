@@ -83,18 +83,18 @@ message Receipt {
 
     // Equal to the actual gas price paid for inclusion
     string effective_gas_price = 14;
-
+    
     // DATA - Revert reason if the transaction failed
     string revert_reason = 15;
-
+    
     ///////////////////////
     // PRIVATE TX FIELDS //
     ///////////////////////
 
-    // DATA - RLP-encoded return value of a contract call for EEA Priv Tx
+    // DATA - RLP-encoded return value of a contract call for EEA Priv Tx 
     // Provisional till we migrate to TransactionManager Jobs
     string output = 16;
-
+    
     // DATA (32 bytes) - EEA public key of the sender.
     // e.g A1aVtMxLCUHmBVHXoZzzBgPbW/wj5axDpW9X8l91SGo=
     string privateFrom = 17;
@@ -105,12 +105,12 @@ message Receipt {
     // DATA (32 bytes) - EEA public keys or privacy group ID of the recipients.
     // e.g Ko2bVqD+nNlNYL5EE7y3IdOnviftjiizpjRt+HTuFBs=
     string privacyGroupId = 19;
-
+    
     ///////////////////////
     // CONTRACT ADDON //
     ///////////////////////
-
+    
     string contract_name = 20;
-
+    
     string contract_tag = 21;
 }

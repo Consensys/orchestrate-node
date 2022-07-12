@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## 7.0.0 (WIP)
+
+### ⚠ BREAKING CHANGES
+
+- Reformatted job notification message
+
+## 6.2.0 (2022-06-07)
+
+### 🛠 Bug fixes
+
+- Fixed protobuf incompatibility.
+
+## 6.1.2 (2022-06-07)
+
+### 🛠 Bug fixes
+
+- Fixed invalid type for `gas`.
+
+## 6.1.1 (2022-02-24)
+
+### 🛠 Bug fixes
+
+- Add retryPolicy to raw transactions
+
 ## 6.1.0 (2022-01-13)
 
 ### 🆕 Features

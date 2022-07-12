@@ -1,4 +1,4 @@
-import { ILog } from './ILog'
+import { IEventLog } from './IEventLog'
 
 export interface IReceipt {
   txHash?: string
@@ -9,7 +9,7 @@ export interface IReceipt {
   postState?: string
   status?: boolean
   bloom?: string
-  logs?: ILog[]
+  logs?: IEventLog[]
   gasUsed?: number
   cumulativeGasUsed?: number
   effectiveGasPrice?: string
