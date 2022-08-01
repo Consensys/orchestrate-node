@@ -1,0 +1,354 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Command line interface | Orchestrate SDK Documentation - v6.2.1</title>
+	<meta name="description" content="Documentation for Orchestrate SDK Documentation - v6.2.1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../../assets/css/main.css">
+	<link rel="stylesheet" href="../../assets/css/pages.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../../assets/js/search.json" data-base="../..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../../index.html" class="title">Orchestrate SDK Documentation - v6.2.1</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="CLI.html">User reference</a>
+				</li>
+				<li>
+					<a href="CLI.html">Command line interface</a>
+				</li>
+			</ul>
+			<h1>Command line interface</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#orchestrate-node-sdk-cli-reference" id="orchestrate-node-sdk-cli-reference" style="color: inherit; text-decoration: none;">
+					<h1>Orchestrate Node SDK CLI reference</h1>
+				</a>
+				<p>In addition to the programmatic API provided by the library, you can run some actions directly from
+				the command line using the <code>pegasys-orchestrate</code> module.</p>
+				<a href="#important-requirement" id="important-requirement" style="color: inherit; text-decoration: none;">
+					<h2>Important requirement</h2>
+				</a>
+				<p><strong>The Orchestrate SDK requires Orchestrate to be installed.</strong></p>
+				<blockquote>
+					<p><strong>Important:</strong> Orchestrate is only available for Orchestrate customers and
+					<a href="https://consensys.net/solutions/partnerships/">ConsenSys partners</a>.</p>
+					<p><a href="https://codefi.consensys.net/orchestrate-get-in-touch">Contact ConsenSys</a> if you want to purchase Orchestrate
+					or are interested in our <a href="https://consensys.net/solutions/partnerships/">partner program</a>.</p>
+					<p>If you are already a partner or customer but we did not provide the credentials to access the
+					Docker registry, send an email from your company email to <a href="mailto:orchestrate@consensys.net">orchestrate@consensys.net</a>.</p>
+					<p>You can use this Quickstart only if you have received these credentials from ConsenSys to connect to the registry.</p>
+					<p><strong>You cannot continue without the registry credentials.</strong></p>
+				</blockquote>
+				<blockquote>
+					<p><strong>Tip</strong> Try a free trial of Orchestrate with the <a href="https://github.com/PegaSysEng/quorum-dev-quickstart#iv-orchestrate-network-">Quorum Dev Quickstart</a>. </p>
+				</blockquote>
+				<a href="#install-pegasys-orchestrate" id="install-pegasys-orchestrate" style="color: inherit; text-decoration: none;">
+					<h2>Install pegasys-orchestrate</h2>
+				</a>
+				<p>Run <code>npm install pegasys-orchestrate -g</code> to globally access Pegasys Orchestrate command line tool on your system.</p>
+				<hr>
+				<a href="#orchestrate-command" id="orchestrate-command" style="color: inherit; text-decoration: none;">
+					<h2>Orchestrate command</h2>
+				</a>
+				<p>Run <code>orchestrate</code> with subcommands and options to interact with Orchestrate Contract registry
+				and accounts.</p>
+				<p>Each subcommand can have subcommands and options.</p>
+				<a href="#help" id="help" style="color: inherit; text-decoration: none;">
+					<h3>Help</h3>
+				</a>
+				<p>Run <code>orchestrate -h</code> to output usage information.</p>
+				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+					<h3>Usage</h3>
+				</a>
+				<p><code>orchestrate [options] [subcommand]</code></p>
+				<a href="#options" id="options" style="color: inherit; text-decoration: none;">
+					<h3>Options</h3>
+				</a>
+				<ul>
+					<li><code>-V</code>, <code>--version</code>: output the Orchestrate SDK version number.</li>
+					<li><code>-h</code>, <code>--help</code>: output usage information.</li>
+				</ul>
+				<a href="#subcommands" id="subcommands" style="color: inherit; text-decoration: none;">
+					<h3>Subcommands</h3>
+				</a>
+				<ul>
+					<li><code>contracts</code>: Interact with the Contract Registry, see <a href="#contract-subcommand">Contract subcommand</a> for options.</li>
+					<li><code>accounts</code>: Interact with the Contract Registry.</li>
+					<li><code>help [command]</code>: display help for the command. Same as using the <code>-h</code> or <code>--help</code> option.</li>
+				</ul>
+				<hr>
+				<a href="#contract-subcommand" id="contract-subcommand" style="color: inherit; text-decoration: none;">
+					<h3>Contract subcommand</h3>
+				</a>
+				<p>Orchestrate <code>contract</code> subcommand allows to manipulate smart contracts in the contract registry.</p>
+				<a href="#help-1" id="help-1" style="color: inherit; text-decoration: none;">
+					<h4>Help</h4>
+				</a>
+				<p>Run <code>orchestrate contracts -h</code> to get contract subcommand usage information.</p>
+				<a href="#usage-1" id="usage-1" style="color: inherit; text-decoration: none;">
+					<h4>Usage</h4>
+				</a>
+				<p><code>orchestrate contracts [options] [subcommand]</code></p>
+				<a href="#options-1" id="options-1" style="color: inherit; text-decoration: none;">
+					<h4>Options</h4>
+				</a>
+				<ul>
+					<li><code>-h</code>, <code>--help</code>: output contracts subcommand usage information.</li>
+				</ul>
+				<a href="#subcommands-1" id="subcommands-1" style="color: inherit; text-decoration: none;">
+					<h4>Subcommands</h4>
+				</a>
+				<ul>
+					<li><p><code>register [options]</code>:</p>
+						<p>Insert a new contract in Orchestrate contract registry</p>
+						<a href="#options-2" id="options-2" style="color: inherit; text-decoration: none;">
+							<h5>Options</h5>
+						</a>
+						<ul>
+							<li><code>-n, --name &lt;string&gt;</code>: Name of the contract.</li>
+							<li><code>-f, --filepath &lt;file&gt;</code>: Path of the JSON artifact file for the compiled contract.</li>
+							<li><code>-e, --endpoint &lt;host:port&gt;</code>: Contract registry endpoint.</li>
+							<li><code>-t, --tag &lt;string&gt;</code>: Tag to be attached to the contract, can be used as the version but any other value is possible.</li>
+							<li><code>-h, --help</code>: Output register subcommand usage.</li>
+						</ul>
+						<a href="#register-subcommand-example" id="register-subcommand-example" style="color: inherit; text-decoration: none;">
+							<h5>Register subcommand example</h5>
+						</a>
+						<pre><code class="language-bash">orchestrate contracts register -e localhost:8020 -n Counter -t 1.2.3 -f build/contracts/Counter.json</code></pre>
+						<a href="#successful-output" id="successful-output" style="color: inherit; text-decoration: none;">
+							<h5>Successful output</h5>
+						</a>
+						<p><code>Contract successfully registered</code>.</p>
+					</li>
+					<li><p><code>catalog [options]</code>:</p>
+						<p>Lists all the registered contracts names.</p>
+						<p>Output is a JSON formated list of strings.</p>
+						<p>If the registry is empty, an empty list <code>[]</code> is returned.</p>
+						<a href="#options-3" id="options-3" style="color: inherit; text-decoration: none;">
+							<h5>Options</h5>
+						</a>
+						<ul>
+							<li><code>-e, --endpoint &lt;host:port&gt;</code>: Contract registry endpoint.</li>
+							<li><code>-h, --help</code>: Output catalog subcommand usage.</li>
+						</ul>
+						<a href="#contracts-catalog-subcommand-example" id="contracts-catalog-subcommand-example" style="color: inherit; text-decoration: none;">
+							<h5>Contracts catalog subcommand example</h5>
+						</a>
+						<pre><code class="language-bash">orchestrate contracts catalog -e localhost:8020</code></pre>
+						<a href="#output-example" id="output-example" style="color: inherit; text-decoration: none;">
+							<h5>Output example</h5>
+						</a>
+						<pre><code class="language-json">[ &#x27;Counter&#x27; ]</code></pre>
+					</li>
+					<li><p><code>contract [options]</code>:</p>
+						<p>Returns the registered contract by name and tag (usually used as the contract version).</p>
+						<a href="#options-4" id="options-4" style="color: inherit; text-decoration: none;">
+							<h5>Options</h5>
+						</a>
+						<ul>
+							<li><code>-n, --name &lt;string&gt;</code>: Name of the contract.</li>
+							<li><code>-e, --endpoint &lt;host:port&gt;</code>: Contract registry endpoint.</li>
+							<li><code>-t, --tag &lt;string&gt;</code>: Optional tag of the contract.</li>
+							<li><code>-h, --help</code>: Output contract subcommand usage.</li>
+						</ul>
+						<a href="#contract-subcommand-example" id="contract-subcommand-example" style="color: inherit; text-decoration: none;">
+							<h5>Contract subcommand example</h5>
+						</a>
+						<pre><code class="language-bash">orchestrate contracts contract -n Counter -t 1.2.3 -e localhost:8020</code></pre>
+						<a href="#output-example-1" id="output-example-1" style="color: inherit; text-decoration: none;">
+							<h5>Output example</h5>
+						</a>
+						<pre><code class="language-json">{
+  <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;Counter&quot;</span>,
+  <span class="hljs-attr">&quot;tag&quot;</span>: <span class="hljs-string">&quot;1.2.3&quot;</span>,
+  <span class="hljs-attr">&quot;abi&quot;</span>: [
+    {
+      <span class="hljs-attr">&quot;anonymous&quot;</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">&quot;inputs&quot;</span>: [Array],
+      <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;Incremented&quot;</span>,
+      <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;event&quot;</span>
+    },
+    {
+      <span class="hljs-attr">&quot;constant&quot;</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">&quot;inputs&quot;</span>: [Array],
+      <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;increment&quot;</span>,
+      <span class="hljs-attr">&quot;outputs&quot;</span>: [],
+      <span class="hljs-attr">&quot;payable&quot;</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">&quot;stateMutability&quot;</span>: <span class="hljs-string">&quot;nonpayable&quot;</span>,
+      <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;function&quot;</span>
+    }
+  ],
+  <span class="hljs-attr">&quot;bytecode&quot;</span>: <span class="hljs-string">&quot;0x6080604052348015600f57600080fd5b5061010a8061001f6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c80637cf5dab014602d575b600080fd5b605660048036036020811015604157600080fd5b81019080803590602001909291905050506058565b005b8060008082825401925050819055507f38ac789ed44572701765277c4d0970f2db1c1a571ed39e84358095ae4eaa54203382604051808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018281526020019250505060405180910390a15056fea265627a7a72315820b1e04b5f7796f256da0d265a961b4fbeeb62170cae31a34546c6cbceb31884d664736f6c63430005100032&quot;</span>,
+  <span class="hljs-attr">&quot;deployedBytecode&quot;</span>: <span class="hljs-string">&quot;0x6080604052348015600f57600080fd5b506004361060285760003560e01c80637cf5dab014602d575b600080fd5b605660048036036020811015604157600080fd5b81019080803590602001909291905050506058565b005b8060008082825401925050819055507f38ac789ed44572701765277c4d0970f2db1c1a571ed39e84358095ae4eaa54203382604051808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018281526020019250505060405180910390a15056fea265627a7a72315820b1e04b5f7796f256da0d265a961b4fbeeb62170cae31a34546c6cbceb31884d664736f6c63430005100032&quot;</span>
+}</code></pre>
+					</li>
+					<li><p><code>tags [options]</code>:</p>
+						<p>  Returns all the associated tags of a registered contract.</p>
+						<a href="#options-5" id="options-5" style="color: inherit; text-decoration: none;">
+							<h5>Options</h5>
+						</a>
+						<ul>
+							<li><p><code>-n, --name  &lt;string&gt;</code>: Name of the contract.</p>
+							</li>
+							<li><p><code>-e, --endpoint &lt;host:port&gt;</code>: Contract registry endpoint.</p>
+							</li>
+							<li><p><code>-h, --help</code>: Output tags subcommand usage.</p>
+								<a href="#tags-subcommand-example" id="tags-subcommand-example" style="color: inherit; text-decoration: none;">
+									<h5>Tags subcommand example</h5>
+								</a>
+								<pre><code class="language-bash">orchestrate contracts tags -n Counter -e localhost:8020</code></pre>
+								<a href="#output-example-2" id="output-example-2" style="color: inherit; text-decoration: none;">
+									<h5>Output example</h5>
+								</a>
+								<pre><code class="language-json">[ &#x27;<span class="hljs-number">1.2</span><span class="hljs-number">.3</span>&#x27;, &#x27;latest&#x27; ]</code></pre>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<hr>
+				<a href="#account-subcommand" id="account-subcommand" style="color: inherit; text-decoration: none;">
+					<h3>Account subcommand</h3>
+				</a>
+				<p>Orchestrate <code>accounts</code> subcommand allows to manipulate Orchestrate accounts.</p>
+				<a href="#help-2" id="help-2" style="color: inherit; text-decoration: none;">
+					<h4>Help</h4>
+				</a>
+				<p>Run <code>orchestrate accounts -h</code> to get contract subcommand usage information.</p>
+				<a href="#usage-2" id="usage-2" style="color: inherit; text-decoration: none;">
+					<h4>Usage</h4>
+				</a>
+				<p><code>orchestrate accounts [options] [subcommand]</code></p>
+				<a href="#options-6" id="options-6" style="color: inherit; text-decoration: none;">
+					<h4>Options</h4>
+				</a>
+				<ul>
+					<li><code>-h</code>, <code>--help</code>: output accounts subcommand usage information.</li>
+				</ul>
+				<a href="#subcommands-2" id="subcommands-2" style="color: inherit; text-decoration: none;">
+					<h4>Subcommands</h4>
+				</a>
+				<ul>
+					<li><p><code>generate [options]</code>:
+						Create a new account in Orchestrate.</p>
+						<a href="#options-7" id="options-7" style="color: inherit; text-decoration: none;">
+							<h5>Options</h5>
+						</a>
+						<ul>
+							<li><p><code>-e, --endpoint &lt;host:port&gt;</code>: Kafka endpoint.</p>
+							</li>
+							<li><p><code>-c, --chain &lt;string&gt;</code>: Optional chain on which to credit the new account.</p>
+							</li>
+							<li><p><code>-h, --help</code>: Output generate subcommand usage.</p>
+								<p><strong>Generate subcommand example:</strong></p>
+								<pre><code class="language-bash">orchestrate accounts generate -c besu -e localhost:9092</code></pre>
+								<p><strong>Output example:</strong></p>
+								<pre><code class="language-json">{<span class="hljs-attr">&quot;level&quot;</span>:<span class="hljs-string">&quot;INFO&quot;</span>,<span class="hljs-attr">&quot;timestamp&quot;</span>:<span class="hljs-string">&quot;2020-06-24T17:29:07.230Z&quot;</span>,<span class="hljs-attr">&quot;logger&quot;</span>:<span class="hljs-string">&quot;kafkajs&quot;</span>,<span class="hljs-attr">&quot;message&quot;</span>:<span class="hljs-string">&quot;[Consumer] Starting&quot;</span>,<span class="hljs-attr">&quot;groupId&quot;</span>:<span class="hljs-string">&quot;wallet-generator-sdk-consumer&quot;</span>}
+{<span class="hljs-attr">&quot;level&quot;</span>:<span class="hljs-string">&quot;INFO&quot;</span>,<span class="hljs-attr">&quot;timestamp&quot;</span>:<span class="hljs-string">&quot;2020-06-24T17:29:10.255Z&quot;</span>,<span class="hljs-attr">&quot;logger&quot;</span>:<span class="hljs-string">&quot;kafkajs&quot;</span>,<span class="hljs-attr">&quot;message&quot;</span>:<span class="hljs-string">&quot;[Runner] Consumer has joined the group&quot;</span>,<span class="hljs-attr">&quot;groupId&quot;</span>:<span class="hljs-string">&quot;wallet-generator-sdk-consumer&quot;</span>,<span class="hljs-attr">&quot;memberId&quot;</span>:<span class="hljs-string">&quot;orchestrate-sdk-consumer-bc78503d-2605-4b4c-b87e-6ab58342e378&quot;</span>,<span class="hljs-attr">&quot;leaderId&quot;</span>:<span class="hljs-string">&quot;orchestrate-sdk-consumer-bc78503d-2605-4b4c-b87e-6ab58342e378&quot;</span>,<span class="hljs-attr">&quot;isLeader&quot;</span>:<span class="hljs-literal">true</span>,<span class="hljs-attr">&quot;memberAssignment&quot;</span>:{<span class="hljs-attr">&quot;topic-account-generated&quot;</span>:[<span class="hljs-number">0</span>]},<span class="hljs-attr">&quot;groupProtocol&quot;</span>:<span class="hljs-string">&quot;RoundRobinAssigner&quot;</span>,<span class="hljs-attr">&quot;duration&quot;</span>:<span class="hljs-number">3022</span>}
+<span class="hljs-number">0xD562A0739aD90995c188E04f6A13AbE698c3834D</span>
+{<span class="hljs-attr">&quot;level&quot;</span>:<span class="hljs-string">&quot;INFO&quot;</span>,<span class="hljs-attr">&quot;timestamp&quot;</span>:<span class="hljs-string">&quot;2020-06-24T17:29:11.324Z&quot;</span>,<span class="hljs-attr">&quot;logger&quot;</span>:<span class="hljs-string">&quot;kafkajs&quot;</span>,<span class="hljs-attr">&quot;message&quot;</span>:<span class="hljs-string">&quot;[Consumer] Stopped&quot;</span>,<span class="hljs-attr">&quot;groupId&quot;</span>:<span class="hljs-string">&quot;wallet-generator-sdk-consumer&quot;</span>}</code></pre>
+							</li>
+						</ul>
+						<p>In this example, <code>0xD562A0739aD90995c188E04f6A13AbE698c3834D</code> is the generated Ethereum address.</p>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="label pp-nav pp-group">
+						<span>User reference</span>
+					</li>
+					<li class="current pp-nav pp-page">
+						<a href="CLI.html">Command line interface</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="README.html">Code examples</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>Type<wbr>Script/<wbr>Java<wbr>Script API</span>
+					</li>
+					<li class="globals  ">
+						<a href="../../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../../assets/js/search.json"><' + '/script>');</script>
+</body>
+</html>
