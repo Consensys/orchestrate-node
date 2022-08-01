@@ -79,12 +79,6 @@ const mockJobRes: types.IJobResponse = {
   updatedAt: new Date()
 }
 
-const mockScheduleRes: types.IScheduleResponse = {
-  uuid: 'scheduleUUID',
-  jobs: [mockJobRes],
-  createdAt: new Date()
-}
-
 const mockETHParams: types.IETHTransactionParams = {}
 
 const mockTransactionResp: types.ITransaction = {
@@ -92,7 +86,7 @@ const mockTransactionResp: types.ITransaction = {
   idempotencyKey: 'idempotencyKey',
   chain: 'MyChain',
   params: mockETHParams,
-  schedule: mockScheduleRes,
+  jobs: [mockJobRes],
   createdAt: new Date()
 }
 
