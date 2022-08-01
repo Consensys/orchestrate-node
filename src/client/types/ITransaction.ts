@@ -1,6 +1,7 @@
 import { ParsedQs } from 'qs'
 
 import { IGasPricePolicy } from './IGasPricePolicy'
+import { IJobResponse } from './IJob'
 import { IScheduleResponse } from './ISchedule'
 import { ProtocolType } from './ProtocolType'
 
@@ -63,7 +64,7 @@ export interface ITransaction {
   idempotencyKey: string
   chain: string
   params: IETHTransactionParams
-  schedule: IScheduleResponse
+  jobs: IJobResponse[]
   createdAt: Date
 }
 
