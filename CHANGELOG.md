@@ -8,6 +8,12 @@ All notable changes to this project will be documented in this file.
 
 - Reformatted job notification message
 
+## 6.2.1 (2022-08-01)
+
+### 🛠 Bug fixes
+
+- Fixed inconsistent types on UpdateAccount and GetTransaction responses
+
 ## 6.2.0 (2022-06-07)
 
 ### 🛠 Bug fixes

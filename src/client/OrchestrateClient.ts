@@ -474,7 +474,7 @@ export class OrchestrateClient {
     request: types.IUpdateAccountRequest,
     authToken?: string,
     headers?: IHeaders
-  ): Promise<string> {
+  ): Promise<types.IAccount> {
     try {
       return await this.client.patch(`/accounts/${address}`, request, authToken, headers)
     } catch (e) {
